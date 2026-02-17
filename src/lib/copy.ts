@@ -6,7 +6,6 @@ export type SiteCopy = {
     home: string;
     portfolio: string;
     contact: string;
-    booking: string;
   };
   home: {
     heroTitle: string;
@@ -38,37 +37,14 @@ export type SiteCopy = {
     };
   };
   notFound: { title: string; body: string; backHome: string };
-  booking: {
-    title: string;
-    subtitle: string;
-    form: {
-      name: string;
-      email: string;
-      eventType: string;
-      eventDate: string;
-      location: string;
-      message: string;
-      submit: string;
-      sending: string;
-      success: string;
-      error: string;
-    };
-    eventTypes: {
-      live: string;
-      dj: string;
-      corporate: string;
-      private: string;
-      other: string;
-    };
-  };
 };
 
 const en: SiteCopy = {
   brand: "Coast2Coast",
-  nav: { home: "Home", portfolio: "Portfolio", contact: "Contact", booking: "Book" },
+  nav: { home: "Home", portfolio: "Portfolio", contact: "Contact" },
   home: {
     heroTitle: "Live modular techno & DJ sets",
-    heroSubtitle: "Coast2Coast (C2C) - bold sound, dark visuals, clean interface.",
+    heroSubtitle: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
     sections: {
       about: {
         title: "About",
@@ -76,11 +52,11 @@ const en: SiteCopy = {
       },
       music: {
         title: "Music",
-        body: "Mixes, live recordings, and releases-curated and always evolving."
+        body: "Mixes, live recordings, and releases—curated and always evolving."
       },
       shows: {
         title: "Shows",
-        body: "Upcoming dates, venues, and links-kept lightweight and fast."
+        body: "Upcoming dates, venues, and links—kept lightweight and fast."
       },
       portfolio: {
         title: "Portfolio",
@@ -101,7 +77,7 @@ const en: SiteCopy = {
   },
   contact: {
     title: "Contact",
-    subtitle: "Send a quick message-no account required.",
+    subtitle: "Send a quick message—no account required.",
     form: {
       name: "Name",
       email: "Email",
@@ -114,40 +90,17 @@ const en: SiteCopy = {
   },
   notFound: {
     title: "Page not found",
-    body: "That route doesn't exist.",
+    body: "That route doesn’t exist.",
     backHome: "Back to home"
-  },
-  booking: {
-    title: "Book a Show",
-    subtitle: "Request a booking for your event, club, or festival.",
-    form: {
-      name: "Name",
-      email: "Email",
-      eventType: "Event Type",
-      eventDate: "Event Date",
-      location: "Location",
-      message: "Additional Details",
-      submit: "Request Booking",
-      sending: "Sending…",
-      success: "Booking request sent! We'll be in touch soon.",
-      error: "Something went wrong. Please try again."
-    },
-    eventTypes: {
-      live: "Live Performance",
-      dj: "DJ Set",
-      corporate: "Corporate Event",
-      private: "Private Event",
-      other: "Other"
-    }
   }
 };
 
 const es: SiteCopy = {
   brand: "Coast2Coast",
-  nav: { home: "Inicio", portfolio: "Portafolio", contact: "Contacto", booking: "Reservar" },
+  nav: { home: "Inicio", portfolio: "Portafolio", contact: "Contacto" },
   home: {
     heroTitle: "Techno modular en vivo y sets de DJ",
-    heroSubtitle: "Coast2Coast (C2C) - sonido audaz, visuales oscuros, interfaz limpia.",
+    heroSubtitle: "Coast2Coast (C2C) — sonido audaz, visuales oscuros, interfaz limpia.",
     sections: {
       about: {
         title: "Acerca de",
@@ -155,11 +108,11 @@ const es: SiteCopy = {
       },
       music: {
         title: "Música",
-        body: "Mixes, grabaciones en vivo y lanzamientos-siempre en evolución."
+        body: "Mixes, grabaciones en vivo y lanzamientos—siempre en evolución."
       },
       shows: {
         title: "Fechas",
-        body: "Próximos shows, venues y links-rápido y liviano."
+        body: "Próximos shows, venues y links—rápido y liviano."
       },
       portfolio: {
         title: "Portafolio",
@@ -180,7 +133,7 @@ const es: SiteCopy = {
   },
   contact: {
     title: "Contacto",
-    subtitle: "Envía un mensaje rápido-sin cuenta.",
+    subtitle: "Envía un mensaje rápido—sin cuenta.",
     form: {
       name: "Nombre",
       email: "Email",
@@ -195,29 +148,6 @@ const es: SiteCopy = {
     title: "Página no encontrada",
     body: "Esa ruta no existe.",
     backHome: "Volver al inicio"
-  },
-  booking: {
-    title: "Reservar un Show",
-    subtitle: "Solicita una reserva para tu evento, club o festival.",
-    form: {
-      name: "Nombre",
-      email: "Email",
-      eventType: "Tipo de Evento",
-      eventDate: "Fecha del Evento",
-      location: "Ubicación",
-      message: "Detalles Adicionales",
-      submit: "Solicitar Reserva",
-      sending: "Enviando…",
-      success: "¡Solicitud enviada! Nos pondremos en contacto pronto.",
-      error: "Algo salió mal. Intenta de nuevo."
-    },
-    eventTypes: {
-      live: "Performance en Vivo",
-      dj: "Set de DJ",
-      corporate: "Evento Corporativo",
-      private: "Evento Privado",
-      other: "Otro"
-    }
   }
 };
 
