@@ -19,11 +19,27 @@ exports[`AmplifyStack creates a domain mapping when configured 1`] = `
         ],
       },
     },
+    "AmplifySanityRebuildWebhookUrl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SanityRebuildWebhook",
+          "WebhookUrl",
+        ],
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteCONTACTFORMFROMC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/CONTACT_FORM_FROM",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteCONTACTFORMTOC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/CONTACT_FORM_TO",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
     "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter": {
@@ -57,6 +73,9 @@ frontend:
   phases:
     preBuild:
       commands:
+        - nvm install 20
+        - nvm use 20
+        - node -v
         - npm ci
     build:
       commands:
@@ -67,7 +86,7 @@ frontend:
       - "**/*"
   cache:
     paths:
-      - node_modules/**/*
+      - ~/.npm/**/*
       - .next/cache/**/*
 ",
         "ComputeRoleArn": {
@@ -95,8 +114,24 @@ frontend:
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
           },
           {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
+          },
+          {
             "Name": "RESEND_API_KEY",
             "Value": "{{resolve:ssm-secure:/c2c-website/RESEND_API_KEY}}",
+          },
+          {
+            "Name": "CONTACT_FORM_TO",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteCONTACTFORMTOC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "CONTACT_FORM_FROM",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteCONTACTFORMFROMC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
           },
         ],
         "IAMServiceRole": {
@@ -204,6 +239,19 @@ frontend:
       },
       "Type": "AWS::Amplify::Branch",
     },
+    "SanityRebuildWebhook": {
+      "Properties": {
+        "AppId": {
+          "Fn::GetAtt": [
+            "AmplifyApp6046A70F",
+            "AppId",
+          ],
+        },
+        "BranchName": "main",
+        "Description": "Trigger Amplify rebuild from Sanity content changes",
+      },
+      "Type": "AWS::Amplify::Webhook",
+    },
   },
   "Rules": {
     "CheckBootstrapVersion": {
@@ -254,11 +302,27 @@ exports[`AmplifyStack matches the CloudFormation snapshot (no domain) 1`] = `
         ],
       },
     },
+    "AmplifySanityRebuildWebhookUrl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SanityRebuildWebhook",
+          "WebhookUrl",
+        ],
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
       "Default": "/cdk-bootstrap/hnb659fds/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteCONTACTFORMFROMC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/CONTACT_FORM_FROM",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteCONTACTFORMTOC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/CONTACT_FORM_TO",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
     "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter": {
@@ -292,6 +356,9 @@ frontend:
   phases:
     preBuild:
       commands:
+        - nvm install 20
+        - nvm use 20
+        - node -v
         - npm ci
     build:
       commands:
@@ -302,7 +369,7 @@ frontend:
       - "**/*"
   cache:
     paths:
-      - node_modules/**/*
+      - ~/.npm/**/*
       - .next/cache/**/*
 ",
         "ComputeRoleArn": {
@@ -330,8 +397,24 @@ frontend:
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
           },
           {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
+          },
+          {
             "Name": "RESEND_API_KEY",
             "Value": "{{resolve:ssm-secure:/c2c-website/RESEND_API_KEY}}",
+          },
+          {
+            "Name": "CONTACT_FORM_TO",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteCONTACTFORMTOC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "CONTACT_FORM_FROM",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteCONTACTFORMFROMC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
           },
         ],
         "IAMServiceRole": {
@@ -395,6 +478,19 @@ frontend:
         "Stage": "PRODUCTION",
       },
       "Type": "AWS::Amplify::Branch",
+    },
+    "SanityRebuildWebhook": {
+      "Properties": {
+        "AppId": {
+          "Fn::GetAtt": [
+            "AmplifyApp6046A70F",
+            "AppId",
+          ],
+        },
+        "BranchName": "main",
+        "Description": "Trigger Amplify rebuild from Sanity content changes",
+      },
+      "Type": "AWS::Amplify::Webhook",
     },
   },
   "Rules": {
