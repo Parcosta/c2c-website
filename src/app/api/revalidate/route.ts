@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { sanityCacheTag } from "@/sanity/fetch";
 import { isValidSanityWebhookSignature } from "@/sanity/webhook";
 
 export const runtime = "nodejs";
@@ -19,8 +20,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid signature." }, { status: 401 });
   }
 
-  revalidateTag("sanity");
+  revalidateTag(sanityCacheTag);
 
-  return NextResponse.json({ revalidated: true, tag: "sanity" }, { status: 200 });
+  return NextResponse.json({ revalidated: true, tag: sanityCacheTag }, { status: 200 });
 }
 

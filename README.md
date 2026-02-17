@@ -160,6 +160,7 @@ Infra configuration inputs:
   - `NEXT_PUBLIC_SANITY_PROJECT_ID_PARAM` (default `/c2c-website/NEXT_PUBLIC_SANITY_PROJECT_ID`)
   - `NEXT_PUBLIC_SANITY_DATASET_PARAM` (default `/c2c-website/NEXT_PUBLIC_SANITY_DATASET`)
   - `SANITY_API_TOKEN_PARAM` (default `/c2c-website/SANITY_API_TOKEN`)
+  - `SANITY_WEBHOOK_SECRET_PARAM` (default `/c2c-website/SANITY_WEBHOOK_SECRET`)
   - `RESEND_API_KEY_PARAM` (default `/c2c-website/RESEND_API_KEY`)
 - **Domain**
   - context `customDomainName` (optional)
@@ -188,6 +189,10 @@ The CDK stack also defines an equivalent build spec in code.
 
 - **Sanity config**: This app expects a Sanity project + dataset (see env vars above).
 - **Studio**: The intended Studio route is `/studio` (commonly implemented as a separate Next.js route group or a sibling `studio/` package). If you add/enable Studio in this repo, keep the server token (`SANITY_API_TOKEN`) server-only.
+- **Webhooks / ISR**:
+  - Configure a Sanity webhook that POSTs to **`/api/revalidate`**.
+  - Set the webhook secret in Sanity and set **`SANITY_WEBHOOK_SECRET`** in the app environment; the route validates `x-sanity-signature` and triggers `revalidateTag("sanity")`.
+  - If you want full rebuilds on content changes (instead of on-demand ISR), create an Amplify Console webhook and point Sanity at that URL.
 - **Content types (typical for C2C)**:
   - **Site settings**: global metadata, social links, navigation
   - **Shows/events**: date, venue, city, ticket links, lineup
