@@ -43,7 +43,11 @@ new AmplifyStack(app, 'AmplifyStack', {
       '/c2c-website/SANITY_WEBHOOK_SECRET',
     resendApiKey:
       app.node.tryGetContext('RESEND_API_KEY_PARAM') ??
-      '/c2c-website/RESEND_API_KEY'
+      '/c2c-website/RESEND_API_KEY',
+    contactFormTo:
+      app.node.tryGetContext('CONTACT_FORM_TO_PARAM') ?? '/c2c-website/CONTACT_FORM_TO',
+    contactFormFrom:
+      app.node.tryGetContext('CONTACT_FORM_FROM_PARAM') ?? '/c2c-website/CONTACT_FORM_FROM'
   },
   domain: {
     name: app.node.tryGetContext('customDomainName') ?? undefined,

@@ -9,6 +9,8 @@ export type ParameterLookup = {
   sanityApiToken: string;
   sanityWebhookSecret: string;
   resendApiKey: string;
+  contactFormTo: string;
+  contactFormFrom: string;
 };
 
 export type GitHubSource = {
@@ -47,7 +49,7 @@ export class AmplifyStack extends cdk.Stack {
       frontend: {
         phases: {
           preBuild: {
-            commands: ['npm ci']
+            commands: ['nvm install 20', 'nvm use 20', 'node -v', 'npm ci']
           },
           build: {
             commands: ['npm run build']
@@ -58,7 +60,7 @@ export class AmplifyStack extends cdk.Stack {
           files: ['**/*']
         },
         cache: {
-          paths: ['node_modules/**/*', '.next/cache/**/*']
+          paths: ['~/.npm/**/*', '.next/cache/**/*']
         }
       }
     });
@@ -88,7 +90,9 @@ export class AmplifyStack extends cdk.Stack {
         ),
         SANITY_API_TOKEN: requiredParameter(this, props.parameters.sanityApiToken, true),
         SANITY_WEBHOOK_SECRET: requiredParameter(this, props.parameters.sanityWebhookSecret, true),
-        RESEND_API_KEY: requiredParameter(this, props.parameters.resendApiKey, true)
+        RESEND_API_KEY: requiredParameter(this, props.parameters.resendApiKey, true),
+        CONTACT_FORM_TO: requiredParameter(this, props.parameters.contactFormTo, false),
+        CONTACT_FORM_FROM: requiredParameter(this, props.parameters.contactFormFrom, false)
       }
     });
 
