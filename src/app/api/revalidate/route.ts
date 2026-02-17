@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid signature." }, { status: 401 });
   }
 
-  revalidateTag("sanity", "default");
+  revalidateTag("sanity");
 
   return NextResponse.json({ revalidated: true, tag: "sanity" }, { status: 200 });
 }
