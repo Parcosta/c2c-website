@@ -52,6 +52,24 @@ export type PortfolioItemValue = {
   tags?: string[];
 };
 
+export type MediaAssetValue = {
+  url?: string;
+  mimeType?: string;
+};
+
+export type FeaturedMediaValue = {
+  _type: "image" | "file";
+  asset?: MediaAssetValue;
+};
+
+export type CurrentWorkValue = {
+  _id: string;
+  title?: string;
+  description?: unknown;
+  date?: string;
+  media?: FeaturedMediaValue | null;
+};
+
 export type EventValue = {
   _id: string;
   title?: string;
@@ -128,6 +146,25 @@ export function buildPortfolioItemsQuery(
       "description": description[$locale],
       date,
       tags
+    }`,
+    params: { locale }
+  };
+}
+
+export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
+  return {
+    query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
+      _id,
+      "title": title[$locale],
+      "description": description[$locale],
+      date,
+      "media": coalesce(featuredMedia[0], images[0]){
+        _type,
+        asset->{
+          url,
+          mimeType
+        }
+      }
     }`,
     params: { locale }
   };

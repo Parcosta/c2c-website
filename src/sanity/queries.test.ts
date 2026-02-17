@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { Locale } from "@/lib/i18n";
 import {
   buildEventsQuery,
+  buildCurrentWorkQuery,
   buildHomepageQuery,
   buildPortfolioItemsQuery,
   buildPressQuery,
@@ -25,6 +26,15 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "es" });
     expect(def.query).toContain('*[_type == "portfolioItem"]');
     expect(def.query).toContain('"category": category[$locale]');
+  });
+
+  it("builds current work query selecting latest portfolio item", () => {
+    const def = buildCurrentWorkQuery("en");
+    expect(def.params).toEqual({ locale: "en" });
+    expect(def.query).toContain('*[_type == "portfolioItem"]');
+    expect(def.query).toContain("|order(date desc)[0]");
+    expect(def.query).toContain('"media": coalesce(featuredMedia[0], images[0])');
+    expect(def.query).toContain("asset->{");
   });
 
   it("builds events query", () => {
