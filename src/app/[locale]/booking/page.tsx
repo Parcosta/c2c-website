@@ -35,11 +35,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function BookingPage({
-  params
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+export default async function BookingPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const copy = getCopy(locale);
 

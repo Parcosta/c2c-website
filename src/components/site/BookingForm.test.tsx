@@ -4,9 +4,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { BookingForm } from "./BookingForm";
 
 // Mock fetch
-global.fetch = vi.fn();
-
-const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
 
 describe("BookingForm", () => {
   beforeEach(() => {
@@ -112,10 +111,7 @@ describe("BookingForm", () => {
 
   it("disables submit button while sending", async () => {
     mockFetch.mockImplementationOnce(
-      () =>
-        new Promise((resolve) =>
-          setTimeout(() => resolve({ ok: true } as Response), 100)
-        )
+      () => new Promise((resolve) => setTimeout(() => resolve({ ok: true } as Response), 100))
     );
 
     render(<BookingForm locale="en" />);

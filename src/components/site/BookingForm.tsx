@@ -6,7 +6,13 @@ import type { Locale } from "@/lib/i18n";
 import { getCopy } from "@/lib/copy";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
