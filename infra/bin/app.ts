@@ -38,6 +38,9 @@ new AmplifyStack(app, 'AmplifyStack', {
     sanityApiToken:
       app.node.tryGetContext('SANITY_API_TOKEN_PARAM') ??
       '/c2c-website/SANITY_API_TOKEN',
+    sanityWebhookSecret:
+      app.node.tryGetContext('SANITY_WEBHOOK_SECRET_PARAM') ??
+      '/c2c-website/SANITY_WEBHOOK_SECRET',
     resendApiKey:
       app.node.tryGetContext('RESEND_API_KEY_PARAM') ??
       '/c2c-website/RESEND_API_KEY'
