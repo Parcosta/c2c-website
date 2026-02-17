@@ -17,7 +17,9 @@ function synthStack(overrides: Partial<AmplifyStackProps> = {}) {
       nextPublicSanityDataset: '/c2c-website/NEXT_PUBLIC_SANITY_DATASET',
       sanityApiToken: '/c2c-website/SANITY_API_TOKEN',
       sanityWebhookSecret: '/c2c-website/SANITY_WEBHOOK_SECRET',
-      resendApiKey: '/c2c-website/RESEND_API_KEY'
+      resendApiKey: '/c2c-website/RESEND_API_KEY',
+      contactFormTo: '/c2c-website/CONTACT_FORM_TO',
+      contactFormFrom: '/c2c-website/CONTACT_FORM_FROM'
     },
     ...overrides
   });
@@ -39,9 +41,11 @@ describe('AmplifyStack', () => {
           Match.objectLike({ Name: 'NEXT_PUBLIC_SANITY_DATASET', Value: Match.anyValue() }),
           Match.objectLike({ Name: 'SANITY_API_TOKEN', Value: Match.anyValue() }),
           Match.objectLike({ Name: 'SANITY_WEBHOOK_SECRET', Value: Match.anyValue() }),
-          Match.objectLike({ Name: 'RESEND_API_KEY', Value: Match.anyValue() })
+          Match.objectLike({ Name: 'RESEND_API_KEY', Value: Match.anyValue() }),
+          Match.objectLike({ Name: 'CONTACT_FORM_TO', Value: Match.anyValue() }),
+          Match.objectLike({ Name: 'CONTACT_FORM_FROM', Value: Match.anyValue() })
         ]),
-        BuildSpec: Match.stringLikeRegexp('npm ci')
+        BuildSpec: Match.stringLikeRegexp('nvm install 20')
       })
     );
   });
