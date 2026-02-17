@@ -1,5 +1,6 @@
 import { blockContent } from "@/sanity/schemas/blocks/blockContent";
 import { servicesBlock } from "@/sanity/schemas/blocks/servicesBlock";
+import { aboutPage } from "@/sanity/schemas/documents/aboutPage";
 import { event } from "@/sanity/schemas/documents/event";
 import { page } from "@/sanity/schemas/documents/page";
 import { portfolioItem } from "@/sanity/schemas/documents/portfolioItem";
@@ -31,6 +32,7 @@ export const schemaTypes = [
   socialLink,
   pressPhoto,
   pressDownload,
+  aboutPage,
   page,
   portfolioItem,
   event,

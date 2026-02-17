@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import type { Locale } from "@/lib/i18n";
 import {
+  buildAboutPageQuery,
   buildEventsQuery,
   buildUpcomingEventsQuery,
   buildHomepageQuery,
@@ -79,6 +80,17 @@ describe("Sanity GROQ query builders", () => {
     expect(def.query).toContain('"pressMentions": *[_type == "pressItem"]');
     expect(def.query).toContain('"pressKitAssets": pressKitAssets[]');
     expect(def.query).toContain('"imageUrl": image.asset->url');
+  });
+
+  it("builds about page query with localized fields", () => {
+    const def = buildAboutPageQuery("es");
+    expect(def.params).toEqual({ locale: "es" });
+    expect(def.query).toContain('*[_type == "aboutPage"]');
+    expect(def.query).toContain('"title": title[$locale]');
+    expect(def.query).toContain('"bio": bio[$locale]');
+    expect(def.query).toContain('"releases": releases[]');
+    expect(def.query).toContain('"equipmentGroups": equipmentGroups[]');
+    expect(def.query).toContain('"influences": influences[][$locale]');
   });
 
   it("supports mocking a Sanity client for consuming query defs", async () => {
