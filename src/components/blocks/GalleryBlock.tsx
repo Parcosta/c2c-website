@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -37,13 +38,12 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
       data-testid={`gallery-image-${image._id}`}
     >
       {imageUrl ? (
-        <img
+        <Image
           src={imageUrl}
           alt={image.alt || ""}
-          className={cn(
-            "h-full w-full object-cover transition-transform duration-500",
-            "group-hover:scale-105"
-          )}
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          className={cn("object-cover transition-transform duration-500", "group-hover:scale-105")}
           loading="lazy"
         />
       ) : (
@@ -158,11 +158,14 @@ function Lightbox({
         {/* Image container */}
         <div className="flex flex-col items-center justify-center max-w-full max-h-full p-4">
           {imageUrl ? (
-            <img
+            <Image
               src={imageUrl}
               alt={currentImage.alt || ""}
-              className="max-w-full max-h-[80vh] object-contain rounded-lg"
+              width={1200}
+              height={800}
+              className="max-w-full max-h-[80vh] object-contain rounded-lg w-auto h-auto"
               data-testid="lightbox-image"
+              priority
             />
           ) : (
             <div className="flex h-64 w-64 items-center justify-center text-slate-500">
