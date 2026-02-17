@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
-import { getCopy } from "@/lib/copy";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
 export function ContactForm({ locale }: { locale: Locale }) {
-  const copy = getCopy(locale);
+  const { t } = useTranslation();
   const [state, setState] = useState<FormState>("idle");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,8 +37,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4" data-testid="contact-form">
       <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium text-slate-200">
-          {copy.contact.form.name}
+        <label htmlFor="name" className="text-sm font-medium text-gray-200">
+          {t("contact.form.name")}
         </label>
         <Input
           id="name"
@@ -52,8 +52,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-slate-200">
-          {copy.contact.form.email}
+        <label htmlFor="email" className="text-sm font-medium text-gray-200">
+          {t("contact.form.email")}
         </label>
         <Input
           id="email"
@@ -68,8 +68,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="text-sm font-medium text-slate-200">
-          {copy.contact.form.message}
+        <label htmlFor="message" className="text-sm font-medium text-gray-200">
+          {t("contact.form.message")}
         </label>
         <Textarea
           id="message"
@@ -88,18 +88,18 @@ export function ContactForm({ locale }: { locale: Locale }) {
         className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 disabled:opacity-60"
         data-testid="contact-submit"
       >
-        {isSending ? copy.contact.form.sending : copy.contact.form.submit}
+        {isSending ? t("contact.form.sending") : t("contact.form.submit")}
       </button>
 
       {state === "success" ? (
         <p className="text-sm text-emerald-400" data-testid="contact-success">
-          {copy.contact.form.success}
+          {t("contact.form.success")}
         </p>
       ) : null}
 
       {state === "error" ? (
         <p className="text-sm text-red-400" data-testid="contact-error">
-          {copy.contact.form.error}
+          {t("contact.form.error")}
         </p>
       ) : null}
     </form>

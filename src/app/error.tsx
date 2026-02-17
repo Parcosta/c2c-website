@@ -58,7 +58,7 @@ export default function ErrorBoundary({
                 {error.digest ? (
                   <p className="text-xs text-muted-foreground">
                     Reference:{" "}
-                    <code className="rounded bg-slate-900/60 px-1.5 py-0.5">{error.digest}</code>
+                    <code className="rounded bg-gray-900/60 px-1.5 py-0.5">{error.digest}</code>
                   </p>
                 ) : null}
               </div>

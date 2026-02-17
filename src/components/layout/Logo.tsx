@@ -13,7 +13,7 @@ export function Logo({ locale, className }: LogoProps) {
     <Link
       href={`/${locale}`}
       className={cn(
-        "group inline-flex items-center gap-2 rounded-md px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
+        "group inline-flex items-center gap-2 rounded-md px-2 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950",
         className
       )}
       aria-label="C2C home"
@@ -21,14 +21,14 @@ export function Logo({ locale, className }: LogoProps) {
       <span
         className={cn(
           "relative grid h-8 w-8 place-items-center rounded-lg",
-          "bg-gradient-to-br from-slate-50/20 to-slate-50/5 ring-1 ring-white/10",
+          "bg-gradient-to-br from-gray-100/20 to-gray-100/5 ring-1 ring-white/10",
           "shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_8px_30px_rgba(0,0,0,0.35)]"
         )}
         aria-hidden="true"
       >
-        <span className="text-sm font-semibold tracking-tight text-slate-50">C2C</span>
+        <span className="text-small font-semibold text-gray-100">C2C</span>
       </span>
-      <span className="hidden text-sm font-medium text-slate-50/90 sm:inline">C2C</span>
+      <span className="hidden text-small font-medium text-gray-100/90 sm:inline">C2C</span>
     </Link>
   );
 }

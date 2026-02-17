@@ -29,8 +29,8 @@ describe("i18n path utilities", () => {
   });
 
   it("adds locale prefix when missing", () => {
-    expect(addLocaleToPathname("/", defaultLocale)).toBe("/en");
-    expect(addLocaleToPathname("/portfolio", "es")).toBe("/es/portfolio");
+    expect(addLocaleToPathname("/", defaultLocale)).toBe("/es");
+    expect(addLocaleToPathname("/portfolio", "en")).toBe("/en/portfolio");
     expect(addLocaleToPathname("/en/portfolio", "es")).toBe("/en/portfolio");
   });
 

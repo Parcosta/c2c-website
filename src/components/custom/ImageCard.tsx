@@ -44,10 +44,10 @@ export function ImageCard({
         />
       </div>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-base">{title}</CardTitle>
+        <CardTitle className="text-body">{title}</CardTitle>
       </CardHeader>
       {description ? (
-        <CardContent className="pt-0 text-sm text-muted-foreground">{description}</CardContent>
+        <CardContent className="pt-0 text-small text-muted-foreground">{description}</CardContent>
       ) : null}
     </Card>
   );

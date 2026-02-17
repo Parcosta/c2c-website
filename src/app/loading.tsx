@@ -19,21 +19,21 @@ export default function Loading() {
             </header>
 
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+              <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-5">
                 <Skeleton className="h-4 w-32" />
                 <div className="mt-4 space-y-2">
                   <Skeleton className="h-6 w-44" />
                   <Skeleton className="h-4 w-40" />
                 </div>
               </div>
-              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+              <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-5">
                 <Skeleton className="h-4 w-24" />
                 <div className="mt-4 flex items-center gap-3">
                   <Skeleton className="h-10 w-10 rounded-lg" />
                   <Skeleton className="h-4 w-44" />
                 </div>
               </div>
-              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+              <div className="rounded-xl border border-gray-800 bg-gray-900/40 p-5">
                 <Skeleton className="h-4 w-28" />
                 <div className="mt-4 space-y-2">
                   <Skeleton className="h-4 w-56" />

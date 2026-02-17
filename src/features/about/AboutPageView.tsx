@@ -1,12 +1,13 @@
+"use client";
+
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n";
-
-import { getAboutCopy } from "./aboutCopy";
 
 export type AboutRelease = {
   _key: string;
@@ -37,20 +38,20 @@ export type AboutPageViewModel = {
 const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>
+      <p className="text-sm leading-relaxed text-gray-200 sm:text-base">{children}</p>
     ),
     h3: ({ children }) => (
-      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">
+      <h3 className="font-display text-lg font-semibold tracking-tight text-gray-100 sm:text-xl">
         {children}
       </h3>
     )
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>
+      <ul className="list-disc space-y-2 pl-5 text-gray-200">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+      <ol className="list-decimal space-y-2 pl-5 text-gray-200">{children}</ol>
     )
   },
   listItem: {
@@ -77,11 +78,11 @@ export function AboutPageView({
   equipmentGroups,
   influences
 }: AboutPageViewModel) {
-  const c = getAboutCopy(locale);
+  const { t } = useTranslation();
 
-  const effectiveTitle = title?.trim() || c.pageTitleFallback;
-  const effectiveIntro = intro?.trim() || c.introFallback;
-  const effectivePhotoAlt = photoAlt?.trim() || c.photoAltFallback;
+  const effectiveTitle = title?.trim() || t("about.pageTitleFallback");
+  const effectiveIntro = intro?.trim() || t("about.introFallback");
+  const effectivePhotoAlt = photoAlt?.trim() || t("about.photoAltFallback");
 
   const releaseItems = (releases ?? []).filter((r) => r.title?.trim());
   const groups = (equipmentGroups ?? []).filter(
@@ -98,7 +99,7 @@ export function AboutPageView({
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard className="h-full">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{c.bioTitle}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{t("about.bioTitle")}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-5 sm:grid-cols-[160px_1fr]">
             <div className="overflow-hidden rounded-xl border border-border/60 bg-background/20">
@@ -111,7 +112,7 @@ export function AboutPageView({
                 />
               ) : (
                 <div className="flex h-40 w-full items-center justify-center text-sm text-muted-foreground sm:h-full">
-                  {c.photoAltFallback}
+                  {t("about.photoAltFallback")}
                 </div>
               )}
             </div>
@@ -120,7 +121,7 @@ export function AboutPageView({
               {bio ? (
                 <PortableText value={bio as never} components={portableTextComponents} />
               ) : (
-                <p className="text-sm text-muted-foreground sm:text-base">{c.bioEmpty}</p>
+                <p className="text-sm text-muted-foreground sm:text-base">{t("about.bioEmpty")}</p>
               )}
             </div>
           </CardContent>
@@ -128,7 +129,7 @@ export function AboutPageView({
 
         <GlassCard className="h-full">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{c.releasesTitle}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{t("about.releasesTitle")}</CardTitle>
           </CardHeader>
           <CardContent>
             {releaseItems.length > 0 ? (
@@ -145,12 +146,12 @@ export function AboutPageView({
                             href={href}
                             target="_blank"
                             rel="noreferrer"
-                            className="font-medium text-slate-100 underline-offset-4 hover:underline"
+                            className="font-medium text-gray-100 underline-offset-4 hover:underline"
                           >
                             {displayTitle}
                           </a>
                         ) : (
-                          <div className="font-medium text-slate-100">{displayTitle}</div>
+                          <div className="font-medium text-gray-100">{displayTitle}</div>
                         )}
                         {meta ? (
                           <span className="text-sm text-muted-foreground">{meta}</span>
@@ -161,7 +162,7 @@ export function AboutPageView({
                 })}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{c.releasesEmpty}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">{t("about.releasesEmpty")}</p>
             )}
           </CardContent>
         </GlassCard>
@@ -170,39 +171,39 @@ export function AboutPageView({
       <div className="grid gap-6 lg:grid-cols-3">
         <GlassCard className="lg:col-span-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{c.equipmentTitle}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{t("about.equipmentTitle")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {groups.length > 0 ? (
               <div className="grid gap-4 sm:grid-cols-2">
                 {groups.map((group) => {
-                  const groupTitle = group.title?.trim() || c.equipmentTitle;
+                  const groupTitle = group.title?.trim() || t("about.equipmentTitle");
                   const items = (group.items ?? []).map((i) => i.trim()).filter(Boolean);
                   return (
                     <div key={group._key} className="space-y-2">
-                      <div className="text-sm font-medium text-slate-100">{groupTitle}</div>
+                      <div className="text-sm font-medium text-gray-100">{groupTitle}</div>
                       {items.length > 0 ? (
-                        <ul className="list-disc space-y-1 pl-5 text-sm text-slate-200 sm:text-base">
+                        <ul className="list-disc space-y-1 pl-5 text-sm text-gray-200 sm:text-base">
                           {items.map((item, idx) => (
                             <li key={`${group._key}-item-${idx}`}>{item}</li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-sm text-muted-foreground">{c.equipmentEmpty}</p>
+                        <p className="text-sm text-muted-foreground">{t("about.equipmentEmpty")}</p>
                       )}
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{c.equipmentEmpty}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">{t("about.equipmentEmpty")}</p>
             )}
           </CardContent>
         </GlassCard>
 
         <GlassCard>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{c.influencesTitle}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{t("about.influencesTitle")}</CardTitle>
           </CardHeader>
           <CardContent>
             {influenceItems.length > 0 ? (
@@ -214,7 +215,7 @@ export function AboutPageView({
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{c.influencesEmpty}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">{t("about.influencesEmpty")}</p>
             )}
           </CardContent>
         </GlassCard>

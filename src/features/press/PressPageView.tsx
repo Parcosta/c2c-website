@@ -1,4 +1,7 @@
+"use client";
+
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import { useTranslation } from "react-i18next";
 
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
@@ -7,8 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Locale } from "@/lib/i18n";
 import type { PressDownloadValue, PressItemValue, PressPhotoValue } from "@/sanity/queries";
-
-import { getPressCopy } from "./pressCopy";
 
 export type PressPageViewModel = {
   locale: Locale;
@@ -25,20 +26,20 @@ export type PressPageViewModel = {
 const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>
+      <p className="text-sm leading-relaxed text-gray-200 sm:text-base">{children}</p>
     ),
     h3: ({ children }) => (
-      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">
+      <h3 className="font-display text-lg font-semibold tracking-tight text-gray-100 sm:text-xl">
         {children}
       </h3>
     )
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>
+      <ul className="list-disc space-y-2 pl-5 text-gray-200">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+      <ol className="list-decimal space-y-2 pl-5 text-gray-200">{children}</ol>
     )
   },
   listItem: {
@@ -74,8 +75,8 @@ export function PressPageView({
   bookings,
   pressMentions
 }: PressPageViewModel) {
-  const c = getPressCopy(locale);
-  const effectiveTitle = title || c.pageTitleFallback;
+  const { t } = useTranslation();
+  const effectiveTitle = title || t("press.pageTitleFallback");
   const photos = pressPhotos ?? [];
   const downloads = pressKitAssets ?? [];
   const mentions = pressMentions ?? [];
@@ -88,7 +89,7 @@ export function PressPageView({
       <Section className="pt-10 md:pt-16">
         <Container>
           <div className="space-y-4">
-            <SectionHeading title={effectiveTitle} subtitle={c.intro} as="h1" />
+            <SectionHeading title={effectiveTitle} subtitle={t("press.intro")} as="h1" />
           </div>
         </Container>
       </Section>
@@ -99,20 +100,20 @@ export function PressPageView({
             <div className="space-y-6 lg:col-span-2">
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.bioTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.bioTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {bio ? (
                     <PortableText value={bio as never} components={portableTextComponents} />
                   ) : (
-                    <p className="text-sm text-muted-foreground sm:text-base">{c.bioEmpty}</p>
+                    <p className="text-sm text-muted-foreground sm:text-base">{t("press.bioEmpty")}</p>
                   )}
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.pressPhotosTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.pressPhotosTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {photos.length > 0 ? (
@@ -120,11 +121,11 @@ export function PressPageView({
                       {photos.map((photo) => {
                         const imageUrl = photo.imageUrl?.trim();
                         const filename = photo.filename?.trim();
-                        const label = photo.title?.trim() || filename || c.pressPhotosTitle;
+                        const label = photo.title?.trim() || filename || t("press.pressPhotosTitle");
                         return (
                           <div
                             key={photo._key}
-                            className="overflow-hidden rounded-lg border border-slate-800"
+                            className="overflow-hidden rounded-lg border border-gray-800"
                           >
                             {imageUrl ? (
                               // eslint-disable-next-line @next/next/no-img-element
@@ -135,13 +136,13 @@ export function PressPageView({
                                 loading="lazy"
                               />
                             ) : (
-                              <div className="flex h-48 w-full items-center justify-center bg-slate-900/40 text-sm text-muted-foreground">
-                                {c.pressPhotosEmpty}
+                              <div className="flex h-48 w-full items-center justify-center bg-gray-900/40 text-sm text-muted-foreground">
+                                {t("press.pressPhotosEmpty")}
                               </div>
                             )}
                             <div className="flex items-center justify-between gap-3 p-3">
                               <div className="min-w-0">
-                                <div className="truncate text-sm font-medium text-slate-100">
+                                <div className="truncate text-sm font-medium text-gray-100">
                                   {label}
                                 </div>
                               </div>
@@ -151,7 +152,7 @@ export function PressPageView({
                                   download={filename || true}
                                   className="shrink-0 text-sm font-medium text-primary underline-offset-4 hover:underline"
                                 >
-                                  {c.downloadLabel}
+                                  {t("press.downloadLabel")}
                                 </a>
                               ) : null}
                             </div>
@@ -161,7 +162,7 @@ export function PressPageView({
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground sm:text-base">
-                      {c.pressPhotosEmpty}
+                      {t("press.pressPhotosEmpty")}
                     </p>
                   )}
                 </CardContent>
@@ -169,14 +170,14 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.pressMentionsTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.pressMentionsTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {mentions.length > 0 ? (
                     <ul className="space-y-4">
                       {mentions.map((item) => {
                         const dateLabel = formatPressDate(locale, item.date);
-                        const titleLabel = item.title?.trim() || c.pressMentionsTitle;
+                        const titleLabel = item.title?.trim() || t("press.pressMentionsTitle");
                         const publicationLabel = item.publication?.trim();
                         const href = item.url?.trim();
                         return (
@@ -187,12 +188,12 @@ export function PressPageView({
                                   href={href}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="font-medium text-slate-100 underline-offset-4 hover:underline"
+                                  className="font-medium text-gray-100 underline-offset-4 hover:underline"
                                 >
                                   {titleLabel}
                                 </a>
                               ) : (
-                                <div className="font-medium text-slate-100">{titleLabel}</div>
+                                <div className="font-medium text-gray-100">{titleLabel}</div>
                               )}
                               {publicationLabel ? (
                                 <span className="text-sm text-muted-foreground">
@@ -204,7 +205,7 @@ export function PressPageView({
                               ) : null}
                             </div>
                             {item.quote ? (
-                              <p className="text-sm text-slate-200 sm:text-base">“{item.quote}”</p>
+                              <p className="text-sm text-gray-200 sm:text-base">&ldquo;{item.quote}&rdquo;</p>
                             ) : null}
                           </li>
                         );
@@ -212,7 +213,7 @@ export function PressPageView({
                     </ul>
                   ) : (
                     <p className="text-sm text-muted-foreground sm:text-base">
-                      {c.pressMentionsEmpty}
+                      {t("press.pressMentionsEmpty")}
                     </p>
                   )}
                 </CardContent>
@@ -222,7 +223,7 @@ export function PressPageView({
             <div className="space-y-6">
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.pressKitTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.pressKitTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {downloads.length > 0 ? (
@@ -230,17 +231,17 @@ export function PressPageView({
                       {downloads.map((asset) => {
                         const href = asset.url?.trim();
                         const filename = asset.filename?.trim();
-                        const label = asset.title?.trim() || filename || c.pressKitTitle;
+                        const label = asset.title?.trim() || filename || t("press.pressKitTitle");
                         return (
                           <li key={asset._key} className="flex items-center justify-between gap-3">
-                            <span className="min-w-0 truncate text-sm text-slate-200">{label}</span>
+                            <span className="min-w-0 truncate text-sm text-gray-200">{label}</span>
                             {href ? (
                               <a
                                 href={href}
                                 download={filename || true}
                                 className="shrink-0 text-sm font-medium text-primary underline-offset-4 hover:underline"
                               >
-                                {c.downloadLabel}
+                                {t("press.downloadLabel")}
                               </a>
                             ) : null}
                           </li>
@@ -248,14 +249,14 @@ export function PressPageView({
                       })}
                     </ul>
                   ) : (
-                    <p className="text-sm text-muted-foreground">{c.pressKitEmpty}</p>
+                    <p className="text-sm text-muted-foreground">{t("press.pressKitEmpty")}</p>
                   )}
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.techRiderTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.techRiderTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {techRider?.url ? (
@@ -264,26 +265,26 @@ export function PressPageView({
                       download={techRider.filename || true}
                       className="text-sm font-medium text-primary underline-offset-4 hover:underline"
                     >
-                      {c.downloadLabel}
+                      {t("press.downloadLabel")}
                     </a>
                   ) : (
-                    <p className="text-sm text-muted-foreground">{c.techRiderEmpty}</p>
+                    <p className="text-sm text-muted-foreground">{t("press.techRiderEmpty")}</p>
                   )}
 
-                  <Separator className="bg-slate-800" />
+                  <Separator className="bg-gray-800" />
 
                   <div className="space-y-2">
-                    <div className="text-sm font-medium text-slate-100">{c.stagePlotTitle}</div>
+                    <div className="text-sm font-medium text-gray-100">{t("press.stagePlotTitle")}</div>
                     {stagePlot?.url ? (
                       <a
                         href={stagePlot.url}
                         download={stagePlot.filename || true}
                         className="text-sm font-medium text-primary underline-offset-4 hover:underline"
                       >
-                        {c.downloadLabel}
+                        {t("press.downloadLabel")}
                       </a>
                     ) : (
-                      <p className="text-sm text-muted-foreground">{c.stagePlotPlaceholder}</p>
+                      <p className="text-sm text-muted-foreground">{t("press.stagePlotPlaceholder")}</p>
                     )}
                   </div>
                 </CardContent>
@@ -291,7 +292,7 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{c.bookingsTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{t("press.bookingsTitle")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {bookingsEmail ? (
@@ -305,10 +306,10 @@ export function PressPageView({
                     </div>
                   ) : null}
                   {bookingsPhone ? (
-                    <div className="text-sm text-slate-200">{bookingsPhone}</div>
+                    <div className="text-sm text-gray-200">{bookingsPhone}</div>
                   ) : null}
                   {!bookingsEmail && !bookingsPhone ? (
-                    <p className="text-sm text-muted-foreground">{c.bookingsEmpty}</p>
+                    <p className="text-sm text-muted-foreground">{t("press.bookingsEmpty")}</p>
                   ) : null}
                 </CardContent>
               </Card>

@@ -6,6 +6,15 @@
 @theme inline {
   --color-brand-accent: #3b82f6;
 
+  /* Figma Gray Palette */
+  --color-gray-100: #eeeef0;
+  --color-gray-200: #c8c8ce;
+  --color-gray-400: #88888f;
+  --color-gray-600: #62626a;
+  --color-gray-800: #434349;
+  --color-gray-900: #3a3a40;
+  --color-gray-950: #212124;
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -31,8 +40,114 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
+  /* Typography - Figma Specifications */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-dm-sans), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Font Sizes */
+  --font-size-hero: 4rem;
+  /* 64px - Hero title */
+  --font-size-header: 1.75rem;
+  /* 28px - Section headers */
+  --font-size-subheader: 1.25rem;
+  /* 20px - Subheaders */
+  --font-size-body: 1rem;
+  /* 16px - Body text */
+  --font-size-small: 0.875rem;
+  /* 14px - Small text */
+  --font-size-xs: 0.75rem;
+  /* 12px - Extra small */
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Letter Spacing */
+  --letter-spacing-hero: -0.048em;
+  /* -0.768px at 64px */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* Line Heights */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* Button System - Figma Specs */
+  --button-padding-x: 24px;
+  --button-padding-y: 12px;
+  --button-border-radius: 6px;
+  --button-font-size: 0.875rem;
+  --button-font-weight: 500;
+  --button-line-height: 1.5;
+
+  /* Button Colors - Primary */
+  --button-primary-bg: #eeeef0;
+  --button-primary-text: #212124;
+  --button-primary-hover-bg: #c8c8ce;
+
+  /* Button Colors - Secondary */
+  --button-secondary-border: #62626a;
+  --button-secondary-text: #eeeef0;
+  --button-secondary-hover-bg: #434349;
+  --button-secondary-hover-border: #88888f;
+
+  /* Spacing - Figma Specifications */
+  /* Container */
+  --container-max-width: 1200px;
+  --container-padding-mobile: 16px;
+  --container-padding-tablet: 24px;
+  --container-padding-desktop: 32px;
+
+  /* Section Padding */
+  --section-padding-mobile: 48px;
+  --section-padding-desktop: 80px;
+
+  /* Grid Gaps */
+  --grid-gap-sm: 24px;
+  --grid-gap-md: 32px;
+  --grid-gap-lg: 40px;
+
+  /* Component Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Tailwind Utility Mappings - Font Sizes */
+  --text-hero: var(--font-size-hero);
+  --text-hero--line-height: var(--line-height-tight);
+  --text-hero--letter-spacing: var(--letter-spacing-hero);
+  --text-hero--font-weight: var(--font-weight-semibold);
+
+  --text-header: var(--font-size-header);
+  --text-header--line-height: var(--line-height-snug);
+  --text-header--letter-spacing: var(--letter-spacing-tight);
+  --text-header--font-weight: var(--font-weight-semibold);
+
+  --text-subheader: var(--font-size-subheader);
+  --text-subheader--line-height: var(--line-height-snug);
+  --text-subheader--letter-spacing: var(--letter-spacing-tight);
+  --text-subheader--font-weight: var(--font-weight-semibold);
+
+  --text-body: var(--font-size-body);
+  --text-body--line-height: var(--line-height-normal);
+  --text-body--font-weight: var(--font-weight-regular);
+
+  --text-small: var(--font-size-small);
+  --text-small--line-height: var(--line-height-normal);
+  --text-small--font-weight: var(--font-weight-regular);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -49,24 +164,24 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --background: 240 5% 22%; /* gray-950 #212124 */
+    --foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --card: 240 5% 25%; /* gray-900 #3a3a40 */
+    --card-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --popover: 240 5% 22%; /* gray-950 #212124 */
+    --popover-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 5% 28%; /* gray-800 #434349 */
+    --secondary-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --muted: 240 5% 28%; /* gray-800 #434349 */
+    --muted-foreground: 240 4% 55%; /* gray-400 #88888f */
+    --accent: 217.2 91.2% 59.8%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 240 4% 40%; /* gray-600 #62626a */
+    --input: 240 4% 40%; /* gray-600 #62626a */
     --ring: 217.2 91.2% 59.8%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -75,25 +190,26 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --background: 240 5% 22%; /* gray-950 #212124 */
+    --foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --card: 240 5% 25%; /* gray-900 #3a3a40 */
+    --card-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --popover: 240 5% 22%; /* gray-950 #212124 */
+    --popover-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --secondary: 240 5% 28%; /* gray-800 #434349 */
+    --secondary-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
+    --muted: 240 5% 28%; /* gray-800 #434349 */
+    --muted-foreground: 240 4% 55%; /* gray-400 #88888f */
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 240 4% 40%; /* gray-600 #62626a */
+    --input: 240 4% 40%; /* gray-600 #62626a */
     --ring: 217.2 91.2% 59.8%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;

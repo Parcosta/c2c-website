@@ -6,7 +6,7 @@ import { ImageCard } from "@/components/custom/ImageCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export type PortfolioBlockItem = {
   id: string;
@@ -23,6 +23,35 @@ export type PortfolioBlockClientProps = {
 };
 
 const ALL_CATEGORY = "All";
+
+// Figma filter button styling
+interface FilterButtonProps {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+function FilterButton({ active, onClick, children }: FilterButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        // Figma specs: 14px font, medium weight, rounded-md
+        "rounded-md px-6 py-3 text-sm font-medium transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent",
+        active
+          ? // Active: bg-gray-100, text-gray-950 per Figma primary button
+            "bg-gray-100 text-gray-950 hover:bg-gray-200"
+          : // Inactive: border-gray-600, text-gray-100 per Figma secondary button
+            "border border-gray-600 bg-transparent text-gray-100 hover:border-gray-400 hover:bg-gray-800"
+      )}
+      aria-pressed={active}
+    >
+      {children}
+    </button>
+  );
+}
 
 export function PortfolioBlockClient({
   items,
@@ -51,26 +80,22 @@ export function PortfolioBlockClient({
         <div className="space-y-8">
           <SectionHeading title={heading} subtitle={subheading} />
 
-          <div className="flex flex-wrap items-center gap-2">
-            {categories.map((category) => {
-              const isActive = category === selectedCategory;
-              return (
-                <Button
-                  key={category}
-                  type="button"
-                  size="sm"
-                  variant={isActive ? "default" : "secondary"}
-                  aria-pressed={isActive}
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </Button>
-              );
-            })}
+          {/* Filter buttons with Figma styling */}
+          <div className="flex flex-wrap items-center gap-3">
+            {categories.map((category) => (
+              <FilterButton
+                key={category}
+                active={category === selectedCategory}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </FilterButton>
+            ))}
           </div>
 
           {filteredItems.length ? (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            // Figma 4-column grid with 40px gaps
+            <div className="grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filteredItems.map((item) => (
                 <ImageCard
                   key={item.id}
@@ -80,6 +105,7 @@ export function PortfolioBlockClient({
                   description={item.category ?? undefined}
                   href={`/portfolio/${item.slug}`}
                   aspectClassName="aspect-[4/3]"
+                  className="bg-gray-900/40 border-gray-800 hover:border-gray-600"
                 />
               ))}
             </div>
