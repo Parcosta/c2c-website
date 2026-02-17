@@ -139,7 +139,10 @@ Key behavior (from `infra/lib/amplify-stack.ts`):
   - `NEXT_PUBLIC_SANITY_PROJECT_ID` (SSM String Parameter)
   - `NEXT_PUBLIC_SANITY_DATASET` (SSM String Parameter)
   - `SANITY_API_TOKEN` (SSM SecureString)
+  - `SANITY_WEBHOOK_SECRET` (SSM SecureString)
   - `RESEND_API_KEY` (SSM SecureString)
+  - `CONTACT_FORM_TO` (SSM String Parameter)
+  - `CONTACT_FORM_FROM` (SSM String Parameter)
 - Adds a `main` branch as **PRODUCTION** and optionally maps a custom domain.
 
 To deploy infra (example):
@@ -162,7 +165,10 @@ Infra configuration inputs:
   - `NEXT_PUBLIC_SANITY_PROJECT_ID_PARAM` (default `/c2c-website/NEXT_PUBLIC_SANITY_PROJECT_ID`)
   - `NEXT_PUBLIC_SANITY_DATASET_PARAM` (default `/c2c-website/NEXT_PUBLIC_SANITY_DATASET`)
   - `SANITY_API_TOKEN_PARAM` (default `/c2c-website/SANITY_API_TOKEN`)
+  - `SANITY_WEBHOOK_SECRET_PARAM` (default `/c2c-website/SANITY_WEBHOOK_SECRET`)
   - `RESEND_API_KEY_PARAM` (default `/c2c-website/RESEND_API_KEY`)
+  - `CONTACT_FORM_TO_PARAM` (default `/c2c-website/CONTACT_FORM_TO`)
+  - `CONTACT_FORM_FROM_PARAM` (default `/c2c-website/CONTACT_FORM_FROM`)
 - **Domain**
   - context `customDomainName` (optional)
   - context `customDomainEnableWww` (default `false`)
@@ -171,9 +177,10 @@ Infra configuration inputs:
 
 This repo includes an `amplify.yml` used by Amplify builds:
 
+- Uses Node.js 20 (via `nvm`)
 - Installs with `npm ci`
 - Builds with `npm run build`
-- Publishes `.next/` artifacts and caches `node_modules/` + Next.js cache
+- Publishes `.next/` artifacts and caches npm + Next.js build cache
 
 The CDK stack also defines an equivalent build spec in code.
 
