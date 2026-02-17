@@ -1,7 +1,12 @@
 import * as React from "react";
 
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { afterEach, vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+
+afterEach(() => {
+  cleanup();
+});
 
 vi.mock("next/image", () => ({
   default: ({
@@ -11,10 +16,13 @@ vi.mock("next/image", () => ({
   }: {
     src: string | { src: string };
     alt: string;
+    fill?: boolean;
     [key: string]: unknown;
   }) => {
     const resolvedSrc = typeof src === "string" ? src : src.src;
-    return React.createElement("img", { src: resolvedSrc, alt, ...props });
+    const { fill: _fill, ...imgProps } = props;
+    void _fill;
+    return React.createElement("img", { src: resolvedSrc, alt, ...imgProps });
   }
 }));
 
