@@ -33,9 +33,9 @@ test.describe("Booking Page", () => {
     await page.fill('[data-testid="booking-name"]', "Test User");
     await page.fill('[data-testid="booking-email"]', "test@example.com");
 
-    // Select event type
+    // Select event type (Radix UI Select component)
     await page.click('[data-testid="booking-event-type"]');
-    await page.click("text=DJ Set");
+    await page.getByRole("option", { name: "DJ Set" }).click();
 
     // Fill optional fields
     await page.fill('[data-testid="booking-location"]', "New York");
