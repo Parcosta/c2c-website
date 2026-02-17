@@ -1,0 +1,2 @@
+{"_id":"siteSettings","_type":"siteSettings","siteName":{"en":"C2C","es":"C2C"},"socialLinks":[{"_key":"sl1","_type":"socialLink","platform":"instagram","url":"https://example.com/instagram"},{"_key":"sl2","_type":"socialLink","platform":"youtube","url":"https://example.com/youtube"},{"_key":"sl3","_type":"socialLink","platform":"website","url":"https://example.com"}],"contactEmail":"hello@example.com"}
+

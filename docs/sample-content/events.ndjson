@@ -1,0 +1,3 @@
+{"_id":"event-demo-1","_type":"event","title":{"en":"C2C Showcase Night","es":"Noche Showcase C2C"},"date":"2026-03-21T21:00:00.000Z","venue":{"en":"Warehouse 12","es":"Warehouse 12"},"city":{"en":"Los Angeles","es":"Los Ángeles"},"country":{"en":"United States","es":"Estados Unidos"},"ticketUrl":"https://example.com/tickets/c2c-showcase-night"}
+{"_id":"event-demo-2","_type":"event","title":{"en":"Open Studio Session","es":"Sesión de estudio abierto"},"date":"2026-04-10T18:30:00.000Z","venue":{"en":"C2C Studio","es":"C2C Studio"},"city":{"en":"Mexico City","es":"Ciudad de México"},"country":{"en":"Mexico","es":"México"},"ticketUrl":"https://example.com/tickets/open-studio-session"}
+
