@@ -32,4 +32,3 @@ const copy = {
 export function getAboutCopy(locale: Locale) {
   return copy[locale];
 }
-

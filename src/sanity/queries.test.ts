@@ -13,7 +13,7 @@ import {
   buildServicesQuery,
   buildSiteSettingsQuery
 } from "@/sanity/queries";
-import { createMockSanityClient } from "@/sanity/test/mockSanityClient";
+import { createMockSanityClient, type SanityFetch } from "@/sanity/test/mockSanityClient";
 
 describe("Sanity GROQ query builders", () => {
   it("builds homepage query with correct params and localized projections", () => {
@@ -97,7 +97,7 @@ describe("Sanity GROQ query builders", () => {
     const fetchImpl = vi.fn(async <T>(query: string, params?: Record<string, unknown>) => {
       return { query, params } as unknown as T;
     });
-    const mockClient = createMockSanityClient(fetchImpl);
+    const mockClient = createMockSanityClient(fetchImpl as unknown as SanityFetch);
 
     const locale: Locale = "en";
     const def = buildEventsQuery(locale);

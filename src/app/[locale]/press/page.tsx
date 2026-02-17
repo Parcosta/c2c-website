@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { PressPageView } from "@/features/press/PressPageView";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { isSanityConfigured } from "@/sanity/config";
-import { client } from "@/sanity/client";
+import { getClient } from "@/sanity/client";
 import { buildPressEpkQuery, type PressEpkValue } from "@/sanity/queries";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ export default async function PressPage({ params }: { params: Promise<{ locale: 
   if (isSanityConfigured()) {
     const def = buildPressEpkQuery(resolvedLocale);
     try {
-      data = await client.fetch(def.query, def.params);
+      data = await getClient().fetch(def.query, def.params);
     } catch {
       data = null;
     }

@@ -146,12 +146,6 @@ export type PressEpkValue = {
   siteSettings: SiteSettingsValue | null;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-export function buildHomepageQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
-=======
 export type AboutReleaseValue = {
   _key: string;
   title?: string;
@@ -179,13 +173,9 @@ export type AboutPageValue = {
   seo?: SeoValue;
 };
 
-export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
->>>>>>> 6b81669 (C2C-225: Add localized About page (Sanity-backed))
-=======
 export function buildHomepageQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
->>>>>>> 16268e9 (C2C-225: Add About page with Sanity CMS integration)
   return {
     query: groq`*[_type == "page" && slug[$locale].current == $slug][0]{
       _id,
@@ -229,108 +219,9 @@ export function buildPortfolioItemsQuery(
   };
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export function buildCurrentWorkQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
-=======
-=======
-export function buildCurrentWorkQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
-  return {
-    query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
-      _id,
-      "title": title[$locale],
-      "description": description[$locale],
-      date,
-      "media": coalesce(featuredMedia[0], images[0]){
-        _type,
-        asset->{
-          url,
-          mimeType
-        }
-      }
-    }`,
-    params: { locale }
-  };
-}
-
-export function buildEventsQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale }, EventValue[]> {
-  return {
-    query: groq`*[_type == "event"]|order(date desc){
-      _id,
-      "title": title[$locale],
-      date,
-      "venue": venue[$locale],
-      "city": city[$locale],
-      "country": country[$locale],
-      ticketUrl,
-      flyer
-    }`,
-    params: { locale }
-  };
-}
-
-export function buildUpcomingEventsQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale }, EventValue[]> {
-  return {
-    query: groq`*[_type == "event" && date >= now()]|order(date asc){
-      _id,
-      "title": title[$locale],
-      date,
-      "venue": venue[$locale],
-      "city": city[$locale],
-      "country": country[$locale],
-      ticketUrl,
-      flyer
-    }`,
-    params: { locale }
-  };
-}
-
-export function buildServicesQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale }, ServiceValue[]> {
-  return {
-    query: groq`*[_type == "service"]|order(title.en asc){
-      _id,
-      "title": title[$locale],
-      "description": description[$locale],
-      icon,
-      "features": features[][$locale]
-    }`,
-    params: { locale }
-  };
-}
-
->>>>>>> 16268e9 (C2C-225: Add About page with Sanity CMS integration)
-export function buildPortfolioItemBySlugQuery(
-  locale: Locale,
-  slug: string
-): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
-  return {
-    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
-      _id,
-      "title": title[$locale],
-      "slug": slug[$locale].current,
-      "category": category[$locale],
-      images,
-      "description": description[$locale],
-      date,
-      tags
-    }`,
-    params: { locale, slug }
-  };
-}
-
-<<<<<<< HEAD
-export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
->>>>>>> 6b81669 (C2C-225: Add localized About page (Sanity-backed))
   return {
     query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
       _id,
@@ -509,33 +400,6 @@ export function buildPressEpkQuery(
     params: { locale }
   };
 }
-
-export type AboutReleaseValue = {
-  _key: string;
-  title?: string;
-  year?: number;
-  label?: string;
-  url?: string;
-};
-
-export type AboutEquipmentGroupValue = {
-  _key: string;
-  title?: string;
-  items?: string[];
-};
-
-export type AboutPageValue = {
-  _id: string;
-  title?: string;
-  intro?: string;
-  photo?: ImageValue;
-  photoAlt?: string;
-  bio?: unknown;
-  releases?: AboutReleaseValue[];
-  equipmentGroups?: AboutEquipmentGroupValue[];
-  influences?: string[];
-  seo?: SeoValue;
-};
 
 export function buildAboutPageQuery(
   locale: Locale

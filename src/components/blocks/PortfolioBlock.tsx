@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
 import { getSanityImageUrl } from "@/sanity/image";
-import { client } from "@/sanity/client";
+import { getClient } from "@/sanity/client";
 import { buildPortfolioItemsQuery, type PortfolioItemValue } from "@/sanity/queries";
 
 import { PortfolioBlockClient, type PortfolioBlockItem } from "./PortfolioBlockClient";
@@ -17,7 +17,9 @@ export async function PortfolioBlock() {
   const locale = await getLocaleFromHeaders();
   const def = buildPortfolioItemsQuery(locale);
 
-  const items = await client.fetch<PortfolioItemValue[]>(def.query, def.params).catch(() => []);
+  const items = await getClient()
+    .fetch<PortfolioItemValue[]>(def.query, def.params)
+    .catch(() => []);
 
   const mapped = items.reduce<PortfolioBlockItem[]>((acc, item, index) => {
     const title = item.title?.trim() || "Untitled";

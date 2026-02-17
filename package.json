@@ -4,15 +4,16 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "dev": "next dev",
+    "e2e:ui": "playwright test --ui",
     "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui"
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "start": "next start",
+    "test:run": "vitest run",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.2",
@@ -48,6 +49,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.39.0",
     "eslint-config-next": "^16.1.6",
     "jsdom": "^28.1.0",
