@@ -18,15 +18,15 @@ build ────────┘
 
 ### Jobs
 
-| Job | Description | Depends On |
-|-----|-------------|------------|
-| **lint** | Runs ESLint across the codebase | — |
-| **prettier** | Checks formatting with Prettier | — |
-| **typecheck** | Runs `tsc --noEmit` for type safety | — |
-| **unit-tests** | Runs Vitest with coverage via `@vitest/coverage-v8` | — |
-| **build** | Builds the Next.js application | — |
-| **e2e-tests** | Runs Playwright against Chromium | build |
-| **coverage** | Uploads coverage reports to Codecov | unit-tests |
+| Job            | Description                                         | Depends On |
+| -------------- | --------------------------------------------------- | ---------- |
+| **lint**       | Runs ESLint across the codebase                     | —          |
+| **prettier**   | Checks formatting with Prettier                     | —          |
+| **typecheck**  | Runs `tsc --noEmit` for type safety                 | —          |
+| **unit-tests** | Runs Vitest with coverage via `@vitest/coverage-v8` | —          |
+| **build**      | Builds the Next.js application                      | —          |
+| **e2e-tests**  | Runs Playwright against Chromium                    | build      |
+| **coverage**   | Uploads coverage reports to Codecov                 | unit-tests |
 
 ### Parallelism
 
@@ -49,21 +49,21 @@ The workflow uses concurrency groups scoped to the workflow name and Git ref. If
 
 ## Artifacts
 
-| Artifact | Contents | Retention |
-|----------|----------|-----------|
-| `unit-test-coverage` | Vitest coverage output (`coverage/`) | 14 days |
-| `nextjs-build` | Next.js build output (`.next/`) | 7 days |
-| `e2e-test-results` | Playwright report and screenshots | 14 days |
+| Artifact             | Contents                             | Retention |
+| -------------------- | ------------------------------------ | --------- |
+| `unit-test-coverage` | Vitest coverage output (`coverage/`) | 14 days   |
+| `nextjs-build`       | Next.js build output (`.next/`)      | 7 days    |
+| `e2e-test-results`   | Playwright report and screenshots    | 14 days   |
 
 ## Secrets
 
 The workflow requires the following repository secrets:
 
-| Secret | Purpose |
-|--------|---------|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID for the build step |
-| `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name for the build step |
-| `CODECOV_TOKEN` | *(Optional)* Token for Codecov upload |
+| Secret                          | Purpose                                |
+| ------------------------------- | -------------------------------------- |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID for the build step   |
+| `NEXT_PUBLIC_SANITY_DATASET`    | Sanity dataset name for the build step |
+| `CODECOV_TOKEN`                 | _(Optional)_ Token for Codecov upload  |
 
 ## Dependabot
 
