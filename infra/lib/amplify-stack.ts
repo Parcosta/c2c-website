@@ -120,7 +120,7 @@ export class AmplifyStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'AmplifyAppId', { value: app.appId });
     new cdk.CfnOutput(this, 'AmplifyDefaultDomain', { value: app.defaultDomain });
     new cdk.CfnOutput(this, 'AmplifySanityRebuildWebhookUrl', {
-      value: sanityRebuildWebhook.getAttString('WebhookUrl')
+      value: sanityRebuildWebhook.getAtt('WebhookUrl').toString()
     });
   }
 }
