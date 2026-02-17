@@ -85,6 +85,7 @@ export type ServiceValue = {
   _id: string;
   title?: string;
   description?: string;
+  pricing?: string;
   icon?: string;
   features?: string[];
   pricing?: string;
@@ -146,9 +147,40 @@ export type PressEpkValue = {
   siteSettings: SiteSettingsValue | null;
 };
 
+<<<<<<< HEAD
 export function buildHomepageQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
+=======
+export type AboutReleaseValue = {
+  _key: string;
+  title?: string;
+  year?: number;
+  label?: string;
+  url?: string;
+};
+
+export type AboutEquipmentGroupValue = {
+  _key: string;
+  title?: string;
+  items?: string[];
+};
+
+export type AboutPageValue = {
+  _id: string;
+  title?: string;
+  intro?: string;
+  photo?: ImageValue;
+  photoAlt?: string;
+  bio?: unknown;
+  releases?: AboutReleaseValue[];
+  equipmentGroups?: AboutEquipmentGroupValue[];
+  influences?: string[];
+  seo?: SeoValue;
+};
+
+export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
+>>>>>>> 6b81669 (C2C-225: Add localized About page (Sanity-backed))
   return {
     query: groq`*[_type == "page" && slug[$locale].current == $slug][0]{
       _id,
@@ -192,9 +224,32 @@ export function buildPortfolioItemsQuery(
   };
 }
 
+<<<<<<< HEAD
 export function buildCurrentWorkQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
+=======
+export function buildPortfolioItemBySlugQuery(
+  locale: Locale,
+  slug: string
+): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
+  return {
+    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
+      _id,
+      "title": title[$locale],
+      "slug": slug[$locale].current,
+      "category": category[$locale],
+      images,
+      "description": description[$locale],
+      date,
+      tags
+    }`,
+    params: { locale, slug }
+  };
+}
+
+export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
+>>>>>>> 6b81669 (C2C-225: Add localized About page (Sanity-backed))
   return {
     query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
       _id,
@@ -257,6 +312,7 @@ export function buildServicesQuery(
       _id,
       "title": title[$locale],
       "description": description[$locale],
+      "pricing": pricing[$locale],
       icon,
       "features": features[][$locale]
     }`,
@@ -367,6 +423,65 @@ export function buildPressEpkQuery(
         logo,
         socialLinks,
         contactEmail
+      }
+    }`,
+    params: { locale }
+  };
+}
+
+export type AboutReleaseValue = {
+  _key: string;
+  title?: string;
+  year?: number;
+  label?: string;
+  url?: string;
+};
+
+export type AboutEquipmentGroupValue = {
+  _key: string;
+  title?: string;
+  items?: string[];
+};
+
+export type AboutPageValue = {
+  _id: string;
+  title?: string;
+  intro?: string;
+  photo?: ImageValue;
+  photoAlt?: string;
+  bio?: unknown;
+  releases?: AboutReleaseValue[];
+  equipmentGroups?: AboutEquipmentGroupValue[];
+  influences?: string[];
+  seo?: SeoValue;
+};
+
+export function buildAboutPageQuery(locale: Locale): QueryDefinition<{ locale: Locale }, AboutPageValue | null> {
+  return {
+    query: groq`*[_type == "aboutPage"][0]{
+      _id,
+      "title": title[$locale],
+      "intro": intro[$locale],
+      photo,
+      "photoAlt": photoAlt[$locale],
+      "bio": bio[$locale],
+      "releases": releases[]{
+        _key,
+        "title": title[$locale],
+        year,
+        "label": label[$locale],
+        url
+      },
+      "equipmentGroups": equipmentGroups[]{
+        _key,
+        "title": title[$locale],
+        "items": items[][$locale]
+      },
+      "influences": influences[][$locale],
+      seo{
+        "title": title[$locale],
+        "description": description[$locale],
+        image
       }
     }`,
     params: { locale }
