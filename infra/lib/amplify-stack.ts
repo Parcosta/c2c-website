@@ -20,8 +20,10 @@ export type GitHubSource = {
 };
 
 export type DomainConfig = {
-  name?: string;
-  enableWww?: boolean;
+  name: string;
+  mapApex?: boolean;
+  mapWww?: boolean;
+  subdomains?: string[];
 };
 
 export interface AmplifyStackProps extends cdk.StackProps {
@@ -100,11 +102,22 @@ export class AmplifyStack extends cdk.Stack {
       stage: 'PRODUCTION'
     });
 
-    if (props.domain?.name) {
-      const domain = app.addDomain(props.domain.name);
-      domain.mapRoot(main);
-      if (props.domain.enableWww) {
+    if (props.domain) {
+      const { name, mapApex = true, mapWww = false, subdomains = [] } = props.domain;
+      const domain = app.addDomain(name);
+
+      if (mapApex) {
+        domain.mapRoot(main);
+      }
+
+      if (mapWww) {
         domain.mapSubDomain(main, 'www');
+      }
+
+      for (const subdomain of subdomains) {
+        if (subdomain && subdomain.trim().length > 0) {
+          domain.mapSubDomain(main, subdomain.trim());
+        }
       }
     }
 

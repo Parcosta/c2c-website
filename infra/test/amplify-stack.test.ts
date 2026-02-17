@@ -70,7 +70,7 @@ describe('AmplifyStack', () => {
 
   test('creates a domain mapping when configured', () => {
     const template = synthStack({
-      domain: { name: 'example.com', enableWww: true }
+      domain: { name: 'example.com', mapWww: true }
     });
 
     template.resourceCountIs('AWS::Amplify::Domain', 1);
