@@ -4,6 +4,7 @@ import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { GlassCard } from "@/components/custom/GlassCard";
 import { ImageCard } from "@/components/custom/ImageCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
+import { GalleryBlock } from "@/components/blocks/GalleryBlock";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { type Locale } from "@/lib/i18n";
@@ -106,6 +107,56 @@ export default function ComponentsPage() {
             description="Also works without a link."
           />
         </div>
+      </section>
+
+      <Separator />
+
+      <section className="space-y-4">
+        <SectionHeading
+          title="GalleryBlock"
+          subtitle="Image gallery with lightbox functionality."
+        />
+        <GalleryBlock
+          title="Example Gallery"
+          subtitle="Click any image to open the lightbox."
+          columns={3}
+          images={[
+            {
+              _id: "gallery-1",
+              src: { _ref: "image-1" },
+              alt: "Gallery image 1",
+              caption: "Beautiful scenery"
+            },
+            {
+              _id: "gallery-2",
+              src: { _ref: "image-2" },
+              alt: "Gallery image 2",
+              caption: "Amazing view"
+            },
+            {
+              _id: "gallery-3",
+              src: { _ref: "image-3" },
+              alt: "Gallery image 3",
+              caption: "Stunning landscape"
+            },
+            {
+              _id: "gallery-4",
+              src: { _ref: "image-4" },
+              alt: "Gallery image 4"
+            },
+            {
+              _id: "gallery-5",
+              src: { _ref: "image-5" },
+              alt: "Gallery image 5",
+              caption: "Wonderful moment"
+            },
+            {
+              _id: "gallery-6",
+              src: { _ref: "image-6" },
+              alt: "Gallery image 6"
+            }
+          ]}
+        />
       </section>
     </main>
   );
