@@ -31,12 +31,12 @@ const client = createClient({
   useCdn: false,
 });
 
-// Sample image URLs (using placeholder images)
+// Sample image URLs (using reliable placeholder service)
 const SAMPLE_IMAGES = [
-  "https://images.unsplash.com/photo-1571266028243-37160d7fec39?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop",
+  "https://placehold.co/800x600/1a1a2e/4a4a6a?text=Live+Performance",
+  "https://placehold.co/800x600/16213e/4a4a6a?text=DJ+Set",
+  "https://placehold.co/800x600/0f3460/4a4a6a?text=Studio",
+  "https://placehold.co/800x600/533483/4a4a6a?text=Event",
 ];
 
 async function uploadImage(url: string, filename: string): Promise<string> {
@@ -294,12 +294,20 @@ async function main() {
   console.log(`Dataset: ${DATASET}\n`);
   
   try {
-    // Upload sample images
+    // Upload sample images (with graceful fallback)
     console.log("📸 Uploading sample images...");
     const imageRefs: string[] = [];
     for (let i = 0; i < SAMPLE_IMAGES.length; i++) {
-      const ref = await uploadImage(SAMPLE_IMAGES[i], `sample-${i + 1}.jpg`);
-      imageRefs.push(ref);
+      try {
+        const ref = await uploadImage(SAMPLE_IMAGES[i], `sample-${i + 1}.jpg`);
+        imageRefs.push(ref);
+      } catch (err) {
+        console.warn(`⚠️ Failed to upload image ${i + 1}, skipping...`);
+      }
+    }
+    
+    if (imageRefs.length === 0) {
+      console.warn("⚠️ No images uploaded. Portfolio items will be created without images.");
     }
     
     // Create documents
@@ -313,6 +321,7 @@ async function main() {
     console.log("  • Run the dev server: npm run dev");
     console.log("  • Open Sanity Studio: npx sanity dev");
     console.log("  • Run E2E tests: npx playwright test");
+    console.log("\n💡 Tip: Replace placeholder images with real photos in the Sanity Studio.");
     
   } catch (error) {
     console.error("\n❌ Seeding failed:", error);
