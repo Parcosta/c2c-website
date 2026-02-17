@@ -123,36 +123,54 @@ export default function ComponentsPage() {
           images={[
             {
               _id: "gallery-1",
-              src: { _type: "image", asset: { _ref: "image-Tb9Ew8CXIwaY6R1kjMvI0uRR-2000x3000-jpg", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-Tb9Ew8CXIwaY6R1kjMvI0uRR-2000x3000-jpg", _type: "reference" }
+              },
               alt: "Gallery image 1",
               caption: "Beautiful scenery"
             },
             {
               _id: "gallery-2",
-              src: { _type: "image", asset: { _ref: "image-abc123def456-1500x2000-png", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-abc123def456-1500x2000-png", _type: "reference" }
+              },
               alt: "Gallery image 2",
               caption: "Amazing view"
             },
             {
               _id: "gallery-3",
-              src: { _type: "image", asset: { _ref: "image-xyz789uvw012-3000x2000-jpg", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-xyz789uvw012-3000x2000-jpg", _type: "reference" }
+              },
               alt: "Gallery image 3",
               caption: "Stunning landscape"
             },
             {
               _id: "gallery-4",
-              src: { _type: "image", asset: { _ref: "image-def456ghi789-2000x1500-webp", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-def456ghi789-2000x1500-webp", _type: "reference" }
+              },
               alt: "Gallery image 4"
             },
             {
               _id: "gallery-5",
-              src: { _type: "image", asset: { _ref: "image-ghi789jkl012-2500x3500-jpg", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-ghi789jkl012-2500x3500-jpg", _type: "reference" }
+              },
               alt: "Gallery image 5",
               caption: "Wonderful moment"
             },
             {
               _id: "gallery-6",
-              src: { _type: "image", asset: { _ref: "image-jkl012mno345-1800x2400-png", _type: "reference" } },
+              src: {
+                _type: "image",
+                asset: { _ref: "image-jkl012mno345-1800x2400-png", _type: "reference" }
+              },
               alt: "Gallery image 6"
             }
           ]}
