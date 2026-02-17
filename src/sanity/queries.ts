@@ -5,6 +5,8 @@ import type { Locale } from "@/lib/i18n";
 export type QueryDefinition<TParams extends Record<string, unknown>, TResult> = {
   query: string;
   params: TParams;
+} & {
+  __resultType?: TResult;
 };
 
 export type ImageValue = {
