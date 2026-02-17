@@ -20,9 +20,17 @@ vi.mock("next/image", () => {
     [key: string]: unknown;
   }) => {
     const resolvedSrc = typeof src === "string" ? src : src.src;
-    const { fill: _fill, priority: _priority, ...imgProps } = props;
+    const {
+      fill: _fill,
+      priority: _priority,
+      blurDataURL: _blurDataURL,
+      placeholder: _placeholder,
+      ...imgProps
+    } = props;
     void _fill;
     void _priority;
+    void _blurDataURL;
+    void _placeholder;
     return React.createElement("img", { src: resolvedSrc, alt, ...imgProps });
   };
   NextImageMock.displayName = "NextImageMock";

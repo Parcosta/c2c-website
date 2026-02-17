@@ -7,7 +7,7 @@ import Image from "next/image";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 export type PhotoGalleryImage = {
@@ -87,6 +87,10 @@ export function PhotoGalleryBlock({ title, subtitle, images, className, ...props
 
           <Dialog open={isOpen} onOpenChange={(open) => (!open ? setActiveIndex(null) : null)}>
             <DialogContent className="max-w-[min(92vw,1100px)] border-slate-800 bg-slate-950/95 p-0">
+              <DialogTitle className="sr-only">{activeImage?.alt?.trim() || "Gallery photo"}</DialogTitle>
+              <DialogDescription className="sr-only">
+                {activeImage?.caption?.trim() || "Enlarged photo preview"}
+              </DialogDescription>
               {activeImage ? (
                 <figure className="space-y-0">
                   <div
