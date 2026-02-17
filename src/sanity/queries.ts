@@ -224,6 +224,22 @@ export function buildEventsQuery(locale: Locale): QueryDefinition<{ locale: Loca
   };
 }
 
+export function buildUpcomingEventsQuery(locale: Locale): QueryDefinition<{ locale: Locale }, EventValue[]> {
+  return {
+    query: groq`*[_type == "event" && date >= now()]|order(date asc){
+      _id,
+      "title": title[$locale],
+      date,
+      "venue": venue[$locale],
+      "city": city[$locale],
+      "country": country[$locale],
+      ticketUrl,
+      flyer
+    }`,
+    params: { locale }
+  };
+}
+
 export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Locale }, ServiceValue[]> {
   return {
     query: groq`*[_type == "service"]|order(title.en asc){

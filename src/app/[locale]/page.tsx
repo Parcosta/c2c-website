@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { EventsBlock } from "@/components/blocks/EventsBlock";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { JsonLdScript } from "@/components/seo/JsonLd";
@@ -93,6 +94,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
         </Container>
       </Section>
+      <EventsBlock locale={params.locale} />
     </main>
   );
 }
