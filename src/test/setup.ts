@@ -30,11 +30,10 @@ vi.mock("next/image", () => ({
   default: NextImage
 }));
 
-const NextLink = React.forwardRef<
-  HTMLAnchorElement,
-  { href: string; children: React.ReactNode; [key: string]: unknown }
->(({ href, children, ...props }, ref) =>
-  React.createElement("a", { ref, href, ...props }, children)
+type NextLinkProps = React.ComponentPropsWithoutRef<"a"> & { href: string };
+
+const NextLink = React.forwardRef<HTMLAnchorElement, NextLinkProps>(
+  ({ href, children, ...props }, ref) => React.createElement("a", { ref, href, ...props }, children)
 );
 
 NextLink.displayName = "NextLink";
