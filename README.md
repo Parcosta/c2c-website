@@ -60,6 +60,7 @@ All required environment variables are listed in `.env.example`.
 ### Server-only (keep secret)
 
 - **`SANITY_API_TOKEN`**: A Sanity API token used for server-side content operations. Do not expose this to client components.
+- **`SANITY_WEBHOOK_SECRET`**: Secret used to validate Sanity webhooks for on-demand ISR revalidation (`/api/revalidate`).
 - **`RESEND_API_KEY`**: Resend API key used for sending email from server-side routes/actions.
 
 Notes:
