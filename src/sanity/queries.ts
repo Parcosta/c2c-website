@@ -32,12 +32,19 @@ export type SeoValue = {
   image?: ImageValue;
 };
 
+export type ServicesBlockValue = {
+  _type: "servicesBlock";
+  title?: string;
+  subtitle?: string;
+  services?: ServiceValue[];
+};
+
 export type PageValue = {
   _id: string;
   title?: string;
   slug?: string;
   hero?: HeroValue;
-  body?: unknown;
+  body?: Array<Record<string, unknown> | ImageValue | ServicesBlockValue>;
   seo?: SeoValue;
 };
 
@@ -105,7 +112,21 @@ export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Lo
           href
         }
       },
-      "body": body[$locale],
+      "body": body[$locale][]{
+        ...,
+        _type == "servicesBlock" => {
+          _type,
+          "title": title[$locale],
+          "subtitle": subtitle[$locale],
+          "services": services[]->{
+            _id,
+            "title": title[$locale],
+            "description": description[$locale],
+            icon,
+            "features": features[][$locale]
+          }
+        }
+      },
       seo{
         "title": title[$locale],
         "description": description[$locale],
