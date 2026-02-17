@@ -10,7 +10,7 @@ describe("Header", () => {
 
     render(<Header locale="en" />);
 
-    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/en");
+    expect(screen.getByRole("link", { name: /c2c home/i })).toHaveAttribute("href", "/en");
 
     const nav = screen.getByRole("navigation", { name: "Primary" });
     for (const item of navItems) {

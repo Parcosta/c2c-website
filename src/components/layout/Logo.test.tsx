@@ -6,7 +6,7 @@ import { Logo } from "@/components/layout/Logo";
 describe("Logo", () => {
   it("links to the locale root", () => {
     render(<Logo locale="en" />);
-    const link = screen.getByRole("link", { name: "Home" });
+    const link = screen.getByRole("link", { name: /c2c home/i });
     expect(link).toHaveAttribute("href", "/en");
   });
 });

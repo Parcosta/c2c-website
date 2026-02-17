@@ -5,7 +5,15 @@ import { Menu } from "lucide-react";
 
 import type { Locale } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@/components/ui/sheet";
 import { navItems } from "@/components/layout/navItems";
 
 type MobileNavProps = {
@@ -24,6 +32,7 @@ export function MobileNav({ locale }: MobileNavProps) {
         <SheetContent className="bg-slate-950 text-slate-50 border-slate-800/60">
           <SheetHeader>
             <SheetTitle className="text-slate-50">Menu</SheetTitle>
+            <SheetDescription className="sr-only">Primary navigation</SheetDescription>
           </SheetHeader>
           <nav className="mt-6 grid gap-2" aria-label="Mobile">
             {navItems.map((item) => (
