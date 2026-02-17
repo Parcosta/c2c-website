@@ -21,4 +21,3 @@ export type PortfolioDetailItem = {
   tags: string[];
   locale: Locale;
 };
-

@@ -59,4 +59,3 @@ describe("next.config security headers", () => {
     }
   });
 });
-

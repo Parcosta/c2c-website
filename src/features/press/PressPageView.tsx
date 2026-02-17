@@ -24,14 +24,22 @@ export type PressPageViewModel = {
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    normal: ({ children }) => <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>,
+    normal: ({ children }) => (
+      <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>
+    ),
     h3: ({ children }) => (
-      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">{children}</h3>
+      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">
+        {children}
+      </h3>
     )
   },
   list: {
-    bullet: ({ children }) => <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+    bullet: ({ children }) => (
+      <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+    )
   },
   listItem: {
     bullet: ({ children }) => <li className="text-sm leading-relaxed sm:text-base">{children}</li>,
@@ -43,7 +51,11 @@ function formatPressDate(locale: Locale, date?: string) {
   if (!date) return null;
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) return null;
-  return new Intl.DateTimeFormat(locale, { year: "numeric", month: "short", day: "2-digit" }).format(parsed);
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit"
+  }).format(parsed);
 }
 
 function makeSanityImagePreviewUrl(url: string) {
@@ -110,7 +122,10 @@ export function PressPageView({
                         const filename = photo.filename?.trim();
                         const label = photo.title?.trim() || filename || c.pressPhotosTitle;
                         return (
-                          <div key={photo._key} className="overflow-hidden rounded-lg border border-slate-800">
+                          <div
+                            key={photo._key}
+                            className="overflow-hidden rounded-lg border border-slate-800"
+                          >
                             {imageUrl ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
@@ -126,7 +141,9 @@ export function PressPageView({
                             )}
                             <div className="flex items-center justify-between gap-3 p-3">
                               <div className="min-w-0">
-                                <div className="truncate text-sm font-medium text-slate-100">{label}</div>
+                                <div className="truncate text-sm font-medium text-slate-100">
+                                  {label}
+                                </div>
                               </div>
                               {imageUrl ? (
                                 <a
@@ -143,7 +160,9 @@ export function PressPageView({
                       })}
                     </div>
                   ) : (
-                    <p className="text-sm text-muted-foreground sm:text-base">{c.pressPhotosEmpty}</p>
+                    <p className="text-sm text-muted-foreground sm:text-base">
+                      {c.pressPhotosEmpty}
+                    </p>
                   )}
                 </CardContent>
               </Card>
@@ -176,9 +195,13 @@ export function PressPageView({
                                 <div className="font-medium text-slate-100">{titleLabel}</div>
                               )}
                               {publicationLabel ? (
-                                <span className="text-sm text-muted-foreground">{publicationLabel}</span>
+                                <span className="text-sm text-muted-foreground">
+                                  {publicationLabel}
+                                </span>
                               ) : null}
-                              {dateLabel ? <span className="text-sm text-muted-foreground">{dateLabel}</span> : null}
+                              {dateLabel ? (
+                                <span className="text-sm text-muted-foreground">{dateLabel}</span>
+                              ) : null}
                             </div>
                             {item.quote ? (
                               <p className="text-sm text-slate-200 sm:text-base">“{item.quote}”</p>
@@ -188,7 +211,9 @@ export function PressPageView({
                       })}
                     </ul>
                   ) : (
-                    <p className="text-sm text-muted-foreground sm:text-base">{c.pressMentionsEmpty}</p>
+                    <p className="text-sm text-muted-foreground sm:text-base">
+                      {c.pressMentionsEmpty}
+                    </p>
                   )}
                 </CardContent>
               </Card>
@@ -279,7 +304,9 @@ export function PressPageView({
                       </a>
                     </div>
                   ) : null}
-                  {bookingsPhone ? <div className="text-sm text-slate-200">{bookingsPhone}</div> : null}
+                  {bookingsPhone ? (
+                    <div className="text-sm text-slate-200">{bookingsPhone}</div>
+                  ) : null}
                   {!bookingsEmail && !bookingsPhone ? (
                     <p className="text-sm text-muted-foreground">{c.bookingsEmpty}</p>
                   ) : null}
@@ -292,4 +319,3 @@ export function PressPageView({
     </main>
   );
 }
-

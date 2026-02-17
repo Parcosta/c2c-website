@@ -77,4 +77,3 @@ describe("CookieConsent", () => {
     expect(stored.analytics).toBe(true);
   });
 });
-

@@ -52,7 +52,7 @@ export function buildContactFormReceiptEmail(props: ContactFormReceiptEmailProps
   const subject = "We received your message";
   const body = [
     `<p style="margin: 0 0 12px;">Hi ${escapeHtml(props.name)},</p>`,
-    "<p style=\"margin: 0 0 12px;\">Thanks for reaching out — we’ll get back to you soon.</p>",
+    '<p style="margin: 0 0 12px;">Thanks for reaching out — we’ll get back to you soon.</p>',
     '<p style="margin: 0 0 6px; font-weight: 600;">Your message:</p>',
     `<p style="margin: 0;">${escapeHtmlWithLineBreaks(props.message)}</p>`
   ].join("");
@@ -70,7 +70,7 @@ export function buildBookingConfirmationEmail(props: BookingConfirmationEmailPro
 
   const body = [
     `<p style="margin: 0 0 12px;">Hi ${escapeHtml(props.name)},</p>`,
-    "<p style=\"margin: 0 0 12px;\">Your booking is confirmed.</p>",
+    '<p style="margin: 0 0 12px;">Your booking is confirmed.</p>',
     `<p style="margin: 0 0 12px;"><strong>Reference:</strong> ${escapeHtml(props.bookingReference)}</p>`,
     details
       ? `<p style="margin: 0 0 12px;"><strong>Details:</strong><br />${escapeHtmlWithLineBreaks(details)}</p>`
@@ -86,7 +86,9 @@ export function buildBookingConfirmationEmail(props: BookingConfirmationEmailPro
   };
 }
 
-export function buildContactFormNotificationEmail(props: ContactFormNotificationEmailProps): EmailTemplate {
+export function buildContactFormNotificationEmail(
+  props: ContactFormNotificationEmailProps
+): EmailTemplate {
   const subject = `New contact form message from ${props.name}`;
   const body = [
     `<p style="margin: 0 0 8px;"><strong>Name:</strong> ${escapeHtml(props.name)}</p>`,
@@ -137,4 +139,3 @@ export async function sendEmail(input: SendEmailInput) {
 
   return data;
 }
-

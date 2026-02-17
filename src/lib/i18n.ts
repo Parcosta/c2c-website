@@ -35,4 +35,3 @@ export function switchLocaleInPathname(pathname: string, locale: Locale): string
   const rest = parts.length > 0 && isLocale(parts[0]) ? parts.slice(1) : parts;
   return `/${[locale, ...rest].join("/")}`.replace(/\/+$/, "") || "/";
 }
-

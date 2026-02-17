@@ -9,4 +9,3 @@ export const localeBlockContent = defineType({
     defineField({ name: "es", title: "Español", type: "blockContent" })
   ]
 });
-

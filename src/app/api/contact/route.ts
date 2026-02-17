@@ -19,18 +19,12 @@ export async function POST(request: Request) {
 
   const rateCheck = __contactRateLimiter.check(ip);
   if (!rateCheck.allowed) {
-    return NextResponse.json(
-      { ok: false, error: { code: "RATE_LIMITED" } },
-      { status: 429 }
-    );
+    return NextResponse.json({ ok: false, error: { code: "RATE_LIMITED" } }, { status: 429 });
   }
 
   const raw = await request.json().catch(() => null);
   if (!raw) {
-    return NextResponse.json(
-      { ok: false, error: { code: "INVALID_JSON" } },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: { code: "INVALID_JSON" } }, { status: 400 });
   }
 
   const parsed = contactFormSchema.safeParse(raw);
@@ -48,10 +42,7 @@ export async function POST(request: Request) {
       userAgent: request.headers.get("user-agent")
     });
   } catch {
-    return NextResponse.json(
-      { ok: false, error: { code: "EMAIL_SEND_FAILED" } },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, error: { code: "EMAIL_SEND_FAILED" } }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true }, { status: 200 });

@@ -27,7 +27,7 @@ const ALL_CATEGORY = "All";
 export function PortfolioBlockClient({
   items,
   heading = "Portfolio",
-  subheading = "A selection of recent work, filterable by category.",
+  subheading = "A selection of recent work, filterable by category."
 }: PortfolioBlockClientProps) {
   const categories = useMemo(() => {
     const unique = new Set<string>();
@@ -91,4 +91,3 @@ export function PortfolioBlockClient({
     </Section>
   );
 }
-

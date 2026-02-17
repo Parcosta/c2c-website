@@ -11,7 +11,7 @@ If you can’t access Studio, you likely don’t have access to the Sanity proje
 
 ## Studio basics
 
-- **Desk (left sidebar)**: content types (documents) such as *Portfolio item*, *Event*, *Service*, *Press item*, *Press / EPK page*, *Site settings*.
+- **Desk (left sidebar)**: content types (documents) such as _Portfolio item_, _Event_, _Service_, _Press item_, _Press / EPK page_, _Site settings_.
 - **List view**: shows existing documents of that type.
 - **Editor view**: fields for the selected document.
 - **Draft vs Published**
@@ -205,4 +205,3 @@ After changes, **Publish**.
 - Did you fill the field for the correct **language** (EN vs ES)?
 - For pages/portfolio items, is the **slug** filled for that locale?
 - Is the **Date** set correctly (sorting might make items appear “missing”)?
-

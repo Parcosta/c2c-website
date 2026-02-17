@@ -65,7 +65,14 @@ function formatLocation(city?: string, country?: string) {
   return parts.length ? parts.join(", ") : null;
 }
 
-export function EventsBlockView({ locale, title, subtitle, events, className, ...props }: EventsBlockViewProps) {
+export function EventsBlockView({
+  locale,
+  title,
+  subtitle,
+  events,
+  className,
+  ...props
+}: EventsBlockViewProps) {
   const copy = getDefaultCopy(locale);
 
   const visibleEvents = (events ?? [])
@@ -75,8 +82,13 @@ export function EventsBlockView({ locale, title, subtitle, events, className, ..
       if (!date) return null;
       return { event, date };
     })
-    .filter((value): value is { event: EventValue; date: { dateTime: string; formatted: string; timestamp: number } } =>
-      value != null
+    .filter(
+      (
+        value
+      ): value is {
+        event: EventValue;
+        date: { dateTime: string; formatted: string; timestamp: number };
+      } => value != null
     )
     .sort((a, b) => a.date.timestamp - b.date.timestamp);
 
@@ -94,7 +106,11 @@ export function EventsBlockView({ locale, title, subtitle, events, className, ..
               const location = formatLocation(event.city, event.country);
 
               return (
-                <GlassCard key={event._id} className="flex h-full flex-col gap-4 p-6" data-testid={`event-card-${event._id}`}>
+                <GlassCard
+                  key={event._id}
+                  className="flex h-full flex-col gap-4 p-6"
+                  data-testid={`event-card-${event._id}`}
+                >
                   <div className="space-y-2">
                     <time
                       data-testid={`event-date-${event._id}`}
@@ -110,12 +126,21 @@ export function EventsBlockView({ locale, title, subtitle, events, className, ..
                       </div>
                     ) : null}
 
-                    {venue ? <div className="text-sm font-semibold tracking-tight text-slate-100">{venue}</div> : null}
+                    {venue ? (
+                      <div className="text-sm font-semibold tracking-tight text-slate-100">
+                        {venue}
+                      </div>
+                    ) : null}
                     {location ? <div className="text-sm text-slate-300">{location}</div> : null}
                   </div>
 
                   {event.ticketUrl ? (
-                    <AnimatedButton asChild size="sm" variant="secondary" className="mt-auto w-full">
+                    <AnimatedButton
+                      asChild
+                      size="sm"
+                      variant="secondary"
+                      className="mt-auto w-full"
+                    >
                       <a href={event.ticketUrl} target="_blank" rel="noreferrer noopener">
                         {copy.ticketsLabel}
                       </a>
@@ -136,7 +161,7 @@ export type EventsBlockProps = Omit<EventsBlockViewProps, "events" | "locale"> &
 };
 
 export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockProps) {
-  const locale = localeProp ?? await getLocaleFromHeaders();
+  const locale = localeProp ?? (await getLocaleFromHeaders());
   if (!isSanityConfigured()) return null;
 
   const def = buildUpcomingEventsQuery(locale);
@@ -148,4 +173,3 @@ export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockP
 
   return <EventsBlockView {...props} locale={locale} events={events ?? []} />;
 }
-

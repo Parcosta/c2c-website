@@ -46,4 +46,3 @@ const copy = {
 export function getPressCopy(locale: Locale) {
   return copy[locale];
 }
-

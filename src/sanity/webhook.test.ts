@@ -15,7 +15,9 @@ describe("Sanity webhook signature validation", () => {
     const secret = "super-secret";
     const body = JSON.stringify({ hello: "world" });
 
-    expect(isValidSanityWebhookSignature({ body, secret, signature: "not-a-real-signature" })).toBe(false);
+    expect(isValidSanityWebhookSignature({ body, secret, signature: "not-a-real-signature" })).toBe(
+      false
+    );
   });
 
   it("accepts signatures with sha256= prefix", () => {
@@ -33,4 +35,3 @@ describe("Sanity webhook signature validation", () => {
     expect(isValidSanityWebhookSignature({ body, secret, signature: null })).toBe(false);
   });
 });
-

@@ -16,4 +16,3 @@ export function assertSanityConfig() {
     throw new Error("Missing NEXT_PUBLIC_SANITY_DATASET");
   }
 }
-

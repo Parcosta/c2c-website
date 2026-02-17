@@ -30,4 +30,3 @@ describe("createFixedWindowRateLimiter", () => {
     expect(limiter.check("ip", 1001).allowed).toBe(true);
   });
 });
-

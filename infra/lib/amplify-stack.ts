@@ -1,7 +1,7 @@
-import * as cdk from 'aws-cdk-lib';
-import * as amplify from '@aws-cdk/aws-amplify-alpha';
-import { aws_amplify as amplifyCfn, aws_codebuild as codebuild, aws_ssm as ssm } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import * as amplify from "@aws-cdk/aws-amplify-alpha";
+import { aws_amplify as amplifyCfn, aws_codebuild as codebuild, aws_ssm as ssm } from "aws-cdk-lib";
+import { Construct } from "constructs";
 
 export type ParameterLookup = {
   nextPublicSanityProjectId: string;
@@ -34,7 +34,7 @@ export interface AmplifyStackProps extends cdk.StackProps {
 
 function requiredParameter(scope: Construct, parameterName: string, secure: boolean): string {
   if (!parameterName || parameterName.trim().length === 0) {
-    throw new Error('Parameter name must be a non-empty string.');
+    throw new Error("Parameter name must be a non-empty string.");
   }
   if (secure) {
     return cdk.SecretValue.ssmSecure(parameterName).toString();
@@ -51,23 +51,23 @@ export class AmplifyStack extends cdk.Stack {
       frontend: {
         phases: {
           preBuild: {
-            commands: ['nvm install 20', 'nvm use 20', 'node -v', 'npm ci']
+            commands: ["nvm install 20", "nvm use 20", "node -v", "npm ci"]
           },
           build: {
-            commands: ['npm run build']
+            commands: ["npm run build"]
           }
         },
         artifacts: {
-          baseDirectory: '.next',
-          files: ['**/*']
+          baseDirectory: ".next",
+          files: ["**/*"]
         },
         cache: {
-          paths: ['~/.npm/**/*', '.next/cache/**/*']
+          paths: ["~/.npm/**/*", ".next/cache/**/*"]
         }
       }
     });
 
-    const app = new amplify.App(this, 'AmplifyApp', {
+    const app = new amplify.App(this, "AmplifyApp", {
       platform: amplify.Platform.WEB_COMPUTE,
       sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
         owner: props.github.owner,
@@ -77,7 +77,7 @@ export class AmplifyStack extends cdk.Stack {
       buildSpec,
       autoBranchDeletion: true,
       autoBranchCreation: {
-        patterns: ['*']
+        patterns: ["*"]
       },
       environmentVariables: {
         NEXT_PUBLIC_SANITY_PROJECT_ID: requiredParameter(
@@ -98,8 +98,8 @@ export class AmplifyStack extends cdk.Stack {
       }
     });
 
-    const main = app.addBranch('main', {
-      stage: 'PRODUCTION'
+    const main = app.addBranch("main", {
+      stage: "PRODUCTION"
     });
 
     if (props.domain) {
@@ -111,7 +111,7 @@ export class AmplifyStack extends cdk.Stack {
       }
 
       if (mapWww) {
-        domain.mapSubDomain(main, 'www');
+        domain.mapSubDomain(main, "www");
       }
 
       for (const subdomain of subdomains) {
@@ -121,17 +121,16 @@ export class AmplifyStack extends cdk.Stack {
       }
     }
 
-    const sanityRebuildWebhook = new amplifyCfn.CfnWebhook(this, 'SanityRebuildWebhook', {
+    const sanityRebuildWebhook = new amplifyCfn.CfnWebhook(this, "SanityRebuildWebhook", {
       appId: app.appId,
-      branchName: 'main',
-      description: 'Trigger Amplify rebuild from Sanity content changes'
+      branchName: "main",
+      description: "Trigger Amplify rebuild from Sanity content changes"
     });
 
-    new cdk.CfnOutput(this, 'AmplifyAppId', { value: app.appId });
-    new cdk.CfnOutput(this, 'AmplifyDefaultDomain', { value: app.defaultDomain });
-    new cdk.CfnOutput(this, 'AmplifySanityRebuildWebhookUrl', {
+    new cdk.CfnOutput(this, "AmplifyAppId", { value: app.appId });
+    new cdk.CfnOutput(this, "AmplifyDefaultDomain", { value: app.defaultDomain });
+    new cdk.CfnOutput(this, "AmplifySanityRebuildWebhookUrl", {
       value: sanityRebuildWebhook.attrWebhookUrl
     });
   }
 }
-

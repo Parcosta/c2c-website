@@ -30,4 +30,3 @@ export const socialLink = defineType({
     select: { title: "platform", subtitle: "url" }
   }
 });
-

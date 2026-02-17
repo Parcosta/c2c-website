@@ -105,4 +105,3 @@ export function ContactForm({ locale }: { locale: Locale }) {
     </form>
   );
 }
-

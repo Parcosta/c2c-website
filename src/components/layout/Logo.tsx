@@ -32,4 +32,3 @@ export function Logo({ locale, className }: LogoProps) {
     </Link>
   );
 }
-

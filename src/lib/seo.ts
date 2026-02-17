@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 
-import { defaultLocale, getLocaleFromPathname, locales, switchLocaleInPathname, type Locale } from "@/lib/i18n";
+import {
+  defaultLocale,
+  getLocaleFromPathname,
+  locales,
+  switchLocaleInPathname,
+  type Locale
+} from "@/lib/i18n";
 
 type OgImage = {
   url: string;
@@ -59,7 +65,9 @@ function toOpenGraphLocale(locale: Locale): string {
 }
 
 function buildLanguageAlternates(pathname: string): Record<string, string> {
-  return Object.fromEntries(locales.map((locale) => [locale, switchLocaleInPathname(pathname, locale)]));
+  return Object.fromEntries(
+    locales.map((locale) => [locale, switchLocaleInPathname(pathname, locale)])
+  );
 }
 
 export function buildMetadata(input: BuildMetadataInput): Metadata {
@@ -151,7 +159,12 @@ export function createOrganizationJsonLd(input: {
   };
 }
 
-export function createMusicGroupJsonLd(input: { name: string; url?: string; sameAs?: string[]; genre?: string[] }): JsonLd {
+export function createMusicGroupJsonLd(input: {
+  name: string;
+  url?: string;
+  sameAs?: string[];
+  genre?: string[];
+}): JsonLd {
   const url = input.url ?? getSiteUrl();
   return {
     "@context": "https://schema.org",

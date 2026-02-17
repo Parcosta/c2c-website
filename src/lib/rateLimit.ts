@@ -61,10 +61,7 @@ export function createInMemoryRateLimiter(
     }
 
     if (existing.count >= options.limit) {
-      const retryAfterSeconds = Math.max(
-        0,
-        Math.ceil((existing.resetAtMs - now) / 1000)
-      );
+      const retryAfterSeconds = Math.max(0, Math.ceil((existing.resetAtMs - now) / 1000));
       return {
         allowed: false,
         limit: options.limit,
@@ -114,10 +111,7 @@ export function createFixedWindowRateLimiter(
     }
 
     if (existing.count >= options.limit) {
-      const retryAfterSeconds = Math.max(
-        0,
-        Math.ceil((existing.resetAtMs - now) / 1000)
-      );
+      const retryAfterSeconds = Math.max(0, Math.ceil((existing.resetAtMs - now) / 1000));
       return {
         allowed: false,
         limit: options.limit,

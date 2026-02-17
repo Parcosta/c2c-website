@@ -17,4 +17,3 @@ export const event = defineType({
     select: { title: "title.en", subtitle: "venue.en", media: "flyer" }
   }
 });
-

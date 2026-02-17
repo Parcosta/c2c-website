@@ -24,7 +24,7 @@ import {
 describe("email templates", () => {
   it("buildContactFormReceiptEmail escapes HTML and preserves line breaks", () => {
     const receipt = buildContactFormReceiptEmail({
-      name: 'A <b>name</b>',
+      name: "A <b>name</b>",
       message: "Hello\n<script>alert(1)</script>"
     });
 
@@ -102,4 +102,3 @@ describe("sendEmail", () => {
     ).rejects.toThrow("nope");
   });
 });
-

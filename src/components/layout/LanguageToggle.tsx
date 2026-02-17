@@ -32,4 +32,3 @@ export function LanguageToggle({ locale, className }: LanguageToggleProps) {
     </div>
   );
 }
-

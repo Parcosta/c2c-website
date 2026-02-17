@@ -37,4 +37,3 @@ export function DesktopNav({ locale, className }: DesktopNavProps) {
     </nav>
   );
 }
-

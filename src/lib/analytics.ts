@@ -95,4 +95,3 @@ export function trackEvent(eventName: string, props?: AnalyticsEventProps) {
     window.plausible?.(eventName, pProps ? { props: pProps } : undefined);
   }
 }
-

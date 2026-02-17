@@ -17,7 +17,10 @@ describe("Footer", () => {
     render(<Footer />);
 
     expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/en");
-    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute("href", "/en/portfolio");
+    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute(
+      "href",
+      "/en/portfolio"
+    );
     expect(screen.getByRole("link", { name: "Services" })).toHaveAttribute("href", "/en/services");
     expect(screen.getByRole("link", { name: "Press" })).toHaveAttribute("href", "/en/press");
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/en/about");
@@ -40,12 +43,20 @@ describe("Footer", () => {
     mockedPathname = "/es";
     render(<Footer contactEmail="hello@c2c.com" />);
 
-    expect(screen.getByRole("link", { name: "hello@c2c.com" })).toHaveAttribute("href", "mailto:hello@c2c.com");
+    expect(screen.getByRole("link", { name: "hello@c2c.com" })).toHaveAttribute(
+      "href",
+      "mailto:hello@c2c.com"
+    );
 
-    expect(screen.getByLabelText("Instagram")).toHaveAttribute("href", "https://example.com/instagram");
-    expect(screen.getByLabelText("SoundCloud")).toHaveAttribute("href", "https://example.com/soundcloud");
+    expect(screen.getByLabelText("Instagram")).toHaveAttribute(
+      "href",
+      "https://example.com/instagram"
+    );
+    expect(screen.getByLabelText("SoundCloud")).toHaveAttribute(
+      "href",
+      "https://example.com/soundcloud"
+    );
     expect(screen.getByLabelText("Spotify")).toHaveAttribute("href", "https://example.com/spotify");
     expect(screen.getByLabelText("YouTube")).toHaveAttribute("href", "https://example.com/youtube");
   });
 });
-

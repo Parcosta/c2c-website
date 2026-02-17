@@ -52,8 +52,7 @@ function getCopy(locale: Locale): TermsCopy {
           body: [
             {
               type: "p",
-              text:
-                "Salvo que se indique lo contrario, el contenido del sitio (textos, imágenes, audio, vídeo y diseño) pertenece a C2C o se usa con permiso. No puedes copiar, modificar o redistribuir contenido sin autorización."
+              text: "Salvo que se indique lo contrario, el contenido del sitio (textos, imágenes, audio, vídeo y diseño) pertenece a C2C o se usa con permiso. No puedes copiar, modificar o redistribuir contenido sin autorización."
             }
           ]
         },
@@ -62,8 +61,7 @@ function getCopy(locale: Locale): TermsCopy {
           body: [
             {
               type: "p",
-              text:
-                "El sitio puede incluir enlaces a servicios de terceros. No controlamos esos sitios y no somos responsables de su contenido o prácticas."
+              text: "El sitio puede incluir enlaces a servicios de terceros. No controlamos esos sitios y no somos responsables de su contenido o prácticas."
             }
           ]
         },
@@ -72,8 +70,7 @@ function getCopy(locale: Locale): TermsCopy {
           body: [
             {
               type: "p",
-              text:
-                "El sitio se proporciona “tal cual” y “según disponibilidad”. No garantizamos que el sitio sea ininterrumpido, seguro o libre de errores."
+              text: "El sitio se proporciona “tal cual” y “según disponibilidad”. No garantizamos que el sitio sea ininterrumpido, seguro o libre de errores."
             }
           ]
         },
@@ -82,8 +79,7 @@ function getCopy(locale: Locale): TermsCopy {
           body: [
             {
               type: "p",
-              text:
-                "En la medida permitida por la ley, C2C no será responsable por daños indirectos, incidentales, especiales, consecuentes o punitivos derivados del uso del sitio."
+              text: "En la medida permitida por la ley, C2C no será responsable por daños indirectos, incidentales, especiales, consecuentes o punitivos derivados del uso del sitio."
             }
           ]
         },
@@ -105,8 +101,7 @@ function getCopy(locale: Locale): TermsCopy {
           body: [
             {
               type: "p",
-              text:
-                "Podemos actualizar estos Términos. Publicaremos la versión actualizada en esta página e indicaremos la fecha de última actualización."
+              text: "Podemos actualizar estos Términos. Publicaremos la versión actualizada en esta página e indicaremos la fecha de última actualización."
             }
           ]
         }
@@ -118,7 +113,8 @@ function getCopy(locale: Locale): TermsCopy {
     title: "Terms of Service",
     subtitle: "Rules and conditions for using this website.",
     lastUpdatedLabel: "Last updated",
-    intro: "By accessing or using this website, you agree to these terms. If you do not agree, do not use the site.",
+    intro:
+      "By accessing or using this website, you agree to these terms. If you do not agree, do not use the site.",
     sections: [
       {
         heading: "Use of the site",
@@ -138,8 +134,7 @@ function getCopy(locale: Locale): TermsCopy {
         body: [
           {
             type: "p",
-            text:
-              "Unless stated otherwise, the site content (text, images, audio, video, and design) is owned by C2C or used with permission. You may not copy, modify, or redistribute content without authorization."
+            text: "Unless stated otherwise, the site content (text, images, audio, video, and design) is owned by C2C or used with permission. You may not copy, modify, or redistribute content without authorization."
           }
         ]
       },
@@ -148,8 +143,7 @@ function getCopy(locale: Locale): TermsCopy {
         body: [
           {
             type: "p",
-            text:
-              "The site may include links to third-party services. We do not control those sites and are not responsible for their content or practices."
+            text: "The site may include links to third-party services. We do not control those sites and are not responsible for their content or practices."
           }
         ]
       },
@@ -158,8 +152,7 @@ function getCopy(locale: Locale): TermsCopy {
         body: [
           {
             type: "p",
-            text:
-              "The site is provided “as is” and “as available”. We do not warrant that the site will be uninterrupted, secure, or error-free."
+            text: "The site is provided “as is” and “as available”. We do not warrant that the site will be uninterrupted, secure, or error-free."
           }
         ]
       },
@@ -168,8 +161,7 @@ function getCopy(locale: Locale): TermsCopy {
         body: [
           {
             type: "p",
-            text:
-              "To the maximum extent permitted by law, C2C will not be liable for indirect, incidental, special, consequential, or punitive damages arising out of your use of the site."
+            text: "To the maximum extent permitted by law, C2C will not be liable for indirect, incidental, special, consequential, or punitive damages arising out of your use of the site."
           }
         ]
       },
@@ -191,8 +183,7 @@ function getCopy(locale: Locale): TermsCopy {
         body: [
           {
             type: "p",
-            text:
-              "We may update these Terms. We will post the updated version on this page and update the “Last updated” date."
+            text: "We may update these Terms. We will post the updated version on this page and update the “Last updated” date."
           }
         ]
       }
@@ -200,7 +191,11 @@ function getCopy(locale: Locale): TermsCopy {
   };
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
@@ -232,7 +227,9 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
               </div>
             </div>
 
-            <p className="max-w-prose text-sm leading-relaxed text-slate-300 sm:text-base">{copy.intro}</p>
+            <p className="max-w-prose text-sm leading-relaxed text-slate-300 sm:text-base">
+              {copy.intro}
+            </p>
 
             <div className="space-y-10">
               {copy.sections.map((section) => (
@@ -289,4 +286,3 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
     </main>
   );
 }
-

@@ -5,7 +5,8 @@ import { LanguageToggle } from "@/components/layout/LanguageToggle";
 
 describe("LanguageToggle", () => {
   it("switches locales while preserving pathname", () => {
-    (globalThis as unknown as { __NEXT_PATHNAME__?: string }).__NEXT_PATHNAME__ = "/en/portfolio/item";
+    (globalThis as unknown as { __NEXT_PATHNAME__?: string }).__NEXT_PATHNAME__ =
+      "/en/portfolio/item";
 
     render(<LanguageToggle locale="en" />);
 
@@ -14,4 +15,3 @@ describe("LanguageToggle", () => {
     expect(screen.getByRole("link", { name: "ES" })).toHaveAttribute("href", "/es/portfolio/item");
   });
 });
-

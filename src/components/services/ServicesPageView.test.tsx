@@ -34,4 +34,3 @@ describe("ServicesPageView", () => {
     expect(screen.getByText("No services are published yet.")).toBeInTheDocument();
   });
 });
-

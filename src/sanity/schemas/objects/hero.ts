@@ -16,4 +16,3 @@ export const hero = defineType({
     defineField({ name: "cta", title: "CTA", type: "cta" })
   ]
 });
-

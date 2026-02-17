@@ -16,9 +16,6 @@ const nextConfig = {
   compiler: {
     styledComponents: true
   },
-  experimental: {
-    optimizePackageImports: ["lucide-react"]
-  },
   async headers() {
     const isDev = process.env.NODE_ENV !== "production";
     const cspDirectives = [

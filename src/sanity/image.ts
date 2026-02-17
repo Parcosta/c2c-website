@@ -16,4 +16,3 @@ export function getSanityImageUrl(
   if (height) image = image.height(height);
   return image.url();
 }
-

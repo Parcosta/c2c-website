@@ -42,16 +42,10 @@ export async function sendContactEmail(params: SendContactEmailParams) {
         <li><strong>Name</strong>: ${escapeHtml(data.name)}</li>
         <li><strong>Email</strong>: ${escapeHtml(data.email)}</li>
         ${data.phone ? `<li><strong>Phone</strong>: ${escapeHtml(data.phone)}</li>` : ""}
-        ${
-          data.company
-            ? `<li><strong>Company</strong>: ${escapeHtml(data.company)}</li>`
-            : ""
-        }
+        ${data.company ? `<li><strong>Company</strong>: ${escapeHtml(data.company)}</li>` : ""}
         ${data.locale ? `<li><strong>Locale</strong>: ${escapeHtml(data.locale)}</li>` : ""}
         ${clientIp ? `<li><strong>IP</strong>: ${escapeHtml(clientIp)}</li>` : ""}
-        ${
-          userAgent ? `<li><strong>User-Agent</strong>: ${escapeHtml(userAgent)}</li>` : ""
-        }
+        ${userAgent ? `<li><strong>User-Agent</strong>: ${escapeHtml(userAgent)}</li>` : ""}
       </ul>
       <p><strong>Message</strong>:</p>
       <pre style="white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${escapeHtml(
@@ -78,4 +72,3 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
-

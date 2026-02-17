@@ -35,7 +35,9 @@ describe("analytics", () => {
     window.gtag = vi.fn();
 
     pageView("/pricing?ref=home");
-    expect(window.gtag).toHaveBeenCalledWith("config", "G-TEST123", { page_path: "/pricing?ref=home" });
+    expect(window.gtag).toHaveBeenCalledWith("config", "G-TEST123", {
+      page_path: "/pricing?ref=home"
+    });
 
     trackEvent("CTA Clicked", { location: "hero", value: 2, premium: true, ignored: undefined });
     expect(window.gtag).toHaveBeenCalledWith("event", "CTA Clicked", {
@@ -75,4 +77,3 @@ describe("analytics", () => {
     expect(window.plausible).not.toHaveBeenCalled();
   });
 });
-

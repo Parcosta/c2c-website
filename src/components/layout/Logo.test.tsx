@@ -10,4 +10,3 @@ describe("Logo", () => {
     expect(link).toHaveAttribute("href", "/en");
   });
 });
-

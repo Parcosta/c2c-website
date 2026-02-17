@@ -213,4 +213,3 @@ At least quarterly:
 - Restore Sanity export into a new dataset and validate the site against it.
 - Restore secrets into a non-prod AWS account/stack (or a sandbox stack) and ensure CDK can recreate Amplify.
 - Restore Git from a bundle and confirm builds/tests pass.
-

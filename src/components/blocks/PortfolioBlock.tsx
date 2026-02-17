@@ -17,9 +17,7 @@ export async function PortfolioBlock() {
   const locale = await getLocaleFromHeaders();
   const def = buildPortfolioItemsQuery(locale);
 
-  const items = await client
-    .fetch<PortfolioItemValue[]>(def.query, def.params)
-    .catch(() => []);
+  const items = await client.fetch<PortfolioItemValue[]>(def.query, def.params).catch(() => []);
 
   const mapped = items.reduce<PortfolioBlockItem[]>((acc, item, index) => {
     const title = item.title?.trim() || "Untitled";
@@ -27,7 +25,8 @@ export async function PortfolioBlock() {
     if (!slug) return acc;
 
     const imageUrl =
-      getSanityImageUrl(item.images?.[0]) ?? (index % 2 === 0 ? "/preview-1.svg" : "/preview-2.svg");
+      getSanityImageUrl(item.images?.[0]) ??
+      (index % 2 === 0 ? "/preview-1.svg" : "/preview-2.svg");
 
     acc.push({ id: item._id, title, slug, category: item.category ?? null, imageUrl });
     return acc;
@@ -35,4 +34,3 @@ export async function PortfolioBlock() {
 
   return <PortfolioBlockClient items={mapped} />;
 }
-

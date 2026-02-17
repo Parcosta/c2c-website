@@ -15,10 +15,11 @@ describe("HeroBlock", () => {
     );
 
     expect(screen.getByRole("region", { name: "Ship UI with confidence." })).toBeInTheDocument();
-    expect(screen.getByText("Reusable blocks and primitives for a dark-first product.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Reusable blocks and primitives for a dark-first product.")
+    ).toBeInTheDocument();
 
     const cta = screen.getByRole("link", { name: "Get started" });
     expect(cta).toHaveAttribute("href", "/components");
   });
 });
-

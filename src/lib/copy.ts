@@ -154,4 +154,3 @@ const es: SiteCopy = {
 export function getCopy(locale: Locale): SiteCopy {
   return locale === "es" ? es : en;
 }
-

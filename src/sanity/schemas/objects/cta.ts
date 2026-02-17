@@ -9,4 +9,3 @@ export const cta = defineType({
     defineField({ name: "href", title: "URL", type: "url" })
   ]
 });
-

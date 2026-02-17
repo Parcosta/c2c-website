@@ -51,4 +51,3 @@ export function MobileNav({ locale }: MobileNavProps) {
     </div>
   );
 }
-

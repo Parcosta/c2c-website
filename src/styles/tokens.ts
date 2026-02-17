@@ -50,4 +50,3 @@ export const typography = {
     "4xl": ["2.25rem", { lineHeight: "2.5rem" }]
   }
 } as const;
-

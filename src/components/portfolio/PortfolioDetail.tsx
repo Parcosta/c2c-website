@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { PortableText, type PortableTextBlock, type PortableTextComponents } from "@portabletext/react";
+import {
+  PortableText,
+  type PortableTextBlock,
+  type PortableTextComponents
+} from "@portabletext/react";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
@@ -16,22 +20,32 @@ function formatLongDate(value: string | undefined, locale: Locale): string | nul
   if (!value) return null;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return null;
-  return new Intl.DateTimeFormat(locale, { year: "numeric", month: "long", day: "numeric" }).format(date);
+  return new Intl.DateTimeFormat(locale, { year: "numeric", month: "long", day: "numeric" }).format(
+    date
+  );
 }
 
 const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="text-sm leading-7 text-slate-200">{children}</p>,
     h2: ({ children }) => (
-      <h2 className="pt-2 font-display text-lg font-semibold tracking-tight text-slate-50">{children}</h2>
+      <h2 className="pt-2 font-display text-lg font-semibold tracking-tight text-slate-50">
+        {children}
+      </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="pt-2 font-display text-base font-semibold tracking-tight text-slate-50">{children}</h3>
+      <h3 className="pt-2 font-display text-base font-semibold tracking-tight text-slate-50">
+        {children}
+      </h3>
     )
   },
   list: {
-    bullet: ({ children }) => <ul className="list-disc space-y-1 pl-5 text-sm text-slate-200">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal space-y-1 pl-5 text-sm text-slate-200">{children}</ol>
+    bullet: ({ children }) => (
+      <ul className="list-disc space-y-1 pl-5 text-sm text-slate-200">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal space-y-1 pl-5 text-sm text-slate-200">{children}</ol>
+    )
   },
   marks: {
     link: ({ children, value }) => {
@@ -104,11 +118,13 @@ export function PortfolioDetail({ item }: { item: PortfolioDetailItem }) {
       {Array.isArray(item.description) && item.description.length > 0 ? (
         <GlassCard className="p-6">
           <div className="space-y-4">
-            <PortableText value={item.description as PortableTextBlock[]} components={portableTextComponents} />
+            <PortableText
+              value={item.description as PortableTextBlock[]}
+              components={portableTextComponents}
+            />
           </div>
         </GlassCard>
       ) : null}
     </div>
   );
 }
-

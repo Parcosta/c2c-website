@@ -14,4 +14,3 @@ describe("loading", () => {
     expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(5);
   });
 });
-

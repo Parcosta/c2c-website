@@ -45,4 +45,3 @@ gtag('config', '${config.gaId}', { send_page_view: false });
 
   return null;
 }
-

@@ -16,4 +16,3 @@ describe("Section", () => {
     expect(screen.getByTestId("section")).toHaveClass("md:py-24");
   });
 });
-

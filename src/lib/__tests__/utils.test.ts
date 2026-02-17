@@ -17,4 +17,3 @@ describe("cn", () => {
     expect(cn()).toBe("");
   });
 });
-
