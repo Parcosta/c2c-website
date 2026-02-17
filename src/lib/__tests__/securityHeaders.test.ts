@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 type HeaderEntry = { key: string; value: string };
 
@@ -7,7 +9,7 @@ function getHeaderValue(headers: HeaderEntry[], key: string) {
 }
 
 async function loadNextConfig() {
-  const mod = await import(new URL("../../../next.config.js", import.meta.url).href);
+  const mod = await import(pathToFileURL(path.resolve(process.cwd(), "next.config.js")).href);
   return mod.default as {
     headers?: () => Promise<Array<{ source: string; headers: HeaderEntry[] }>>;
   };
