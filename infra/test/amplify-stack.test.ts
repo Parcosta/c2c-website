@@ -16,6 +16,7 @@ function synthStack(overrides: Partial<AmplifyStackProps> = {}) {
       nextPublicSanityProjectId: '/c2c-website/NEXT_PUBLIC_SANITY_PROJECT_ID',
       nextPublicSanityDataset: '/c2c-website/NEXT_PUBLIC_SANITY_DATASET',
       sanityApiToken: '/c2c-website/SANITY_API_TOKEN',
+      sanityWebhookSecret: '/c2c-website/SANITY_WEBHOOK_SECRET',
       resendApiKey: '/c2c-website/RESEND_API_KEY'
     },
     ...overrides
@@ -37,6 +38,7 @@ describe('AmplifyStack', () => {
           Match.objectLike({ Name: 'NEXT_PUBLIC_SANITY_PROJECT_ID', Value: Match.anyValue() }),
           Match.objectLike({ Name: 'NEXT_PUBLIC_SANITY_DATASET', Value: Match.anyValue() }),
           Match.objectLike({ Name: 'SANITY_API_TOKEN', Value: Match.anyValue() }),
+          Match.objectLike({ Name: 'SANITY_WEBHOOK_SECRET', Value: Match.anyValue() }),
           Match.objectLike({ Name: 'RESEND_API_KEY', Value: Match.anyValue() })
         ]),
         BuildSpec: Match.stringLikeRegexp('npm ci')
