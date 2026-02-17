@@ -19,6 +19,14 @@ exports[`AmplifyStack creates a domain mapping when configured 1`] = `
         ],
       },
     },
+    "AmplifySanityRebuildWebhookUrl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SanityRebuildWebhook869E7FE3",
+          "webhook.webhookUrl",
+        ],
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
@@ -36,6 +44,58 @@ exports[`AmplifyStack creates a domain mapping when configured 1`] = `
     },
   },
   "Resources": {
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+      "DependsOn": [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f1ef0b7df9fbd6678b581ed85579e856c8f7832ce4e06e642f2c2421ef37c427.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "AmplifyApp6046A70F": {
       "Properties": {
         "AutoBranchCreationConfig": {
@@ -93,6 +153,10 @@ frontend:
           {
             "Name": "SANITY_API_TOKEN",
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
+          },
+          {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
           },
           {
             "Name": "RESEND_API_KEY",
@@ -204,6 +268,71 @@ frontend:
       },
       "Type": "AWS::Amplify::Branch",
     },
+    "SanityRebuildWebhook869E7FE3": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "SanityRebuildWebhookCustomResourcePolicy5C83A8F9",
+      ],
+      "Properties": {
+        "Create": {
+          "Fn::Join": [
+            "",
+            [
+              "{"service":"Amplify","action":"createWebhook","parameters":{"appId":"",
+              {
+                "Fn::GetAtt": [
+                  "AmplifyApp6046A70F",
+                  "AppId",
+                ],
+              },
+              "","branchName":"main","description":"Trigger Amplify rebuild from Sanity content changes"},"physicalResourceId":{"responsePath":"webhook.webhookId"}}",
+            ],
+          ],
+        },
+        "Delete": "{"service":"Amplify","action":"deleteWebhook","parameters":{"webhookId":"PHYSICAL:RESOURCEID:"}}",
+        "InstallLatestAwsSdk": true,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn",
+          ],
+        },
+        "Update": "{"service":"Amplify","action":"updateWebhook","parameters":{"webhookId":"PHYSICAL:RESOURCEID:","branchName":"main","description":"Trigger Amplify rebuild from Sanity content changes"}}",
+      },
+      "Type": "Custom::AWS",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SanityRebuildWebhookCustomResourcePolicy5C83A8F9": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "amplify:CreateWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "amplify:UpdateWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "amplify:DeleteWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SanityRebuildWebhookCustomResourcePolicy5C83A8F9",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
   },
   "Rules": {
     "CheckBootstrapVersion": {
@@ -254,6 +383,14 @@ exports[`AmplifyStack matches the CloudFormation snapshot (no domain) 1`] = `
         ],
       },
     },
+    "AmplifySanityRebuildWebhookUrl": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SanityRebuildWebhook869E7FE3",
+          "webhook.webhookUrl",
+        ],
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
@@ -271,6 +408,58 @@ exports[`AmplifyStack matches the CloudFormation snapshot (no domain) 1`] = `
     },
   },
   "Resources": {
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+      "DependsOn": [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
+          "S3Key": "f1ef0b7df9fbd6678b581ed85579e856c8f7832ce4e06e642f2c2421ef37c427.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "AmplifyApp6046A70F": {
       "Properties": {
         "AutoBranchCreationConfig": {
@@ -328,6 +517,10 @@ frontend:
           {
             "Name": "SANITY_API_TOKEN",
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
+          },
+          {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
           },
           {
             "Name": "RESEND_API_KEY",
@@ -395,6 +588,71 @@ frontend:
         "Stage": "PRODUCTION",
       },
       "Type": "AWS::Amplify::Branch",
+    },
+    "SanityRebuildWebhook869E7FE3": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "SanityRebuildWebhookCustomResourcePolicy5C83A8F9",
+      ],
+      "Properties": {
+        "Create": {
+          "Fn::Join": [
+            "",
+            [
+              "{"service":"Amplify","action":"createWebhook","parameters":{"appId":"",
+              {
+                "Fn::GetAtt": [
+                  "AmplifyApp6046A70F",
+                  "AppId",
+                ],
+              },
+              "","branchName":"main","description":"Trigger Amplify rebuild from Sanity content changes"},"physicalResourceId":{"responsePath":"webhook.webhookId"}}",
+            ],
+          ],
+        },
+        "Delete": "{"service":"Amplify","action":"deleteWebhook","parameters":{"webhookId":"PHYSICAL:RESOURCEID:"}}",
+        "InstallLatestAwsSdk": true,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn",
+          ],
+        },
+        "Update": "{"service":"Amplify","action":"updateWebhook","parameters":{"webhookId":"PHYSICAL:RESOURCEID:","branchName":"main","description":"Trigger Amplify rebuild from Sanity content changes"}}",
+      },
+      "Type": "Custom::AWS",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SanityRebuildWebhookCustomResourcePolicy5C83A8F9": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "amplify:CreateWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "amplify:UpdateWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "amplify:DeleteWebhook",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SanityRebuildWebhookCustomResourcePolicy5C83A8F9",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
   "Rules": {

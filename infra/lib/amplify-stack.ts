@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as amplify from '@aws-cdk/aws-amplify-alpha';
-import { aws_amplify as amplifyCfn, aws_codebuild as codebuild, aws_ssm as ssm } from 'aws-cdk-lib';
+import { aws_codebuild as codebuild, custom_resources as cr, aws_ssm as ssm } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export type ParameterLookup = {
@@ -117,16 +117,42 @@ export class AmplifyStack extends cdk.Stack {
       }
     }
 
-    const sanityRebuildWebhook = new amplifyCfn.CfnWebhook(this, 'SanityRebuildWebhook', {
-      appId: app.appId,
-      branchName: 'main',
-      description: 'Trigger Amplify rebuild from Sanity content changes'
+    const sanityRebuildWebhook = new cr.AwsCustomResource(this, 'SanityRebuildWebhook', {
+      onCreate: {
+        service: 'Amplify',
+        action: 'createWebhook',
+        parameters: {
+          appId: app.appId,
+          branchName: 'main',
+          description: 'Trigger Amplify rebuild from Sanity content changes'
+        },
+        physicalResourceId: cr.PhysicalResourceId.fromResponse('webhook.webhookId')
+      },
+      onUpdate: {
+        service: 'Amplify',
+        action: 'updateWebhook',
+        parameters: {
+          webhookId: new cr.PhysicalResourceIdReference(),
+          branchName: 'main',
+          description: 'Trigger Amplify rebuild from Sanity content changes'
+        }
+      },
+      onDelete: {
+        service: 'Amplify',
+        action: 'deleteWebhook',
+        parameters: {
+          webhookId: new cr.PhysicalResourceIdReference()
+        }
+      },
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE
+      })
     });
 
     new cdk.CfnOutput(this, 'AmplifyAppId', { value: app.appId });
     new cdk.CfnOutput(this, 'AmplifyDefaultDomain', { value: app.defaultDomain });
     new cdk.CfnOutput(this, 'AmplifySanityRebuildWebhookUrl', {
-      value: sanityRebuildWebhook.attrWebhookUrl
+      value: sanityRebuildWebhook.getResponseField('webhook.webhookUrl')
     });
   }
 }
