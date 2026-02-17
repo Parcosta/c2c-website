@@ -1,73 +1,84 @@
-export type RateLimitResult =
-  | {
-      allowed: true;
-      limit: number;
-      remaining: number;
-      resetAt: number;
-    }
-  | {
-      allowed: false;
-      limit: number;
-      remaining: 0;
-      resetAt: number;
-      retryAfterSeconds: number;
-    };
+export type RateLimitCheckResult = Readonly<{
+  allowed: boolean;
+  limit: number;
+  remaining: number;
+  resetAtMs: number;
+  retryAfterSeconds: number | null;
+}>;
 
-type FixedWindowOptions = {
+export type InMemoryRateLimiter = Readonly<{
+  check: (key: string) => RateLimitCheckResult;
+  reset: () => void;
+}>;
+
+type CreateInMemoryRateLimiterOptions = Readonly<{
+  name: string;
   limit: number;
   windowMs: number;
-  maxEntries?: number;
-};
+}>;
 
-type Entry = {
-  count: number;
-  resetAt: number;
-  lastSeenAt: number;
-};
+type RateLimitEntry = { count: number; resetAtMs: number };
 
-export function createFixedWindowRateLimiter(options: FixedWindowOptions) {
-  const { limit, windowMs, maxEntries = 10_000 } = options;
-  const store = new Map<string, Entry>();
+function getStore(name: string): Map<string, RateLimitEntry> {
+  const globalKey = `__c2cRateLimitStore:${name}`;
+  const globalObj = globalThis as unknown as Record<string, unknown>;
+  const existing = globalObj[globalKey];
+  if (existing instanceof Map) return existing as Map<string, RateLimitEntry>;
+  const created = new Map<string, RateLimitEntry>();
+  globalObj[globalKey] = created;
+  return created;
+}
 
-  function prune(now: number) {
-    if (store.size <= maxEntries) return;
-    for (const [key, entry] of store) {
-      if (entry.resetAt <= now) store.delete(key);
+export function createInMemoryRateLimiter(
+  options: CreateInMemoryRateLimiterOptions
+): InMemoryRateLimiter {
+  const store = getStore(options.name);
+
+  function check(key: string): RateLimitCheckResult {
+    const now = Date.now();
+    const existing = store.get(key);
+
+    if (!existing || now >= existing.resetAtMs) {
+      const resetAtMs = now + options.windowMs;
+      store.set(key, { count: 1, resetAtMs });
+      return {
+        allowed: true,
+        limit: options.limit,
+        remaining: Math.max(0, options.limit - 1),
+        resetAtMs,
+        retryAfterSeconds: null
+      };
     }
-    if (store.size <= maxEntries) return;
-    const entries = Array.from(store.entries()).sort((a, b) => a[1].lastSeenAt - b[1].lastSeenAt);
-    for (const [key] of entries.slice(0, Math.max(1, store.size - maxEntries))) {
-      store.delete(key);
-    }
-  }
 
-  function check(key: string, now = Date.now()): RateLimitResult {
-    const safeKey = key.trim() || "unknown";
-    prune(now);
-
-    const existing = store.get(safeKey);
-    if (existing == null || now > existing.resetAt) {
-      const resetAt = now + windowMs;
-      store.set(safeKey, { count: 1, resetAt, lastSeenAt: now });
-      return { allowed: true, limit, remaining: Math.max(0, limit - 1), resetAt };
+    if (existing.count >= options.limit) {
+      const retryAfterSeconds = Math.max(
+        0,
+        Math.ceil((existing.resetAtMs - now) / 1000)
+      );
+      return {
+        allowed: false,
+        limit: options.limit,
+        remaining: 0,
+        resetAtMs: existing.resetAtMs,
+        retryAfterSeconds
+      };
     }
 
-    existing.lastSeenAt = now;
     existing.count += 1;
-
-    const remaining = Math.max(0, limit - existing.count);
-    if (existing.count <= limit) {
-      return { allowed: true, limit, remaining, resetAt: existing.resetAt };
-    }
-
-    const retryAfterSeconds = Math.max(0, Math.ceil((existing.resetAt - now) / 1000));
-    return { allowed: false, limit, remaining: 0, resetAt: existing.resetAt, retryAfterSeconds };
+    store.set(key, existing);
+    return {
+      allowed: true,
+      limit: options.limit,
+      remaining: Math.max(0, options.limit - existing.count),
+      resetAtMs: existing.resetAtMs,
+      retryAfterSeconds: null
+    };
   }
 
-  function clear() {
+  function reset() {
     store.clear();
   }
 
-  return { check, clear };
+  return { check, reset };
 }
 

@@ -1,102 +1,115 @@
 import { NextResponse } from "next/server";
 
-import { buildSiteSettingsQuery } from "@/sanity/queries";
-import { client } from "@/sanity/client";
-import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
-import {
-  buildContactFormNotificationEmail,
-  buildContactFormReceiptEmail,
-  sendEmail
-} from "@/lib/email";
+import { sendContactEmail } from "@/lib/email/sendContactEmail";
+import { createInMemoryRateLimiter } from "@/lib/rateLimit";
+import { contactFormSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
 
-type ContactRequestBody = {
-  name?: unknown;
-  email?: unknown;
-  message?: unknown;
-  locale?: unknown;
-};
+export const __contactRateLimiter = createInMemoryRateLimiter({
+  name: "api:contact",
+  limit: 5,
+  windowMs: 10 * 60 * 1000
+});
 
-function isNonEmptyString(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0;
+function getClientIp(request: Request): string | null {
+  const xForwardedFor = request.headers.get("x-forwarded-for");
+  if (xForwardedFor) return xForwardedFor.split(",")[0]?.trim() ?? null;
+  const xRealIp = request.headers.get("x-real-ip");
+  if (xRealIp) return xRealIp.trim();
+  return null;
 }
 
-function isValidEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+function rateLimitHeaders(result: ReturnType<typeof __contactRateLimiter.check>) {
+  return {
+    "X-RateLimit-Limit": String(result.limit),
+    "X-RateLimit-Remaining": String(result.remaining),
+    "X-RateLimit-Reset": String(Math.floor(result.resetAtMs / 1000))
+  };
 }
 
-async function getContactToEmail(locale: Locale): Promise<string | null> {
-  try {
-    const definition = buildSiteSettingsQuery(locale);
-    const settings = await client.fetch(definition.query, definition.params);
-    if (settings?.contactEmail && isNonEmptyString(settings.contactEmail)) return settings.contactEmail.trim();
-  } catch {
-    // Ignore and fallback to env.
-  }
+export async function POST(request: Request) {
+  const clientIp = getClientIp(request) ?? "unknown";
+  const rate = __contactRateLimiter.check(clientIp);
 
-  const fallback = process.env.CONTACT_TO_EMAIL;
-  return isNonEmptyString(fallback) ? fallback.trim() : null;
-}
-
-export async function POST(req: Request) {
-  let json: ContactRequestBody;
-  try {
-    json = (await req.json()) as ContactRequestBody;
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
-  }
-
-  const name = isNonEmptyString(json.name) ? json.name.trim() : null;
-  const email = isNonEmptyString(json.email) ? json.email.trim() : null;
-  const message = isNonEmptyString(json.message) ? json.message.trim() : null;
-
-  const localeRaw = isNonEmptyString(json.locale) ? json.locale.trim() : null;
-  const locale = localeRaw && isLocale(localeRaw) ? localeRaw : defaultLocale;
-
-  if (!name || !email || !message) {
+  if (!rate.allowed) {
+    const retryAfter = rate.retryAfterSeconds ?? 0;
     return NextResponse.json(
-      { error: "Missing required fields: name, email, message." },
-      { status: 400 }
+      {
+        ok: false,
+        error: {
+          code: "RATE_LIMITED",
+          message: "Too many requests. Please try again later."
+        }
+      },
+      {
+        status: 429,
+        headers: {
+          ...rateLimitHeaders(rate),
+          "Retry-After": String(retryAfter)
+        }
+      }
     );
   }
 
-  if (!isValidEmail(email)) {
-    return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: {
+          code: "INVALID_JSON",
+          message: "Request body must be valid JSON."
+        }
+      },
+      { status: 400, headers: rateLimitHeaders(rate) }
+    );
   }
 
-  const contactToEmail = await getContactToEmail(locale);
-  if (!contactToEmail) {
+  const parsed = contactFormSchema.safeParse(body);
+  if (!parsed.success) {
+    const flattened = parsed.error.flatten();
     return NextResponse.json(
-      { error: "Contact destination email is not configured." },
-      { status: 500 }
+      {
+        ok: false,
+        error: {
+          code: "VALIDATION_ERROR",
+          message: "Invalid form submission.",
+          fieldErrors: flattened.fieldErrors,
+          formErrors: flattened.formErrors
+        }
+      },
+      { status: 400, headers: rateLimitHeaders(rate) }
     );
   }
 
   try {
-    const notification = buildContactFormNotificationEmail({ name, email, message });
-    await sendEmail({
-      to: contactToEmail,
-      subject: notification.subject,
-      html: notification.html,
-      text: notification.text,
-      replyTo: email
+    await sendContactEmail({
+      data: parsed.data,
+      clientIp: clientIp === "unknown" ? null : clientIp,
+      userAgent: request.headers.get("user-agent")
     });
-
-    const receipt = buildContactFormReceiptEmail({ name, message });
-    await sendEmail({
-      to: email,
-      subject: receipt.subject,
-      html: receipt.html,
-      text: receipt.text,
-      replyTo: contactToEmail
-    });
-
-    return NextResponse.json({ ok: true });
+    return NextResponse.json(
+      { ok: true },
+      {
+        status: 200,
+        headers: rateLimitHeaders(rate)
+      }
+    );
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to send email. Please try again later.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("Failed to send contact email", error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: {
+          code: "EMAIL_FAILED",
+          message: "Failed to send message. Please try again later."
+        }
+      },
+      { status: 500, headers: rateLimitHeaders(rate) }
+    );
   }
 }
 
