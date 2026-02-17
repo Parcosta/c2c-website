@@ -1,0 +1,13 @@
+node_modules/
+dist/
+cdk.out/
+coverage/
+
+infra/node_modules/
+infra/dist/
+infra/cdk.out/
+infra/coverage/
+
+*.log
+.DS_Store
+
