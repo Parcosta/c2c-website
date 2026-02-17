@@ -38,6 +38,7 @@ describe("Sanity GROQ query builders", () => {
     const def = buildServicesQuery("es");
     expect(def.params).toEqual({ locale: "es" });
     expect(def.query).toContain('*[_type == "service"]');
+    expect(def.query).toContain('"pricing": pricing[$locale]');
     expect(def.query).toContain('"features": features[][$locale]');
   });
 

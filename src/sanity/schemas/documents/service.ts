@@ -8,6 +8,12 @@ export const service = defineType({
     defineField({ name: "title", title: "Title", type: "localeString" }),
     defineField({ name: "description", title: "Description", type: "localeText" }),
     defineField({
+      name: "pricing",
+      title: "Pricing",
+      type: "localeString",
+      description: "Optional pricing label (e.g. “Starting at $2,500”, “Custom quote”)."
+    }),
+    defineField({
       name: "icon",
       title: "Icon",
       type: "string",
