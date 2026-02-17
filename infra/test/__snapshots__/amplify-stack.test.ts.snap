@@ -95,6 +95,10 @@ frontend:
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
           },
           {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
+          },
+          {
             "Name": "RESEND_API_KEY",
             "Value": "{{resolve:ssm-secure:/c2c-website/RESEND_API_KEY}}",
           },
@@ -328,6 +332,10 @@ frontend:
           {
             "Name": "SANITY_API_TOKEN",
             "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
+          },
+          {
+            "Name": "SANITY_WEBHOOK_SECRET",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_WEBHOOK_SECRET}}",
           },
           {
             "Name": "RESEND_API_KEY",
