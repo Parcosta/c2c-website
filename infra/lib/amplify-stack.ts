@@ -1,0 +1,109 @@
+import * as cdk from 'aws-cdk-lib';
+import * as amplify from '@aws-cdk/aws-amplify-alpha';
+import { aws_codebuild as codebuild, aws_ssm as ssm } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+export type ParameterLookup = {
+  nextPublicSanityProjectId: string;
+  nextPublicSanityDataset: string;
+  sanityApiToken: string;
+  resendApiKey: string;
+};
+
+export type GitHubSource = {
+  owner: string;
+  repo: string;
+  oauthTokenSecretName: string;
+};
+
+export type DomainConfig = {
+  name?: string;
+  enableWww?: boolean;
+};
+
+export interface AmplifyStackProps extends cdk.StackProps {
+  github: GitHubSource;
+  parameters: ParameterLookup;
+  domain?: DomainConfig;
+}
+
+function requiredParameter(scope: Construct, parameterName: string, secure: boolean): string {
+  if (!parameterName || parameterName.trim().length === 0) {
+    throw new Error('Parameter name must be a non-empty string.');
+  }
+  if (secure) {
+    return cdk.SecretValue.ssmSecure(parameterName).toString();
+  }
+  return ssm.StringParameter.valueForStringParameter(scope, parameterName);
+}
+
+export class AmplifyStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: AmplifyStackProps) {
+    super(scope, id, props);
+
+    const buildSpec = codebuild.BuildSpec.fromObjectToYaml({
+      version: 1,
+      frontend: {
+        phases: {
+          preBuild: {
+            commands: ['npm ci']
+          },
+          build: {
+            commands: ['npm run build']
+          }
+        },
+        artifacts: {
+          baseDirectory: '.next',
+          files: ['**/*']
+        },
+        cache: {
+          paths: ['node_modules/**/*', '.next/cache/**/*']
+        }
+      }
+    });
+
+    const app = new amplify.App(this, 'AmplifyApp', {
+      platform: amplify.Platform.WEB_COMPUTE,
+      sourceCodeProvider: new amplify.GitHubSourceCodeProvider({
+        owner: props.github.owner,
+        repository: props.github.repo,
+        oauthToken: cdk.SecretValue.secretsManager(props.github.oauthTokenSecretName)
+      }),
+      buildSpec,
+      autoBranchDeletion: true,
+      autoBranchCreation: {
+        patterns: ['*']
+      },
+      environmentVariables: {
+        NEXT_PUBLIC_SANITY_PROJECT_ID: requiredParameter(
+          this,
+          props.parameters.nextPublicSanityProjectId,
+          false
+        ),
+        NEXT_PUBLIC_SANITY_DATASET: requiredParameter(
+          this,
+          props.parameters.nextPublicSanityDataset,
+          false
+        ),
+        SANITY_API_TOKEN: requiredParameter(this, props.parameters.sanityApiToken, true),
+        RESEND_API_KEY: requiredParameter(this, props.parameters.resendApiKey, true)
+      }
+    });
+
+    const main = app.addBranch('main', {
+      stage: 'PRODUCTION'
+    });
+
+    if (props.domain?.name) {
+      const domain = app.addDomain(props.domain.name);
+      domain.mapRoot(main);
+      if (props.domain.enableWww) {
+        domain.mapSubDomain(main, 'www');
+      }
+    }
+
+    new cdk.CfnOutput(this, 'AmplifyAppId', { value: app.appId });
+    new cdk.CfnOutput(this, 'AmplifyDefaultDomain', { value: app.defaultDomain });
+  }
+}
+

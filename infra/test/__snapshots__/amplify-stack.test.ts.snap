@@ -1,0 +1,428 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AmplifyStack creates a domain mapping when configured 1`] = `
+{
+  "Outputs": {
+    "AmplifyAppId": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AmplifyApp6046A70F",
+          "AppId",
+        ],
+      },
+    },
+    "AmplifyDefaultDomain": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AmplifyApp6046A70F",
+          "DefaultDomain",
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/NEXT_PUBLIC_SANITY_DATASET",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYPROJECTIDC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/NEXT_PUBLIC_SANITY_PROJECT_ID",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AmplifyApp6046A70F": {
+      "Properties": {
+        "AutoBranchCreationConfig": {
+          "AutoBranchCreationPatterns": [
+            "*",
+          ],
+          "BasicAuthConfig": {
+            "EnableBasicAuth": false,
+          },
+          "EnableAutoBranchCreation": true,
+          "EnableAutoBuild": true,
+          "EnablePullRequestPreview": true,
+        },
+        "BasicAuthConfig": {
+          "EnableBasicAuth": false,
+        },
+        "BuildSpec": "version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+",
+        "ComputeRoleArn": {
+          "Fn::GetAtt": [
+            "AmplifyAppComputeRoleF4BAE34C",
+            "Arn",
+          ],
+        },
+        "EnableBranchAutoDeletion": true,
+        "EnvironmentVariables": [
+          {
+            "Name": "NEXT_PUBLIC_SANITY_PROJECT_ID",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYPROJECTIDC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "NEXT_PUBLIC_SANITY_DATASET",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "SANITY_API_TOKEN",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
+          },
+          {
+            "Name": "RESEND_API_KEY",
+            "Value": "{{resolve:ssm-secure:/c2c-website/RESEND_API_KEY}}",
+          },
+        ],
+        "IAMServiceRole": {
+          "Fn::GetAtt": [
+            "AmplifyAppRole0364E92A",
+            "Arn",
+          ],
+        },
+        "Name": "AmplifyApp",
+        "OauthToken": "{{resolve:secretsmanager:github/token:SecretString:::}}",
+        "Platform": "WEB_COMPUTE",
+        "Repository": "https://github.com/example/repo",
+      },
+      "Type": "AWS::Amplify::App",
+    },
+    "AmplifyAppComputeRoleF4BAE34C": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "amplify.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AmplifyAppRole0364E92A": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "amplify.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AmplifyAppexamplecomB7B461E0": {
+      "Properties": {
+        "AppId": {
+          "Fn::GetAtt": [
+            "AmplifyApp6046A70F",
+            "AppId",
+          ],
+        },
+        "AutoSubDomainCreationPatterns": [
+          "*",
+          "pr*",
+        ],
+        "AutoSubDomainIAMRole": {
+          "Fn::GetAtt": [
+            "AmplifyAppRole0364E92A",
+            "Arn",
+          ],
+        },
+        "DomainName": "example.com",
+        "EnableAutoSubDomain": false,
+        "SubDomainSettings": [
+          {
+            "BranchName": {
+              "Fn::GetAtt": [
+                "AmplifyAppmainB68AA376",
+                "BranchName",
+              ],
+            },
+            "Prefix": "",
+          },
+          {
+            "BranchName": {
+              "Fn::GetAtt": [
+                "AmplifyAppmainB68AA376",
+                "BranchName",
+              ],
+            },
+            "Prefix": "www",
+          },
+        ],
+      },
+      "Type": "AWS::Amplify::Domain",
+    },
+    "AmplifyAppmainB68AA376": {
+      "Properties": {
+        "AppId": {
+          "Fn::GetAtt": [
+            "AmplifyApp6046A70F",
+            "AppId",
+          ],
+        },
+        "BranchName": "main",
+        "EnableAutoBuild": true,
+        "EnablePullRequestPreview": true,
+        "Stage": "PRODUCTION",
+      },
+      "Type": "AWS::Amplify::Branch",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`AmplifyStack matches the CloudFormation snapshot (no domain) 1`] = `
+{
+  "Outputs": {
+    "AmplifyAppId": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AmplifyApp6046A70F",
+          "AppId",
+        ],
+      },
+    },
+    "AmplifyDefaultDomain": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AmplifyApp6046A70F",
+          "DefaultDomain",
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/NEXT_PUBLIC_SANITY_DATASET",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYPROJECTIDC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/c2c-website/NEXT_PUBLIC_SANITY_PROJECT_ID",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AmplifyApp6046A70F": {
+      "Properties": {
+        "AutoBranchCreationConfig": {
+          "AutoBranchCreationPatterns": [
+            "*",
+          ],
+          "BasicAuthConfig": {
+            "EnableBasicAuth": false,
+          },
+          "EnableAutoBranchCreation": true,
+          "EnableAutoBuild": true,
+          "EnablePullRequestPreview": true,
+        },
+        "BasicAuthConfig": {
+          "EnableBasicAuth": false,
+        },
+        "BuildSpec": "version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+",
+        "ComputeRoleArn": {
+          "Fn::GetAtt": [
+            "AmplifyAppComputeRoleF4BAE34C",
+            "Arn",
+          ],
+        },
+        "EnableBranchAutoDeletion": true,
+        "EnvironmentVariables": [
+          {
+            "Name": "NEXT_PUBLIC_SANITY_PROJECT_ID",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYPROJECTIDC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "NEXT_PUBLIC_SANITY_DATASET",
+            "Value": {
+              "Ref": "SsmParameterValuec2cwebsiteNEXTPUBLICSANITYDATASETC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+          {
+            "Name": "SANITY_API_TOKEN",
+            "Value": "{{resolve:ssm-secure:/c2c-website/SANITY_API_TOKEN}}",
+          },
+          {
+            "Name": "RESEND_API_KEY",
+            "Value": "{{resolve:ssm-secure:/c2c-website/RESEND_API_KEY}}",
+          },
+        ],
+        "IAMServiceRole": {
+          "Fn::GetAtt": [
+            "AmplifyAppRole0364E92A",
+            "Arn",
+          ],
+        },
+        "Name": "AmplifyApp",
+        "OauthToken": "{{resolve:secretsmanager:github/token:SecretString:::}}",
+        "Platform": "WEB_COMPUTE",
+        "Repository": "https://github.com/example/repo",
+      },
+      "Type": "AWS::Amplify::App",
+    },
+    "AmplifyAppComputeRoleF4BAE34C": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "amplify.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AmplifyAppRole0364E92A": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "amplify.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AmplifyAppmainB68AA376": {
+      "Properties": {
+        "AppId": {
+          "Fn::GetAtt": [
+            "AmplifyApp6046A70F",
+            "AppId",
+          ],
+        },
+        "BranchName": "main",
+        "EnableAutoBuild": true,
+        "EnablePullRequestPreview": true,
+        "Stage": "PRODUCTION",
+      },
+      "Type": "AWS::Amplify::Branch",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
