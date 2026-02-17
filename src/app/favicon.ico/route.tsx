@@ -2,7 +2,11 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-function wrapPngAsIco(pngBytes: Uint8Array, width: number, height: number): Uint8Array {
+function wrapPngAsIco(
+  pngBytes: Uint8Array<ArrayBuffer>,
+  width: number,
+  height: number
+): Uint8Array<ArrayBuffer> {
   const headerSize = 6;
   const entrySize = 16;
   const imageOffset = headerSize + entrySize;
@@ -49,8 +53,9 @@ export async function GET() {
 
   const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
   const icoBytes = wrapPngAsIco(pngBytes, 32, 32);
+  const body = new Blob([icoBytes], { type: "image/x-icon" });
 
-  return new Response(icoBytes, {
+  return new Response(body, {
     headers: {
       "Content-Type": "image/x-icon",
       "Cache-Control": "public, max-age=31536000, immutable"
