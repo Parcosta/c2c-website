@@ -9,14 +9,14 @@ import { isLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 import { assertSanityConfig } from "@/sanity/config";
-import { client } from "@/sanity/client";
+import { getClient } from "@/sanity/client";
 import { getSanityImageUrl } from "@/sanity/image";
 import { buildPortfolioItemBySlugQuery, type PortfolioItemValue } from "@/sanity/queries";
 
 async function getPortfolioItem(locale: Locale, slug: string) {
   assertSanityConfig();
   const def = buildPortfolioItemBySlugQuery(locale, slug);
-  return client.fetch<PortfolioItemValue | null>(def.query, def.params, {
+  return getClient().fetch<PortfolioItemValue | null>(def.query, def.params, {
     next: { revalidate: 60 }
   });
 }

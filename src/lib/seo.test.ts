@@ -54,7 +54,7 @@ describe("seo", () => {
       es: "/es/components"
     });
     expect(meta.openGraph?.siteName).toBe("Coast2Coast (C2C)");
-    expect(meta.twitter?.card).toBe("summary_large_image");
+    expect((meta.twitter as Record<string, unknown>)?.card).toBe("summary_large_image");
   });
 
   it("serializeJsonLd escapes HTML-sensitive characters", () => {

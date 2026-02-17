@@ -9,7 +9,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { client } from "@/sanity/client";
+import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
 import { buildUpcomingEventsQuery, type EventValue } from "@/sanity/queries";
 
@@ -165,7 +165,7 @@ export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockP
   if (!isSanityConfigured()) return null;
 
   const def = buildUpcomingEventsQuery(locale);
-  const events = await client
+  const events = await getClient()
     .fetch<EventValue[]>(def.query, def.params, {
       next: { revalidate: 60 }
     })

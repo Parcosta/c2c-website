@@ -45,7 +45,7 @@ describe("next.config security headers", () => {
   it("does not allow unsafe-eval in production CSP", async () => {
     const previousNodeEnv = process.env.NODE_ENV;
     try {
-      process.env.NODE_ENV = "production";
+      (process.env as Record<string, string | undefined>).NODE_ENV = "production";
       vi.resetModules();
 
       const nextConfig = await loadNextConfig();
@@ -54,7 +54,7 @@ describe("next.config security headers", () => {
       const csp = getHeaderValue(globalRule!.headers, "Content-Security-Policy") ?? "";
       expect(csp).not.toContain("'unsafe-eval'");
     } finally {
-      process.env.NODE_ENV = previousNodeEnv;
+      (process.env as Record<string, string | undefined>).NODE_ENV = previousNodeEnv;
       vi.resetModules();
     }
   });
