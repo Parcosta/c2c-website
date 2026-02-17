@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import { DM_Sans, Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
+import { Analytics } from "@/components/Analytics";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -29,6 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang={locale} className="dark">
       <body className={`${inter.variable} ${dmSans.variable} antialiased bg-slate-950 text-slate-50`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
