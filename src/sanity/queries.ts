@@ -97,6 +97,44 @@ export type SiteSettingsValue = {
   contactEmail?: string;
 };
 
+export type FileAssetValue = {
+  url?: string;
+  filename?: string;
+};
+
+export type PressPhotoValue = {
+  _key: string;
+  title?: string;
+  imageUrl?: string;
+  filename?: string;
+};
+
+export type PressDownloadValue = {
+  _key: string;
+  title?: string;
+  url?: string;
+  filename?: string;
+};
+
+export type PressPageValue = {
+  _id: string;
+  title?: string;
+  bio?: unknown;
+  pressPhotos?: PressPhotoValue[];
+  pressKitAssets?: PressDownloadValue[];
+  techRider?: FileAssetValue | null;
+  stagePlot?: FileAssetValue | null;
+  bookingsEmail?: string;
+  bookingsPhone?: string;
+  seo?: SeoValue;
+};
+
+export type PressEpkValue = {
+  pressPage: PressPageValue | null;
+  pressMentions: PressItemValue[];
+  siteSettings: SiteSettingsValue | null;
+};
+
 export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
   return {
     query: groq`*[_type == "page" && slug[$locale].current == $slug][0]{
@@ -229,6 +267,62 @@ export function buildSiteSettingsQuery(
       logo,
       socialLinks,
       contactEmail
+    }`,
+    params: { locale }
+  };
+}
+
+export function buildPressEpkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, PressEpkValue> {
+  return {
+    query: groq`{
+      "pressPage": *[_type == "pressPage"][0]{
+        _id,
+        "title": title[$locale],
+        "bio": bio[$locale],
+        bookingsEmail,
+        bookingsPhone,
+        "pressPhotos": pressPhotos[]{
+          _key,
+          "title": title[$locale],
+          "imageUrl": image.asset->url,
+          "filename": image.asset->originalFilename
+        },
+        "pressKitAssets": pressKitAssets[]{
+          _key,
+          "title": title[$locale],
+          "url": file.asset->url,
+          "filename": file.asset->originalFilename
+        },
+        "techRider": techRider.asset->{
+          "url": url,
+          "filename": originalFilename
+        },
+        "stagePlot": stagePlot.asset->{
+          "url": url,
+          "filename": originalFilename
+        },
+        seo{
+          "title": title[$locale],
+          "description": description[$locale],
+          image
+        }
+      },
+      "pressMentions": *[_type == "pressItem"]|order(date desc){
+        _id,
+        "title": title[$locale],
+        "publication": publication[$locale],
+        date,
+        url,
+        "quote": quote[$locale],
+        image
+      },
+      "siteSettings": *[_type == "siteSettings"][0]{
+        _id,
+        "siteName": siteName[$locale],
+        logo,
+        socialLinks,
+        contactEmail
+      }
     }`,
     params: { locale }
   };
