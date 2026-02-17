@@ -27,10 +27,16 @@ vi.mock("next/image", () => ({
 }));
 
 vi.mock("next/link", () => ({
-  default: React.forwardRef<
-    HTMLAnchorElement,
-    { href: string; children: React.ReactNode; [key: string]: unknown }
-  >(({ href, children, ...props }, ref) => React.createElement("a", { ref, href, ...props }, children))
+  default: (() => {
+    const MockedLink = React.forwardRef<
+      HTMLAnchorElement,
+      { href: string; children: React.ReactNode; [key: string]: unknown }
+    >(({ href, children, ...props }, ref) =>
+      React.createElement("a", { ref, href, ...props }, children)
+    );
+    MockedLink.displayName = "MockedNextLink";
+    return MockedLink;
+  })()
 }));
 
 vi.mock("next/navigation", () => ({

@@ -32,7 +32,7 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
   });
 }
 
-export default function HomePage({ params }: { params: { locale: Locale } }) {
+export default function HomePage() {
   const org = createOrganizationJsonLd({ name: "Coast2Coast" });
   const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
 
