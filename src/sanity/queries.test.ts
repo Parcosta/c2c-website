@@ -18,7 +18,8 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "en", slug: "home" });
     expect(def.query).toContain('*[_type == "page"');
     expect(def.query).toContain('"title": title[$locale]');
-    expect(def.query).toContain('"body": body[$locale]');
+    expect(def.query).toContain('"body": body[$locale][]');
+    expect(def.query).toContain('_type == "servicesBlock"');
   });
 
   it("builds portfolio items query", () => {

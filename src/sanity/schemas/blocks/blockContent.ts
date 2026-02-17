@@ -32,7 +32,8 @@ export const blockContent = defineType({
         ]
       }
     }),
-    defineArrayMember({ type: "image", options: { hotspot: true } })
+    defineArrayMember({ type: "image", options: { hotspot: true } }),
+    defineArrayMember({ type: "servicesBlock" })
   ]
 });
 
