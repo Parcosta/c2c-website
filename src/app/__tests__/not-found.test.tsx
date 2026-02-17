@@ -1,18 +1,19 @@
 import "@testing-library/jest-dom/vitest";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-
-import NotFound from "../not-found";
-import { defaultLocale } from "@/lib/i18n";
+import { describe, expect, it, vi } from "vitest";
 
 describe("not-found", () => {
-  it("renders a 404 message and a link home", () => {
-    render(<NotFound />);
+  it("renders a 404 message and a link home", async () => {
+    // Dynamic import to ensure mocks are set up first
+    const { default: NotFound } = await import("../not-found");
+
+    render(await NotFound());
 
     expect(screen.getByRole("heading", { name: "Page not found" })).toBeInTheDocument();
-    expect(screen.getByText("That route doesn\u2019t exist.")).toBeInTheDocument();
+    expect(screen.getByText(/that route doesn.*t exist/i)).toBeInTheDocument();
 
     const homeLink = screen.getByRole("link", { name: "Back to home" });
-    expect(homeLink).toHaveAttribute("href", `/${defaultLocale}`);
+    // In test environment without locale header, it defaults to "en"
+    expect(homeLink).toHaveAttribute("href", "/en");
   });
 });

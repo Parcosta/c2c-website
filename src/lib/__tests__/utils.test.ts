@@ -8,8 +8,8 @@ describe("cn", () => {
   });
 
   it("handles conditional classes", () => {
-    expect(cn("text-slate-200", false && "hidden", true && "font-semibold")).toBe(
-      "text-slate-200 font-semibold"
+    expect(cn("text-gray-200", false && "hidden", true && "font-semibold")).toBe(
+      "text-gray-200 font-semibold"
     );
   });
 

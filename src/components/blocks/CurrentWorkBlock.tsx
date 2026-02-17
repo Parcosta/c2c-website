@@ -41,7 +41,7 @@ export function CurrentWorkBlock({
       <SectionHeading title={heading} subtitle={subtitle} />
       <GlassCard className="overflow-hidden">
         <div className="grid gap-6 p-5 md:grid-cols-2 md:gap-8 md:p-8">
-          <div className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/40">
+          <div className="relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900/40">
             <div className="relative aspect-[16/10] w-full">
               {project?.media?.kind === "video" ? (
                 <video
@@ -63,7 +63,7 @@ export function CurrentWorkBlock({
                 />
               ) : (
                 <div
-                  className="absolute inset-0 grid place-items-center text-sm text-slate-400"
+                  className="absolute inset-0 grid place-items-center text-sm text-gray-400"
                   data-testid="current-work-media-empty"
                 >
                   No media yet
@@ -74,24 +74,22 @@ export function CurrentWorkBlock({
 
           <div className="space-y-3">
             <div className="space-y-2">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
                 Latest project
               </p>
-              <h3 className="font-display text-2xl font-semibold tracking-tight text-slate-50">
+              <h3 className="font-display text-header text-gray-100">
                 {project?.title ?? "Coming soon"}
               </h3>
             </div>
 
             {project?.description && isPortableTextValue(project.description) ? (
-              <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-p:text-slate-300">
+              <div className="prose prose-invert max-w-none prose-p:text-body prose-p:text-gray-400">
                 <PortableText value={project.description as PortableTextBlock[]} />
               </div>
             ) : project?.description ? (
-              <p className="text-sm leading-relaxed text-slate-300">
-                {String(project.description)}
-              </p>
+              <p className="text-body text-gray-400">{String(project.description)}</p>
             ) : (
-              <p className="text-sm leading-relaxed text-slate-300">
+              <p className="text-body text-gray-400">
                 I’m currently working on the next piece in my portfolio. Check back soon for
                 updates.
               </p>

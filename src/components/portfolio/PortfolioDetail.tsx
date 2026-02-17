@@ -27,24 +27,20 @@ function formatLongDate(value: string | undefined, locale: Locale): string | nul
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    normal: ({ children }) => <p className="text-sm leading-7 text-slate-200">{children}</p>,
+    normal: ({ children }) => <p className="text-small text-gray-200">{children}</p>,
     h2: ({ children }) => (
-      <h2 className="pt-2 font-display text-lg font-semibold tracking-tight text-slate-50">
-        {children}
-      </h2>
+      <h2 className="pt-2 font-display text-subheader text-gray-100">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="pt-2 font-display text-base font-semibold tracking-tight text-slate-50">
-        {children}
-      </h3>
+      <h3 className="pt-2 font-display text-body font-semibold text-gray-100">{children}</h3>
     )
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="list-disc space-y-1 pl-5 text-sm text-slate-200">{children}</ul>
+      <ul className="list-disc space-y-1 pl-5 text-small text-gray-200">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal space-y-1 pl-5 text-sm text-slate-200">{children}</ol>
+      <ol className="list-decimal space-y-1 pl-5 text-small text-gray-200">{children}</ol>
     )
   },
   marks: {
@@ -72,7 +68,7 @@ export function PortfolioDetail({ item }: { item: PortfolioDetailItem }) {
       <div className="space-y-4">
         <Link
           href={addLocaleToPathname("/portfolio", item.locale)}
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+          className="text-small text-muted-foreground underline-offset-4 hover:underline"
         >
           Back to portfolio
         </Link>

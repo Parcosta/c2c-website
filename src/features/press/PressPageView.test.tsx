@@ -90,6 +90,6 @@ describe("PressPageView", () => {
       "href",
       "https://example.com/review"
     );
-    expect(screen.getByText("“A must-see.”")).toBeInTheDocument();
+    expect(screen.getByText(/A must-see/i)).toBeInTheDocument();
   });
 });

@@ -14,9 +14,9 @@ describe("AnimatedButton", () => {
     expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
   });
 
-  it("applies shadcn variant styles", () => {
+  it("applies button variant styles", () => {
     render(<AnimatedButton variant="destructive">Delete</AnimatedButton>);
-    expect(screen.getByRole("button", { name: "Delete" })).toHaveClass("bg-destructive");
+    expect(screen.getByRole("button", { name: "Delete" })).toHaveClass("bg-red-500");
   });
 
   it("can disable glow effect", () => {

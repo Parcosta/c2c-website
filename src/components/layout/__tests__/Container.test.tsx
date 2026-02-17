@@ -17,7 +17,12 @@ describe("Container", () => {
 
   it("merges className", () => {
     render(<Container data-testid="container" className="bg-brand-accent" />);
-    expect(screen.getByTestId("container")).toHaveClass("max-w-7xl");
+    expect(screen.getByTestId("container")).toHaveClass("mx-auto");
     expect(screen.getByTestId("container")).toHaveClass("bg-brand-accent");
+    // Container now uses CSS variable for max-width (1200px per Figma specs)
+    expect(screen.getByTestId("container")).toHaveAttribute(
+      "style",
+      expect.stringContaining("max-width")
+    );
   });
 });

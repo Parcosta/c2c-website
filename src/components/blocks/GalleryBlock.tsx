@@ -24,6 +24,10 @@ export interface GalleryBlockProps {
   className?: string;
 }
 
+// Figma specs: 258px cards, 40px gaps
+const FIGMA_CARD_WIDTH = 258;
+const FIGMA_GAP = 40;
+
 function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: () => void }) {
   const imageUrl = getSanityImageUrl(image.src, { width: 600 });
 
@@ -32,9 +36,11 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
       type="button"
       onClick={onClick}
       className={cn(
-        "group relative aspect-square overflow-hidden rounded-lg bg-slate-900",
+        // Figma specs: 258px cards with rounded corners
+        "group relative w-full overflow-hidden rounded-lg bg-gray-900",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
       )}
+      style={{ aspectRatio: "1/1" }}
       data-testid={`gallery-image-${image._id}`}
     >
       {imageUrl ? (
@@ -42,18 +48,16 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
           src={imageUrl}
           alt={image.alt || ""}
           fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className={cn("object-cover transition-transform duration-500", "group-hover:scale-105")}
           loading="lazy"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-slate-500">
-          No image
-        </div>
+        <div className="flex h-full w-full items-center justify-center text-gray-400">No image</div>
       )}
       <div
         className={cn(
-          "absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent",
+          "absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent",
           "opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         )}
       />
@@ -111,7 +115,7 @@ function Lightbox({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         className={cn(
-          "max-w-[95vw] max-h-[95vh] p-0 border-none bg-slate-950/95",
+          "max-w-[95vw] max-h-[95vh] p-0 border-none bg-gray-950/95",
           "flex items-center justify-center"
         )}
         data-testid="gallery-lightbox"
@@ -129,7 +133,7 @@ function Lightbox({
           onClick={onClose}
           className={cn(
             "absolute top-4 right-4 z-50 p-2 rounded-full",
-            "bg-slate-900/80 text-slate-100 hover:bg-slate-800",
+            "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
             "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
           )}
           aria-label="Close lightbox"
@@ -145,7 +149,7 @@ function Lightbox({
             onClick={onPrevious}
             className={cn(
               "absolute left-4 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full",
-              "bg-slate-900/80 text-slate-100 hover:bg-slate-800",
+              "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
               "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             )}
             aria-label="Previous image"
@@ -168,19 +172,19 @@ function Lightbox({
               priority
             />
           ) : (
-            <div className="flex h-64 w-64 items-center justify-center text-slate-500">
+            <div className="flex h-64 w-64 items-center justify-center text-gray-1000">
               No image available
             </div>
           )}
 
           {currentImage.caption && (
-            <p className="mt-4 text-center text-sm text-slate-300 max-w-2xl">
+            <p className="mt-4 text-center text-sm text-gray-400 max-w-2xl">
               {currentImage.caption}
             </p>
           )}
 
           {images.length > 1 && (
-            <div className="mt-2 text-sm text-slate-400">
+            <div className="mt-2 text-sm text-gray-400">
               {currentIndex + 1} / {images.length}
             </div>
           )}
@@ -193,7 +197,7 @@ function Lightbox({
             onClick={onNext}
             className={cn(
               "absolute right-4 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full",
-              "bg-slate-900/80 text-slate-100 hover:bg-slate-800",
+              "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
               "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             )}
             aria-label="Next image"
@@ -211,7 +215,7 @@ export function GalleryBlock({
   images,
   title,
   subtitle,
-  columns = 3,
+  columns = 4,
   className
 }: GalleryBlockProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -236,10 +240,11 @@ export function GalleryBlock({
 
   if (!images.length) return null;
 
+  // Figma 4-column grid with 40px gaps
   const gridCols = {
     2: "grid-cols-1 sm:grid-cols-2",
     3: "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+    4: "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
   };
 
   return (
@@ -251,16 +256,13 @@ export function GalleryBlock({
       <div className="space-y-8">
         {(title || subtitle) && (
           <div className="space-y-2 text-center">
-            {title && (
-              <h2 className="font-display text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-                {title}
-              </h2>
-            )}
-            {subtitle && <p className="text-slate-400 max-w-2xl mx-auto">{subtitle}</p>}
+            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
+            {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
           </div>
         )}
 
-        <div className={cn("grid gap-4", gridCols[columns])}>
+        {/* Figma specs: 40px gaps between cards */}
+        <div className={cn("grid gap-10", gridCols[columns])}>
           {images.map((image, index) => (
             <GalleryImageCard key={image._id} image={image} onClick={() => openLightbox(index)} />
           ))}

@@ -1,0 +1,152 @@
+{
+  "brand": "Coast2Coast",
+  "nav": {
+    "home": "Inicio",
+    "portfolio": "Portafolio",
+    "contact": "Contacto",
+    "about": "Sobre mí",
+    "services": "Servicios",
+    "press": "Prensa",
+    "store": "Tienda"
+  },
+  "home": {
+    "heroTitle": "Techno modular en vivo y sets de DJ",
+    "heroSubtitle": "Coast2Coast (C2C) — sonido audaz, visuales oscuros, interfaz limpia.",
+    "heroCtaPrimary": "Contactar",
+    "heroCtaSecondary": "Ver portafolio",
+    "sections": {
+      "about": {
+        "title": "Acerca de",
+        "body": "Presentaciones de techno modular con foco en groove, textura y energía."
+      },
+      "music": {
+        "title": "Música",
+        "body": "Mixes, grabaciones en vivo y lanzamientos—siempre en evolución."
+      },
+      "shows": {
+        "title": "Fechas",
+        "body": "Próximos shows, venues y links—rápido y liviano."
+      },
+      "portfolio": {
+        "title": "Portafolio",
+        "body": "Destacados de sets en vivo, gigs de DJ y trabajo de estudio.",
+        "cta": "Ver portafolio"
+      },
+      "contact": {
+        "title": "Contacto",
+        "body": "Reservas, colaboraciones y prensa.",
+        "cta": "Enviar mensaje"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Portafolio",
+    "subtitle": "Filtra por categoría para explorar trabajos seleccionados.",
+    "filters": {
+      "all": "Todos",
+      "live": "En vivo",
+      "dj": "DJ",
+      "studio": "Estudio"
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Envía un mensaje rápido—sin cuenta.",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "message": "Mensaje",
+      "submit": "Enviar",
+      "sending": "Enviando…",
+      "success": "Mensaje enviado. ¡Gracias!",
+      "error": "Algo salió mal. Intenta de nuevo."
+    }
+  },
+  "booking": {
+    "title": "Contratación",
+    "subtitle": "Solicita una contratación para tu evento.",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "eventType": "Tipo de Evento",
+      "eventDate": "Fecha del Evento",
+      "location": "Ubicación",
+      "message": "Detalles Adicionales",
+      "submit": "Enviar Solicitud",
+      "sending": "Enviando…",
+      "success": "Solicitud enviada. ¡Nos pondremos en contacto!",
+      "error": "Algo salió mal. Intenta de nuevo."
+    },
+    "eventTypes": {
+      "live": "Performance en Vivo",
+      "dj": "Set de DJ",
+      "corporate": "Evento Corporativo",
+      "private": "Evento Privado",
+      "other": "Otro"
+    }
+  },
+  "about": {
+    "pageTitleFallback": "Sobre mí",
+    "introFallback": "Bio, lanzamientos, setup e influencias.",
+    "bioTitle": "Bio",
+    "bioEmpty": "La bio aparecerá aquí cuando se añada en Sanity.",
+    "releasesTitle": "Discografía / lanzamientos",
+    "releasesEmpty": "Los lanzamientos aparecerán aquí cuando se añadan en Sanity.",
+    "equipmentTitle": "Equipo / setup",
+    "equipmentEmpty": "Los detalles del setup aparecerán aquí cuando se añadan en Sanity.",
+    "influencesTitle": "Influencias",
+    "influencesEmpty": "Las influencias aparecerán aquí cuando se añadan en Sanity.",
+    "photoAltFallback": "Foto del artista"
+  },
+  "press": {
+    "pageTitleFallback": "Prensa / EPK",
+    "intro": "Todo lo que necesitas para prensa y contrataciones.",
+    "bioTitle": "Bio",
+    "bioEmpty": "La bio aparecerá aquí cuando se añada en Sanity.",
+    "pressPhotosTitle": "Fotos de prensa",
+    "pressPhotosEmpty": "Las fotos de prensa aparecerán aquí cuando se añadan en Sanity.",
+    "pressMentionsTitle": "Menciones en prensa",
+    "pressMentionsEmpty": "Aún no hay menciones en prensa.",
+    "pressKitTitle": "Descargas del press kit",
+    "pressKitEmpty": "Los recursos descargables aparecerán aquí cuando se añadan en Sanity.",
+    "techRiderTitle": "Rider técnico",
+    "techRiderEmpty": "Disponible bajo solicitud.",
+    "stagePlotTitle": "Plano de escenario",
+    "stagePlotPlaceholder": "Marcador de posición — disponible bajo solicitud.",
+    "bookingsTitle": "Contrataciones",
+    "bookingsEmpty": "Los datos de contacto aparecerán aquí cuando se configuren.",
+    "downloadLabel": "Descargar",
+    "viewLabel": "Ver"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "Esa ruta no existe.",
+    "backHome": "Volver al inicio"
+  },
+  "cookieConsent": {
+    "title": "Cookies y privacidad",
+    "description": "Usamos cookies esenciales para que el sitio funcione y, con tu permiso, cookies de analítica para entender el uso y mejorar la experiencia.",
+    "acceptAll": "Aceptar todo",
+    "rejectNonEssential": "Rechazar no esenciales",
+    "customize": "Preferencias",
+    "dialogTitle": "Preferencias de cookies",
+    "dialogDescription": "Puedes cambiar tus preferencias en cualquier momento eliminando las cookies del navegador.",
+    "necessaryLabel": "Esenciales (siempre activas)",
+    "necessaryDescription": "Necesarias para la seguridad, la navegación y funciones básicas del sitio.",
+    "analyticsLabel": "Analítica",
+    "analyticsDescription": "Ayudan a medir el uso del sitio para mejorar rendimiento y contenido.",
+    "savePreferences": "Guardar preferencias",
+    "privacyPolicy": "Política de privacidad",
+    "terms": "Términos"
+  },
+  "language": {
+    "switchToEnglish": "Cambiar idioma a inglés",
+    "switchToSpanish": "Cambiar idioma a español"
+  },
+  "footer": {
+    "contact": "Contacto",
+    "language": "Idioma",
+    "follow": "Seguir",
+    "rights": "Todos los derechos reservados."
+  }
+}
