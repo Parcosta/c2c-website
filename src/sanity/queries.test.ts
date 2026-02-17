@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n";
 import {
   buildEventsQuery,
   buildHomepageQuery,
+  buildPortfolioItemBySlugQuery,
   buildPortfolioItemsQuery,
   buildPressQuery,
   buildServicesQuery,
@@ -25,6 +26,13 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "es" });
     expect(def.query).toContain('*[_type == "portfolioItem"]');
     expect(def.query).toContain('"category": category[$locale]');
+  });
+
+  it("builds single portfolio item query by slug", () => {
+    const def = buildPortfolioItemBySlugQuery("en", "my-slug");
+    expect(def.params).toEqual({ locale: "en", slug: "my-slug" });
+    expect(def.query).toContain('*[_type == "portfolioItem"');
+    expect(def.query).toContain("slug[$locale].current == $slug");
   });
 
   it("builds events query", () => {
