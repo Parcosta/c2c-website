@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { DM_Sans, Inter } from "next/font/google";
 import type { ReactNode } from "react";
-
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -25,14 +23,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const locale = headers().get("x-locale") ?? "en";
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${dmSans.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          {children}
-          <Toaster />
-        </ThemeProvider>
+    <html lang={locale} className="dark">
+      <body className={`${inter.variable} ${dmSans.variable} antialiased bg-slate-950 text-slate-50`}>
+        {children}
       </body>
     </html>
   );
 }
+
