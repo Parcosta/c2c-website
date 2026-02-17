@@ -21,7 +21,7 @@ export async function PortfolioBlock() {
     .catch(() => []);
 
   const mapped: PortfolioBlockItem[] = items
-    .map((item, index) => {
+    .map<PortfolioBlockItem | null>((item, index) => {
       const title = item.title?.trim() || "Untitled";
       const slug = item.slug?.trim();
       if (!slug) return null;
