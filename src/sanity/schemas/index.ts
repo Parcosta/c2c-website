@@ -1,4 +1,5 @@
 import { blockContent } from "@/sanity/schemas/blocks/blockContent";
+import { photoGalleryBlock } from "@/sanity/schemas/blocks/photoGalleryBlock";
 import { servicesBlock } from "@/sanity/schemas/blocks/servicesBlock";
 import { event } from "@/sanity/schemas/documents/event";
 import { page } from "@/sanity/schemas/documents/page";
@@ -21,6 +22,7 @@ import { socialLink } from "@/sanity/schemas/objects/socialLink";
 export const schemaTypes = [
   blockContent,
   servicesBlock,
+  photoGalleryBlock,
   localeString,
   localeText,
   localeSlug,

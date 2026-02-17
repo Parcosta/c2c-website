@@ -32,12 +32,38 @@ export type SeoValue = {
   image?: ImageValue;
 };
 
+export type ServicesBlockValue = {
+  _type: "servicesBlock";
+  title?: string;
+  subtitle?: string;
+  services?: ServiceValue[];
+};
+
+export type PhotoGalleryImageValue = {
+  _key: string;
+  url?: string;
+  blurDataUrl?: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+  caption?: string;
+};
+
+export type PhotoGalleryBlockValue = {
+  _type: "photoGalleryBlock";
+  title?: string;
+  subtitle?: string;
+  images?: PhotoGalleryImageValue[];
+};
+
+export type PageBodyValue = Array<unknown | ServicesBlockValue | PhotoGalleryBlockValue>;
+
 export type PageValue = {
   _id: string;
   title?: string;
   slug?: string;
   hero?: HeroValue;
-  body?: unknown;
+  body?: PageBodyValue;
   seo?: SeoValue;
 };
 
@@ -160,7 +186,35 @@ export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Lo
           href
         }
       },
-      "body": body[$locale],
+      "body": body[$locale][]{
+        ...,
+        _type == "servicesBlock" => {
+          _type,
+          "title": title[$locale],
+          "subtitle": subtitle[$locale],
+          "services": services[]->{
+            _id,
+            "title": title[$locale],
+            "description": description[$locale],
+            icon,
+            "features": features[][$locale]
+          }
+        },
+        _type == "photoGalleryBlock" => {
+          _type,
+          "title": title[$locale],
+          "subtitle": subtitle[$locale],
+          "images": images[]{
+            _key,
+            "url": image.asset->url,
+            "blurDataUrl": image.asset->metadata.lqip,
+            "width": image.asset->metadata.dimensions.width,
+            "height": image.asset->metadata.dimensions.height,
+            "alt": alt[$locale],
+            "caption": caption[$locale]
+          }
+        }
+      },
       seo{
         "title": title[$locale],
         "description": description[$locale],
