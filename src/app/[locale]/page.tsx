@@ -1,8 +1,25 @@
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { PortfolioBlock } from "@/components/blocks/PortfolioBlock";
+import { PressBlock } from "@/components/blocks/PressBlock";
+import { SectionHeading } from "@/components/custom/SectionHeading";
+import { defaultLocale, isLocale } from "@/lib/i18n";
+import { projectId } from "@/sanity/config";
+import { client } from "@/sanity/client";
+import { buildPressQuery, type PressItemValue } from "@/sanity/queries";
 
-export default function HomePage() {
+type HomePageProps = {
+  params: { locale: string };
+};
+
+export default async function HomePage({ params }: HomePageProps) {
+  const locale = isLocale(params.locale) ? params.locale : defaultLocale;
+  let pressItems: PressItemValue[] = [];
+
+  if (projectId && projectId !== "your-project-id") {
+    const def = buildPressQuery(locale);
+    pressItems = await client.fetch(def.query, def.params);
+  }
+
   return (
     <main>
       <Section>
@@ -47,7 +64,17 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <PortfolioBlock />
+      <Section className="pt-0">
+        <Container>
+          <div className="space-y-8">
+            <SectionHeading
+              title={locale === "es" ? "Prensa" : "Press"}
+              subtitle={locale === "es" ? "Menciones y reseñas destacadas." : "Highlights and mentions from the press."}
+            />
+            <PressBlock locale={locale} items={pressItems} />
+          </div>
+        </Container>
+      </Section>
     </main>
   );
 }
