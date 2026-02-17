@@ -67,6 +67,7 @@ export type ServiceValue = {
   _id: string;
   title?: string;
   description?: string;
+  pricing?: string;
   icon?: string;
   features?: string[];
 };
@@ -155,6 +156,7 @@ export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Lo
       _id,
       "title": title[$locale],
       "description": description[$locale],
+      "pricing": pricing[$locale],
       icon,
       "features": features[][$locale]
     }`,
