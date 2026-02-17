@@ -37,3 +37,7 @@ vi.mock("next/link", () => ({
     [key: string]: unknown;
   }) => React.createElement("a", { href, ...props }, children)
 }));
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => (globalThis as unknown as { __NEXT_PATHNAME__?: string }).__NEXT_PATHNAME__ ?? "/en"
+}));
