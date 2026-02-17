@@ -62,6 +62,8 @@ All required environment variables are listed in `.env.example`.
 - **`SANITY_API_TOKEN`**: A Sanity API token used for server-side content operations. Do not expose this to client components.
 - **`SANITY_WEBHOOK_SECRET`**: Secret used to validate Sanity webhooks for on-demand ISR revalidation (`/api/revalidate`).
 - **`RESEND_API_KEY`**: Resend API key used for sending email from server-side routes/actions.
+- **`CONTACT_FORM_TO`**: Destination email address for contact form submissions.
+- **`CONTACT_FORM_FROM`**: Verified Resend sender (e.g. `C2C <no-reply@yourdomain.com>`).
 
 Notes:
 - Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser by Next.js.
