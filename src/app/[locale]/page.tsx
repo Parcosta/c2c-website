@@ -1,43 +1,18 @@
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { HeroBlock } from "@/components/blocks/HeroBlock";
-import type { Locale } from "@/lib/i18n";
+import { PortfolioBlock } from "@/components/blocks/PortfolioBlock";
 
-const heroCopy: Record<
-  Locale,
-  {
-    title: string;
-    subtitle: string;
-    ctaLabel: string;
-  }
-> = {
-  en: {
-    title: "Build consistent UI—fast.",
-    subtitle:
-      "A dark-first foundation with tokens, layout primitives, and reusable components—ready for production.",
-    ctaLabel: "Explore components"
-  },
-  es: {
-    title: "Crea UI consistente—rápido.",
-    subtitle:
-      "Una base dark-first con tokens, primitivas de layout y componentes reutilizables—lista para producción.",
-    ctaLabel: "Ver componentes"
-  }
-};
-
-export default function HomePage({ params }: { params: { locale: Locale } }) {
-  const copy = heroCopy[params.locale];
+export default function HomePage() {
   return (
     <main>
-      <HeroBlock title={copy.title} subtitle={copy.subtitle} ctaLabel={copy.ctaLabel} ctaHref="/components" />
       <Section>
         <Container>
           <div className="space-y-8">
             <div className="space-y-2">
               <p className="font-display text-sm font-medium tracking-wide text-slate-300">Design System</p>
-              <h2 className="font-display text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
-                Foundation highlights
-              </h2>
+              <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl">
+                Foundation
+              </h1>
               <p className="max-w-2xl text-base text-slate-300">
                 Tokens, layout primitives, and utilities—ready to build consistent UI.
               </p>
@@ -71,6 +46,8 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
         </Container>
       </Section>
+
+      <PortfolioBlock />
     </main>
   );
 }

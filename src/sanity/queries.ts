@@ -134,6 +134,25 @@ export function buildPortfolioItemsQuery(
   };
 }
 
+export function buildPortfolioItemBySlugQuery(
+  locale: Locale,
+  slug: string
+): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
+  return {
+    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
+      _id,
+      "title": title[$locale],
+      "slug": slug[$locale].current,
+      "category": category[$locale],
+      images,
+      "description": description[$locale],
+      date,
+      tags
+    }`,
+    params: { locale, slug }
+  };
+}
+
 export function buildEventsQuery(locale: Locale): QueryDefinition<{ locale: Locale }, EventValue[]> {
   return {
     query: groq`*[_type == "event"]|order(date desc){
