@@ -1,13 +1,11 @@
-node_modules/
-dist/
-cdk.out/
-coverage/
-
-infra/node_modules/
-infra/dist/
-infra/cdk.out/
-infra/coverage/
-
-*.log
+node_modules
+.next
+out
+dist
+coverage
+playwright-report
+test-results
+.env
+.env.*.local
 .DS_Store
 
