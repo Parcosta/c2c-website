@@ -18,6 +18,18 @@ if (!githubOwner || !githubRepo) {
   );
 }
 
+const customDomainName = app.node.tryGetContext('customDomainName') ?? process.env.CUSTOM_DOMAIN_NAME;
+const customDomainMapWww =
+  app.node.tryGetContext('customDomainMapWww') ??
+  app.node.tryGetContext('customDomainEnableWww') ??
+  false;
+const customDomainMapApex = app.node.tryGetContext('customDomainMapApex') ?? true;
+const customDomainSubdomainsRaw = app.node.tryGetContext('customDomainSubdomains') ?? '';
+const customDomainSubdomains =
+  typeof customDomainSubdomainsRaw === 'string' && customDomainSubdomainsRaw.trim().length > 0
+    ? customDomainSubdomainsRaw.split(',').map((s) => s.trim()).filter(Boolean)
+    : [];
+
 new AmplifyStack(app, 'AmplifyStack', {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -45,9 +57,13 @@ new AmplifyStack(app, 'AmplifyStack', {
       app.node.tryGetContext('RESEND_API_KEY_PARAM') ??
       '/c2c-website/RESEND_API_KEY'
   },
-  domain: {
-    name: app.node.tryGetContext('customDomainName') ?? undefined,
-    enableWww: app.node.tryGetContext('customDomainEnableWww') ?? false
-  }
+  domain: customDomainName
+    ? {
+        name: customDomainName,
+        mapApex: customDomainMapApex,
+        mapWww: customDomainMapWww,
+        subdomains: customDomainSubdomains
+      }
+    : undefined
 });
 
