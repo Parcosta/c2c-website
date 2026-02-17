@@ -1,52 +1,57 @@
+import type { Metadata } from "next";
+
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { CurrentWorkBlock, type CurrentWorkProject } from "@/components/blocks/CurrentWorkBlock";
-import { isLocale, type Locale } from "@/lib/i18n";
-import { client } from "@/sanity/client";
-import { hasSanityConfig } from "@/sanity/config";
-import { buildCurrentWorkQuery } from "@/sanity/queries";
+import { JsonLdScript } from "@/components/seo/JsonLd";
+import { type Locale } from "@/lib/i18n";
+import { buildMetadata, createMusicGroupJsonLd, createOrganizationJsonLd, createEventJsonLd, getSiteName } from "@/lib/seo";
 
-const copy: Record<Locale, { heading: string; subtitle: string }> = {
-  en: { heading: "Current work", subtitle: "What I'm building right now." },
-  es: { heading: "Trabajo actual", subtitle: "Lo que estoy construyendo ahora mismo." }
-};
-
-async function getCurrentWorkProject(locale: Locale): Promise<CurrentWorkProject | null> {
-  if (!hasSanityConfig()) return null;
-
-  const def = buildCurrentWorkQuery(locale);
-  const result = await client.fetch(def.query, def.params);
-  if (!result || typeof result !== "object") return null;
-
-  const title = typeof (result as { title?: unknown }).title === "string" ? (result as { title: string }).title : "";
-  const description = (result as { description?: unknown }).description;
-  const mediaUrl = (result as { media?: { asset?: { url?: unknown } } }).media?.asset?.url;
-  const mimeType = (result as { media?: { asset?: { mimeType?: unknown } } }).media?.asset?.mimeType;
-
-  const media =
-    typeof mediaUrl === "string"
-      ? {
-          kind: typeof mimeType === "string" && mimeType.startsWith("video/") ? "video" : "image",
-          url: mediaUrl,
-          mimeType: typeof mimeType === "string" ? mimeType : undefined
-        }
-      : null;
-
-  return { title, description, media };
+function getHomeSeo(locale: Locale): { title: string; description: string } {
+  switch (locale) {
+    case "es":
+      return {
+        title: getSiteName(),
+        description:
+          "Live modular techno y DJ. Música, shows y lanzamientos de Coast2Coast (C2C)."
+      };
+    case "en":
+    default:
+      return {
+        title: getSiteName(),
+        description:
+          "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
+      };
+  }
 }
 
-export default async function HomePage({ params }: { params: { locale: string } }) {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
-  const project = await getCurrentWorkProject(locale);
+export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
+  const seo = getHomeSeo(params.locale);
+  return buildMetadata({
+    ...seo,
+    pathname: `/${params.locale}`
+  });
+}
+
+export default function HomePage({ params }: { params: { locale: Locale } }) {
+  const org = createOrganizationJsonLd({ name: "Coast2Coast" });
+  const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
+
+  const nextEventName = (process.env.NEXT_PUBLIC_NEXT_EVENT_NAME ?? "").trim();
+  const nextEventStartDate = (process.env.NEXT_PUBLIC_NEXT_EVENT_START_DATE ?? "").trim();
+  const nextEventUrl = (process.env.NEXT_PUBLIC_NEXT_EVENT_URL ?? "").trim();
+  const event =
+    nextEventName && nextEventStartDate
+      ? createEventJsonLd({
+          name: nextEventName,
+          startDate: nextEventStartDate,
+          url: nextEventUrl || undefined,
+          organizerName: "Coast2Coast"
+        })
+      : null;
 
   return (
     <main>
-      <Section>
-        <Container>
-          <CurrentWorkBlock heading={copy[locale].heading} subtitle={copy[locale].subtitle} project={project} />
-        </Container>
-      </Section>
-
+      <JsonLdScript data={event ? [org, group, event] : [org, group]} />
       <Section>
         <Container>
           <div className="space-y-8">
