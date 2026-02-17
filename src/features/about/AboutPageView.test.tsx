@@ -13,10 +13,16 @@ describe("AboutPageView", () => {
     expect(screen.getByText("Equipment / setup")).toBeInTheDocument();
     expect(screen.getByText("Influences")).toBeInTheDocument();
 
-    expect(screen.getByText("Bio content will appear here once added in Sanity.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Bio content will appear here once added in Sanity.")
+    ).toBeInTheDocument();
     expect(screen.getByText("Releases will appear here once added in Sanity.")).toBeInTheDocument();
-    expect(screen.getAllByText("Setup details will appear here once added in Sanity.").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("Influences will appear here once added in Sanity.")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Setup details will appear here once added in Sanity.").length
+    ).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByText("Influences will appear here once added in Sanity.")
+    ).toBeInTheDocument();
   });
 
   it("renders bio, photo, releases, equipment, and influences when provided", () => {
@@ -37,7 +43,13 @@ describe("AboutPageView", () => {
           }
         ]}
         releases={[
-          { _key: "r1", title: "Release One", year: 2024, label: "Label X", url: "https://example.com/release" }
+          {
+            _key: "r1",
+            title: "Release One",
+            year: 2024,
+            label: "Label X",
+            url: "https://example.com/release"
+          }
         ]}
         equipmentGroups={[
           { _key: "g1", title: "Modular", items: ["Eurorack", "Sequencer"] },
@@ -56,7 +68,10 @@ describe("AboutPageView", () => {
     );
     expect(screen.getByText("Bio text here.")).toBeInTheDocument();
 
-    expect(screen.getByRole("link", { name: "Release One" })).toHaveAttribute("href", "https://example.com/release");
+    expect(screen.getByRole("link", { name: "Release One" })).toHaveAttribute(
+      "href",
+      "https://example.com/release"
+    );
     expect(screen.getByText("2024 · Label X")).toBeInTheDocument();
 
     expect(screen.getByText("Modular")).toBeInTheDocument();
@@ -68,4 +83,3 @@ describe("AboutPageView", () => {
     expect(screen.getByText("Jeff Mills")).toBeInTheDocument();
   });
 });
-

@@ -36,14 +36,22 @@ export type AboutPageViewModel = {
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    normal: ({ children }) => <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>,
+    normal: ({ children }) => (
+      <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{children}</p>
+    ),
     h3: ({ children }) => (
-      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">{children}</h3>
+      <h3 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">
+        {children}
+      </h3>
     )
   },
   list: {
-    bullet: ({ children }) => <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+    bullet: ({ children }) => (
+      <ul className="list-disc space-y-2 pl-5 text-slate-200">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal space-y-2 pl-5 text-slate-200">{children}</ol>
+    )
   },
   listItem: {
     bullet: ({ children }) => <li className="text-sm leading-relaxed sm:text-base">{children}</li>,
@@ -76,7 +84,9 @@ export function AboutPageView({
   const effectivePhotoAlt = photoAlt?.trim() || c.photoAltFallback;
 
   const releaseItems = (releases ?? []).filter((r) => r.title?.trim());
-  const groups = (equipmentGroups ?? []).filter((g) => g.title?.trim() || (g.items ?? []).length > 0);
+  const groups = (equipmentGroups ?? []).filter(
+    (g) => g.title?.trim() || (g.items ?? []).length > 0
+  );
   const influenceItems = (influences ?? []).map((i) => i.trim()).filter(Boolean);
 
   return (
@@ -94,7 +104,11 @@ export function AboutPageView({
             <div className="overflow-hidden rounded-xl border border-border/60 bg-background/20">
               {photoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={photoUrl} alt={effectivePhotoAlt} className="h-40 w-full object-cover sm:h-full" />
+                <img
+                  src={photoUrl}
+                  alt={effectivePhotoAlt}
+                  className="h-40 w-full object-cover sm:h-full"
+                />
               ) : (
                 <div className="flex h-40 w-full items-center justify-center text-sm text-muted-foreground sm:h-full">
                   {c.photoAltFallback}
@@ -138,7 +152,9 @@ export function AboutPageView({
                         ) : (
                           <div className="font-medium text-slate-100">{displayTitle}</div>
                         )}
-                        {meta ? <span className="text-sm text-muted-foreground">{meta}</span> : null}
+                        {meta ? (
+                          <span className="text-sm text-muted-foreground">{meta}</span>
+                        ) : null}
                       </div>
                     </li>
                   );
@@ -206,4 +222,3 @@ export function AboutPageView({
     </div>
   );
 }
-

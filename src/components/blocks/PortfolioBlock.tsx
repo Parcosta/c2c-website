@@ -17,7 +17,9 @@ export async function PortfolioBlock() {
   const locale = await getLocaleFromHeaders();
   const def = buildPortfolioItemsQuery(locale);
 
-  const items = await getClient().fetch<PortfolioItemValue[]>(def.query, def.params).catch(() => []);
+  const items = await getClient()
+    .fetch<PortfolioItemValue[]>(def.query, def.params)
+    .catch(() => []);
 
   const mapped = items.reduce<PortfolioBlockItem[]>((acc, item, index) => {
     const title = item.title?.trim() || "Untitled";

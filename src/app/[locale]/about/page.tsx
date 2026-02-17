@@ -45,4 +45,3 @@ export default async function AboutPage({ params }: { params: { locale: string }
     </main>
   );
 }
-
