@@ -1,21 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const resendMocks = vi.hoisted(() => {
-  return {
-    send: vi.fn(),
-    Resend: vi.fn()
-  };
-});
+const resendMocks = vi.hoisted(() => ({
+  send: vi.fn(),
+  Resend: vi.fn()
+}));
 
-vi.mock("resend", () => {
-  resendMocks.Resend.mockImplementation(() => ({
-    emails: { send: resendMocks.send }
-  }));
-
-  return {
-    Resend: resendMocks.Resend
-  };
-});
+vi.mock("resend", () => ({
+  Resend: class {
+    constructor(...args: unknown[]) {
+      resendMocks.Resend(...args);
+    }
+    emails = { send: resendMocks.send };
+  }
+}));
 
 import {
   buildBookingConfirmationEmail,
