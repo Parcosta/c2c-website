@@ -47,7 +47,7 @@ export type PortfolioItemValue = {
   slug?: string;
   category?: string;
   images?: ImageValue[];
-  description?: unknown;
+  description?: unknown[];
   date?: string;
   tags?: string[];
 };

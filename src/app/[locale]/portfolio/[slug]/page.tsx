@@ -1,59 +1,58 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
-import { getSanityImageUrl } from "@/sanity/image";
+import { PortfolioDetail } from "@/components/portfolio/PortfolioDetail";
+import type { PortfolioDetailItem } from "@/components/portfolio/types";
+import { isLocale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
+import { assertSanityConfig } from "@/sanity/config";
 import { client } from "@/sanity/client";
+import { getSanityImageUrl } from "@/sanity/image";
 import { buildPortfolioItemBySlugQuery, type PortfolioItemValue } from "@/sanity/queries";
 
-type PageProps = {
-  params: {
-    locale: string;
-    slug: string;
-  };
-};
+export default async function PortfolioItemPage({
+  params
+}: {
+  params: { locale: string; slug: string };
+}) {
+  if (!isLocale(params.locale)) notFound();
+  const locale: Locale = params.locale;
 
-function coerceLocale(value: string): Locale {
-  return isLocale(value) ? value : defaultLocale;
-}
-
-export default async function PortfolioItemPage({ params }: PageProps) {
-  const locale = coerceLocale(params.locale);
+  assertSanityConfig();
   const def = buildPortfolioItemBySlugQuery(locale, params.slug);
+  const result = await client.fetch<PortfolioItemValue | null>(def.query, def.params, {
+    next: { revalidate: 60 }
+  });
+  if (!result) notFound();
 
-  const item = await client.fetch<PortfolioItemValue | null>(def.query, def.params);
-  if (!item?.slug) notFound();
+  const title = result.title?.trim() || "Untitled";
 
-  const images = (item.images ?? [])
-    .map((image) => getSanityImageUrl(image))
-    .filter((url): url is string => Boolean(url));
+  const images = (result.images ?? [])
+    .map((image, idx) => {
+      const url = getSanityImageUrl(image, { width: 2400 });
+      if (!url) return null;
+      return { url, alt: `${title} image ${idx + 1}` };
+    })
+    .filter((value): value is { url: string; alt: string } => value != null);
+
+  const item: PortfolioDetailItem = {
+    id: result._id,
+    title,
+    slug: result.slug ?? params.slug,
+    category: result.category?.trim() || undefined,
+    images,
+    description: result.description,
+    date: result.date,
+    tags: (result.tags ?? []).filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0),
+    locale
+  };
 
   return (
     <main>
       <Section>
         <Container>
-          <div className="space-y-8">
-            <SectionHeading
-              title={item.title?.trim() || "Untitled"}
-              subtitle={item.category?.trim() || undefined}
-              as="h1"
-            />
-
-            {images.length ? (
-              <div className="grid gap-4 md:grid-cols-2">
-                {images.map((url) => (
-                  <div key={url} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-slate-800">
-                    <Image src={url} alt={item.title?.trim() || "Portfolio image"} fill className="object-cover" />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">No images available yet.</p>
-            )}
-          </div>
+          <PortfolioDetail item={item} />
         </Container>
       </Section>
     </main>
