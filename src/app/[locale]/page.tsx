@@ -1,111 +1,100 @@
+import type { Metadata } from "next";
+
+import { EventsBlock } from "@/components/blocks/EventsBlock";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { getCopy } from "@/lib/copy";
-import type { Locale } from "@/lib/i18n";
-import Link from "next/link";
+import { JsonLdScript } from "@/components/seo/JsonLd";
+import { type Locale } from "@/lib/i18n";
+import { buildMetadata, createMusicGroupJsonLd, createOrganizationJsonLd, createEventJsonLd, getSiteName } from "@/lib/seo";
+
+function getHomeSeo(locale: Locale): { title: string; description: string } {
+  switch (locale) {
+    case "es":
+      return {
+        title: getSiteName(),
+        description:
+          "Live modular techno y DJ. Música, shows y lanzamientos de Coast2Coast (C2C)."
+      };
+    case "en":
+    default:
+      return {
+        title: getSiteName(),
+        description:
+          "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
+      };
+  }
+}
+
+export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
+  const seo = getHomeSeo(params.locale);
+  return buildMetadata({
+    ...seo,
+    pathname: `/${params.locale}`
+  });
+}
 
 export default function HomePage({ params }: { params: { locale: Locale } }) {
-  const copy = getCopy(params.locale);
+  const org = createOrganizationJsonLd({ name: "Coast2Coast" });
+  const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
+
+  const nextEventName = (process.env.NEXT_PUBLIC_NEXT_EVENT_NAME ?? "").trim();
+  const nextEventStartDate = (process.env.NEXT_PUBLIC_NEXT_EVENT_START_DATE ?? "").trim();
+  const nextEventUrl = (process.env.NEXT_PUBLIC_NEXT_EVENT_URL ?? "").trim();
+  const event =
+    nextEventName && nextEventStartDate
+      ? createEventJsonLd({
+          name: nextEventName,
+          startDate: nextEventStartDate,
+          url: nextEventUrl || undefined,
+          organizerName: "Coast2Coast"
+        })
+      : null;
 
   return (
     <main>
-      <Section className="pt-10 md:pt-14" data-testid="home-hero">
+      <JsonLdScript data={event ? [org, group, event] : [org, group]} />
+      <Section>
         <Container>
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <p className="text-sm font-medium tracking-wide text-slate-300">{copy.brand}</p>
+          <div className="space-y-8">
+            <div className="space-y-2">
+              <p className="font-display text-sm font-medium tracking-wide text-slate-300">Design System</p>
               <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl">
-                {copy.home.heroTitle}
+                Foundation
               </h1>
-              <p className="max-w-2xl text-base text-slate-300">{copy.home.heroSubtitle}</p>
+              <p className="max-w-2xl text-base text-slate-300">
+                Tokens, layout primitives, and utilities—ready to build consistent UI.
+              </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href={`/${params.locale}/portfolio`}
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
-                data-testid="hero-cta-portfolio"
-              >
-                {copy.home.sections.portfolio.cta}
-              </Link>
-              <Link
-                href={`/${params.locale}/contact`}
-                className="inline-flex h-10 items-center justify-center rounded-md border border-slate-800 px-4 text-sm font-medium text-slate-100 hover:bg-slate-900"
-                data-testid="hero-cta-contact"
-              >
-                {copy.home.sections.contact.cta}
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+                <div className="text-sm font-medium text-slate-200">Typography</div>
+                <div className="mt-3 space-y-2">
+                  <div className="font-display text-2xl font-semibold">DM Sans</div>
+                  <div className="text-sm text-slate-300">Inter for body text</div>
+                </div>
+              </div>
 
-      <Section id="about" data-testid="home-about">
-        <Container>
-          <div className="max-w-3xl space-y-2">
-            <h2 className="font-display text-2xl font-semibold tracking-tight">{copy.home.sections.about.title}</h2>
-            <p className="text-slate-300">{copy.home.sections.about.body}</p>
-          </div>
-        </Container>
-      </Section>
+              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+                <div className="text-sm font-medium text-slate-200">Color</div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-brand-accent shadow-[0_0_0_4px_rgba(59,130,246,0.15)]" />
+                  <div className="text-sm text-slate-300">Brand accent: electric blue</div>
+                </div>
+              </div>
 
-      <Section id="music" data-testid="home-music">
-        <Container>
-          <div className="max-w-3xl space-y-2">
-            <h2 className="font-display text-2xl font-semibold tracking-tight">{copy.home.sections.music.title}</h2>
-            <p className="text-slate-300">{copy.home.sections.music.body}</p>
-          </div>
-        </Container>
-      </Section>
-
-      <Section id="shows" data-testid="home-shows">
-        <Container>
-          <div className="max-w-3xl space-y-2">
-            <h2 className="font-display text-2xl font-semibold tracking-tight">{copy.home.sections.shows.title}</h2>
-            <p className="text-slate-300">{copy.home.sections.shows.body}</p>
-          </div>
-        </Container>
-      </Section>
-
-      <Section id="portfolio" data-testid="home-portfolio">
-        <Container>
-          <div className="grid gap-6 md:grid-cols-2 md:items-center">
-            <div className="space-y-2">
-              <h2 className="font-display text-2xl font-semibold tracking-tight">{copy.home.sections.portfolio.title}</h2>
-              <p className="text-slate-300">{copy.home.sections.portfolio.body}</p>
-            </div>
-            <div className="md:justify-self-end">
-              <Link
-                href={`/${params.locale}/portfolio`}
-                className="inline-flex h-10 items-center justify-center rounded-md border border-slate-800 px-4 text-sm font-medium text-slate-100 hover:bg-slate-900"
-                data-testid="home-portfolio-cta"
-              >
-                {copy.home.sections.portfolio.cta}
-              </Link>
+              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
+                <div className="text-sm font-medium text-slate-200">Layout</div>
+                <div className="mt-3 space-y-2 text-sm text-slate-300">
+                  <div>Container: max-w-7xl</div>
+                  <div>Section: py-16 / md:py-24</div>
+                </div>
+              </div>
             </div>
           </div>
         </Container>
       </Section>
-
-      <Section id="contact" data-testid="home-contact">
-        <Container>
-          <div className="grid gap-6 md:grid-cols-2 md:items-center">
-            <div className="space-y-2">
-              <h2 className="font-display text-2xl font-semibold tracking-tight">{copy.home.sections.contact.title}</h2>
-              <p className="text-slate-300">{copy.home.sections.contact.body}</p>
-            </div>
-            <div className="md:justify-self-end">
-              <Link
-                href={`/${params.locale}/contact`}
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
-                data-testid="home-contact-cta"
-              >
-                {copy.home.sections.contact.cta}
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <EventsBlock locale={params.locale} />
     </main>
   );
 }

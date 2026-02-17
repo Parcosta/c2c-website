@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { Locale } from "@/lib/i18n";
 import {
   buildEventsQuery,
+  buildUpcomingEventsQuery,
   buildHomepageQuery,
   buildPortfolioItemBySlugQuery,
   buildPortfolioItemsQuery,
@@ -41,6 +42,13 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "en" });
     expect(def.query).toContain('*[_type == "event"]');
     expect(def.query).toContain('"venue": venue[$locale]');
+  });
+
+  it("builds upcoming events query filtered and ordered", () => {
+    const def = buildUpcomingEventsQuery("en");
+    expect(def.params).toEqual({ locale: "en" });
+    expect(def.query).toContain('*[_type == "event" && date >= now()]');
+    expect(def.query).toContain("|order(date asc)");
   });
 
   it("builds services query and projects localized features", () => {
