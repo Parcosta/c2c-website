@@ -18,7 +18,7 @@ This repo is a **Next.js 14 (App Router)** project written in **TypeScript** and
 
 ## Tech stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS (with a shadcn/ui-style component approach)
 - **CMS**: Sanity (content management)
