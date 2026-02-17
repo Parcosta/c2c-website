@@ -4,12 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { getSanityImageUrl, type SanityImageSource } from "@/sanity/image";
+import { getSanityImageUrl } from "@/sanity/image";
+import type { ImageValue } from "@/sanity/queries";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface GalleryImage {
   _id: string;
-  src: SanityImageSource;
+  src: ImageValue;
   alt?: string;
   caption?: string;
 }
@@ -22,13 +23,7 @@ export interface GalleryBlockProps {
   className?: string;
 }
 
-function GalleryImageCard({
-  image,
-  onClick
-}: {
-  image: GalleryImage;
-  onClick: () => void;
-}) {
+function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: () => void }) {
   const imageUrl = getSanityImageUrl(image.src, { width: 600 });
 
   return (
@@ -127,7 +122,7 @@ function Lightbox({
         <DialogDescription className="sr-only">
           Use arrow keys to navigate between images. Press Escape to close.
         </DialogDescription>
-        
+
         {/* Close button */}
         <button
           type="button"
@@ -174,13 +169,13 @@ function Lightbox({
               No image available
             </div>
           )}
-          
+
           {currentImage.caption && (
             <p className="mt-4 text-center text-sm text-slate-300 max-w-2xl">
               {currentImage.caption}
             </p>
           )}
-          
+
           {images.length > 1 && (
             <div className="mt-2 text-sm text-slate-400">
               {currentIndex + 1} / {images.length}
@@ -258,19 +253,13 @@ export function GalleryBlock({
                 {title}
               </h2>
             )}
-            {subtitle && (
-              <p className="text-slate-400 max-w-2xl mx-auto">{subtitle}</p>
-            )}
+            {subtitle && <p className="text-slate-400 max-w-2xl mx-auto">{subtitle}</p>}
           </div>
         )}
 
         <div className={cn("grid gap-4", gridCols[columns])}>
           {images.map((image, index) => (
-            <GalleryImageCard
-              key={image._id}
-              image={image}
-              onClick={() => openLightbox(index)}
-            />
+            <GalleryImageCard key={image._id} image={image} onClick={() => openLightbox(index)} />
           ))}
         </div>
       </div>

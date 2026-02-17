@@ -123,36 +123,36 @@ export default function ComponentsPage() {
           images={[
             {
               _id: "gallery-1",
-              src: { _ref: "image-1" },
+              src: { _type: "image", asset: { _ref: "image-1", _type: "reference" } },
               alt: "Gallery image 1",
               caption: "Beautiful scenery"
             },
             {
               _id: "gallery-2",
-              src: { _ref: "image-2" },
+              src: { _type: "image", asset: { _ref: "image-2", _type: "reference" } },
               alt: "Gallery image 2",
               caption: "Amazing view"
             },
             {
               _id: "gallery-3",
-              src: { _ref: "image-3" },
+              src: { _type: "image", asset: { _ref: "image-3", _type: "reference" } },
               alt: "Gallery image 3",
               caption: "Stunning landscape"
             },
             {
               _id: "gallery-4",
-              src: { _ref: "image-4" },
+              src: { _type: "image", asset: { _ref: "image-4", _type: "reference" } },
               alt: "Gallery image 4"
             },
             {
               _id: "gallery-5",
-              src: { _ref: "image-5" },
+              src: { _type: "image", asset: { _ref: "image-5", _type: "reference" } },
               alt: "Gallery image 5",
               caption: "Wonderful moment"
             },
             {
               _id: "gallery-6",
-              src: { _ref: "image-6" },
+              src: { _type: "image", asset: { _ref: "image-6", _type: "reference" } },
               alt: "Gallery image 6"
             }
           ]}
