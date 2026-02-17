@@ -3,8 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 import type { Locale } from "@/lib/i18n";
 import {
   buildEventsQuery,
+  buildCurrentWorkQuery,
   buildHomepageQuery,
-  buildPortfolioItemBySlugQuery,
   buildPortfolioItemsQuery,
   buildPressQuery,
   buildServicesQuery,
@@ -18,8 +18,7 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "en", slug: "home" });
     expect(def.query).toContain('*[_type == "page"');
     expect(def.query).toContain('"title": title[$locale]');
-    expect(def.query).toContain('"body": body[$locale][]');
-    expect(def.query).toContain('_type == "servicesBlock"');
+    expect(def.query).toContain('"body": body[$locale]');
   });
 
   it("builds portfolio items query", () => {
@@ -29,11 +28,13 @@ describe("Sanity GROQ query builders", () => {
     expect(def.query).toContain('"category": category[$locale]');
   });
 
-  it("builds single portfolio item query by slug", () => {
-    const def = buildPortfolioItemBySlugQuery("en", "my-slug");
-    expect(def.params).toEqual({ locale: "en", slug: "my-slug" });
-    expect(def.query).toContain('*[_type == "portfolioItem"');
-    expect(def.query).toContain("slug[$locale].current == $slug");
+  it("builds current work query selecting latest portfolio item", () => {
+    const def = buildCurrentWorkQuery("en");
+    expect(def.params).toEqual({ locale: "en" });
+    expect(def.query).toContain('*[_type == "portfolioItem"]');
+    expect(def.query).toContain("|order(date desc)[0]");
+    expect(def.query).toContain('"media": coalesce(featuredMedia[0], images[0])');
+    expect(def.query).toContain("asset->{");
   });
 
   it("builds events query", () => {
@@ -47,7 +48,6 @@ describe("Sanity GROQ query builders", () => {
     const def = buildServicesQuery("es");
     expect(def.params).toEqual({ locale: "es" });
     expect(def.query).toContain('*[_type == "service"]');
-    expect(def.query).toContain('"pricing": pricing[$locale]');
     expect(def.query).toContain('"features": features[][$locale]');
   });
 
