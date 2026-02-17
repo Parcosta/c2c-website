@@ -1,16 +1,19 @@
-import type { ImageValue } from "@/sanity/queries";
+import imageUrlBuilder from "@sanity/image-url";
+
 import { dataset, projectId } from "@/sanity/config";
+import type { ImageValue } from "@/sanity/queries";
 
-export function getSanityImageUrl(image?: ImageValue | null): string | null {
-  const ref = image?.asset?._ref;
-  if (!ref) return null;
-  if (!projectId || projectId === "your-project-id") return null;
-  if (!dataset) return null;
+const builder = imageUrlBuilder({ projectId, dataset });
 
-  const match = /^image-([^-]+)-(\d+x\d+)-([a-z0-9]+)$/i.exec(ref);
-  if (!match) return null;
+export function getSanityImageUrl(
+  source: ImageValue | null | undefined,
+  { width, height }: { width?: number; height?: number } = {}
+): string | null {
+  if (!source?.asset?._ref) return null;
 
-  const [, assetId, dimensions, format] = match;
-  return `https://cdn.sanity.io/images/${projectId}/${dataset}/${assetId}-${dimensions}.${format}`;
+  let image = builder.image(source).auto("format").fit("max");
+  if (width) image = image.width(width);
+  if (height) image = image.height(height);
+  return image.url();
 }
 
