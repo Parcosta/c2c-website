@@ -32,19 +32,12 @@ export type SeoValue = {
   image?: ImageValue;
 };
 
-export type ServicesBlockValue = {
-  _type: "servicesBlock";
-  title?: string;
-  subtitle?: string;
-  services?: ServiceValue[];
-};
-
 export type PageValue = {
   _id: string;
   title?: string;
   slug?: string;
   hero?: HeroValue;
-  body?: Array<Record<string, unknown> | ImageValue | ServicesBlockValue>;
+  body?: unknown;
   seo?: SeoValue;
 };
 
@@ -57,6 +50,24 @@ export type PortfolioItemValue = {
   description?: unknown;
   date?: string;
   tags?: string[];
+};
+
+export type MediaAssetValue = {
+  url?: string;
+  mimeType?: string;
+};
+
+export type FeaturedMediaValue = {
+  _type: "image" | "file";
+  asset?: MediaAssetValue;
+};
+
+export type CurrentWorkValue = {
+  _id: string;
+  title?: string;
+  description?: unknown;
+  date?: string;
+  media?: FeaturedMediaValue | null;
 };
 
 export type EventValue = {
@@ -74,7 +85,6 @@ export type ServiceValue = {
   _id: string;
   title?: string;
   description?: string;
-  pricing?: string;
   icon?: string;
   features?: string[];
 };
@@ -112,21 +122,7 @@ export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Lo
           href
         }
       },
-      "body": body[$locale][]{
-        ...,
-        _type == "servicesBlock" => {
-          _type,
-          "title": title[$locale],
-          "subtitle": subtitle[$locale],
-          "services": services[]->{
-            _id,
-            "title": title[$locale],
-            "description": description[$locale],
-            icon,
-            "features": features[][$locale]
-          }
-        }
-      },
+      "body": body[$locale],
       seo{
         "title": title[$locale],
         "description": description[$locale],
@@ -155,22 +151,22 @@ export function buildPortfolioItemsQuery(
   };
 }
 
-export function buildPortfolioItemBySlugQuery(
-  locale: Locale,
-  slug: string
-): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
+export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
   return {
-    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
+    query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
       _id,
       "title": title[$locale],
-      "slug": slug[$locale].current,
-      "category": category[$locale],
-      images,
       "description": description[$locale],
       date,
-      tags
+      "media": coalesce(featuredMedia[0], images[0]){
+        _type,
+        asset->{
+          url,
+          mimeType
+        }
+      }
     }`,
-    params: { locale, slug }
+    params: { locale }
   };
 }
 
@@ -196,7 +192,6 @@ export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Lo
       _id,
       "title": title[$locale],
       "description": description[$locale],
-      "pricing": pricing[$locale],
       icon,
       "features": features[][$locale]
     }`,
