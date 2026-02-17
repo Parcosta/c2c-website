@@ -25,11 +25,12 @@ function getComponentsSeo(locale: Locale): { title: string; description: string 
   }
 }
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const seo = getComponentsSeo(params.locale);
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const seo = getComponentsSeo(locale);
   return buildMetadata({
     ...seo,
-    pathname: `/${params.locale}/components`
+    pathname: `/${locale}/components`
   });
 }
 

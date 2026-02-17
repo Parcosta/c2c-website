@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import { PortableText, type PortableTextBlock, type PortableTextComponents } from "@portabletext/react";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
@@ -104,7 +104,7 @@ export function PortfolioDetail({ item }: { item: PortfolioDetailItem }) {
       {Array.isArray(item.description) && item.description.length > 0 ? (
         <GlassCard className="p-6">
           <div className="space-y-4">
-            <PortableText value={item.description as unknown[]} components={portableTextComponents} />
+            <PortableText value={item.description as PortableTextBlock[]} components={portableTextComponents} />
           </div>
         </GlassCard>
       ) : null}

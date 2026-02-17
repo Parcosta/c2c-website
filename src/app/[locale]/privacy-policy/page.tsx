@@ -337,16 +337,18 @@ function getCopy(locale: Locale): PolicyCopy {
   };
 }
 
-export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
   return {
     title: copy.title
   };
 }
 
-export default function PrivacyPolicyPage({ params }: { params: { locale: string } }) {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export default async function PrivacyPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
 
   return (

@@ -4,8 +4,9 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { ContactForm } from "@/components/site/ContactForm";
 
-export default function ContactPage({ params }: { params: { locale: Locale } }) {
-  const copy = getCopy(params.locale);
+export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const copy = getCopy(locale);
 
   return (
     <main data-testid="contact-page">
@@ -23,11 +24,10 @@ export default function ContactPage({ params }: { params: { locale: Locale } }) 
       <Section className="pt-0">
         <Container>
           <div className="max-w-xl">
-            <ContactForm locale={params.locale} />
+            <ContactForm locale={locale} />
           </div>
         </Container>
       </Section>
     </main>
   );
 }
-

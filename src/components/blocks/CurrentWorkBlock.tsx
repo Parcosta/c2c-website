@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Image from "next/image";
-import { PortableText } from "@portabletext/react";
+import { PortableText, type PortableTextBlock } from "@portabletext/react";
 
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { GlassCard } from "@/components/custom/GlassCard";
@@ -82,7 +82,7 @@ export function CurrentWorkBlock({
 
             {project?.description && isPortableTextValue(project.description) ? (
               <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-p:text-slate-300">
-                <PortableText value={project.description} />
+                <PortableText value={project.description as PortableTextBlock[]} />
               </div>
             ) : project?.description ? (
               <p className="text-sm leading-relaxed text-slate-300">{String(project.description)}</p>

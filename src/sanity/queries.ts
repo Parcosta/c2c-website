@@ -87,6 +87,7 @@ export type ServiceValue = {
   description?: string;
   icon?: string;
   features?: string[];
+  pricing?: string;
 };
 
 export type PressItemValue = {
@@ -250,6 +251,25 @@ export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Lo
       "features": features[][$locale]
     }`,
     params: { locale }
+  };
+}
+
+export function buildPortfolioItemBySlugQuery(
+  locale: Locale,
+  slug: string
+): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
+  return {
+    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
+      _id,
+      "title": title[$locale],
+      "slug": slug[$locale].current,
+      "category": category[$locale],
+      images,
+      "description": description[$locale],
+      date,
+      tags
+    }`,
+    params: { locale, slug }
   };
 }
 

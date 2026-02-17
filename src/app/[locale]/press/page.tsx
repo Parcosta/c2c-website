@@ -8,13 +8,14 @@ import { buildPressEpkQuery, type PressEpkValue } from "@/sanity/queries";
 
 export const dynamic = "force-dynamic";
 
-export default async function PressPage({ params }: { params: { locale: string } }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+export default async function PressPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+  const resolvedLocale: Locale = locale;
 
   let data: PressEpkValue | null = null;
   if (isSanityConfigured()) {
-    const def = buildPressEpkQuery(locale);
+    const def = buildPressEpkQuery(resolvedLocale);
     try {
       data = await client.fetch(def.query, def.params);
     } catch {
@@ -31,7 +32,7 @@ export default async function PressPage({ params }: { params: { locale: string }
 
   return (
     <PressPageView
-      locale={locale}
+      locale={resolvedLocale}
       title={pressPage?.title}
       bio={pressPage?.bio}
       pressPhotos={pressPage?.pressPhotos}
@@ -43,4 +44,3 @@ export default async function PressPage({ params }: { params: { locale: string }
     />
   );
 }
-

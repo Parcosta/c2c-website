@@ -200,16 +200,18 @@ function getCopy(locale: Locale): TermsCopy {
   };
 }
 
-export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
   return {
     title: copy.title
   };
 }
 
-export default function TermsPage({ params }: { params: { locale: string } }) {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
 
   const prefix = `/${locale}`;

@@ -36,7 +36,7 @@ export function ServicesBlock({
     <Section className={className} {...props}>
       <Container>
         <div className="space-y-10">
-          {(title || subtitle) && <SectionHeading title={title} subtitle={subtitle} />}
+          {title && <SectionHeading title={title} subtitle={subtitle} />}
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {

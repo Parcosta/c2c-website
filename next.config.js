@@ -16,10 +16,8 @@ const nextConfig = {
   compiler: {
     styledComponents: true
   },
-  modularizeImports: {
-    "lucide-react": {
-      transform: "lucide-react/dist/esm/icons/{{member}}"
-    }
+  experimental: {
+    optimizePackageImports: ["lucide-react"]
   }
 };
 

@@ -28,8 +28,9 @@ export const metadata: Metadata = {
   description: "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  const locale = headers().get("x-locale") ?? "en";
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const headerStore = await headers();
+  const locale = headerStore.get("x-locale") ?? "en";
 
   return (
     <html lang={locale} className="dark">
@@ -39,4 +40,3 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     </html>
   );
 }
-

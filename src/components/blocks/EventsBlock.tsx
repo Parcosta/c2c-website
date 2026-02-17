@@ -20,8 +20,9 @@ export type EventsBlockViewProps = ComponentPropsWithoutRef<"section"> & {
   events: EventValue[];
 };
 
-function getLocaleFromHeaders(): Locale {
-  const headerLocale = headers().get("x-locale") ?? defaultLocale;
+async function getLocaleFromHeaders(): Promise<Locale> {
+  const headerStore = await headers();
+  const headerLocale = headerStore.get("x-locale") ?? defaultLocale;
   return isLocale(headerLocale) ? headerLocale : defaultLocale;
 }
 
@@ -135,7 +136,7 @@ export type EventsBlockProps = Omit<EventsBlockViewProps, "events" | "locale"> &
 };
 
 export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockProps) {
-  const locale = localeProp ?? getLocaleFromHeaders();
+  const locale = localeProp ?? await getLocaleFromHeaders();
   if (!isSanityConfigured()) return null;
 
   const def = buildUpcomingEventsQuery(locale);

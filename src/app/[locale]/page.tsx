@@ -25,15 +25,17 @@ function getHomeSeo(locale: Locale): { title: string; description: string } {
   }
 }
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const seo = getHomeSeo(params.locale);
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const seo = getHomeSeo(locale);
   return buildMetadata({
     ...seo,
-    pathname: `/${params.locale}`
+    pathname: `/${locale}`
   });
 }
 
-export default function HomePage({ params }: { params: { locale: Locale } }) {
+export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   const org = createOrganizationJsonLd({ name: "Coast2Coast" });
   const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
 
@@ -94,8 +96,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
         </Container>
       </Section>
-      <EventsBlock locale={params.locale} />
+      <EventsBlock locale={locale} />
     </main>
   );
 }
-

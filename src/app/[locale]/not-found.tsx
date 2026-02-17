@@ -6,13 +6,14 @@ import { Section } from "@/components/layout/Section";
 import { getCopy } from "@/lib/copy";
 import type { Locale } from "@/lib/i18n";
 
-function getLocaleFromHeaders(): Locale {
-  const value = headers().get("x-locale");
+async function getLocaleFromHeaders(): Promise<Locale> {
+  const headerStore = await headers();
+  const value = headerStore.get("x-locale");
   return value === "es" ? "es" : "en";
 }
 
-export default function NotFound() {
-  const locale = getLocaleFromHeaders();
+export default async function NotFound() {
+  const locale = await getLocaleFromHeaders();
   const copy = getCopy(locale);
 
   return (
@@ -37,4 +38,3 @@ export default function NotFound() {
     </main>
   );
 }
-

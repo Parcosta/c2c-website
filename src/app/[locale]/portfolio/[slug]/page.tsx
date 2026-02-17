@@ -14,13 +14,14 @@ import { buildPortfolioItemBySlugQuery, type PortfolioItemValue } from "@/sanity
 export default async function PortfolioItemPage({
   params
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+  const { locale, slug } = await params;
+  if (!isLocale(locale)) notFound();
+  const resolvedLocale: Locale = locale;
 
   assertSanityConfig();
-  const def = buildPortfolioItemBySlugQuery(locale, params.slug);
+  const def = buildPortfolioItemBySlugQuery(resolvedLocale, slug);
   const result = await client.fetch<PortfolioItemValue | null>(def.query, def.params, {
     next: { revalidate: 60 }
   });
@@ -39,13 +40,13 @@ export default async function PortfolioItemPage({
   const item: PortfolioDetailItem = {
     id: result._id,
     title,
-    slug: result.slug ?? params.slug,
+    slug: result.slug ?? slug,
     category: result.category?.trim() || undefined,
     images,
     description: result.description,
     date: result.date,
     tags: (result.tags ?? []).filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0),
-    locale
+    locale: resolvedLocale
   };
 
   return (
@@ -58,4 +59,3 @@ export default async function PortfolioItemPage({
     </main>
   );
 }
-

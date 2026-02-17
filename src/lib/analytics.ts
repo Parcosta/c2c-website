@@ -22,7 +22,7 @@ function getProvider() {
 
   if (gaId) return { provider: "ga" as const, gaId };
   if (plausibleDomain) return { provider: "plausible" as const };
-  return { provider: null as const };
+  return { provider: null } as { provider: null };
 }
 
 function toUrlParts(input?: string) {
