@@ -7,6 +7,7 @@ import {
   buildPortfolioItemBySlugQuery,
   buildPortfolioItemsQuery,
   buildPressQuery,
+  buildPressEpkQuery,
   buildServicesQuery,
   buildSiteSettingsQuery
 } from "@/sanity/queries";
@@ -61,6 +62,15 @@ describe("Sanity GROQ query builders", () => {
     expect(def.params).toEqual({ locale: "es" });
     expect(def.query).toContain('*[_type == "siteSettings"]');
     expect(def.query).toContain('"siteName": siteName[$locale]');
+  });
+
+  it("builds press EPK query and includes pressPage + mentions + settings", () => {
+    const def = buildPressEpkQuery("en");
+    expect(def.params).toEqual({ locale: "en" });
+    expect(def.query).toContain('"pressPage": *[_type == "pressPage"]');
+    expect(def.query).toContain('"pressMentions": *[_type == "pressItem"]');
+    expect(def.query).toContain('"pressKitAssets": pressKitAssets[]');
+    expect(def.query).toContain('"imageUrl": image.asset->url');
   });
 
   it("supports mocking a Sanity client for consuming query defs", async () => {
