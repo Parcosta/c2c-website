@@ -1,9 +1,9 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { DM_Sans, Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
-import { Analytics } from "@/components/Analytics";
+import { getSiteName, getSiteUrl } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -20,32 +20,12 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Design System Foundation",
-  description: "Foundations for a Next.js design system.",
-  manifest: "/manifest.webmanifest",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Design System Foundation"
+  metadataBase: new URL(getSiteUrl()),
+  title: {
+    default: getSiteName(),
+    template: `%s | ${getSiteName()}`
   },
-  formatDetection: {
-    telephone: false
-  },
-  icons: {
-    icon: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-touch-icon.png" }]
-  },
-  other: {
-    "mobile-web-app-capable": "yes"
-  }
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-  themeColor: "#020617",
-  colorScheme: "dark"
+  description: "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -55,7 +35,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang={locale} className="dark">
       <body className={`${inter.variable} ${dmSans.variable} antialiased bg-slate-950 text-slate-50`}>
         {children}
-        <Analytics />
       </body>
     </html>
   );
