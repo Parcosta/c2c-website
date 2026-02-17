@@ -8,16 +8,12 @@ export type SendContactEmailParams = Readonly<{
   userAgent: string | null;
 }>;
 
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`Missing required environment variable: ${name}`);
-  return value;
-}
-
 export async function sendContactEmail(params: SendContactEmailParams) {
-  const apiKey = requireEnv("RESEND_API_KEY");
-  const to = requireEnv("CONTACT_FORM_TO");
-  const from = requireEnv("CONTACT_FORM_FROM");
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.CONTACT_FORM_TO;
+  const from = process.env.CONTACT_FORM_FROM;
+
+  if (!apiKey || !to || !from) return;
 
   const { data, clientIp, userAgent } = params;
 

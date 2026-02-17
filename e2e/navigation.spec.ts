@@ -16,7 +16,7 @@ test.describe("navigation", () => {
 
     await page.getByTestId("nav-home").click();
     await expect(page).toHaveURL(/\/en$/);
-    await expect(page.getByTestId("home-hero")).toBeVisible();
+    await expect(page.getByTestId("site-header")).toBeVisible();
   });
 
   test("works on mobile (hamburger menu)", async ({ page }) => {
@@ -33,4 +33,3 @@ test.describe("navigation", () => {
     await expect(page.getByTestId("mobile-menu")).toHaveCount(0);
   });
 });
-

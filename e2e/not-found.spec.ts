@@ -5,6 +5,5 @@ test("404 page shows for invalid routes", async ({ page }) => {
   await expect(page.getByTestId("not-found")).toBeVisible();
   await page.getByTestId("not-found-home").click();
   await expect(page).toHaveURL(/\/en$/);
-  await expect(page.getByTestId("home-hero")).toBeVisible();
+  await expect(page.getByTestId("site-header")).toBeVisible();
 });
-
