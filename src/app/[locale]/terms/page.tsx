@@ -219,25 +219,25 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
           <div className="space-y-10">
             <div className="space-y-3">
               <SectionHeading title={copy.title} subtitle={copy.subtitle} as="h1" />
-              <div className="text-sm text-slate-300">
+              <div className="text-sm text-gray-400">
                 {copy.lastUpdatedLabel}:{" "}
-                <time dateTime={LAST_UPDATED} className="text-slate-200">
+                <time dateTime={LAST_UPDATED} className="text-gray-200">
                   {LAST_UPDATED}
                 </time>
               </div>
             </div>
 
-            <p className="max-w-prose text-sm leading-relaxed text-slate-300 sm:text-base">
+            <p className="max-w-prose text-sm leading-relaxed text-gray-400 sm:text-base">
               {copy.intro}
             </p>
 
             <div className="space-y-10">
               {copy.sections.map((section) => (
                 <section key={section.heading} className="space-y-3">
-                  <h2 className="font-display text-lg font-semibold tracking-tight text-slate-50 sm:text-xl">
+                  <h2 className="font-display text-lg font-semibold tracking-tight text-gray-100 sm:text-xl">
                     {section.heading}
                   </h2>
-                  <div className="space-y-3 text-sm leading-relaxed text-slate-300 sm:text-base">
+                  <div className="space-y-3 text-sm leading-relaxed text-gray-400 sm:text-base">
                     {section.body.map((block, index) => {
                       if (block.type === "p") return <p key={index}>{block.text}</p>;
                       if (block.type === "pWithLinks") {
@@ -248,7 +248,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
                                 <Link
                                   key={`${part.href}-${partIndex}`}
                                   href={resolveHref(part.href)}
-                                  className="text-slate-200 underline-offset-4 hover:underline"
+                                  className="text-gray-200 underline-offset-4 hover:underline"
                                 >
                                   {part.text}
                                 </Link>

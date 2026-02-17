@@ -15,7 +15,7 @@ export function Header({ locale }: HeaderProps) {
       className={[
         "fixed inset-x-0 top-0 z-50",
         "border-b border-white/5",
-        "bg-slate-950/60 supports-[backdrop-filter]:bg-slate-950/35 backdrop-blur",
+        "bg-gray-950/60 supports-[backdrop-filter]:bg-gray-950/35 backdrop-blur",
         "shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_18px_60px_rgba(0,0,0,0.35)]"
       ].join(" ")}
     >

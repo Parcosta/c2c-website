@@ -3,31 +3,33 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
 import { switchLocaleInPathname } from "@/lib/i18n";
-import { getCopy } from "@/lib/copy";
 
 type NavItem = { href: string; label: string; testId: string };
 
-function buildNav(locale: Locale): NavItem[] {
-  const copy = getCopy(locale);
+function buildNav(t: (key: string) => string, locale: Locale): NavItem[] {
   return [
-    { href: `/${locale}`, label: copy.nav.home, testId: "nav-home" },
-    { href: `/${locale}/portfolio`, label: copy.nav.portfolio, testId: "nav-portfolio" },
-    { href: `/${locale}/contact`, label: copy.nav.contact, testId: "nav-contact" }
+    { href: `/${locale}`, label: t("nav.home"), testId: "nav-home" },
+    { href: `/${locale}/portfolio`, label: t("nav.portfolio"), testId: "nav-portfolio" },
+    { href: `/${locale}/contact`, label: t("nav.contact"), testId: "nav-contact" }
   ];
 }
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const router = useRouter();
   const pathname = usePathname() ?? `/${locale}`;
-  const copy = getCopy(locale);
+  const { t, i18n } = useTranslation();
 
-  const nav = useMemo(() => buildNav(locale), [locale]);
+  const nav = useMemo(() => buildNav(t as (key: string) => string, locale), [t, locale]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   function onSwitchLocale(nextLocale: Locale) {
+    // Change i18next language
+    i18n.changeLanguage(nextLocale);
+    // Navigate to the new locale path
     const nextPath = switchLocaleInPathname(pathname, nextLocale);
     setMobileOpen(false);
     router.push(nextPath);
@@ -36,15 +38,15 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header
       data-testid="site-header"
-      className="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/70 backdrop-blur"
+      className="sticky top-0 z-40 border-b border-gray-800 bg-gray-950/70 backdrop-blur"
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href={`/${locale}`}
-          className="font-display text-base font-semibold tracking-tight text-slate-50"
+          className="font-display text-base font-semibold text-gray-100"
           data-testid="brand"
         >
-          {copy.brand}
+          {t("brand")}
         </Link>
 
         <nav
@@ -57,7 +59,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               key={item.href}
               href={item.href}
               data-testid={item.testId}
-              className="text-sm text-slate-200 transition-colors hover:text-white"
+              className="text-small text-gray-200 transition-colors hover:text-white"
             >
               {item.label}
             </Link>
@@ -68,9 +70,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               onClick={() => onSwitchLocale("en")}
               data-testid="lang-en"
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                locale === "en" ? "bg-slate-800 text-white" : "text-slate-300 hover:text-white"
+                locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
               }`}
-              aria-label="Switch language to English"
+              aria-label={t("language.switchToEnglish")}
             >
               EN
             </button>
@@ -79,9 +81,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               onClick={() => onSwitchLocale("es")}
               data-testid="lang-es"
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                locale === "es" ? "bg-slate-800 text-white" : "text-slate-300 hover:text-white"
+                locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
               }`}
-              aria-label="Switch language to Spanish"
+              aria-label={t("language.switchToSpanish")}
             >
               ES
             </button>
@@ -90,13 +92,13 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
         <button
           type="button"
-          className="inline-flex items-center rounded-md border border-slate-800 px-3 py-2 text-sm text-slate-200 hover:text-white md:hidden"
+          className="inline-flex items-center rounded-md border border-gray-800 px-3 py-2 text-small text-gray-200 hover:text-white md:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           data-testid="mobile-menu-button"
         >
-          Menu
+          {t("nav.home") === "Home" ? "Menu" : "Menú"}
         </button>
       </div>
 
@@ -104,7 +106,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <div
           id="mobile-menu"
           data-testid="mobile-menu"
-          className="border-t border-slate-800 bg-slate-950 md:hidden"
+          className="border-t border-gray-800 bg-gray-950 md:hidden"
         >
           <div className="mx-auto w-full max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
             <nav aria-label="Mobile" className="flex flex-col gap-2">
@@ -113,7 +115,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                   key={item.href}
                   href={item.href}
                   data-testid={`mobile-${item.testId}`}
-                  className="rounded-md px-3 py-2 text-sm text-slate-200 hover:bg-slate-900 hover:text-white"
+                  className="rounded-md px-3 py-2 text-small text-gray-200 hover:bg-gray-900 hover:text-white"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -127,7 +129,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                   onClick={() => onSwitchLocale("en")}
                   data-testid="mobile-lang-en"
                   className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                    locale === "en" ? "bg-slate-800 text-white" : "text-slate-300 hover:text-white"
+                    locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
                   }`}
                 >
                   EN
@@ -137,7 +139,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                   onClick={() => onSwitchLocale("es")}
                   data-testid="mobile-lang-es"
                   className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                    locale === "es" ? "bg-slate-800 text-white" : "text-slate-300 hover:text-white"
+                    locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
                   }`}
                 >
                   ES
@@ -146,11 +148,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
               <button
                 type="button"
-                className="rounded-md px-3 py-2 text-sm text-slate-300 hover:text-white"
+                className="rounded-md px-3 py-2 text-small text-gray-400 hover:text-white"
                 onClick={() => setMobileOpen(false)}
                 data-testid="mobile-menu-close"
               >
-                Close
+                {t("nav.home") === "Home" ? "Close" : "Cerrar"}
               </button>
             </div>
           </div>

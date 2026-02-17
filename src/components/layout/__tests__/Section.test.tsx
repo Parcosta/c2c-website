@@ -12,7 +12,8 @@ describe("Section", () => {
 
   it("applies default vertical spacing classes", () => {
     render(<Section data-testid="section" />);
-    expect(screen.getByTestId("section")).toHaveClass("py-16");
-    expect(screen.getByTestId("section")).toHaveClass("md:py-24");
+    // Section now uses CSS variables per Figma specs (48px mobile, 80px desktop)
+    expect(screen.getByTestId("section")).toHaveClass("py-[var(--section-padding-mobile,48px)]");
+    expect(screen.getByTestId("section")).toHaveClass("md:py-[var(--section-padding-desktop,80px)]");
   });
 });

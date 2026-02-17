@@ -1,33 +1,34 @@
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
+import { AudioPlayer } from "@/components/custom/AudioPlayer";
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
 
 export interface HeroBlockProps {
-  title?: string;
-  subtitle?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
   className?: string;
+  audioSrc?: string;
+  audioTitle?: string;
 }
 
 export function HeroBlock({
-  title = "Build consistent UI—fast.",
-  subtitle = "A dark-first foundation with tokens, layout primitives, and reusable components—ready for production.",
-  ctaLabel = "Explore components",
-  ctaHref = "/components",
-  className
+  className,
+  audioSrc,
+  audioTitle
 }: HeroBlockProps) {
+  const { t } = useTranslation();
+  
   return (
     <section
       aria-labelledby="homepage-hero-title"
       className={cn(
-        "relative isolate overflow-hidden bg-slate-950",
+        "relative isolate overflow-hidden bg-gray-950",
         "min-h-[100svh] flex items-center",
         className
       )}
     >
+      {/* Background gradient effects */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className={cn(
@@ -40,31 +41,48 @@ export function HeroBlock({
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.14),transparent_60%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/0 via-slate-950/40 to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/0 via-gray-950/40 to-gray-950" />
       </div>
 
       <Container className="relative py-16 sm:py-20 md:py-24">
-        <div className="max-w-3xl space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/40 px-3 py-1 text-xs font-medium tracking-wide text-slate-200">
+        <div className="max-w-4xl space-y-8">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-900/40 px-3 py-1 text-xs font-medium text-gray-200">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-accent shadow-[0_0_0_4px_rgba(59,130,246,0.15)]" />
-            Design System
+            {t("brand")}
           </div>
 
-          <div className="space-y-4">
+          {/* Title and subtitle */}
+          <div className="space-y-6">
             <h1
               id="homepage-hero-title"
-              className="font-display text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl md:text-6xl"
+              className="font-display text-hero text-gray-100"
             >
-              {title}
+              {t("home.heroTitle")}
             </h1>
-            <p className="max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-              {subtitle}
+            <p className="max-w-2xl text-body text-gray-200">
+              {t("home.heroSubtitle")}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <AnimatedButton asChild size="lg" className="rounded-full px-7">
-              <Link href={ctaHref}>{ctaLabel}</Link>
+          {/* Audio Player */}
+          {audioSrc && (
+            <div className="pt-2">
+              <AudioPlayer src={audioSrc} title={audioTitle} />
+            </div>
+          )}
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <AnimatedButton asChild size="lg" className="rounded-full px-8">
+              <Link href="/contact">
+                {t("home.heroCtaPrimary")}
+              </Link>
+            </AnimatedButton>
+            <AnimatedButton asChild variant="secondary" size="lg" className="rounded-full px-8">
+              <Link href="/portfolio">
+                {t("home.heroCtaSecondary")}
+              </Link>
             </AnimatedButton>
           </div>
         </div>

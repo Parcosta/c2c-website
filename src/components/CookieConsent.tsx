@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n";
@@ -69,69 +70,9 @@ function getInitialConsent(): ConsentState | null {
   return null;
 }
 
-type CookieConsentCopy = {
-  title: string;
-  description: string;
-  acceptAll: string;
-  rejectNonEssential: string;
-  customize: string;
-  dialogTitle: string;
-  dialogDescription: string;
-  necessaryLabel: string;
-  necessaryDescription: string;
-  analyticsLabel: string;
-  analyticsDescription: string;
-  savePreferences: string;
-  privacyPolicy: string;
-  terms: string;
-};
-
-function getCopy(locale: Locale): CookieConsentCopy {
-  if (locale === "es") {
-    return {
-      title: "Cookies y privacidad",
-      description:
-        "Usamos cookies esenciales para que el sitio funcione y, con tu permiso, cookies de analítica para entender el uso y mejorar la experiencia.",
-      acceptAll: "Aceptar todo",
-      rejectNonEssential: "Rechazar no esenciales",
-      customize: "Preferencias",
-      dialogTitle: "Preferencias de cookies",
-      dialogDescription:
-        "Puedes cambiar tus preferencias en cualquier momento eliminando las cookies del navegador.",
-      necessaryLabel: "Esenciales (siempre activas)",
-      necessaryDescription:
-        "Necesarias para la seguridad, la navegación y funciones básicas del sitio.",
-      analyticsLabel: "Analítica",
-      analyticsDescription: "Ayudan a medir el uso del sitio para mejorar rendimiento y contenido.",
-      savePreferences: "Guardar preferencias",
-      privacyPolicy: "Política de privacidad",
-      terms: "Términos"
-    };
-  }
-
-  return {
-    title: "Cookies & privacy",
-    description:
-      "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
-    acceptAll: "Accept all",
-    rejectNonEssential: "Reject non-essential",
-    customize: "Preferences",
-    dialogTitle: "Cookie preferences",
-    dialogDescription:
-      "You can change your preferences at any time by clearing your browser cookies.",
-    necessaryLabel: "Essential (always on)",
-    necessaryDescription: "Required for security, navigation, and basic site functionality.",
-    analyticsLabel: "Analytics",
-    analyticsDescription: "Helps us measure site usage to improve performance and content.",
-    savePreferences: "Save preferences",
-    privacyPolicy: "Privacy Policy",
-    terms: "Terms"
-  };
-}
-
 export function CookieConsent({ locale }: { locale: string }) {
   const resolvedLocale = useMemo<Locale>(() => (isLocale(locale) ? locale : "en"), [locale]);
-  const copy = useMemo(() => getCopy(resolvedLocale), [resolvedLocale]);
+  const { t } = useTranslation();
 
   const [isVisible, setIsVisible] = useState(() => {
     if (typeof document === "undefined") return false;
@@ -164,45 +105,45 @@ export function CookieConsent({ locale }: { locale: string }) {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/80"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80"
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="space-y-2">
-          <div className="font-display text-base font-semibold text-slate-50">{copy.title}</div>
-          <p className="max-w-2xl text-sm text-slate-300">{copy.description}</p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-            <Link className="text-slate-200 underline-offset-4 hover:underline" href={privacyHref}>
-              {copy.privacyPolicy}
+          <div className="font-display text-body font-semibold text-gray-100">{t("cookieConsent.title")}</div>
+          <p className="max-w-2xl text-small text-gray-400">{t("cookieConsent.description")}</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
+            <Link className="text-gray-200 underline-offset-4 hover:underline" href={privacyHref}>
+              {t("cookieConsent.privacyPolicy")}
             </Link>
-            <Link className="text-slate-200 underline-offset-4 hover:underline" href={termsHref}>
-              {copy.terms}
+            <Link className="text-gray-200 underline-offset-4 hover:underline" href={termsHref}>
+              {t("cookieConsent.terms")}
             </Link>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
           <Button variant="secondary" onClick={() => save(false)}>
-            {copy.rejectNonEssential}
+            {t("cookieConsent.rejectNonEssential")}
           </Button>
-          <Button onClick={() => save(true)}>{copy.acceptAll}</Button>
+          <Button onClick={() => save(true)}>{t("cookieConsent.acceptAll")}</Button>
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">{copy.customize}</Button>
+              <Button variant="outline">{t("cookieConsent.customize")}</Button>
             </DialogTrigger>
-            <DialogContent className="border-slate-800 bg-slate-950 text-slate-50">
+            <DialogContent className="border-gray-800 bg-gray-950 text-gray-100">
               <DialogHeader>
-                <DialogTitle className="font-display">{copy.dialogTitle}</DialogTitle>
-                <DialogDescription className="text-slate-300">
-                  {copy.dialogDescription}
+                <DialogTitle className="font-display">{t("cookieConsent.dialogTitle")}</DialogTitle>
+                <DialogDescription className="text-gray-400">
+                  {t("cookieConsent.dialogDescription")}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4">
-                <div className="flex items-start justify-between gap-4 rounded-lg border border-slate-800 bg-slate-900/30 p-4">
+                <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
-                    <div className="text-sm font-medium text-slate-100">{copy.necessaryLabel}</div>
-                    <div className="text-sm text-slate-300">{copy.necessaryDescription}</div>
+                    <div className="text-sm font-medium text-gray-100">{t("cookieConsent.necessaryLabel")}</div>
+                    <div className="text-sm text-gray-400">{t("cookieConsent.necessaryDescription")}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -210,15 +151,15 @@ export function CookieConsent({ locale }: { locale: string }) {
                       type="checkbox"
                       checked
                       disabled
-                      className="h-4 w-4 accent-slate-200"
+                      className="h-4 w-4 accent-gray-200"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-start justify-between gap-4 rounded-lg border border-slate-800 bg-slate-900/30 p-4">
+                <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
-                    <div className="text-sm font-medium text-slate-100">{copy.analyticsLabel}</div>
-                    <div className="text-sm text-slate-300">{copy.analyticsDescription}</div>
+                    <div className="text-sm font-medium text-gray-100">{t("cookieConsent.analyticsLabel")}</div>
+                    <div className="text-sm text-gray-400">{t("cookieConsent.analyticsDescription")}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -226,7 +167,7 @@ export function CookieConsent({ locale }: { locale: string }) {
                       type="checkbox"
                       checked={analyticsEnabled}
                       onChange={(event) => setAnalyticsEnabled(event.currentTarget.checked)}
-                      className="h-4 w-4 accent-slate-200"
+                      className="h-4 w-4 accent-gray-200"
                     />
                   </div>
                 </div>
@@ -234,9 +175,9 @@ export function CookieConsent({ locale }: { locale: string }) {
 
               <DialogFooter className="gap-2 sm:gap-2">
                 <Button variant="secondary" onClick={() => save(false)}>
-                  {copy.rejectNonEssential}
+                  {t("cookieConsent.rejectNonEssential")}
                 </Button>
-                <Button onClick={() => save(analyticsEnabled)}>{copy.savePreferences}</Button>
+                <Button onClick={() => save(analyticsEnabled)}>{t("cookieConsent.savePreferences")}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 
+import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n";
-import { getCopy } from "@/lib/copy";
 
 type Category = "live" | "dj" | "studio";
 type Filter = "all" | Category;
@@ -48,8 +48,77 @@ const items: PortfolioItem[] = [
   }
 ];
 
-export function PortfolioGallery({ locale }: { locale: Locale }) {
-  const copy = getCopy(locale);
+// Figma filter button styling per design specs
+interface FilterButtonProps {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  testId: string;
+}
+
+function FilterButton({ active, onClick, children, testId }: FilterButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      data-testid={testId}
+      className={cn(
+        // Figma specs: 14px font, medium weight, rounded-md
+        "rounded-md px-6 py-3 text-sm font-medium transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent",
+        active
+          ? // Active: bg-gray-100, text-gray-950 per Figma primary button
+            "bg-gray-100 text-gray-950 hover:bg-gray-200"
+          : // Inactive: border-gray-600, text-gray-100 per Figma secondary button
+            "border border-gray-600 bg-transparent text-gray-100 hover:border-gray-400 hover:bg-gray-800"
+      )}
+      aria-pressed={active}
+    >
+      {children}
+    </button>
+  );
+}
+
+// Figma card styling - 258px width equivalent with proper styling
+function PortfolioCard({ item, locale }: { item: PortfolioItem; locale: Locale }) {
+  return (
+    <article
+      className={cn(
+        // Figma specs: rounded-xl, border-gray-800, dark bg
+        "rounded-xl border border-gray-800 bg-gray-900/40 p-5",
+        "transition-all duration-200 hover:border-gray-600 hover:bg-gray-900/60"
+      )}
+      data-testid="portfolio-item"
+      data-category={item.category}
+    >
+      <div className="text-sm font-medium text-gray-200">{item.title[locale]}</div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {item.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full border border-gray-800 px-2 py-0.5 text-xs text-gray-400"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+interface PortfolioGalleryProps {
+  locale: Locale;
+  translations: {
+    filters: {
+      all: string;
+      live: string;
+      dj: string;
+      studio: string;
+    };
+  };
+}
+
+export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps) {
   const [filter, setFilter] = useState<Filter>("all");
 
   const visible = useMemo(() => {
@@ -58,62 +127,44 @@ export function PortfolioGallery({ locale }: { locale: Locale }) {
   }, [filter]);
 
   const filters: Array<{ key: Filter; label: string; testId: string }> = [
-    { key: "all", label: copy.portfolio.filters.all, testId: "portfolio-filter-all" },
-    { key: "live", label: copy.portfolio.filters.live, testId: "portfolio-filter-live" },
-    { key: "dj", label: copy.portfolio.filters.dj, testId: "portfolio-filter-dj" },
-    { key: "studio", label: copy.portfolio.filters.studio, testId: "portfolio-filter-studio" }
+    { key: "all", label: translations.filters.all, testId: "portfolio-filter-all" },
+    { key: "live", label: translations.filters.live, testId: "portfolio-filter-live" },
+    { key: "dj", label: translations.filters.dj, testId: "portfolio-filter-dj" },
+    { key: "studio", label: translations.filters.studio, testId: "portfolio-filter-studio" }
   ];
 
   return (
-    <div className="space-y-6" data-testid="portfolio">
+    <div className="space-y-8" data-testid="portfolio">
+      {/* Filter buttons with Figma styling */}
       <div
-        className="flex flex-wrap gap-2"
+        className="flex flex-wrap gap-3"
         role="group"
         aria-label="Portfolio filters"
         data-testid="portfolio-filters"
       >
         {filters.map((f) => (
-          <button
+          <FilterButton
             key={f.key}
-            type="button"
+            active={filter === f.key}
             onClick={() => setFilter(f.key)}
-            data-testid={f.testId}
-            className={`rounded-md border px-3 py-2 text-sm transition-colors ${
-              filter === f.key
-                ? "border-slate-700 bg-slate-900 text-white"
-                : "border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white"
-            }`}
-            aria-pressed={filter === f.key}
+            testId={f.testId}
           >
             {f.label}
-          </button>
+          </FilterButton>
         ))}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="portfolio-grid">
+      {/* Figma 4-column grid with 40px gaps */}
+      <div
+        className="grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        data-testid="portfolio-grid"
+      >
         {visible.map((item) => (
-          <article
-            key={item.id}
-            className="rounded-xl border border-slate-800 bg-slate-900/40 p-5"
-            data-testid="portfolio-item"
-            data-category={item.category}
-          >
-            <div className="text-sm font-medium text-slate-200">{item.title[locale]}</div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {item.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-slate-800 px-2 py-0.5 text-xs text-slate-300"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </article>
+          <PortfolioCard key={item.id} item={item} locale={locale} />
         ))}
       </div>
 
-      <p className="text-sm text-slate-400" data-testid="portfolio-count">
+      <p className="text-sm text-gray-400" data-testid="portfolio-count">
         {visible.length} items
       </p>
     </div>

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createInMemoryRateLimiter } from "./src/lib/rateLimit";
 
 const locales = ["en", "es"] as const;
-const defaultLocale = "en";
+const defaultLocale = "es";
 
 const apiRateLimiter = createInMemoryRateLimiter({
   name: "api",

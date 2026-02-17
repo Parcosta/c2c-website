@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
@@ -20,29 +21,30 @@ type FooterProps = ComponentPropsWithoutRef<"footer"> & {
 };
 
 type FooterLink = {
-  label: string;
+  labelKey: "nav.home" | "nav.portfolio" | "nav.services" | "nav.press" | "nav.about" | "nav.contact";
   href: (locale: Locale) => string;
 };
 
 const navLinks: FooterLink[] = [
-  { label: "Home", href: (locale) => `/${locale}` },
-  { label: "Portfolio", href: (locale) => `/${locale}/portfolio` },
-  { label: "Services", href: (locale) => `/${locale}/services` },
-  { label: "Press", href: (locale) => `/${locale}/press` },
-  { label: "About", href: (locale) => `/${locale}/about` },
-  { label: "Contact", href: (locale) => `/${locale}/contact` }
+  { labelKey: "nav.home", href: (locale) => `/${locale}` },
+  { labelKey: "nav.portfolio", href: (locale) => `/${locale}/portfolio` },
+  { labelKey: "nav.services", href: (locale) => `/${locale}/services` },
+  { labelKey: "nav.press", href: (locale) => `/${locale}/press` },
+  { labelKey: "nav.about", href: (locale) => `/${locale}/about` },
+  { labelKey: "nav.contact", href: (locale) => `/${locale}/contact` }
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "https://example.com/instagram", Icon: InstagramIcon },
-  { label: "SoundCloud", href: "https://example.com/soundcloud", Icon: SoundCloudIcon },
-  { label: "Spotify", href: "https://example.com/spotify", Icon: SpotifyIcon },
-  { label: "YouTube", href: "https://example.com/youtube", Icon: YouTubeIcon }
+  { label: "Instagram", href: "https://instagram.com/c2c", Icon: InstagramIcon },
+  { label: "SoundCloud", href: "https://soundcloud.com/c2c", Icon: SoundCloudIcon },
+  { label: "Spotify", href: "https://open.spotify.com/artist/c2c", Icon: SpotifyIcon },
+  { label: "YouTube", href: "https://youtube.com/c2c", Icon: YouTubeIcon }
 ] as const;
 
 export function Footer({ className, contactEmail = "contact@c2c.com", ...props }: FooterProps) {
   const pathname = usePathname() ?? "/";
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const { t } = useTranslation();
 
   const languageLinks = useMemo(
     () =>
@@ -58,27 +60,28 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
   return (
     <footer
       className={cn(
-        "border-t border-slate-800 bg-slate-950/60 backdrop-blur supports-[backdrop-filter]:bg-slate-950/40",
+        "bg-gray-950",
         className
       )}
       {...props}
     >
-      <Container className="py-12">
-        <div className="grid gap-10 md:grid-cols-12">
-          <div className="space-y-4 md:col-span-4">
-            <Link href={`/${locale}`} className="inline-flex items-center gap-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-accent text-sm font-semibold text-slate-950">
+      <Container className="py-16 md:py-20">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+          {/* Brand & Contact Column */}
+          <div className="space-y-6 md:col-span-4">
+            <Link href={`/${locale}`} className="inline-flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-small font-semibold text-gray-950">
                 C2C
               </span>
-              <span className="font-display text-base font-semibold tracking-tight text-slate-50">
-                C2C
+              <span className="font-display text-body font-semibold text-gray-100">
+                Coast2Coast
               </span>
             </Link>
 
-            <div className="space-y-1 text-sm text-slate-300">
-              <div className="font-medium text-slate-200">Contact</div>
+            <div className="space-y-2">
+              <div className="text-small font-medium text-gray-200">{t("footer.contact")}</div>
               <a
-                className="inline-flex items-center gap-2 underline-offset-4 hover:text-slate-50 hover:underline"
+                className="text-small text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-200"
                 href={`mailto:${contactEmail}`}
               >
                 {contactEmail}
@@ -86,24 +89,27 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
             </div>
           </div>
 
-          <nav aria-label="Footer" className="md:col-span-5">
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
+          {/* Navigation Column */}
+          <nav aria-label="Footer" className="md:col-span-4">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-3">
               {navLinks.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.labelKey}
                   href={item.href(locale)}
-                  className="text-sm text-slate-300 underline-offset-4 hover:text-slate-50 hover:underline"
+                  className="text-small text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-200"
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               ))}
             </div>
           </nav>
 
-          <div className="space-y-5 md:col-span-3">
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-slate-200">Language</div>
-              <div className="flex items-center gap-2">
+          {/* Language & Social Column */}
+          <div className="space-y-8 md:col-span-4">
+            {/* Language Switcher */}
+            <div className="space-y-3">
+              <div className="text-small font-medium text-gray-200">{t("footer.language")}</div>
+              <div className="flex items-center gap-3">
                 {languageLinks.map((item) => {
                   const isActive = item.locale === locale;
                   return (
@@ -112,10 +118,10 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
                       href={item.href}
                       aria-current={isActive ? "true" : undefined}
                       className={cn(
-                        "rounded-md px-2 py-1 text-sm font-medium transition-colors",
+                        "rounded-md px-3 py-1.5 text-small font-medium transition-colors",
                         isActive
-                          ? "bg-slate-800 text-slate-50"
-                          : "text-slate-300 hover:bg-slate-900 hover:text-slate-50"
+                          ? "bg-gray-800 text-gray-100"
+                          : "text-gray-400 hover:bg-gray-900 hover:text-gray-200"
                       )}
                     >
                       {item.locale.toUpperCase()}
@@ -125,19 +131,20 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-slate-200">Follow</div>
-              <div className="flex items-center gap-2">
+            {/* Social Links */}
+            <div className="space-y-3">
+              <div className="text-small font-medium text-gray-200">{t("footer.follow")}</div>
+              <div className="flex items-center gap-3">
                 {socialLinks.map(({ label, href, Icon }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-800 bg-slate-900/30 text-slate-200 transition-colors hover:border-slate-700 hover:bg-slate-900/60 hover:text-slate-50"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-800 bg-gray-900/50 text-gray-400 transition-all hover:border-gray-600 hover:bg-gray-800 hover:text-gray-200"
                     aria-label={label}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-5 w-5" />
                   </a>
                 ))}
               </div>
@@ -145,9 +152,10 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-slate-800 pt-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <div>© {year} C2C. All rights reserved.</div>
-          <div className="text-slate-500">Built with a dark-first design system.</div>
+        {/* Copyright Bar */}
+        <div className="mt-16 flex flex-col gap-4 border-t border-gray-800 pt-8 text-small text-gray-400 sm:flex-row sm:items-center sm:justify-between md:mt-20">
+          <div>© {year} Coast2Coast. {t("footer.rights")}</div>
+          <div className="text-gray-600">Modular techno & DJ sets</div>
         </div>
       </Container>
     </footer>

@@ -1,14 +1,40 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { CookieConsent } from "./CookieConsent";
 
 const CONSENT_COOKIE_NAME = "c2c_cookie_consent";
 const CONSENT_STORAGE_KEY = "c2c_cookie_consent";
 
+// Store mock implementation
+let mockStorage: Record<string, string> = {};
+
+beforeEach(() => {
+  mockStorage = {};
+  // Reset cookie
+  document.cookie = `${CONSENT_COOKIE_NAME}=; Max-Age=0; Path=/`;
+  
+  // Setup localStorage mock with working implementation
+  Object.defineProperty(window, "localStorage", {
+    value: {
+      getItem: vi.fn((key: string) => mockStorage[key] ?? null),
+      setItem: vi.fn((key: string, value: string) => {
+        mockStorage[key] = value;
+      }),
+      removeItem: vi.fn((key: string) => {
+        delete mockStorage[key];
+      }),
+      clear: vi.fn(() => {
+        mockStorage = {};
+      })
+    },
+    writable: true
+  });
+});
+
 function clearConsent() {
   document.cookie = `${CONSENT_COOKIE_NAME}=; Max-Age=0; Path=/`;
-  window.localStorage.removeItem(CONSENT_STORAGE_KEY);
+  mockStorage = {};
 }
 
 function getConsentFromStorage(): unknown {

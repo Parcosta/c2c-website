@@ -23,9 +23,9 @@ export default async function LocaleLayout({
     <div className="min-h-dvh">
       <SiteHeader locale={locale} />
       {children}
-      <footer className="border-t border-slate-800 py-10">
+      <footer className="border-t border-gray-800 py-10">
         <Container>
-          <p className="text-sm text-slate-400" data-testid="site-footer">
+          <p className="text-sm text-gray-400" data-testid="site-footer">
             © {new Date().getFullYear()} Coast2Coast
           </p>
         </Container>
