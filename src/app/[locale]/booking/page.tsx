@@ -1,5 +1,4 @@
 import type { Locale } from "@/lib/i18n";
-import { getCopy } from "@/lib/copy";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { BookingForm } from "@/components/site/BookingForm";
@@ -37,17 +36,20 @@ export async function generateMetadata({
 
 export default async function BookingPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const copy = getCopy(locale);
 
   return (
     <main data-testid="booking-page">
       <Section className="pt-10 md:pt-14">
         <Container>
           <div className="space-y-2">
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl">
-              {copy.booking.title}
+            <h1 className="font-display text-header text-gray-100">
+              {locale === "es" ? "Contratación" : "Booking"}
             </h1>
-            <p className="max-w-2xl text-base text-slate-300">{copy.booking.subtitle}</p>
+            <p className="max-w-2xl text-body text-gray-300">
+              {locale === "es" 
+                ? "Solicita una contratación para tu evento." 
+                : "Request a booking for your event."}
+            </p>
           </div>
         </Container>
       </Section>

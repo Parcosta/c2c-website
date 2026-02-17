@@ -62,6 +62,29 @@
       "error": "Something went wrong. Please try again."
     }
   },
+  "booking": {
+    "title": "Booking",
+    "subtitle": "Request a booking for your event.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "eventType": "Event Type",
+      "eventDate": "Event Date",
+      "location": "Location",
+      "message": "Additional Details",
+      "submit": "Submit Request",
+      "sending": "Sending…",
+      "success": "Request sent. We'll be in touch!",
+      "error": "Something went wrong. Please try again."
+    },
+    "eventTypes": {
+      "live": "Live Performance",
+      "dj": "DJ Set",
+      "corporate": "Corporate Event",
+      "private": "Private Event",
+      "other": "Other"
+    }
+  },
   "about": {
     "pageTitleFallback": "About",
     "introFallback": "Artist bio, releases, setup, and influences.",

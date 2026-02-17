@@ -62,6 +62,29 @@
       "error": "Algo salió mal. Intenta de nuevo."
     }
   },
+  "booking": {
+    "title": "Contratación",
+    "subtitle": "Solicita una contratación para tu evento.",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "eventType": "Tipo de Evento",
+      "eventDate": "Fecha del Evento",
+      "location": "Ubicación",
+      "message": "Detalles Adicionales",
+      "submit": "Enviar Solicitud",
+      "sending": "Enviando…",
+      "success": "Solicitud enviada. ¡Nos pondremos en contacto!",
+      "error": "Algo salió mal. Intenta de nuevo."
+    },
+    "eventTypes": {
+      "live": "Performance en Vivo",
+      "dj": "Set de DJ",
+      "corporate": "Evento Corporativo",
+      "private": "Evento Privado",
+      "other": "Otro"
+    }
+  },
   "about": {
     "pageTitleFallback": "Sobre mí",
     "introFallback": "Bio, lanzamientos, setup e influencias.",
