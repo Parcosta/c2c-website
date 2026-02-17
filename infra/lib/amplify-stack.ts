@@ -1,12 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import * as amplify from '@aws-cdk/aws-amplify-alpha';
-import { aws_codebuild as codebuild, aws_ssm as ssm } from 'aws-cdk-lib';
+import { aws_amplify as amplifyCfn, aws_codebuild as codebuild, aws_ssm as ssm } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export type ParameterLookup = {
   nextPublicSanityProjectId: string;
   nextPublicSanityDataset: string;
   sanityApiToken: string;
+  sanityWebhookSecret: string;
   resendApiKey: string;
 };
 
@@ -86,6 +87,7 @@ export class AmplifyStack extends cdk.Stack {
           false
         ),
         SANITY_API_TOKEN: requiredParameter(this, props.parameters.sanityApiToken, true),
+        SANITY_WEBHOOK_SECRET: requiredParameter(this, props.parameters.sanityWebhookSecret, true),
         RESEND_API_KEY: requiredParameter(this, props.parameters.resendApiKey, true)
       }
     });
@@ -102,8 +104,17 @@ export class AmplifyStack extends cdk.Stack {
       }
     }
 
+    const sanityRebuildWebhook = new amplifyCfn.CfnWebhook(this, 'SanityRebuildWebhook', {
+      appId: app.appId,
+      branchName: 'main',
+      description: 'Trigger Amplify rebuild from Sanity content changes'
+    });
+
     new cdk.CfnOutput(this, 'AmplifyAppId', { value: app.appId });
     new cdk.CfnOutput(this, 'AmplifyDefaultDomain', { value: app.defaultDomain });
+    new cdk.CfnOutput(this, 'AmplifySanityRebuildWebhookUrl', {
+      value: sanityRebuildWebhook.attrWebhookUrl
+    });
   }
 }
 
