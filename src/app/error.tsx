@@ -32,7 +32,10 @@ export default function ErrorBoundary({
         <Container>
           <div className="mx-auto max-w-2xl">
             <GlassCard className="relative overflow-hidden p-6 sm:p-8">
-              <div aria-hidden className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-brand-accent/15 blur-3xl" />
+              <div
+                aria-hidden
+                className="absolute -left-24 -top-24 h-56 w-56 rounded-full bg-brand-accent/15 blur-3xl"
+              />
               <div className="relative space-y-6">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="destructive">Error</Badge>
@@ -54,7 +57,8 @@ export default function ErrorBoundary({
 
                 {error.digest ? (
                   <p className="text-xs text-muted-foreground">
-                    Reference: <code className="rounded bg-slate-900/60 px-1.5 py-0.5">{error.digest}</code>
+                    Reference:{" "}
+                    <code className="rounded bg-slate-900/60 px-1.5 py-0.5">{error.digest}</code>
                   </p>
                 ) : null}
               </div>
@@ -65,4 +69,3 @@ export default function ErrorBoundary({
     </main>
   );
 }
-

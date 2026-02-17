@@ -9,4 +9,3 @@ export const client = createClient({
   useCdn: process.env.NODE_ENV === "production",
   perspective: "published"
 });
-

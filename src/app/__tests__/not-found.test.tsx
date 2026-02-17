@@ -9,11 +9,10 @@ describe("not-found", () => {
   it("renders a 404 message and a link home", () => {
     render(<NotFound />);
 
-    expect(screen.getByRole("heading", { name: "This page doesn’t exist" })).toBeInTheDocument();
-    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Page not found" })).toBeInTheDocument();
+    expect(screen.getByText("That route doesn\u2019t exist.")).toBeInTheDocument();
 
-    const homeLink = screen.getByRole("link", { name: "Go to homepage" });
+    const homeLink = screen.getByRole("link", { name: "Back to home" });
     expect(homeLink).toHaveAttribute("href", `/${defaultLocale}`);
   });
 });
-

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import type { Locale } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n";
@@ -96,9 +96,11 @@ function getCopy(locale: Locale): CookieConsentCopy {
       rejectNonEssential: "Rechazar no esenciales",
       customize: "Preferencias",
       dialogTitle: "Preferencias de cookies",
-      dialogDescription: "Puedes cambiar tus preferencias en cualquier momento eliminando las cookies del navegador.",
+      dialogDescription:
+        "Puedes cambiar tus preferencias en cualquier momento eliminando las cookies del navegador.",
       necessaryLabel: "Esenciales (siempre activas)",
-      necessaryDescription: "Necesarias para la seguridad, la navegación y funciones básicas del sitio.",
+      necessaryDescription:
+        "Necesarias para la seguridad, la navegación y funciones básicas del sitio.",
       analyticsLabel: "Analítica",
       analyticsDescription: "Ayudan a medir el uso del sitio para mejorar rendimiento y contenido.",
       savePreferences: "Guardar preferencias",
@@ -115,7 +117,8 @@ function getCopy(locale: Locale): CookieConsentCopy {
     rejectNonEssential: "Reject non-essential",
     customize: "Preferences",
     dialogTitle: "Cookie preferences",
-    dialogDescription: "You can change your preferences at any time by clearing your browser cookies.",
+    dialogDescription:
+      "You can change your preferences at any time by clearing your browser cookies.",
     necessaryLabel: "Essential (always on)",
     necessaryDescription: "Required for security, navigation, and basic site functionality.",
     analyticsLabel: "Analytics",
@@ -130,19 +133,14 @@ export function CookieConsent({ locale }: { locale: string }) {
   const resolvedLocale = useMemo<Locale>(() => (isLocale(locale) ? locale : "en"), [locale]);
   const copy = useMemo(() => getCopy(resolvedLocale), [resolvedLocale]);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
-
-  useEffect(() => {
-    const existing = getInitialConsent();
-    if (!existing) {
-      setIsVisible(true);
-      setAnalyticsEnabled(false);
-      return;
-    }
-    setIsVisible(false);
-    setAnalyticsEnabled(existing.analytics);
-  }, []);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof document === "undefined") return false;
+    return !getInitialConsent();
+  });
+  const [analyticsEnabled, setAnalyticsEnabled] = useState(() => {
+    if (typeof document === "undefined") return false;
+    return getInitialConsent()?.analytics ?? false;
+  });
 
   function save(analytics: boolean) {
     const next: ConsentState = {
@@ -195,7 +193,9 @@ export function CookieConsent({ locale }: { locale: string }) {
             <DialogContent className="border-slate-800 bg-slate-950 text-slate-50">
               <DialogHeader>
                 <DialogTitle className="font-display">{copy.dialogTitle}</DialogTitle>
-                <DialogDescription className="text-slate-300">{copy.dialogDescription}</DialogDescription>
+                <DialogDescription className="text-slate-300">
+                  {copy.dialogDescription}
+                </DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4">
@@ -245,4 +245,3 @@ export function CookieConsent({ locale }: { locale: string }) {
     </div>
   );
 }
-

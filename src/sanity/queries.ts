@@ -87,6 +87,7 @@ export type ServiceValue = {
   description?: string;
   icon?: string;
   features?: string[];
+  pricing?: string;
 };
 
 export type PressItemValue = {
@@ -145,7 +146,9 @@ export type PressEpkValue = {
   siteSettings: SiteSettingsValue | null;
 };
 
-export function buildHomepageQuery(locale: Locale): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
+export function buildHomepageQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
   return {
     query: groq`*[_type == "page" && slug[$locale].current == $slug][0]{
       _id,
@@ -189,7 +192,9 @@ export function buildPortfolioItemsQuery(
   };
 }
 
-export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
+export function buildCurrentWorkQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
   return {
     query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
       _id,
@@ -208,7 +213,9 @@ export function buildCurrentWorkQuery(locale: Locale): QueryDefinition<{ locale:
   };
 }
 
-export function buildEventsQuery(locale: Locale): QueryDefinition<{ locale: Locale }, EventValue[]> {
+export function buildEventsQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, EventValue[]> {
   return {
     query: groq`*[_type == "event"]|order(date desc){
       _id,
@@ -224,7 +231,9 @@ export function buildEventsQuery(locale: Locale): QueryDefinition<{ locale: Loca
   };
 }
 
-export function buildUpcomingEventsQuery(locale: Locale): QueryDefinition<{ locale: Locale }, EventValue[]> {
+export function buildUpcomingEventsQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, EventValue[]> {
   return {
     query: groq`*[_type == "event" && date >= now()]|order(date asc){
       _id,
@@ -240,7 +249,9 @@ export function buildUpcomingEventsQuery(locale: Locale): QueryDefinition<{ loca
   };
 }
 
-export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Locale }, ServiceValue[]> {
+export function buildServicesQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, ServiceValue[]> {
   return {
     query: groq`*[_type == "service"]|order(title.en asc){
       _id,
@@ -253,7 +264,28 @@ export function buildServicesQuery(locale: Locale): QueryDefinition<{ locale: Lo
   };
 }
 
-export function buildPressQuery(locale: Locale): QueryDefinition<{ locale: Locale }, PressItemValue[]> {
+export function buildPortfolioItemBySlugQuery(
+  locale: Locale,
+  slug: string
+): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
+  return {
+    query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
+      _id,
+      "title": title[$locale],
+      "slug": slug[$locale].current,
+      "category": category[$locale],
+      images,
+      "description": description[$locale],
+      date,
+      tags
+    }`,
+    params: { locale, slug }
+  };
+}
+
+export function buildPressQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, PressItemValue[]> {
   return {
     query: groq`*[_type == "pressItem"]|order(date desc){
       _id,
@@ -283,7 +315,9 @@ export function buildSiteSettingsQuery(
   };
 }
 
-export function buildPressEpkQuery(locale: Locale): QueryDefinition<{ locale: Locale }, PressEpkValue> {
+export function buildPressEpkQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, PressEpkValue> {
   return {
     query: groq`{
       "pressPage": *[_type == "pressPage"][0]{
@@ -338,4 +372,3 @@ export function buildPressEpkQuery(locale: Locale): QueryDefinition<{ locale: Lo
     params: { locale }
   };
 }
-

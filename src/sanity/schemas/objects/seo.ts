@@ -10,4 +10,3 @@ export const seo = defineType({
     defineField({ name: "image", title: "Image", type: "image", options: { hotspot: true } })
   ]
 });
-

@@ -41,4 +41,3 @@ describe("i18n path utilities", () => {
     expect(switchLocaleInPathname("/portfolio/item", "es")).toBe("/es/portfolio/item");
   });
 });
-

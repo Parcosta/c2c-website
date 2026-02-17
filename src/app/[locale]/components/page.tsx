@@ -25,11 +25,16 @@ function getComponentsSeo(locale: Locale): { title: string; description: string 
   }
 }
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const seo = getComponentsSeo(params.locale);
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const seo = getComponentsSeo(locale);
   return buildMetadata({
     ...seo,
-    pathname: `/${params.locale}/components`
+    pathname: `/${locale}/components`
   });
 }
 
@@ -37,7 +42,10 @@ export default function ComponentsPage() {
   return (
     <main className="mx-auto w-full max-w-5xl space-y-10 px-4 py-10 sm:px-6">
       <header className="space-y-3">
-        <SectionHeading title="Components" subtitle="Preview of custom components built on shadcn/ui." />
+        <SectionHeading
+          title="Components"
+          subtitle="Preview of custom components built on shadcn/ui."
+        />
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="secondary">Dark theme</Badge>
           <Badge>Electric blue primary</Badge>
@@ -48,7 +56,10 @@ export default function ComponentsPage() {
       <Separator />
 
       <section className="space-y-4">
-        <SectionHeading title="AnimatedButton" subtitle="Hover/press animations with optional glow." />
+        <SectionHeading
+          title="AnimatedButton"
+          subtitle="Hover/press animations with optional glow."
+        />
         <div className="flex flex-wrap gap-3">
           <AnimatedButton>Default</AnimatedButton>
           <AnimatedButton variant="secondary">Secondary</AnimatedButton>
@@ -65,7 +76,9 @@ export default function ComponentsPage() {
         <SectionHeading title="GlassCard" subtitle="Glassmorphism container for content blocks." />
         <GlassCard className="p-6">
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">A subtle border + blur + translucent fill.</p>
+            <p className="text-sm text-muted-foreground">
+              A subtle border + blur + translucent fill.
+            </p>
             <p className="font-medium">Looks great on slate backgrounds.</p>
           </div>
         </GlassCard>
@@ -74,7 +87,10 @@ export default function ComponentsPage() {
       <Separator />
 
       <section className="space-y-4">
-        <SectionHeading title="ImageCard" subtitle="Portfolio/gallery card with image + metadata." />
+        <SectionHeading
+          title="ImageCard"
+          subtitle="Portfolio/gallery card with image + metadata."
+        />
         <div className="grid gap-4 sm:grid-cols-2">
           <ImageCard
             src="/preview-1.svg"
@@ -94,4 +110,3 @@ export default function ComponentsPage() {
     </main>
   );
 }
-

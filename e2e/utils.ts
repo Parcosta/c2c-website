@@ -7,4 +7,3 @@ export async function gotoLocale(page: Page, locale: TestLocale, pathname = "/")
   const fullPath = normalized === "/" ? `/${locale}` : `/${locale}${normalized}`;
   await page.goto(fullPath);
 }
-

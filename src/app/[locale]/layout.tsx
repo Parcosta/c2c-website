@@ -9,15 +9,15 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params
 }: {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale = params.locale;
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
 
   return (
     <div className="min-h-dvh">
@@ -33,4 +33,3 @@ export default function LocaleLayout({
     </div>
   );
 }
-

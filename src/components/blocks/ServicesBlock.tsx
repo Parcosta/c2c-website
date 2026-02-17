@@ -36,7 +36,7 @@ export function ServicesBlock({
     <Section className={className} {...props}>
       <Container>
         <div className="space-y-10">
-          {(title || subtitle) && <SectionHeading title={title} subtitle={subtitle} />}
+          {title && <SectionHeading title={title} subtitle={subtitle} />}
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => {
@@ -79,8 +79,14 @@ export function ServicesBlock({
                     {!!service.features?.length && (
                       <ul className="space-y-2 text-sm text-slate-200" role="list">
                         {service.features.map((feature, idx) => (
-                          <li key={`${service._id}-feature-${idx}`} className="flex items-start gap-2">
-                            <Check className="mt-0.5 h-4 w-4 text-brand-accent" aria-hidden="true" />
+                          <li
+                            key={`${service._id}-feature-${idx}`}
+                            className="flex items-start gap-2"
+                          >
+                            <Check
+                              className="mt-0.5 h-4 w-4 text-brand-accent"
+                              aria-hidden="true"
+                            />
                             <span className="leading-relaxed">{feature}</span>
                           </li>
                         ))}
@@ -96,4 +102,3 @@ export function ServicesBlock({
     </Section>
   );
 }
-

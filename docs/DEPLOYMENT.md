@@ -115,4 +115,3 @@ Optional variables used by the app (examples):
 - `NEXT_PUBLIC_NEXT_EVENT_NAME`, `NEXT_PUBLIC_NEXT_EVENT_START_DATE`, `NEXT_PUBLIC_NEXT_EVENT_URL`
 
 You can add them as Amplify environment variables in the Amplify app settings, or wire them through CDK/SSM the same way as the required parameters above.
-

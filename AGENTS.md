@@ -64,4 +64,3 @@ When running commands, follow the repo’s package manager:
 - Logo symbol can stand alone.
 - Bilingual support: EN/ES (plan content and routing accordingly).
 - Mobile + web views are required; verify responsive behavior.
-

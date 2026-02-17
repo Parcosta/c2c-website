@@ -17,4 +17,3 @@ export const pressPhoto = defineType({
     select: { title: "title.en", media: "image" }
   }
 });
-

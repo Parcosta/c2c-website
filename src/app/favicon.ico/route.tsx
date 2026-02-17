@@ -50,11 +50,10 @@ export async function GET() {
   const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
   const icoBytes = wrapPngAsIco(pngBytes, 32, 32);
 
-  return new Response(icoBytes, {
+  return new Response(icoBytes as unknown as BodyInit, {
     headers: {
       "Content-Type": "image/x-icon",
       "Cache-Control": "public, max-age=31536000, immutable"
     }
   });
 }
-

@@ -1,4 +1,5 @@
-import type * as React from "react";
+import { createElement } from "react";
+import type { ComponentType } from "react";
 import * as LucideIcons from "lucide-react";
 
 export type ServiceIconProps = {
@@ -7,21 +8,14 @@ export type ServiceIconProps = {
   "data-testid"?: string;
 };
 
-type LucideIconComponent = React.ComponentType<{
-  className?: string;
-  "aria-hidden"?: boolean;
-  focusable?: boolean;
-}>;
-
-function getLucideIconByName(name: string | undefined): LucideIconComponent | null {
-  if (!name) return null;
-  const candidate = (LucideIcons as unknown as Record<string, unknown>)[name];
-  if (typeof candidate !== "function") return null;
-  return candidate as LucideIconComponent;
+const iconMap = new Map<string, ComponentType<Record<string, unknown>>>();
+for (const [key, value] of Object.entries(LucideIcons)) {
+  if (typeof value === "function") {
+    iconMap.set(key, value as ComponentType<Record<string, unknown>>);
+  }
 }
 
 export function ServiceIcon({ name, className, ...props }: ServiceIconProps) {
-  const Icon = getLucideIconByName(name) ?? LucideIcons.Sparkles;
-  return <Icon aria-hidden focusable={false} className={className} {...props} />;
+  const icon = (name && iconMap.get(name)) || LucideIcons.Sparkles;
+  return createElement(icon, { "aria-hidden": true, focusable: false, className, ...props });
 }
-

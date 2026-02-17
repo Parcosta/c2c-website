@@ -7,38 +7,30 @@ import { buildPortfolioItemsQuery, type PortfolioItemValue } from "@/sanity/quer
 
 import { PortfolioBlockClient, type PortfolioBlockItem } from "./PortfolioBlockClient";
 
-function getLocaleFromHeaders(): Locale {
-  const headerLocale = headers().get("x-locale") ?? defaultLocale;
+async function getLocaleFromHeaders(): Promise<Locale> {
+  const headerStore = await headers();
+  const headerLocale = headerStore.get("x-locale") ?? defaultLocale;
   return isLocale(headerLocale) ? headerLocale : defaultLocale;
 }
 
 export async function PortfolioBlock() {
-  const locale = getLocaleFromHeaders();
+  const locale = await getLocaleFromHeaders();
   const def = buildPortfolioItemsQuery(locale);
 
-  const items = await client
-    .fetch<PortfolioItemValue[]>(def.query, def.params)
-    .catch(() => []);
+  const items = await client.fetch<PortfolioItemValue[]>(def.query, def.params).catch(() => []);
 
-  const mapped: PortfolioBlockItem[] = items
-    .map((item, index) => {
-      const title = item.title?.trim() || "Untitled";
-      const slug = item.slug?.trim();
-      if (!slug) return null;
+  const mapped = items.reduce<PortfolioBlockItem[]>((acc, item, index) => {
+    const title = item.title?.trim() || "Untitled";
+    const slug = item.slug?.trim();
+    if (!slug) return acc;
 
-      const imageUrl =
-        getSanityImageUrl(item.images?.[0]) ?? (index % 2 === 0 ? "/preview-1.svg" : "/preview-2.svg");
+    const imageUrl =
+      getSanityImageUrl(item.images?.[0]) ??
+      (index % 2 === 0 ? "/preview-1.svg" : "/preview-2.svg");
 
-      return {
-        id: item._id,
-        title,
-        slug,
-        category: item.category ?? null,
-        imageUrl
-      };
-    })
-    .filter((value): value is PortfolioBlockItem => value != null);
+    acc.push({ id: item._id, title, slug, category: item.category ?? null, imageUrl });
+    return acc;
+  }, []);
 
   return <PortfolioBlockClient items={mapped} />;
 }
-

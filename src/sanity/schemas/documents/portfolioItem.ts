@@ -17,7 +17,8 @@ export const portfolioItem = defineType({
     defineField({
       name: "featuredMedia",
       title: "Featured media",
-      description: "Optional hero media shown on homepage (image or video). Defaults to first image.",
+      description:
+        "Optional hero media shown on homepage (image or video). Defaults to first image.",
       type: "array",
       of: [
         { type: "image", options: { hotspot: true } },
@@ -45,4 +46,3 @@ export const portfolioItem = defineType({
     }
   }
 });
-

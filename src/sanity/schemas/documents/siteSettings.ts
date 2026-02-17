@@ -19,4 +19,3 @@ export const siteSettings = defineType({
     select: { title: "siteName.en", media: "logo" }
   }
 });
-

@@ -27,7 +27,10 @@ describe("PressBlock", () => {
     expect(time).toHaveAttribute("dateTime", "2026-02-10");
     expect(time.textContent?.length).toBeGreaterThan(0);
 
-    expect(screen.getByRole("link", { name: "Read" })).toHaveAttribute("href", "https://example.com/press");
+    expect(screen.getByRole("link", { name: "Read" })).toHaveAttribute(
+      "href",
+      "https://example.com/press"
+    );
   });
 
   it("renders nothing when there are no visible items", () => {
@@ -35,4 +38,3 @@ describe("PressBlock", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
-

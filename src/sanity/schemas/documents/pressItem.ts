@@ -16,4 +16,3 @@ export const pressItem = defineType({
     select: { title: "title.en", subtitle: "publication.en", media: "image" }
   }
 });
-

@@ -22,4 +22,3 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: "ES" })).toHaveAttribute("href", "/es/portfolio");
   });
 });
-

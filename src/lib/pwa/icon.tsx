@@ -58,4 +58,3 @@ export function getPwaIconElement({ size, label, mono }: IconOptions): ReactElem
     </div>
   );
 }
-

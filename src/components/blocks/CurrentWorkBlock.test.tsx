@@ -40,7 +40,11 @@ describe("CurrentWorkBlock", () => {
       <CurrentWorkBlock
         project={{
           title: "Project Beta",
-          media: { kind: "video", url: "https://cdn.sanity.io/files/x/y/test.mp4", mimeType: "video/mp4" }
+          media: {
+            kind: "video",
+            url: "https://cdn.sanity.io/files/x/y/test.mp4",
+            mimeType: "video/mp4"
+          }
         }}
       />
     );
@@ -56,4 +60,3 @@ describe("CurrentWorkBlock", () => {
     expect(screen.getByTestId("current-work-media-empty")).toBeInTheDocument();
   });
 });
-

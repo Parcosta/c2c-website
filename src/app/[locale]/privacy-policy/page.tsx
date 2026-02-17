@@ -34,8 +34,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Este sitio web pertenece a Coast2Coast (C2C) (en adelante, “C2C”, “nosotros”). Esta política explica qué datos personales tratamos cuando visitas el sitio o te pones en contacto con nosotros."
+              text: "Este sitio web pertenece a Coast2Coast (C2C) (en adelante, “C2C”, “nosotros”). Esta política explica qué datos personales tratamos cuando visitas el sitio o te pones en contacto con nosotros."
             }
           ]
         },
@@ -58,8 +57,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Tratamos tus datos personales únicamente cuando existe una base legal para ello. Dependiendo del caso, las bases legales pueden ser:"
+              text: "Tratamos tus datos personales únicamente cuando existe una base legal para ello. Dependiendo del caso, las bases legales pueden ser:"
             },
             {
               type: "ul",
@@ -77,13 +75,11 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Utilizamos cookies esenciales para que el sitio funcione correctamente. Si lo aceptas, también utilizamos cookies de analítica para medir el uso del sitio y mejorar su rendimiento."
+              text: "Utilizamos cookies esenciales para que el sitio funcione correctamente. Si lo aceptas, también utilizamos cookies de analítica para medir el uso del sitio y mejorar su rendimiento."
             },
             {
               type: "p",
-              text:
-                "Puedes gestionar tu consentimiento desde el banner de cookies. También puedes eliminar o bloquear cookies desde la configuración de tu navegador."
+              text: "Puedes gestionar tu consentimiento desde el banner de cookies. También puedes eliminar o bloquear cookies desde la configuración de tu navegador."
             }
           ]
         },
@@ -92,13 +88,11 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Podemos compartir datos con proveedores que nos ayudan a operar el sitio (encargados del tratamiento), por ejemplo hosting, entrega de contenidos, CMS o envío de emails. Solo comparten los datos necesarios y bajo obligaciones de confidencialidad."
+              text: "Podemos compartir datos con proveedores que nos ayudan a operar el sitio (encargados del tratamiento), por ejemplo hosting, entrega de contenidos, CMS o envío de emails. Solo comparten los datos necesarios y bajo obligaciones de confidencialidad."
             },
             {
               type: "p",
-              text:
-                "También podemos divulgar información cuando sea necesario para cumplir la ley, hacer valer nuestros derechos o proteger la seguridad de usuarios y del sitio."
+              text: "También podemos divulgar información cuando sea necesario para cumplir la ley, hacer valer nuestros derechos o proteger la seguridad de usuarios y del sitio."
             }
           ]
         },
@@ -107,8 +101,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Algunos proveedores pueden estar ubicados fuera del EEE. Cuando ocurre, aplicamos salvaguardas adecuadas (por ejemplo, cláusulas contractuales tipo) según sea necesario."
+              text: "Algunos proveedores pueden estar ubicados fuera del EEE. Cuando ocurre, aplicamos salvaguardas adecuadas (por ejemplo, cláusulas contractuales tipo) según sea necesario."
             }
           ]
         },
@@ -117,8 +110,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Conservamos los datos solo durante el tiempo necesario para las finalidades descritas y para cumplir obligaciones legales. Los plazos exactos pueden variar según el tipo de dato y el contexto."
+              text: "Conservamos los datos solo durante el tiempo necesario para las finalidades descritas y para cumplir obligaciones legales. Los plazos exactos pueden variar según el tipo de dato y el contexto."
             }
           ]
         },
@@ -127,8 +119,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Aplicamos medidas técnicas y organizativas razonables para proteger los datos personales. Aun así, ningún sistema es 100% seguro."
+              text: "Aplicamos medidas técnicas y organizativas razonables para proteger los datos personales. Aun así, ningún sistema es 100% seguro."
             }
           ]
         },
@@ -137,8 +128,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Según tu ubicación, puedes tener derechos sobre tus datos personales, incluyendo:"
+              text: "Según tu ubicación, puedes tener derechos sobre tus datos personales, incluyendo:"
             },
             {
               type: "ul",
@@ -152,8 +142,7 @@ function getCopy(locale: Locale): PolicyCopy {
             },
             {
               type: "p",
-              text:
-                "Para ejercer tus derechos, ponte en contacto con nosotros a través de los canales publicados en el sitio."
+              text: "Para ejercer tus derechos, ponte en contacto con nosotros a través de los canales publicados en el sitio."
             }
           ]
         },
@@ -162,8 +151,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Este sitio no está dirigido a menores. Si crees que un menor nos ha proporcionado datos personales, contáctanos para que podamos eliminarlos."
+              text: "Este sitio no está dirigido a menores. Si crees que un menor nos ha proporcionado datos personales, contáctanos para que podamos eliminarlos."
             }
           ]
         },
@@ -172,8 +160,7 @@ function getCopy(locale: Locale): PolicyCopy {
           body: [
             {
               type: "p",
-              text:
-                "Podemos actualizar esta Política de Privacidad. Publicaremos cualquier cambio en esta página e indicaremos la fecha de última actualización."
+              text: "Podemos actualizar esta Política de Privacidad. Publicaremos cualquier cambio en esta página e indicaremos la fecha de última actualización."
             }
           ]
         }
@@ -191,8 +178,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "This website is operated by Coast2Coast (C2C) (“C2C”, “we”, “us”). This policy explains what personal data we process when you visit the site or contact us."
+            text: "This website is operated by Coast2Coast (C2C) (“C2C”, “we”, “us”). This policy explains what personal data we process when you visit the site or contact us."
           }
         ]
       },
@@ -215,8 +201,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We only process personal data when we have a legal basis. Depending on the context, that basis may be:"
+            text: "We only process personal data when we have a legal basis. Depending on the context, that basis may be:"
           },
           {
             type: "ul",
@@ -234,13 +219,11 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We use essential cookies to ensure the website functions properly. If you accept, we also use analytics cookies to measure site usage and improve performance."
+            text: "We use essential cookies to ensure the website functions properly. If you accept, we also use analytics cookies to measure site usage and improve performance."
           },
           {
             type: "p",
-            text:
-              "You can manage your consent from the cookie banner. You can also delete or block cookies using your browser settings."
+            text: "You can manage your consent from the cookie banner. You can also delete or block cookies using your browser settings."
           }
         ]
       },
@@ -249,13 +232,11 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We may share data with service providers that help us operate the site (processors), such as hosting, content delivery, a CMS, or email delivery. They only process data as needed and under confidentiality obligations."
+            text: "We may share data with service providers that help us operate the site (processors), such as hosting, content delivery, a CMS, or email delivery. They only process data as needed and under confidentiality obligations."
           },
           {
             type: "p",
-            text:
-              "We may also disclose information where necessary to comply with the law, enforce our rights, or protect the security of users and the website."
+            text: "We may also disclose information where necessary to comply with the law, enforce our rights, or protect the security of users and the website."
           }
         ]
       },
@@ -264,8 +245,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "Some providers may be located outside the EEA. Where applicable, we use appropriate safeguards (such as Standard Contractual Clauses) to protect your data."
+            text: "Some providers may be located outside the EEA. Where applicable, we use appropriate safeguards (such as Standard Contractual Clauses) to protect your data."
           }
         ]
       },
@@ -274,8 +254,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We keep personal data only as long as needed for the purposes described and to meet legal obligations. Exact retention periods vary by data type and context."
+            text: "We keep personal data only as long as needed for the purposes described and to meet legal obligations. Exact retention periods vary by data type and context."
           }
         ]
       },
@@ -284,8 +263,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We apply reasonable technical and organizational measures to protect personal data. However, no system is 100% secure."
+            text: "We apply reasonable technical and organizational measures to protect personal data. However, no system is 100% secure."
           }
         ]
       },
@@ -294,8 +272,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "Depending on your location, you may have rights regarding your personal data, including:"
+            text: "Depending on your location, you may have rights regarding your personal data, including:"
           },
           {
             type: "ul",
@@ -318,8 +295,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "This website is not directed to children. If you believe a child has provided us with personal data, contact us so we can delete it."
+            text: "This website is not directed to children. If you believe a child has provided us with personal data, contact us so we can delete it."
           }
         ]
       },
@@ -328,8 +304,7 @@ function getCopy(locale: Locale): PolicyCopy {
         body: [
           {
             type: "p",
-            text:
-              "We may update this Privacy Policy. We will post changes on this page and update the “Last updated” date."
+            text: "We may update this Privacy Policy. We will post changes on this page and update the “Last updated” date."
           }
         ]
       }
@@ -337,16 +312,26 @@ function getCopy(locale: Locale): PolicyCopy {
   };
 }
 
-export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
   return {
     title: copy.title
   };
 }
 
-export default function PrivacyPolicyPage({ params }: { params: { locale: string } }) {
-  const locale: Locale = isLocale(params.locale) ? params.locale : "en";
+export default async function PrivacyPolicyPage({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   const copy = getCopy(locale);
 
   return (
@@ -402,4 +387,3 @@ export default function PrivacyPolicyPage({ params }: { params: { locale: string
     </main>
   );
 }
-

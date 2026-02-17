@@ -47,7 +47,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           {copy.brand}
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Primary" data-testid="desktop-nav">
+        <nav
+          className="hidden items-center gap-6 md:flex"
+          aria-label="Primary"
+          data-testid="desktop-nav"
+        >
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -155,4 +159,3 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     </header>
   );
 }
-

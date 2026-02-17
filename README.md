@@ -46,6 +46,7 @@ npm run dev
 Then open `http://localhost:3000`.
 
 Notes:
+
 - If you want fully reproducible installs (recommended in CI), use `npm ci` instead of `npm install`.
 
 ## Environment variables
@@ -66,6 +67,7 @@ All required environment variables are listed in `.env.example`.
 - **`CONTACT_FORM_FROM`**: Verified Resend sender (e.g. `C2C <no-reply@yourdomain.com>`).
 
 Notes:
+
 - Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser by Next.js.
 - In AWS Amplify (via CDK), these values are configured as Amplify environment variables and are sourced from AWS SSM Parameter Store (see [Deployment](#deployment)).
 
@@ -133,6 +135,7 @@ npm run synth
 Infrastructure lives in `infra/` and provisions an Amplify app using AWS CDK (v2).
 
 Key behavior (from `infra/lib/amplify-stack.ts`):
+
 - Creates an Amplify app with **WEB_COMPUTE** platform.
 - Connects to GitHub via a Secrets Manager secret name (default: `github/token`).
 - Configures Amplify environment variables:
@@ -158,6 +161,7 @@ npx cdk deploy -c githubOwner=Parcosta -c githubRepo=c2c-website
 ```
 
 Infra configuration inputs:
+
 - **GitHub repo**
   - context `githubOwner` / `githubRepo` (or env `GITHUB_OWNER` / `GITHUB_REPO`)
   - context `githubTokenSecretName` (or env `GITHUB_TOKEN_SECRET_NAME`, default `github/token`)

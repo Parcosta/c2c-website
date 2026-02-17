@@ -30,4 +30,3 @@ export const service = defineType({
     select: { title: "title.en", subtitle: "icon" }
   }
 });
-

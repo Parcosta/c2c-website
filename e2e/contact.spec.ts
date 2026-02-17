@@ -9,11 +9,12 @@ test("contact form submission flow", async ({ page }) => {
   await page.getByTestId("contact-message").fill("Hello from E2E.");
 
   const [response] = await Promise.all([
-    page.waitForResponse((res) => res.url().includes("/api/contact") && res.request().method() === "POST"),
+    page.waitForResponse(
+      (res) => res.url().includes("/api/contact") && res.request().method() === "POST"
+    ),
     page.getByTestId("contact-submit").click()
   ]);
 
   expect(response.ok()).toBeTruthy();
   await expect(page.getByTestId("contact-success")).toBeVisible();
 });
-

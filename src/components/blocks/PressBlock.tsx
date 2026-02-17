@@ -55,7 +55,9 @@ export function PressBlock({ items, locale, className }: PressBlockProps) {
                 <div className="space-y-2">
                   <div className="text-sm font-semibold tracking-tight text-slate-50">{label}</div>
                   {item.quote ? (
-                    <blockquote className="text-sm leading-relaxed text-slate-200">&ldquo;{item.quote}&rdquo;</blockquote>
+                    <blockquote className="text-sm leading-relaxed text-slate-200">
+                      &ldquo;{item.quote}&rdquo;
+                    </blockquote>
                   ) : null}
                 </div>
 
@@ -91,4 +93,3 @@ export function PressBlock({ items, locale, className }: PressBlockProps) {
     </div>
   );
 }
-

@@ -45,4 +45,3 @@ describe("ServicesBlock", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
-

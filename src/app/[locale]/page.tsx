@@ -5,35 +5,45 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { JsonLdScript } from "@/components/seo/JsonLd";
 import { type Locale } from "@/lib/i18n";
-import { buildMetadata, createMusicGroupJsonLd, createOrganizationJsonLd, createEventJsonLd, getSiteName } from "@/lib/seo";
+import {
+  buildMetadata,
+  createMusicGroupJsonLd,
+  createOrganizationJsonLd,
+  createEventJsonLd,
+  getSiteName
+} from "@/lib/seo";
 
 function getHomeSeo(locale: Locale): { title: string; description: string } {
   switch (locale) {
     case "es":
       return {
         title: getSiteName(),
-        description:
-          "Live modular techno y DJ. Música, shows y lanzamientos de Coast2Coast (C2C)."
+        description: "Live modular techno y DJ. Música, shows y lanzamientos de Coast2Coast (C2C)."
       };
     case "en":
     default:
       return {
         title: getSiteName(),
-        description:
-          "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
+        description: "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
       };
   }
 }
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const seo = getHomeSeo(params.locale);
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const seo = getHomeSeo(locale);
   return buildMetadata({
     ...seo,
-    pathname: `/${params.locale}`
+    pathname: `/${locale}`
   });
 }
 
-export default function HomePage({ params }: { params: { locale: Locale } }) {
+export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   const org = createOrganizationJsonLd({ name: "Coast2Coast" });
   const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
 
@@ -57,7 +67,9 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
         <Container>
           <div className="space-y-8">
             <div className="space-y-2">
-              <p className="font-display text-sm font-medium tracking-wide text-slate-300">Design System</p>
+              <p className="font-display text-sm font-medium tracking-wide text-slate-300">
+                Design System
+              </p>
               <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl">
                 Foundation
               </h1>
@@ -94,8 +106,7 @@ export default function HomePage({ params }: { params: { locale: Locale } }) {
           </div>
         </Container>
       </Section>
-      <EventsBlock locale={params.locale} />
+      <EventsBlock locale={locale} />
     </main>
   );
 }
-

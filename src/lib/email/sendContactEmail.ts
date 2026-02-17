@@ -8,16 +8,12 @@ export type SendContactEmailParams = Readonly<{
   userAgent: string | null;
 }>;
 
-function requireEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`Missing required environment variable: ${name}`);
-  return value;
-}
-
 export async function sendContactEmail(params: SendContactEmailParams) {
-  const apiKey = requireEnv("RESEND_API_KEY");
-  const to = requireEnv("CONTACT_FORM_TO");
-  const from = requireEnv("CONTACT_FORM_FROM");
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.CONTACT_FORM_TO;
+  const from = process.env.CONTACT_FORM_FROM;
+
+  if (!apiKey || !to || !from) return;
 
   const { data, clientIp, userAgent } = params;
 
@@ -46,16 +42,10 @@ export async function sendContactEmail(params: SendContactEmailParams) {
         <li><strong>Name</strong>: ${escapeHtml(data.name)}</li>
         <li><strong>Email</strong>: ${escapeHtml(data.email)}</li>
         ${data.phone ? `<li><strong>Phone</strong>: ${escapeHtml(data.phone)}</li>` : ""}
-        ${
-          data.company
-            ? `<li><strong>Company</strong>: ${escapeHtml(data.company)}</li>`
-            : ""
-        }
+        ${data.company ? `<li><strong>Company</strong>: ${escapeHtml(data.company)}</li>` : ""}
         ${data.locale ? `<li><strong>Locale</strong>: ${escapeHtml(data.locale)}</li>` : ""}
         ${clientIp ? `<li><strong>IP</strong>: ${escapeHtml(clientIp)}</li>` : ""}
-        ${
-          userAgent ? `<li><strong>User-Agent</strong>: ${escapeHtml(userAgent)}</li>` : ""
-        }
+        ${userAgent ? `<li><strong>User-Agent</strong>: ${escapeHtml(userAgent)}</li>` : ""}
       </ul>
       <p><strong>Message</strong>:</p>
       <pre style="white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${escapeHtml(
@@ -82,4 +72,3 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
-

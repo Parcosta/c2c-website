@@ -94,4 +94,3 @@ describe("POST /api/contact", () => {
     expect(json).toMatchObject({ ok: false, error: { code: "RATE_LIMITED" } });
   });
 });
-

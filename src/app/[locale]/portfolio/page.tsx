@@ -4,8 +4,9 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PortfolioGallery } from "@/components/site/PortfolioGallery";
 
-export default function PortfolioPage({ params }: { params: { locale: Locale } }) {
-  const copy = getCopy(params.locale);
+export default async function PortfolioPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const copy = getCopy(locale);
 
   return (
     <main data-testid="portfolio-page">
@@ -22,10 +23,9 @@ export default function PortfolioPage({ params }: { params: { locale: Locale } }
 
       <Section className="pt-0">
         <Container>
-          <PortfolioGallery locale={params.locale} />
+          <PortfolioGallery locale={locale} />
         </Container>
       </Section>
     </main>
   );
 }
-

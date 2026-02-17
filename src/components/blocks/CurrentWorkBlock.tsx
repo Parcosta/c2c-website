@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Image from "next/image";
-import { PortableText } from "@portabletext/react";
+import { PortableText, type PortableTextBlock } from "@portabletext/react";
 
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { GlassCard } from "@/components/custom/GlassCard";
@@ -74,7 +74,9 @@ export function CurrentWorkBlock({
 
           <div className="space-y-3">
             <div className="space-y-2">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Latest project</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                Latest project
+              </p>
               <h3 className="font-display text-2xl font-semibold tracking-tight text-slate-50">
                 {project?.title ?? "Coming soon"}
               </h3>
@@ -82,13 +84,16 @@ export function CurrentWorkBlock({
 
             {project?.description && isPortableTextValue(project.description) ? (
               <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-p:text-slate-300">
-                <PortableText value={project.description} />
+                <PortableText value={project.description as PortableTextBlock[]} />
               </div>
             ) : project?.description ? (
-              <p className="text-sm leading-relaxed text-slate-300">{String(project.description)}</p>
+              <p className="text-sm leading-relaxed text-slate-300">
+                {String(project.description)}
+              </p>
             ) : (
               <p className="text-sm leading-relaxed text-slate-300">
-                I’m currently working on the next piece in my portfolio. Check back soon for updates.
+                I’m currently working on the next piece in my portfolio. Check back soon for
+                updates.
               </p>
             )}
           </div>
@@ -97,4 +102,3 @@ export function CurrentWorkBlock({
     </div>
   );
 }
-

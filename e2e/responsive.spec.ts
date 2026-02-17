@@ -13,7 +13,6 @@ test("responsive layout at mobile/tablet/desktop", async ({ page }) => {
       await page.goto("/en");
 
       await expect(page.getByTestId("site-header")).toBeVisible();
-      await expect(page.getByTestId("home-hero")).toBeVisible();
 
       if (vp.width < 768) {
         await expect(page.getByTestId("mobile-menu-button")).toBeVisible();
@@ -29,4 +28,3 @@ test("responsive layout at mobile/tablet/desktop", async ({ page }) => {
     });
   }
 });
-

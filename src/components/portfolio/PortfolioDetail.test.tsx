@@ -29,7 +29,10 @@ describe("PortfolioDetail", () => {
       />
     );
 
-    expect(screen.getByRole("link", { name: "Back to portfolio" })).toHaveAttribute("href", "/en/portfolio");
+    expect(screen.getByRole("link", { name: "Back to portfolio" })).toHaveAttribute(
+      "href",
+      "/en/portfolio"
+    );
     expect(screen.getByRole("heading", { level: 1, name: "Case Study" })).toBeInTheDocument();
     expect(screen.getByText("Next.js")).toBeInTheDocument();
     expect(screen.getByText("Sanity")).toBeInTheDocument();
@@ -37,4 +40,3 @@ describe("PortfolioDetail", () => {
     expect(screen.getByText("Hello from Sanity.")).toBeInTheDocument();
   });
 });
-

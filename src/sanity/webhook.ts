@@ -2,7 +2,9 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 function normalizeSignature(signature: string): string {
   const trimmed = signature.trim();
-  const withoutPrefix = trimmed.toLowerCase().startsWith("sha256=") ? trimmed.slice("sha256=".length) : trimmed;
+  const withoutPrefix = trimmed.toLowerCase().startsWith("sha256=")
+    ? trimmed.slice("sha256=".length)
+    : trimmed;
   return withoutPrefix.trim().toLowerCase();
 }
 
@@ -26,4 +28,3 @@ export function isValidSanityWebhookSignature(input: {
   if (expectedBuf.length !== actualBuf.length) return false;
   return timingSafeEqual(expectedBuf, actualBuf);
 }
-

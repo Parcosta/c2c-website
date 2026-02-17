@@ -169,4 +169,3 @@ Use this checklist to validate **production readiness** before pointing the doma
 - [ ] **Real user flow**: complete the main CTA journey end-to-end (including form + email delivery).
 - [ ] **Analytics live validation**: verify production traffic shows up correctly after DNS cutover.
 - [ ] **Deploy one last time**: ensure the release SHA is deployed and stable before the domain cutover.
-

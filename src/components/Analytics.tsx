@@ -6,7 +6,7 @@ function getAnalyticsConfig() {
 
   if (gaId) return { provider: "ga" as const, gaId };
   if (plausibleDomain) return { provider: "plausible" as const, plausibleDomain };
-  return { provider: null as const };
+  return { provider: null } as { provider: null };
 }
 
 export function Analytics() {
@@ -45,4 +45,3 @@ gtag('config', '${config.gaId}', { send_page_view: false });
 
   return null;
 }
-

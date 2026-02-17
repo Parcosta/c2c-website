@@ -33,4 +33,3 @@ describe("contactFormSchema", () => {
     expect(parsed.success).toBe(false);
   });
 });
-

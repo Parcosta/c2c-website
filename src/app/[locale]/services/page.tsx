@@ -7,20 +7,20 @@ import { isLocale } from "@/lib/i18n";
 import { client } from "@/sanity/client";
 import { buildServicesQuery } from "@/sanity/queries";
 
-export default async function ServicesPage({ params }: { params: { locale: string } }) {
-  if (!isLocale(params.locale)) notFound();
+export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
 
-  const def = buildServicesQuery(params.locale);
+  const def = buildServicesQuery(locale);
   const services = await client.fetch(def.query, def.params);
 
   return (
     <main>
       <Section>
         <Container>
-          <ServicesPageView locale={params.locale} services={services} />
+          <ServicesPageView locale={locale} services={services} />
         </Container>
       </Section>
     </main>
   );
 }
-

@@ -29,8 +29,14 @@ describe("PortfolioGrid", () => {
     );
 
     expect(screen.getByRole("heading", { level: 1, name: "Portfolio" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Project One" })).toHaveAttribute("href", "/en/portfolio/project-one");
-    expect(screen.getByRole("link", { name: "Project Two" })).toHaveAttribute("href", "/en/portfolio/project-two");
+    expect(screen.getByRole("link", { name: "Project One" })).toHaveAttribute(
+      "href",
+      "/en/portfolio/project-one"
+    );
+    expect(screen.getByRole("link", { name: "Project Two" })).toHaveAttribute(
+      "href",
+      "/en/portfolio/project-two"
+    );
 
     fireEvent.click(screen.getByRole("button", { name: "Design" }));
     expect(screen.getByRole("link", { name: "Project One" })).toBeInTheDocument();
@@ -45,4 +51,3 @@ describe("PortfolioGrid", () => {
     expect(screen.getByText("No portfolio items in this category yet.")).toBeInTheDocument();
   });
 });
-

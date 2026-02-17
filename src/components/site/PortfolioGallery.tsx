@@ -16,11 +16,36 @@ type PortfolioItem = {
 };
 
 const items: PortfolioItem[] = [
-  { id: "p1", title: { en: "Warehouse Live Set", es: "Set en vivo (Warehouse)" }, category: "live", tags: ["modular"] },
-  { id: "p2", title: { en: "Radio Guest Mix", es: "Mix invitado (Radio)" }, category: "dj", tags: ["mix"] },
-  { id: "p3", title: { en: "Studio Session", es: "Sesión de estudio" }, category: "studio", tags: ["production"] },
-  { id: "p4", title: { en: "Club Night DJ Set", es: "Set de DJ (Club)" }, category: "dj", tags: ["club"] },
-  { id: "p5", title: { en: "Modular Jam", es: "Jam modular" }, category: "live", tags: ["improvised"] }
+  {
+    id: "p1",
+    title: { en: "Warehouse Live Set", es: "Set en vivo (Warehouse)" },
+    category: "live",
+    tags: ["modular"]
+  },
+  {
+    id: "p2",
+    title: { en: "Radio Guest Mix", es: "Mix invitado (Radio)" },
+    category: "dj",
+    tags: ["mix"]
+  },
+  {
+    id: "p3",
+    title: { en: "Studio Session", es: "Sesión de estudio" },
+    category: "studio",
+    tags: ["production"]
+  },
+  {
+    id: "p4",
+    title: { en: "Club Night DJ Set", es: "Set de DJ (Club)" },
+    category: "dj",
+    tags: ["club"]
+  },
+  {
+    id: "p5",
+    title: { en: "Modular Jam", es: "Jam modular" },
+    category: "live",
+    tags: ["improvised"]
+  }
 ];
 
 export function PortfolioGallery({ locale }: { locale: Locale }) {
@@ -41,7 +66,12 @@ export function PortfolioGallery({ locale }: { locale: Locale }) {
 
   return (
     <div className="space-y-6" data-testid="portfolio">
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Portfolio filters" data-testid="portfolio-filters">
+      <div
+        className="flex flex-wrap gap-2"
+        role="group"
+        aria-label="Portfolio filters"
+        data-testid="portfolio-filters"
+      >
         {filters.map((f) => (
           <button
             key={f.key}
@@ -89,4 +119,3 @@ export function PortfolioGallery({ locale }: { locale: Locale }) {
     </div>
   );
 }
-

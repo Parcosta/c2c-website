@@ -9,4 +9,3 @@ export const localeSlug = defineType({
     defineField({ name: "es", title: "Español", type: "slug" })
   ]
 });
-

@@ -78,4 +78,3 @@ describe("seo", () => {
     expect(event["@type"]).toBe("Event");
   });
 });
-

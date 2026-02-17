@@ -34,7 +34,7 @@ describe("Sanity GROQ query builders", () => {
     const def = buildPortfolioItemBySlugQuery("en", "my-project");
     expect(def.params).toEqual({ locale: "en", slug: "my-project" });
     expect(def.query).toContain('*[_type == "portfolioItem"');
-    expect(def.query).toContain('slug[$locale].current == $slug');
+    expect(def.query).toContain("slug[$locale].current == $slug");
   });
 
   it("builds events query", () => {
@@ -82,17 +82,19 @@ describe("Sanity GROQ query builders", () => {
   });
 
   it("supports mocking a Sanity client for consuming query defs", async () => {
-    const fetchImpl = vi.fn(async <T,>(query: string, params?: Record<string, unknown>) => {
+    const fetchImpl = vi.fn(async <T>(query: string, params?: Record<string, unknown>) => {
       return { query, params } as unknown as T;
     });
     const mockClient = createMockSanityClient(fetchImpl);
 
     const locale: Locale = "en";
     const def = buildEventsQuery(locale);
-    const result = await mockClient.fetch<{ query: string; params: Record<string, unknown> }>(def.query, def.params);
+    const result = await mockClient.fetch<{ query: string; params: Record<string, unknown> }>(
+      def.query,
+      def.params
+    );
 
     expect(fetchImpl).toHaveBeenCalledWith(def.query, def.params);
     expect(result.params).toEqual(def.params);
   });
 });
-

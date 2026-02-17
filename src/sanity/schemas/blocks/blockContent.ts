@@ -36,4 +36,3 @@ export const blockContent = defineType({
     defineArrayMember({ type: "servicesBlock" })
   ]
 });
-

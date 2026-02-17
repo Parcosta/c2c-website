@@ -1,21 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const resendMocks = vi.hoisted(() => {
-  return {
-    send: vi.fn(),
-    Resend: vi.fn()
-  };
-});
+const resendMocks = vi.hoisted(() => ({
+  send: vi.fn(),
+  Resend: vi.fn()
+}));
 
-vi.mock("resend", () => {
-  resendMocks.Resend.mockImplementation(() => ({
-    emails: { send: resendMocks.send }
-  }));
-
-  return {
-    Resend: resendMocks.Resend
-  };
-});
+vi.mock("resend", () => ({
+  Resend: class {
+    constructor(...args: unknown[]) {
+      resendMocks.Resend(...args);
+    }
+    emails = { send: resendMocks.send };
+  }
+}));
 
 import {
   buildBookingConfirmationEmail,
@@ -27,7 +24,7 @@ import {
 describe("email templates", () => {
   it("buildContactFormReceiptEmail escapes HTML and preserves line breaks", () => {
     const receipt = buildContactFormReceiptEmail({
-      name: 'A <b>name</b>',
+      name: "A <b>name</b>",
       message: "Hello\n<script>alert(1)</script>"
     });
 
@@ -105,4 +102,3 @@ describe("sendEmail", () => {
     ).rejects.toThrow("nope");
   });
 });
-

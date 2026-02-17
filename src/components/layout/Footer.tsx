@@ -7,7 +7,13 @@ import { usePathname } from "next/navigation";
 
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
-import { defaultLocale, getLocaleFromPathname, locales, switchLocaleInPathname, type Locale } from "@/lib/i18n";
+import {
+  defaultLocale,
+  getLocaleFromPathname,
+  locales,
+  switchLocaleInPathname,
+  type Locale
+} from "@/lib/i18n";
 
 type FooterProps = ComponentPropsWithoutRef<"footer"> & {
   contactEmail?: string;
@@ -51,7 +57,10 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
 
   return (
     <footer
-      className={cn("border-t border-slate-800 bg-slate-950/60 backdrop-blur supports-[backdrop-filter]:bg-slate-950/40", className)}
+      className={cn(
+        "border-t border-slate-800 bg-slate-950/60 backdrop-blur supports-[backdrop-filter]:bg-slate-950/40",
+        className
+      )}
       {...props}
     >
       <Container className="py-12">
@@ -61,7 +70,9 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-accent text-sm font-semibold text-slate-950">
                 C2C
               </span>
-              <span className="font-display text-base font-semibold tracking-tight text-slate-50">C2C</span>
+              <span className="font-display text-base font-semibold tracking-tight text-slate-50">
+                C2C
+              </span>
             </Link>
 
             <div className="space-y-1 text-sm text-slate-300">

@@ -75,7 +75,9 @@ export function PortfolioGrid({ items, locale }: { items: PortfolioCardItem[]; l
 
       {filtered.length === 0 ? (
         <GlassCard className="p-6">
-          <div className="text-sm text-muted-foreground">No portfolio items in this category yet.</div>
+          <div className="text-sm text-muted-foreground">
+            No portfolio items in this category yet.
+          </div>
         </GlassCard>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -103,4 +105,3 @@ export function PortfolioGrid({ items, locale }: { items: PortfolioCardItem[]; l
     </div>
   );
 }
-

@@ -21,4 +21,3 @@ describe("Container", () => {
     expect(screen.getByTestId("container")).toHaveClass("bg-brand-accent");
   });
 });
-

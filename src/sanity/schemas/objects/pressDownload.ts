@@ -12,4 +12,3 @@ export const pressDownload = defineType({
     select: { title: "title.en" }
   }
 });
-

@@ -13,4 +13,3 @@ export const navItems: NavItem[] = [
   { label: "About", href: (locale) => `/${locale}/about` },
   { label: "Contact", href: (locale) => `/${locale}/contact` }
 ];
-

@@ -134,4 +134,3 @@ npm run dev
 - **App verification**
   - Confirm frontend pages load with localized content for both locales
   - Confirm lists render (portfolio/events/services/press) and sort correctly by date/title
-

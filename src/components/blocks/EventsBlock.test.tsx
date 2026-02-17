@@ -37,7 +37,10 @@ describe("EventsBlock", () => {
     expect(screen.getByText("Upcoming shows")).toBeInTheDocument();
 
     const cards = screen.getAllByTestId(/event-card-/);
-    expect(cards.map((node) => node.getAttribute("data-testid"))).toEqual(["event-card-event-a", "event-card-event-b"]);
+    expect(cards.map((node) => node.getAttribute("data-testid"))).toEqual([
+      "event-card-event-a",
+      "event-card-event-b"
+    ]);
 
     const time = screen.getByTestId("event-date-event-a");
     expect(time).toHaveAttribute("dateTime", "2026-02-10");
@@ -47,7 +50,10 @@ describe("EventsBlock", () => {
     expect(screen.getByText("Austin, United States")).toBeInTheDocument();
 
     const links = screen.getAllByRole("link", { name: "Tickets" });
-    expect(links.map((link) => link.getAttribute("href"))).toEqual(["https://example.com/a", "https://example.com/b"]);
+    expect(links.map((link) => link.getAttribute("href"))).toEqual([
+      "https://example.com/a",
+      "https://example.com/b"
+    ]);
   });
 
   it("renders nothing when there are no visible events", () => {
@@ -55,4 +61,3 @@ describe("EventsBlock", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
-

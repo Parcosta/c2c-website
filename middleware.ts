@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createFixedWindowRateLimiter } from "./src/lib/rateLimit";
+import { createInMemoryRateLimiter } from "./src/lib/rateLimit";
 
 const locales = ["en", "es"] as const;
 const defaultLocale = "en";
 
-const apiRateLimiter = createFixedWindowRateLimiter({
+const apiRateLimiter = createInMemoryRateLimiter({
+  name: "api",
   limit: 60,
   windowMs: 60_000
 });
@@ -41,7 +42,7 @@ export function middleware(request: NextRequest) {
             "Retry-After": String(result.retryAfterSeconds),
             "X-RateLimit-Limit": String(result.limit),
             "X-RateLimit-Remaining": "0",
-            "X-RateLimit-Reset": String(Math.ceil(result.resetAt / 1000))
+            "X-RateLimit-Reset": String(Math.ceil(result.resetAtMs / 1000))
           }
         }
       );
@@ -50,7 +51,7 @@ export function middleware(request: NextRequest) {
     const response = NextResponse.next();
     response.headers.set("X-RateLimit-Limit", String(result.limit));
     response.headers.set("X-RateLimit-Remaining", String(result.remaining));
-    response.headers.set("X-RateLimit-Reset", String(Math.ceil(result.resetAt / 1000)));
+    response.headers.set("X-RateLimit-Reset", String(Math.ceil(result.resetAtMs / 1000)));
     return response;
   }
 
@@ -71,4 +72,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/((?!_next|studio).*)"]
 };
-

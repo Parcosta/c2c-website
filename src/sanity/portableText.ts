@@ -23,4 +23,3 @@ export function portableTextToPlainText(value: unknown[] | null | undefined): st
 
   return chunks.join("\n\n").trim();
 }
-

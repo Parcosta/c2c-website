@@ -19,4 +19,3 @@ describe("error boundary", () => {
     expect(reset).toHaveBeenCalledTimes(1);
   });
 });
-

@@ -24,9 +24,13 @@ describe("PressPageView", () => {
     expect(screen.getByText("Stage plot")).toBeInTheDocument();
     expect(screen.getByText("Bookings")).toBeInTheDocument();
 
-    expect(screen.getByText("Press photos will appear here once added in Sanity.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Press photos will appear here once added in Sanity.")
+    ).toBeInTheDocument();
     expect(screen.getByText("No press mentions yet.")).toBeInTheDocument();
-    expect(screen.getByText("Downloadable assets will appear here once added in Sanity.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Downloadable assets will appear here once added in Sanity.")
+    ).toBeInTheDocument();
     expect(screen.getByText("Placeholder — available upon request.")).toBeInTheDocument();
   });
 
@@ -51,7 +55,10 @@ describe("PressPageView", () => {
             filename: "logos.zip"
           }
         ]}
-        techRider={{ url: "https://cdn.sanity.io/files/project/dataset/tech.pdf", filename: "tech.pdf" }}
+        techRider={{
+          url: "https://cdn.sanity.io/files/project/dataset/tech.pdf",
+          filename: "tech.pdf"
+        }}
         bookings={{ email: "bookings@example.com" }}
         pressMentions={[
           {
@@ -79,8 +86,10 @@ describe("PressPageView", () => {
       "mailto:bookings@example.com"
     );
 
-    expect(screen.getByRole("link", { name: "Great show" })).toHaveAttribute("href", "https://example.com/review");
+    expect(screen.getByRole("link", { name: "Great show" })).toHaveAttribute(
+      "href",
+      "https://example.com/review"
+    );
     expect(screen.getByText("“A must-see.”")).toBeInTheDocument();
   });
 });
-
