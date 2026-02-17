@@ -1,4 +1,4 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import { type SchemaTypeDefinition } from "sanity";
 
 import { blockContent } from "../schemas/blocks/blockContent";
 import { servicesBlock } from "../schemas/blocks/servicesBlock";
@@ -43,5 +43,5 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     pressItem,
     pressPage,
     siteSettings
-  ],
-}
+  ]
+};

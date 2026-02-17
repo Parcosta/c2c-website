@@ -67,9 +67,9 @@ export function ServicesBlock({
                         "group-hover:shadow-[0_0_20px_-4px_rgba(59,130,246,0.3)]"
                       )}
                     >
-                      <Icon 
-                        className="h-5 w-5 text-brand-accent transition-transform duration-300 group-hover:scale-110" 
-                        aria-hidden="true" 
+                      <Icon
+                        className="h-5 w-5 text-brand-accent transition-transform duration-300 group-hover:scale-110"
+                        aria-hidden="true"
                         strokeWidth={2}
                       />
                     </div>
@@ -106,9 +106,7 @@ export function ServicesBlock({
                                 strokeWidth={2.5}
                               />
                             </div>
-                            <span className="text-sm leading-relaxed text-gray-300">
-                              {feature}
-                            </span>
+                            <span className="text-sm leading-relaxed text-gray-300">{feature}</span>
                           </li>
                         ))}
                       </ul>

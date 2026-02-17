@@ -78,7 +78,7 @@ vi.mock("react-i18next", () => ({
         "nav.services": "Services",
         "nav.store": "Store",
         // Brand
-        "brand": "Coast2Coast",
+        brand: "Coast2Coast",
         // Language
         "language.switchToEnglish": "Switch language to English",
         "language.switchToSpanish": "Switch language to Spanish",
@@ -141,16 +141,20 @@ vi.mock("react-i18next", () => ({
         "footer.rights": "All rights reserved.",
         // Cookie Consent
         "cookieConsent.title": "Cookies & privacy",
-        "cookieConsent.description": "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
+        "cookieConsent.description":
+          "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
         "cookieConsent.acceptAll": "Accept all",
         "cookieConsent.rejectNonEssential": "Reject non-essential",
         "cookieConsent.customize": "Preferences",
         "cookieConsent.dialogTitle": "Cookie preferences",
-        "cookieConsent.dialogDescription": "You can change your preferences at any time by clearing your browser cookies.",
+        "cookieConsent.dialogDescription":
+          "You can change your preferences at any time by clearing your browser cookies.",
         "cookieConsent.necessaryLabel": "Essential (always on)",
-        "cookieConsent.necessaryDescription": "Required for security, navigation, and basic site functionality.",
+        "cookieConsent.necessaryDescription":
+          "Required for security, navigation, and basic site functionality.",
         "cookieConsent.analyticsLabel": "Analytics",
-        "cookieConsent.analyticsDescription": "Helps us measure site usage to improve performance and content.",
+        "cookieConsent.analyticsDescription":
+          "Helps us measure site usage to improve performance and content.",
         "cookieConsent.savePreferences": "Save preferences",
         "cookieConsent.privacyPolicy": "Privacy Policy",
         "cookieConsent.terms": "Terms"

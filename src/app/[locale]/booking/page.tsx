@@ -46,8 +46,8 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
               {locale === "es" ? "Contratación" : "Booking"}
             </h1>
             <p className="max-w-2xl text-body text-gray-300">
-              {locale === "es" 
-                ? "Solicita una contratación para tu evento." 
+              {locale === "es"
+                ? "Solicita una contratación para tu evento."
                 : "Request a booking for your event."}
             </p>
           </div>

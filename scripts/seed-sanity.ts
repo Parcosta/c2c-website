@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Sanity Seed Script
- * 
+ *
  * Seeds initial data for C2C website development and E2E testing.
  * Run with: npx tsx scripts/seed-sanity.ts
- * 
+ *
  * Requires SANITY_API_WRITE_TOKEN environment variable.
  */
 
@@ -17,7 +17,11 @@ const TOKEN = process.env.SANITY_API_WRITE_TOKEN;
 
 if (!TOKEN) {
   console.error("❌ Error: SANITY_API_WRITE_TOKEN environment variable is required");
-  console.error("\nGet your token from: https://www.sanity.io/manage/personal/project/" + PROJECT_ID + "/api#tokens");
+  console.error(
+    "\nGet your token from: https://www.sanity.io/manage/personal/project/" +
+      PROJECT_ID +
+      "/api#tokens"
+  );
   console.error("\nThen run:");
   console.error("  SANITY_API_WRITE_TOKEN=your-token npx tsx scripts/seed-sanity.ts");
   process.exit(1);
@@ -28,7 +32,7 @@ const client = createClient({
   dataset: DATASET,
   apiVersion: "2026-02-17",
   token: TOKEN,
-  useCdn: false,
+  useCdn: false
 });
 
 // Sample image URLs (using reliable placeholder service)
@@ -36,32 +40,32 @@ const SAMPLE_IMAGES = [
   "https://placehold.co/800x600/1a1a2e/4a4a6a?text=Live+Performance",
   "https://placehold.co/800x600/16213e/4a4a6a?text=DJ+Set",
   "https://placehold.co/800x600/0f3460/4a4a6a?text=Studio",
-  "https://placehold.co/800x600/533483/4a4a6a?text=Event",
+  "https://placehold.co/800x600/533483/4a4a6a?text=Event"
 ];
 
 async function uploadImage(url: string, filename: string): Promise<string> {
   console.log(`📤 Uploading image: ${filename}`);
-  
+
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch image: ${response.statusText}`);
   }
-  
+
   const buffer = await response.arrayBuffer();
   const contentType = response.headers.get("content-type") || "image/jpeg";
-  
+
   const asset = await client.assets.upload("image", Buffer.from(buffer), {
     filename,
-    contentType,
+    contentType
   });
-  
+
   console.log(`✅ Uploaded: ${asset._id}`);
   return asset._id;
 }
 
 async function seedPortfolioItems(imageRefs: string[]) {
   console.log("\n🎨 Creating portfolio items...");
-  
+
   const items = [
     {
       _type: "portfolioItem",
@@ -81,7 +85,7 @@ async function seedPortfolioItems(imageRefs: string[]) {
         en: "Live Performance",
         es: "Performance en Vivo"
       },
-      images: imageRefs.slice(0, 2).map(ref => ({
+      images: imageRefs.slice(0, 2).map((ref) => ({
         _type: "image",
         asset: { _type: "reference", _ref: ref }
       })),
@@ -106,7 +110,7 @@ async function seedPortfolioItems(imageRefs: string[]) {
         en: "DJ Set",
         es: "Set de DJ"
       },
-      images: imageRefs.slice(2, 4).map(ref => ({
+      images: imageRefs.slice(2, 4).map((ref) => ({
         _type: "image",
         asset: { _type: "reference", _ref: ref }
       })),
@@ -114,7 +118,7 @@ async function seedPortfolioItems(imageRefs: string[]) {
       tags: ["dj", "festival", "outdoor"]
     }
   ];
-  
+
   for (const item of items) {
     await client.createOrReplace(item);
     console.log(`✅ Portfolio item: ${item.title.en}`);
@@ -123,7 +127,7 @@ async function seedPortfolioItems(imageRefs: string[]) {
 
 async function seedEvents() {
   console.log("\n📅 Creating events...");
-  
+
   const events = [
     {
       _type: "event",
@@ -178,7 +182,7 @@ async function seedEvents() {
       ticketUrl: "https://example.com/tickets/warehouse-session"
     }
   ];
-  
+
   for (const event of events) {
     await client.createOrReplace(event);
     console.log(`✅ Event: ${event.title.en}`);
@@ -187,14 +191,18 @@ async function seedEvents() {
 
 async function seedSiteSettings() {
   console.log("\n⚙️ Creating site settings...");
-  
+
   const settings = {
     _type: "siteSettings",
     _id: "siteSettings",
     siteName: "Coast2Coast",
     socialLinks: [
       { _type: "socialLink", platform: "instagram", url: "https://instagram.com/coast2coast" },
-      { _type: "socialLink", platform: "spotify", url: "https://open.spotify.com/artist/coast2coast" },
+      {
+        _type: "socialLink",
+        platform: "spotify",
+        url: "https://open.spotify.com/artist/coast2coast"
+      },
       { _type: "socialLink", platform: "soundcloud", url: "https://soundcloud.com/coast2coast" }
     ],
     seo: {
@@ -211,14 +219,14 @@ async function seedSiteSettings() {
       }
     }
   };
-  
+
   await client.createOrReplace(settings);
   console.log("✅ Site settings created");
 }
 
 async function seedServices() {
   console.log("\n🎵 Creating services...");
-  
+
   const services = [
     {
       _type: "service",
@@ -237,7 +245,11 @@ async function seedServices() {
       features: [
         { _type: "localeString", en: "2+ hour performance", es: "Performance de 2+ horas" },
         { _type: "localeString", en: "Custom visual setup", es: "Setup visual personalizado" },
-        { _type: "localeString", en: "Sound system consultation", es: "Consulta de sistema de sonido" }
+        {
+          _type: "localeString",
+          en: "Sound system consultation",
+          es: "Consulta de sistema de sonido"
+        }
       ]
     },
     {
@@ -281,7 +293,7 @@ async function seedServices() {
       ]
     }
   ];
-  
+
   for (const service of services) {
     await client.createOrReplace(service);
     console.log(`✅ Service: ${service.title.en}`);
@@ -292,7 +304,7 @@ async function main() {
   console.log("🌱 Seeding Sanity project...");
   console.log(`Project: ${PROJECT_ID}`);
   console.log(`Dataset: ${DATASET}\n`);
-  
+
   try {
     // Upload sample images (with graceful fallback)
     console.log("📸 Uploading sample images...");
@@ -305,24 +317,23 @@ async function main() {
         console.warn(`⚠️ Failed to upload image ${i + 1}, skipping...`);
       }
     }
-    
+
     if (imageRefs.length === 0) {
       console.warn("⚠️ No images uploaded. Portfolio items will be created without images.");
     }
-    
+
     // Create documents
     await seedPortfolioItems(imageRefs);
     await seedEvents();
     await seedSiteSettings();
     await seedServices();
-    
+
     console.log("\n✨ Seeding complete!");
     console.log("\nYou can now:");
     console.log("  • Run the dev server: npm run dev");
     console.log("  • Open Sanity Studio: npx sanity dev");
     console.log("  • Run E2E tests: npx playwright test");
     console.log("\n💡 Tip: Replace placeholder images with real photos in the Sanity Studio.");
-    
   } catch (error) {
     console.error("\n❌ Seeding failed:", error);
     process.exit(1);

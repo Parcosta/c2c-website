@@ -87,9 +87,7 @@ export function CurrentWorkBlock({
                 <PortableText value={project.description as PortableTextBlock[]} />
               </div>
             ) : project?.description ? (
-              <p className="text-body text-gray-400">
-                {String(project.description)}
-              </p>
+              <p className="text-body text-gray-400">{String(project.description)}</p>
             ) : (
               <p className="text-body text-gray-400">
                 I’m currently working on the next piece in my portfolio. Check back soon for

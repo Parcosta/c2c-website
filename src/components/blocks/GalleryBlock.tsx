@@ -40,7 +40,7 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
         "group relative w-full overflow-hidden rounded-lg bg-gray-900",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
       )}
-      style={{ aspectRatio: '1/1' }}
+      style={{ aspectRatio: "1/1" }}
       data-testid={`gallery-image-${image._id}`}
     >
       {imageUrl ? (
@@ -53,9 +53,7 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
           loading="lazy"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-gray-400">
-          No image
-        </div>
+        <div className="flex h-full w-full items-center justify-center text-gray-400">No image</div>
       )}
       <div
         className={cn(
@@ -258,11 +256,7 @@ export function GalleryBlock({
       <div className="space-y-8">
         {(title || subtitle) && (
           <div className="space-y-2 text-center">
-            {title && (
-              <h2 className="font-display text-header text-gray-100">
-                {title}
-              </h2>
-            )}
+            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
             {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
           </div>
         )}

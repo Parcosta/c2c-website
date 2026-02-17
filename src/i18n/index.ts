@@ -14,21 +14,21 @@ const i18nInstance = i18n
     lng: defaultLocale,
     fallbackLng: "en",
     supportedLngs: [...locales],
-    
+
     backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
+      loadPath: "/locales/{{lng}}/translation.json"
     },
-    
+
     interpolation: {
-      escapeValue: false, // React already escapes values
+      escapeValue: false // React already escapes values
     },
-    
+
     react: {
-      useSuspense: false, // Disable suspense to avoid SSR issues
+      useSuspense: false // Disable suspense to avoid SSR issues
     },
-    
+
     // Debug mode in development
-    debug: process.env.NODE_ENV === "development",
+    debug: process.env.NODE_ENV === "development"
   });
 
 export default i18n;

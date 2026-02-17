@@ -69,15 +69,15 @@ describe("Footer", () => {
       "mailto:hello@c2c.com"
     );
 
-    expect(screen.getByLabelText("Instagram")).toHaveAttribute(
-      "href",
-      "https://instagram.com/c2c"
-    );
+    expect(screen.getByLabelText("Instagram")).toHaveAttribute("href", "https://instagram.com/c2c");
     expect(screen.getByLabelText("SoundCloud")).toHaveAttribute(
       "href",
       "https://soundcloud.com/c2c"
     );
-    expect(screen.getByLabelText("Spotify")).toHaveAttribute("href", "https://open.spotify.com/artist/c2c");
+    expect(screen.getByLabelText("Spotify")).toHaveAttribute(
+      "href",
+      "https://open.spotify.com/artist/c2c"
+    );
     expect(screen.getByLabelText("YouTube")).toHaveAttribute("href", "https://youtube.com/c2c");
   });
 

@@ -106,14 +106,18 @@ export function PressPageView({
                   {bio ? (
                     <PortableText value={bio as never} components={portableTextComponents} />
                   ) : (
-                    <p className="text-sm text-muted-foreground sm:text-base">{t("press.bioEmpty")}</p>
+                    <p className="text-sm text-muted-foreground sm:text-base">
+                      {t("press.bioEmpty")}
+                    </p>
                   )}
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{t("press.pressPhotosTitle")}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">
+                    {t("press.pressPhotosTitle")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {photos.length > 0 ? (
@@ -121,7 +125,8 @@ export function PressPageView({
                       {photos.map((photo) => {
                         const imageUrl = photo.imageUrl?.trim();
                         const filename = photo.filename?.trim();
-                        const label = photo.title?.trim() || filename || t("press.pressPhotosTitle");
+                        const label =
+                          photo.title?.trim() || filename || t("press.pressPhotosTitle");
                         return (
                           <div
                             key={photo._key}
@@ -170,7 +175,9 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{t("press.pressMentionsTitle")}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">
+                    {t("press.pressMentionsTitle")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {mentions.length > 0 ? (
@@ -205,7 +212,9 @@ export function PressPageView({
                               ) : null}
                             </div>
                             {item.quote ? (
-                              <p className="text-sm text-gray-200 sm:text-base">&ldquo;{item.quote}&rdquo;</p>
+                              <p className="text-sm text-gray-200 sm:text-base">
+                                &ldquo;{item.quote}&rdquo;
+                              </p>
                             ) : null}
                           </li>
                         );
@@ -256,7 +265,9 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{t("press.techRiderTitle")}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">
+                    {t("press.techRiderTitle")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {techRider?.url ? (
@@ -274,7 +285,9 @@ export function PressPageView({
                   <Separator className="bg-gray-800" />
 
                   <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-100">{t("press.stagePlotTitle")}</div>
+                    <div className="text-sm font-medium text-gray-100">
+                      {t("press.stagePlotTitle")}
+                    </div>
                     {stagePlot?.url ? (
                       <a
                         href={stagePlot.url}
@@ -284,7 +297,9 @@ export function PressPageView({
                         {t("press.downloadLabel")}
                       </a>
                     ) : (
-                      <p className="text-sm text-muted-foreground">{t("press.stagePlotPlaceholder")}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {t("press.stagePlotPlaceholder")}
+                      </p>
                     )}
                   </div>
                 </CardContent>

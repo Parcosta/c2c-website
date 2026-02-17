@@ -21,7 +21,13 @@ type FooterProps = ComponentPropsWithoutRef<"footer"> & {
 };
 
 type FooterLink = {
-  labelKey: "nav.home" | "nav.portfolio" | "nav.services" | "nav.press" | "nav.about" | "nav.contact";
+  labelKey:
+    | "nav.home"
+    | "nav.portfolio"
+    | "nav.services"
+    | "nav.press"
+    | "nav.about"
+    | "nav.contact";
   href: (locale: Locale) => string;
 };
 
@@ -58,13 +64,7 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      className={cn(
-        "bg-gray-950",
-        className
-      )}
-      {...props}
-    >
+    <footer className={cn("bg-gray-950", className)} {...props}>
       <Container className="py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           {/* Brand & Contact Column */}
@@ -154,7 +154,9 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
 
         {/* Copyright Bar */}
         <div className="mt-16 flex flex-col gap-4 border-t border-gray-800 pt-8 text-small text-gray-400 sm:flex-row sm:items-center sm:justify-between md:mt-20">
-          <div>© {year} Coast2Coast. {t("footer.rights")}</div>
+          <div>
+            © {year} Coast2Coast. {t("footer.rights")}
+          </div>
           <div className="text-gray-600">Modular techno & DJ sets</div>
         </div>
       </Container>

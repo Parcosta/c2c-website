@@ -235,12 +235,7 @@ export function EventsBlockView({
                   {/* Card Footer - Tickets Button */}
                   {event.ticketUrl ? (
                     <div className="border-t border-border/40 p-5 pt-0">
-                      <AnimatedButton
-                        asChild
-                        size="sm"
-                        variant="secondary"
-                        className="w-full"
-                      >
+                      <AnimatedButton asChild size="sm" variant="secondary" className="w-full">
                         <a
                           href={event.ticketUrl}
                           target="_blank"

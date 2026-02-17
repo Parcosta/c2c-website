@@ -162,7 +162,9 @@ export function AboutPageView({
                 })}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{t("about.releasesEmpty")}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">
+                {t("about.releasesEmpty")}
+              </p>
             )}
           </CardContent>
         </GlassCard>
@@ -196,7 +198,9 @@ export function AboutPageView({
                 })}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{t("about.equipmentEmpty")}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">
+                {t("about.equipmentEmpty")}
+              </p>
             )}
           </CardContent>
         </GlassCard>
@@ -215,7 +219,9 @@ export function AboutPageView({
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">{t("about.influencesEmpty")}</p>
+              <p className="text-sm text-muted-foreground sm:text-base">
+                {t("about.influencesEmpty")}
+              </p>
             )}
           </CardContent>
         </GlassCard>

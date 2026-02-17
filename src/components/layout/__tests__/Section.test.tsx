@@ -14,6 +14,8 @@ describe("Section", () => {
     render(<Section data-testid="section" />);
     // Section now uses CSS variables per Figma specs (48px mobile, 80px desktop)
     expect(screen.getByTestId("section")).toHaveClass("py-[var(--section-padding-mobile,48px)]");
-    expect(screen.getByTestId("section")).toHaveClass("md:py-[var(--section-padding-desktop,80px)]");
+    expect(screen.getByTestId("section")).toHaveClass(
+      "md:py-[var(--section-padding-desktop,80px)]"
+    );
   });
 });
