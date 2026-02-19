@@ -98,6 +98,12 @@
     "influencesEmpty": "Influences will appear here once added in Sanity.",
     "photoAltFallback": "Artist photo"
   },
+  "services": {
+    "pageTitle": "Services | Live Techno, DJ & Music Production | Coast2Coast",
+    "pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
+    "heading": "Services",
+    "subheading": "Professional electronic music services—live performances, production, education, and creative collaborations."
+  },
   "press": {
     "pageTitleFallback": "Press / EPK",
     "intro": "Everything you need for press and bookings.",

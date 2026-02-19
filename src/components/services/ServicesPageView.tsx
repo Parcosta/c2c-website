@@ -1,4 +1,7 @@
+"use client";
+
 import { Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
@@ -14,32 +17,27 @@ export type ServicesPageViewProps = {
   services: ServiceValue[];
 };
 
-function getLabels(locale: Locale) {
-  return locale === "es"
-    ? { heading: "Servicios", subheading: "Todo lo que ofrecemos—en detalle.", pricing: "Precio" }
-    : {
-        heading: "Services",
-        subheading: "Everything we offer—explained in detail.",
-        pricing: "Pricing"
-      };
+function getPricingLabel(locale: Locale) {
+  return locale === "es" ? "Precio" : "Pricing";
 }
 
 export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
-  const labels = getLabels(locale);
+  const { t } = useTranslation();
+  const pricingLabel = getPricingLabel(locale);
+
+  const heading = t("services.heading", "Services");
+  const subheading = t("services.subheading", "Everything we offer—explained in detail.");
+  const emptyMessage = locale === "es" ? "No hay servicios publicados todavía." : "No services are published yet.";
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10" data-testid="services-page">
       <header className="space-y-4">
-        <SectionHeading title={labels.heading} subtitle={labels.subheading} as="h1" />
+        <SectionHeading title={heading} subtitle={subheading} as="h1" />
       </header>
 
       {services.length === 0 ? (
         <GlassCard className="p-6">
-          <p className="text-small text-muted-foreground">
-            {locale === "es"
-              ? "No hay servicios publicados todavía."
-              : "No services are published yet."}
-          </p>
+          <p className="text-small text-muted-foreground">{emptyMessage}</p>
         </GlassCard>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
@@ -69,7 +67,7 @@ export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
 
                     {service.pricing ? (
                       <Badge variant="secondary" className="shrink-0">
-                        {labels.pricing}: {service.pricing}
+                        {pricingLabel}: {service.pricing}
                       </Badge>
                     ) : null}
                   </div>
