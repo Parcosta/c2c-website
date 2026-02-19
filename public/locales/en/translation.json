@@ -1,5 +1,5 @@
 {
-  "brand": "Coast2Coast",
+  "brand": "Coast2c",
   "nav": {
     "home": "Home",
     "portfolio": "Portfolio",
@@ -97,6 +97,15 @@
     "influencesTitle": "Influences",
     "influencesEmpty": "Influences will appear here once added in Sanity.",
     "photoAltFallback": "Artist photo"
+  },
+  "services": {
+    "pageTitle": "Services | Live Techno, DJ & Music Production | Coast2c",
+    "pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
+    "heading": "Services",
+    "subheading": "Professional electronic music services—live performances, production, education, and creative collaborations.",
+    "jsonLdName": "Coast2c",
+    "emptyMessage": "No services are published yet.",
+    "pricingLabel": "Pricing"
   },
   "press": {
     "pageTitleFallback": "Press / EPK",

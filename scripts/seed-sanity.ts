@@ -8,6 +8,7 @@
  * Requires SANITY_API_WRITE_TOKEN environment variable.
  */
 
+import "dotenv/config";
 import { createClient } from "@sanity/client";
 import { randomUUID } from "crypto";
 
@@ -230,67 +231,293 @@ async function seedServices() {
   const services = [
     {
       _type: "service",
-      _id: "service-live-performance",
+      _id: "service-live-hardware-techno",
       title: {
         _type: "localeString",
-        en: "Live Performance",
-        es: "Performance en Vivo"
+        en: "Live Hardware Techno Performance",
+        es: "Performance de Techno Modular en Vivo"
       },
       description: {
         _type: "localeString",
-        en: "Modular techno live set with Eurorack synthesizers and drum machines.",
-        es: "Set de techno modular en vivo con sintetizadores Eurorack y cajas de ritmos."
+        en: "100% hardware live techno sets with modular synthesizers and drum machines. No laptops—pure analog energy tailored to your venue.",
+        es: "Sets de techno en vivo 100% hardware con sintetizadores modulares y cajas de ritmos. Sin laptops—energía puramente analógica adaptada a tu venue."
       },
       icon: "Zap",
       features: [
-        { _type: "localeString", en: "2+ hour performance", es: "Performance de 2+ horas" },
-        { _type: "localeString", en: "Custom visual setup", es: "Setup visual personalizado" },
         {
           _type: "localeString",
-          en: "Sound system consultation",
-          es: "Consulta de sistema de sonido"
+          en: "100% hardware sets—no laptops",
+          es: "Sets 100% hardware—sin laptops"
+        },
+        {
+          _type: "localeString",
+          en: "Original compositions tailored to venue",
+          es: "Composiciones originales adaptadas al venue"
+        },
+        { _type: "localeString", en: "2+ hour performances", es: "Performances de 2+ horas" },
+        {
+          _type: "localeString",
+          en: "Modular synth & analog drum machines",
+          es: "Sintetizadores modulares y cajas de ritmos analógicas"
         }
-      ]
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
     },
     {
       _type: "service",
-      _id: "service-dj-set",
+      _id: "service-dj-hybrid",
       title: {
         _type: "localeString",
-        en: "DJ Set",
-        es: "Set de DJ"
+        en: "DJ Sets & Hybrid Live/DJ Performances",
+        es: "Sets de DJ & Performances Híbridos Live/DJ"
       },
       description: {
         _type: "localeString",
-        en: "Deep house and techno DJ set, tailored to your venue and crowd.",
-        es: "Set de DJ de deep house y techno, adaptado a tu venue y público."
+        en: "Genre-fluid DJ sets spanning techno, electro, EBM, and leftfield. Hybrid performances blend live modular elements with curated selections.",
+        es: "Sets de DJ fluidos de género que abarcan techno, electro, EBM y leftfield. Las performances híbridas mezclan elementos modulares en vivo con selecciones curadas."
       },
       icon: "Music",
       features: [
-        { _type: "localeString", en: "4+ hour set", es: "Set de 4+ horas" },
-        { _type: "localeString", en: "Genre flexibility", es: "Flexibilidad de género" },
-        { _type: "localeString", en: "High-quality equipment", es: "Equipo de alta calidad" }
-      ]
+        {
+          _type: "localeString",
+          en: "Genre-fluid: techno, electro, EBM, leftfield",
+          es: "Fluido de género: techno, electro, EBM, leftfield"
+        },
+        {
+          _type: "localeString",
+          en: "Hybrid sets with live modular elements",
+          es: "Sets híbridos con elementos modulares en vivo"
+        },
+        {
+          _type: "localeString",
+          en: "Underground & experimental selections",
+          es: "Selecciones underground y experimentales"
+        },
+        {
+          _type: "localeString",
+          en: "4+ hour extended sets available",
+          es: "Sets extendidos de 4+ horas disponibles"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
     },
     {
       _type: "service",
-      _id: "service-studio-production",
+      _id: "service-sound-design",
       title: {
         _type: "localeString",
-        en: "Studio Production",
-        es: "Producción en Estudio"
+        en: "Sound Design for Film, Video & Commercials",
+        es: "Diseño de Sonido para Cine, Video y Comerciales"
       },
       description: {
         _type: "localeString",
-        en: "Original tracks, remixes, and sound design for your project.",
-        es: "Pistas originales, remixes y diseño de sonido para tu proyecto."
+        en: "Custom sound design and sonic branding for film, documentaries, commercials, and installations. From subtle ambiences to bold sonic signatures.",
+        es: "Diseño de sonido y branding sónico personalizado para cine, documentales, comerciales e instalaciones. Desde ambientes sutiles hasta firmas sónicas audaces."
       },
-      icon: "Mic",
+      icon: "Film",
       features: [
-        { _type: "localeString", en: "Original composition", es: "Composición original" },
-        { _type: "localeString", en: "Remix services", es: "Servicios de remix" },
-        { _type: "localeString", en: "Sound design", es: "Diseño de sonido" }
-      ]
+        {
+          _type: "localeString",
+          en: "Film & documentary scoring",
+          es: "Música para cine y documentales"
+        },
+        {
+          _type: "localeString",
+          en: "Commercial & advertising sonic branding",
+          es: "Branding sónico para comerciales y publicidad"
+        },
+        {
+          _type: "localeString",
+          en: "Installation & spatial audio design",
+          es: "Diseño de audio para instalaciones y audio espacial"
+        },
+        {
+          _type: "localeString",
+          en: "Modular synthesis for unique textures",
+          es: "Síntesis modular para texturas únicas"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
+    },
+    {
+      _type: "service",
+      _id: "service-ableton-lessons",
+      title: {
+        _type: "localeString",
+        en: "Ableton Live Lessons & Music Production Classes",
+        es: "Clases de Ableton Live & Producción Musical"
+      },
+      description: {
+        _type: "localeString",
+        en: "Personalized 1-on-1 Ableton Live training for beginners and advanced producers. Learn electronic music production from an experienced artist.",
+        es: "Entrenamiento personalizado 1-on-1 en Ableton Live para principiantes y productores avanzados. Aprende producción de música electrónica de un artista experimentado."
+      },
+      icon: "Laptop",
+      features: [
+        {
+          _type: "localeString",
+          en: "1-on-1 personalized training",
+          es: "Entrenamiento personalizado 1-on-1"
+        },
+        {
+          _type: "localeString",
+          en: "Beginner & advanced tracks",
+          es: "Niveles principiante y avanzado"
+        },
+        {
+          _type: "localeString",
+          en: "Arrangement, mixing & workflow",
+          es: "Arreglos, mezcla y flujo de trabajo"
+        },
+        {
+          _type: "localeString",
+          en: "Online or in-person sessions",
+          es: "Sesiones en línea o presenciales"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
+    },
+    {
+      _type: "service",
+      _id: "service-modular-workshops",
+      title: {
+        _type: "localeString",
+        en: "Modular Synthesis Workshops & Eurorack Classes",
+        es: "Talleres de Síntesis Modular & Clases de Eurorack"
+      },
+      description: {
+        _type: "localeString",
+        en: "Hands-on workshops for learning modular synthesis. From your first patch to advanced techno production techniques using hardware.",
+        es: "Talleres prácticos para aprender síntesis modular. Desde tu primer patch hasta técnicas avanzadas de producción de techno usando hardware."
+      },
+      icon: "Sliders",
+      features: [
+        {
+          _type: "localeString",
+          en: '"First Patch" 3-hour intro workshop (max 6 people)',
+          es: '"Primer Patch" taller introductorio de 3 horas (máx 6 personas)'
+        },
+        {
+          _type: "localeString",
+          en: '"Techno From Scratch" hardware production workshop',
+          es: '"Techno Desde Cero" taller de producción con hardware'
+        },
+        {
+          _type: "localeString",
+          en: "One-on-one private lessons available",
+          es: "Clases privadas 1-on-1 disponibles"
+        },
+        {
+          _type: "localeString",
+          en: "Subtractive synthesis & signal flow",
+          es: "Síntesis substractiva y flujo de señal"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
+    },
+    {
+      _type: "service",
+      _id: "service-studio-consultation",
+      title: {
+        _type: "localeString",
+        en: "Studio Consultation & Technical Services",
+        es: "Consultoría de Estudio & Servicios Técnicos"
+      },
+      description: {
+        _type: "localeString",
+        en: "Expert guidance on studio setup, modular system planning, signal routing, and creative workflow optimization for electronic music production.",
+        es: "Orientación experta en configuración de estudio, planificación de sistemas modulares, enrutamiento de señal y optimización de flujo de trabajo creativo para producción de música electrónica."
+      },
+      icon: "Settings",
+      features: [
+        {
+          _type: "localeString",
+          en: "Studio setup & acoustic consultation",
+          es: "Configuración de estudio y consulta acústica"
+        },
+        {
+          _type: "localeString",
+          en: "Modular system planning & Eurorack consultation",
+          es: "Planificación de sistemas modulares y consulta Eurorack"
+        },
+        {
+          _type: "localeString",
+          en: "Signal routing & patchbay design",
+          es: "Enrutamiento de señal y diseño de patchbay"
+        },
+        {
+          _type: "localeString",
+          en: "Creative workflow optimization",
+          es: "Optimización de flujo de trabajo creativo"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
+    },
+    {
+      _type: "service",
+      _id: "service-collaborations",
+      title: {
+        _type: "localeString",
+        en: "Artistic Collaborations & Commissioned Work",
+        es: "Colaboraciones Artísticas & Trabajos por Encargo"
+      },
+      description: {
+        _type: "localeString",
+        en: "Multidisciplinary collaborations spanning music, visual art, fashion, and technology. Custom synthesizer programming and experimental sound art commissions.",
+        es: "Colaboraciones multidisciplinarias que abarcan música, arte visual, moda y tecnología. Programación de sintetizadores personalizados y comisiones de arte sonoro experimental."
+      },
+      icon: "Handshake",
+      features: [
+        {
+          _type: "localeString",
+          en: "Multidisciplinary art projects",
+          es: "Proyectos de arte multidisciplinario"
+        },
+        {
+          _type: "localeString",
+          en: "Fashion show soundtracks & scoring",
+          es: "Soundtracks y música para desfiles de moda"
+        },
+        {
+          _type: "localeString",
+          en: "Custom synthesizer programming",
+          es: "Programación de sintetizadores personalizados"
+        },
+        {
+          _type: "localeString",
+          en: "Multimedia & installation art",
+          es: "Arte multimedia e instalaciones"
+        }
+      ],
+      pricing: {
+        _type: "localeString",
+        en: "Contact for quote",
+        es: "Contactar para cotización"
+      }
     }
   ];
 
