@@ -139,6 +139,8 @@ vi.mock("react-i18next", () => ({
         "services.pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
         "services.heading": "Services",
         "services.subheading": "Everything we offer—explained in detail.",
+        "services.emptyMessage": "No services are published yet.",
+        "services.pricingLabel": "Pricing",
         // Footer
         "footer.contact": "Contact",
         "footer.language": "Language",

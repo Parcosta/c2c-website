@@ -103,7 +103,9 @@
     "pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
     "heading": "Services",
     "subheading": "Professional electronic music services—live performances, production, education, and creative collaborations.",
-    "jsonLdName": "Coast2c"
+    "jsonLdName": "Coast2c",
+    "emptyMessage": "No services are published yet.",
+    "pricingLabel": "Pricing"
   },
   "press": {
     "pageTitleFallback": "Press / EPK",

@@ -17,17 +17,13 @@ export type ServicesPageViewProps = {
   services: ServiceValue[];
 };
 
-function getPricingLabel(locale: Locale) {
-  return locale === "es" ? "Precio" : "Pricing";
-}
-
 export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
   const { t } = useTranslation();
-  const pricingLabel = getPricingLabel(locale);
 
-  const heading = t("services.heading", "Services");
-  const subheading = t("services.subheading", "Everything we offer—explained in detail.");
-  const emptyMessage = locale === "es" ? "No hay servicios publicados todavía." : "No services are published yet.";
+  const heading = t("services.heading");
+  const subheading = t("services.subheading");
+  const emptyMessage = t("services.emptyMessage");
+  const pricingLabel = t("services.pricingLabel");
 
   return (
     <div className="space-y-10" data-testid="services-page">

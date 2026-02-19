@@ -103,7 +103,9 @@
     "pageDescription": "Servicios profesionales de música electrónica: performances de techno modular en vivo, sets de DJ, diseño de sonido para cine y comerciales, clases de Ableton Live, talleres de síntesis modular, consultoría de estudio y colaboraciones artísticas.",
     "heading": "Servicios",
     "subheading": "Servicios profesionales de música electrónica—performances en vivo, producción, educación y colaboraciones creativas.",
-    "jsonLdName": "Coast2c"
+    "jsonLdName": "Coast2c",
+    "emptyMessage": "No hay servicios publicados todavía.",
+    "pricingLabel": "Precio"
   },
   "press": {
     "pageTitleFallback": "Prensa / EPK",
