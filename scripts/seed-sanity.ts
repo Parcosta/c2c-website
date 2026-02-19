@@ -244,10 +244,22 @@ async function seedServices() {
       },
       icon: "Zap",
       features: [
-        { _type: "localeString", en: "100% hardware sets—no laptops", es: "Sets 100% hardware—sin laptops" },
-        { _type: "localeString", en: "Original compositions tailored to venue", es: "Composiciones originales adaptadas al venue" },
+        {
+          _type: "localeString",
+          en: "100% hardware sets—no laptops",
+          es: "Sets 100% hardware—sin laptops"
+        },
+        {
+          _type: "localeString",
+          en: "Original compositions tailored to venue",
+          es: "Composiciones originales adaptadas al venue"
+        },
         { _type: "localeString", en: "2+ hour performances", es: "Performances de 2+ horas" },
-        { _type: "localeString", en: "Modular synth & analog drum machines", es: "Sintetizadores modulares y cajas de ritmos analógicas" }
+        {
+          _type: "localeString",
+          en: "Modular synth & analog drum machines",
+          es: "Sintetizadores modulares y cajas de ritmos analógicas"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -270,10 +282,26 @@ async function seedServices() {
       },
       icon: "Music",
       features: [
-        { _type: "localeString", en: "Genre-fluid: techno, electro, EBM, leftfield", es: "Fluido de género: techno, electro, EBM, leftfield" },
-        { _type: "localeString", en: "Hybrid sets with live modular elements", es: "Sets híbridos con elementos modulares en vivo" },
-        { _type: "localeString", en: "Underground & experimental selections", es: "Selecciones underground y experimentales" },
-        { _type: "localeString", en: "4+ hour extended sets available", es: "Sets extendidos de 4+ horas disponibles" }
+        {
+          _type: "localeString",
+          en: "Genre-fluid: techno, electro, EBM, leftfield",
+          es: "Fluido de género: techno, electro, EBM, leftfield"
+        },
+        {
+          _type: "localeString",
+          en: "Hybrid sets with live modular elements",
+          es: "Sets híbridos con elementos modulares en vivo"
+        },
+        {
+          _type: "localeString",
+          en: "Underground & experimental selections",
+          es: "Selecciones underground y experimentales"
+        },
+        {
+          _type: "localeString",
+          en: "4+ hour extended sets available",
+          es: "Sets extendidos de 4+ horas disponibles"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -296,10 +324,26 @@ async function seedServices() {
       },
       icon: "Film",
       features: [
-        { _type: "localeString", en: "Film & documentary scoring", es: "Música para cine y documentales" },
-        { _type: "localeString", en: "Commercial & advertising sonic branding", es: "Branding sónico para comerciales y publicidad" },
-        { _type: "localeString", en: "Installation & spatial audio design", es: "Diseño de audio para instalaciones y audio espacial" },
-        { _type: "localeString", en: "Modular synthesis for unique textures", es: "Síntesis modular para texturas únicas" }
+        {
+          _type: "localeString",
+          en: "Film & documentary scoring",
+          es: "Música para cine y documentales"
+        },
+        {
+          _type: "localeString",
+          en: "Commercial & advertising sonic branding",
+          es: "Branding sónico para comerciales y publicidad"
+        },
+        {
+          _type: "localeString",
+          en: "Installation & spatial audio design",
+          es: "Diseño de audio para instalaciones y audio espacial"
+        },
+        {
+          _type: "localeString",
+          en: "Modular synthesis for unique textures",
+          es: "Síntesis modular para texturas únicas"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -322,10 +366,26 @@ async function seedServices() {
       },
       icon: "Laptop",
       features: [
-        { _type: "localeString", en: "1-on-1 personalized training", es: "Entrenamiento personalizado 1-on-1" },
-        { _type: "localeString", en: "Beginner & advanced tracks", es: "Niveles principiante y avanzado" },
-        { _type: "localeString", en: "Arrangement, mixing & workflow", es: "Arreglos, mezcla y flujo de trabajo" },
-        { _type: "localeString", en: "Online or in-person sessions", es: "Sesiones en línea o presenciales" }
+        {
+          _type: "localeString",
+          en: "1-on-1 personalized training",
+          es: "Entrenamiento personalizado 1-on-1"
+        },
+        {
+          _type: "localeString",
+          en: "Beginner & advanced tracks",
+          es: "Niveles principiante y avanzado"
+        },
+        {
+          _type: "localeString",
+          en: "Arrangement, mixing & workflow",
+          es: "Arreglos, mezcla y flujo de trabajo"
+        },
+        {
+          _type: "localeString",
+          en: "Online or in-person sessions",
+          es: "Sesiones en línea o presenciales"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -348,10 +408,26 @@ async function seedServices() {
       },
       icon: "Sliders",
       features: [
-        { _type: "localeString", en: '"First Patch" 3-hour intro workshop (max 6 people)', es: '"Primer Patch" taller introductorio de 3 horas (máx 6 personas)' },
-        { _type: "localeString", en: '"Techno From Scratch" hardware production workshop', es: '"Techno Desde Cero" taller de producción con hardware' },
-        { _type: "localeString", en: "One-on-one private lessons available", es: "Clases privadas 1-on-1 disponibles" },
-        { _type: "localeString", en: "Subtractive synthesis & signal flow", es: "Síntesis substractiva y flujo de señal" }
+        {
+          _type: "localeString",
+          en: '"First Patch" 3-hour intro workshop (max 6 people)',
+          es: '"Primer Patch" taller introductorio de 3 horas (máx 6 personas)'
+        },
+        {
+          _type: "localeString",
+          en: '"Techno From Scratch" hardware production workshop',
+          es: '"Techno Desde Cero" taller de producción con hardware'
+        },
+        {
+          _type: "localeString",
+          en: "One-on-one private lessons available",
+          es: "Clases privadas 1-on-1 disponibles"
+        },
+        {
+          _type: "localeString",
+          en: "Subtractive synthesis & signal flow",
+          es: "Síntesis substractiva y flujo de señal"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -374,10 +450,26 @@ async function seedServices() {
       },
       icon: "Settings",
       features: [
-        { _type: "localeString", en: "Studio setup & acoustic consultation", es: "Configuración de estudio y consulta acústica" },
-        { _type: "localeString", en: "Modular system planning & Eurorack consultation", es: "Planificación de sistemas modulares y consulta Eurorack" },
-        { _type: "localeString", en: "Signal routing & patchbay design", es: "Enrutamiento de señal y diseño de patchbay" },
-        { _type: "localeString", en: "Creative workflow optimization", es: "Optimización de flujo de trabajo creativo" }
+        {
+          _type: "localeString",
+          en: "Studio setup & acoustic consultation",
+          es: "Configuración de estudio y consulta acústica"
+        },
+        {
+          _type: "localeString",
+          en: "Modular system planning & Eurorack consultation",
+          es: "Planificación de sistemas modulares y consulta Eurorack"
+        },
+        {
+          _type: "localeString",
+          en: "Signal routing & patchbay design",
+          es: "Enrutamiento de señal y diseño de patchbay"
+        },
+        {
+          _type: "localeString",
+          en: "Creative workflow optimization",
+          es: "Optimización de flujo de trabajo creativo"
+        }
       ],
       pricing: {
         _type: "localeString",
@@ -400,10 +492,26 @@ async function seedServices() {
       },
       icon: "Handshake",
       features: [
-        { _type: "localeString", en: "Multidisciplinary art projects", es: "Proyectos de arte multidisciplinario" },
-        { _type: "localeString", en: "Fashion show soundtracks & scoring", es: "Soundtracks y música para desfiles de moda" },
-        { _type: "localeString", en: "Custom synthesizer programming", es: "Programación de sintetizadores personalizados" },
-        { _type: "localeString", en: "Multimedia & installation art", es: "Arte multimedia e instalaciones" }
+        {
+          _type: "localeString",
+          en: "Multidisciplinary art projects",
+          es: "Proyectos de arte multidisciplinario"
+        },
+        {
+          _type: "localeString",
+          en: "Fashion show soundtracks & scoring",
+          es: "Soundtracks y música para desfiles de moda"
+        },
+        {
+          _type: "localeString",
+          en: "Custom synthesizer programming",
+          es: "Programación de sintetizadores personalizados"
+        },
+        {
+          _type: "localeString",
+          en: "Multimedia & installation art",
+          es: "Arte multimedia e instalaciones"
+        }
       ],
       pricing: {
         _type: "localeString",
