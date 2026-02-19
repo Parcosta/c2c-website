@@ -135,7 +135,7 @@ vi.mock("react-i18next", () => ({
         "notFound.body": "That route doesn't exist.",
         "notFound.backHome": "Back to home",
         // Services
-        "services.pageTitle": "Services | Live Techno, DJ & Music Production | Coast2Coast",
+        "services.pageTitle": "Services | Live Techno, DJ & Music Production | Coast2c",
         "services.pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
         "services.heading": "Services",
         "services.subheading": "Everything we offer—explained in detail.",
