@@ -40,9 +40,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     name: t("services.jsonLdName"),
     url: process.env.NEXT_PUBLIC_SITE_URL,
     sameAs: [
-      "https://instagram.com/coast2coast",
-      "https://soundcloud.com/coast2coast",
-      "https://open.spotify.com/artist/coast2coast"
+      "https://instagram.com/coast2c",
+      "https://soundcloud.com/coast2c",
+      "https://open.spotify.com/artist/coast2c"
     ]
   });
 
