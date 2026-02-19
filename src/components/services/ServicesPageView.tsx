@@ -20,20 +20,15 @@ export type ServicesPageViewProps = {
 export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
   const { t } = useTranslation();
 
-  const heading = t("services.heading");
-  const subheading = t("services.subheading");
-  const emptyMessage = t("services.emptyMessage");
-  const pricingLabel = t("services.pricingLabel");
-
   return (
     <div className="space-y-10" data-testid="services-page">
       <header className="space-y-4">
-        <SectionHeading title={heading} subtitle={subheading} as="h1" />
+        <SectionHeading title={t("services.heading")} subtitle={t("services.subheading")} as="h1" />
       </header>
 
       {services.length === 0 ? (
         <GlassCard className="p-6">
-          <p className="text-small text-muted-foreground">{emptyMessage}</p>
+          <p className="text-small text-muted-foreground">{t("services.emptyMessage")}</p>
         </GlassCard>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
@@ -63,7 +58,7 @@ export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
 
                     {service.pricing ? (
                       <Badge variant="secondary" className="shrink-0">
-                        {pricingLabel}: {service.pricing}
+                        {t("services.pricingLabel")}: {service.pricing}
                       </Badge>
                     ) : null}
                   </div>
