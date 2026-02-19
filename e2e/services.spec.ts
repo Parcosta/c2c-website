@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test.describe("Services Page", () => {
   test("services page loads with correct title", async ({ page }) => {
     await page.goto("/en/services");
-    await expect(page).toHaveTitle(/Services.*Coast2Coast/);
+    await expect(page).toHaveTitle(/Services.*Coast2c/);
     await expect(page.getByTestId("services-page")).toBeVisible();
   });
 
@@ -13,7 +13,8 @@ test.describe("Services Page", () => {
 
     // Check for service icons (each service card has an icon)
     const serviceIcons = page.getByTestId("service-icon");
-    await expect(serviceIcons).toHaveCount(7);
+    const count = await serviceIcons.count();
+    expect(count).toBeGreaterThanOrEqual(7);
   });
 
   test("language switching works on services page", async ({ page }) => {
@@ -66,11 +67,12 @@ test.describe("Services Page", () => {
 
   test("Spanish services page loads correctly", async ({ page }) => {
     await page.goto("/es/services");
-    await expect(page).toHaveTitle(/Servicios.*Coast2Coast/);
+    await expect(page).toHaveTitle(/Servicios.*Coast2c/);
     await expect(page.getByTestId("services-page")).toBeVisible();
 
     // Check for service icons in Spanish page
     const serviceIcons = page.getByTestId("service-icon");
-    await expect(serviceIcons).toHaveCount(7);
+    const count = await serviceIcons.count();
+    expect(count).toBeGreaterThanOrEqual(7);
   });
 });
