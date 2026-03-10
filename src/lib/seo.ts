@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 
-import {
-  defaultLocale,
-  getLocaleFromPathname,
-  locales,
-  switchLocaleInPathname,
-  type Locale
-} from "@/lib/i18n";
+import { defaultLocale, locales, type Locale } from "@/lib/i18n";
 
 type OgImage = {
   url: string;
@@ -64,16 +58,23 @@ function toOpenGraphLocale(locale: Locale): string {
   }
 }
 
-function buildLanguageAlternates(pathname: string): Record<string, string> {
-  return Object.fromEntries(
-    locales.map((locale) => [locale, switchLocaleInPathname(pathname, locale)])
-  );
+function buildLanguageAlternates(pathname: string, currentLocale: Locale): Record<string, string> {
+  // Build language alternates with full URLs including locale prefix
+  const normalized = normalizePathname(pathname);
+  const siteUrl = getSiteUrl();
+  
+  const languages: Record<string, string> = {};
+  locales.forEach((locale) => {
+    languages[locale] = `${siteUrl}/${locale}${normalized}`;
+  });
+  
+  return languages;
 }
 
 export function buildMetadata(input: BuildMetadataInput): Metadata {
   const pathname = normalizePathname(input.pathname);
-  const resolvedLocale = input.locale ?? getLocaleFromPathname(pathname) ?? defaultLocale;
-  const canonical = resolveUrl(pathname);
+  const resolvedLocale = input.locale ?? defaultLocale;
+  const canonical = resolveUrl(`/${resolvedLocale}${pathname}`);
 
   const siteName = input.siteName ?? getSiteName();
   const title = input.title === siteName ? siteName : `${input.title} | ${siteName}`;
@@ -89,12 +90,12 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
     title,
     description: input.description,
     alternates: {
-      canonical: canonical.pathname,
-      languages: buildLanguageAlternates(pathname)
+      canonical: canonical.toString(),
+      languages: buildLanguageAlternates(pathname, resolvedLocale)
     },
     openGraph: {
       type: "website",
-      url: canonical.pathname,
+      url: canonical.toString(),
       locale: toOpenGraphLocale(resolvedLocale),
       siteName,
       title,

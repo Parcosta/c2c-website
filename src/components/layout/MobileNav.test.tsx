@@ -6,7 +6,7 @@ import { navItems } from "@/components/layout/navItems";
 
 describe("MobileNav", () => {
   it("opens a sheet with navigation links", async () => {
-    render(<MobileNav locale="en" />);
+    render(<MobileNav />);
 
     fireEvent.click(screen.getByRole("button", { name: /open menu/i }));
 
@@ -15,7 +15,7 @@ describe("MobileNav", () => {
 
     for (const item of navItems) {
       const link = screen.getByRole("link", { name: item.label });
-      expect(link).toHaveAttribute("href", item.href("en"));
+      expect(link).toHaveAttribute("href", item.href);
     }
   });
 });

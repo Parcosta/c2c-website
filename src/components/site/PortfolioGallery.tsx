@@ -1,52 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/lib/i18n";
+import type { PortfolioItemValue } from "@/sanity/queries";
+import { getSanityImageUrl } from "@/sanity/image";
 
 type Category = "live" | "dj" | "studio";
 type Filter = "all" | Category;
-
-type PortfolioItem = {
-  id: string;
-  title: { en: string; es: string };
-  category: Category;
-  tags: string[];
-};
-
-const items: PortfolioItem[] = [
-  {
-    id: "p1",
-    title: { en: "Warehouse Live Set", es: "Set en vivo (Warehouse)" },
-    category: "live",
-    tags: ["modular"]
-  },
-  {
-    id: "p2",
-    title: { en: "Radio Guest Mix", es: "Mix invitado (Radio)" },
-    category: "dj",
-    tags: ["mix"]
-  },
-  {
-    id: "p3",
-    title: { en: "Studio Session", es: "Sesión de estudio" },
-    category: "studio",
-    tags: ["production"]
-  },
-  {
-    id: "p4",
-    title: { en: "Club Night DJ Set", es: "Set de DJ (Club)" },
-    category: "dj",
-    tags: ["club"]
-  },
-  {
-    id: "p5",
-    title: { en: "Modular Jam", es: "Jam modular" },
-    category: "live",
-    tags: ["improvised"]
-  }
-];
 
 // Figma filter button styling per design specs
 interface FilterButtonProps {
@@ -80,29 +43,60 @@ function FilterButton({ active, onClick, children, testId }: FilterButtonProps) 
 }
 
 // Figma card styling - 258px width equivalent with proper styling
-function PortfolioCard({ item, locale }: { item: PortfolioItem; locale: Locale }) {
+function PortfolioCard({ item, locale }: { item: PortfolioItemValue; locale: Locale }) {
+  const imageUrl = item.images && item.images.length > 0 
+    ? getSanityImageUrl(item.images[0], { width: 600 })
+    : null;
+
+  // Map category to filter type
+  const category: Category = 
+    item.category?.toLowerCase().includes("live") ? "live" :
+    item.category?.toLowerCase().includes("dj") ? "dj" :
+    item.category?.toLowerCase().includes("studio") ? "studio" : "live";
+
   return (
-    <article
-      className={cn(
-        // Figma specs: rounded-xl, border-gray-800, dark bg
-        "rounded-xl border border-gray-800 bg-gray-900/40 p-5",
-        "transition-all duration-200 hover:border-gray-600 hover:bg-gray-900/60"
-      )}
-      data-testid="portfolio-item"
-      data-category={item.category}
-    >
-      <div className="text-sm font-medium text-gray-200">{item.title[locale]}</div>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {item.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full border border-gray-800 px-2 py-0.5 text-xs text-gray-400"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </article>
+    <Link href={`/portfolio/${item.slug}`}>
+      <article
+        className={cn(
+          // Figma specs: rounded-xl, border-gray-800, dark bg
+          "rounded-xl border border-gray-800 bg-gray-900/40 overflow-hidden",
+          "transition-all duration-200 hover:border-gray-600 hover:bg-gray-900/60"
+        )}
+        data-testid="portfolio-item"
+        data-category={category}
+      >
+        {imageUrl ? (
+          <div className="aspect-video w-full overflow-hidden">
+            <img
+              src={imageUrl}
+              alt={item.title ?? ""}
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <div className="aspect-video w-full bg-gray-800 flex items-center justify-center">
+            <span className="text-gray-500 text-sm">No image</span>
+          </div>
+        )}
+        <div className="p-5">
+          <div className="text-sm font-medium text-gray-200">{item.title}</div>
+          <div className="mt-2 text-xs text-gray-400">{item.category}</div>
+          {item.tags && item.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-gray-800 px-2 py-0.5 text-xs text-gray-400"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </article>
+    </Link>
   );
 }
 
@@ -116,15 +110,22 @@ interface PortfolioGalleryProps {
       studio: string;
     };
   };
+  items: PortfolioItemValue[];
 }
 
-export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps) {
+export function PortfolioGallery({ locale, translations, items }: PortfolioGalleryProps) {
   const [filter, setFilter] = useState<Filter>("all");
 
   const visible = useMemo(() => {
     if (filter === "all") return items;
-    return items.filter((item) => item.category === filter);
-  }, [filter]);
+    return items.filter((item) => {
+      const category = item.category?.toLowerCase() ?? "";
+      if (filter === "live") return category.includes("live");
+      if (filter === "dj") return category.includes("dj");
+      if (filter === "studio") return category.includes("studio");
+      return true;
+    });
+  }, [filter, items]);
 
   const filters: Array<{ key: Filter; label: string; testId: string }> = [
     { key: "all", label: translations.filters.all, testId: "portfolio-filter-all" },
@@ -132,6 +133,14 @@ export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps
     { key: "dj", label: translations.filters.dj, testId: "portfolio-filter-dj" },
     { key: "studio", label: translations.filters.studio, testId: "portfolio-filter-studio" }
   ];
+
+  if (items.length === 0) {
+    return (
+      <div className="py-12 text-center" data-testid="portfolio-empty">
+        <p className="text-gray-400">No portfolio items found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8" data-testid="portfolio">
@@ -160,7 +169,7 @@ export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps
         data-testid="portfolio-grid"
       >
         {visible.map((item) => (
-          <PortfolioCard key={item.id} item={item} locale={locale} />
+          <PortfolioCard key={item._id} item={item} locale={locale} />
         ))}
       </div>
 

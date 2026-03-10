@@ -4,12 +4,13 @@ import { describe, expect, it, vi } from "vitest";
 
 import { Footer } from "@/components/layout/Footer";
 
-let mockedPathname = "/en";
-
-vi.mock("next/navigation", async () => {
-  const actual = await vi.importActual<typeof import("next/navigation")>("next/navigation");
-  return { ...actual, usePathname: () => mockedPathname };
-});
+const mockPush = vi.fn();
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/en",
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -34,8 +35,7 @@ vi.mock("react-i18next", () => ({
 
 describe("Footer", () => {
   it("renders nav links with locale-prefixed hrefs", () => {
-    mockedPathname = "/en/press";
-    render(<Footer />);
+    render(<Footer locale="en" />);
 
     expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/en");
     expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute(
@@ -48,21 +48,29 @@ describe("Footer", () => {
     expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute("href", "/en/contact");
   });
 
-  it("renders a language switcher that preserves the current path", () => {
-    mockedPathname = "/en/portfolio";
-    render(<Footer />);
+  it("renders nav links with Spanish locale prefix", () => {
+    render(<Footer locale="es" />);
 
-    const en = screen.getByRole("link", { name: "EN" });
-    const es = screen.getByRole("link", { name: "ES" });
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/es");
+    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute(
+      "href",
+      "/es/portfolio"
+    );
+  });
 
-    expect(en).toHaveAttribute("href", "/en/portfolio");
+  it("renders a language switcher with buttons", () => {
+    render(<Footer locale="en" />);
+
+    const en = screen.getByRole("button", { name: "EN" });
+    const es = screen.getByRole("button", { name: "ES" });
+
+    expect(en).toBeInTheDocument();
     expect(en).toHaveAttribute("aria-current", "true");
-    expect(es).toHaveAttribute("href", "/es/portfolio");
+    expect(es).toBeInTheDocument();
   });
 
   it("renders social links and contact email", () => {
-    mockedPathname = "/es";
-    render(<Footer contactEmail="hello@c2c.com" />);
+    render(<Footer locale="es" contactEmail="hello@c2c.com" />);
 
     expect(screen.getByRole("link", { name: "hello@c2c.com" })).toHaveAttribute(
       "href",
@@ -82,15 +90,13 @@ describe("Footer", () => {
   });
 
   it("renders the brand name Coast2Coast", () => {
-    mockedPathname = "/en";
-    render(<Footer />);
+    render(<Footer locale="en" />);
 
     expect(screen.getByText("Coast2Coast")).toBeInTheDocument();
   });
 
   it("renders copyright text with current year", () => {
-    mockedPathname = "/en";
-    render(<Footer />);
+    render(<Footer locale="en" />);
 
     const year = new Date().getFullYear();
     expect(screen.getByText(new RegExp(`© ${year} Coast2Coast`))).toBeInTheDocument();
@@ -98,8 +104,7 @@ describe("Footer", () => {
   });
 
   it("renders footer section labels", () => {
-    mockedPathname = "/en";
-    render(<Footer />);
+    render(<Footer locale="en" />);
 
     // Check for Contact section heading (not the nav link)
     const contactHeadings = screen.getAllByText("Contact");

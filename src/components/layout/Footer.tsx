@@ -3,36 +3,33 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { useMemo } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
-import {
-  defaultLocale,
-  getLocaleFromPathname,
-  locales,
-  switchLocaleInPathname,
-  type Locale
-} from "@/lib/i18n";
+import { locales, type Locale } from "@/lib/i18n";
 
 type FooterProps = ComponentPropsWithoutRef<"footer"> & {
   contactEmail?: string;
+  locale: Locale;
 };
 
 type FooterLink = {
   labelKey: "nav.home" | "nav.portfolio" | "nav.services" | "nav.press" | "nav.about" | "nav.contact";
-  href: (locale: Locale) => string;
+  href: string;
 };
 
-const navLinks: FooterLink[] = [
-  { labelKey: "nav.home", href: (locale) => `/${locale}` },
-  { labelKey: "nav.portfolio", href: (locale) => `/${locale}/portfolio` },
-  { labelKey: "nav.services", href: (locale) => `/${locale}/services` },
-  { labelKey: "nav.press", href: (locale) => `/${locale}/press` },
-  { labelKey: "nav.about", href: (locale) => `/${locale}/about` },
-  { labelKey: "nav.contact", href: (locale) => `/${locale}/contact` }
-];
+function buildNavLinks(locale: Locale): FooterLink[] {
+  return [
+    { labelKey: "nav.home", href: `/${locale}` },
+    { labelKey: "nav.portfolio", href: `/${locale}/portfolio` },
+    { labelKey: "nav.services", href: `/${locale}/services` },
+    { labelKey: "nav.press", href: `/${locale}/press` },
+    { labelKey: "nav.about", href: `/${locale}/about` },
+    { labelKey: "nav.contact", href: `/${locale}/contact` }
+  ];
+}
 
 const socialLinks = [
   { label: "Instagram", href: "https://instagram.com/c2c", Icon: InstagramIcon },
@@ -41,19 +38,23 @@ const socialLinks = [
   { label: "YouTube", href: "https://youtube.com/c2c", Icon: YouTubeIcon }
 ] as const;
 
-export function Footer({ className, contactEmail = "contact@c2c.com", ...props }: FooterProps) {
-  const pathname = usePathname() ?? "/";
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+export function Footer({ className, contactEmail = "contact@c2c.com", locale, ...props }: FooterProps) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname() ?? "/";
+
+  const navLinks = useMemo(() => buildNavLinks(locale), [locale]);
 
   const languageLinks = useMemo(
-    () =>
-      locales.map((targetLocale) => ({
-        locale: targetLocale,
-        href: switchLocaleInPathname(pathname, targetLocale)
-      })),
-    [pathname]
+    () => locales.map((targetLocale) => ({ locale: targetLocale })),
+    []
   );
+
+  function onSwitchLanguage(target: Locale) {
+    // Replace current locale in pathname with new locale
+    const newPath = pathname.replace(/^\/(en|es)/, `/${target}`);
+    router.push(newPath);
+  }
 
   const year = new Date().getFullYear();
 
@@ -95,7 +96,7 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
               {navLinks.map((item) => (
                 <Link
                   key={item.labelKey}
-                  href={item.href(locale)}
+                  href={item.href}
                   className="text-small text-gray-400 underline underline-offset-4 transition-colors hover:text-gray-200"
                 >
                   {t(item.labelKey)}
@@ -113,9 +114,9 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
                 {languageLinks.map((item) => {
                   const isActive = item.locale === locale;
                   return (
-                    <Link
+                    <button
                       key={item.locale}
-                      href={item.href}
+                      onClick={() => onSwitchLanguage(item.locale)}
                       aria-current={isActive ? "true" : undefined}
                       className={cn(
                         "rounded-md px-3 py-1.5 text-small font-medium transition-colors",
@@ -125,7 +126,7 @@ export function Footer({ className, contactEmail = "contact@c2c.com", ...props }
                       )}
                     >
                       {item.locale.toUpperCase()}
-                    </Link>
+                    </button>
                   );
                 })}
               </div>

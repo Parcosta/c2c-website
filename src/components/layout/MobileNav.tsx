@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
-import type { Locale } from "@/lib/i18n";
+
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,11 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { navItems } from "@/components/layout/navItems";
 
-type MobileNavProps = {
-  locale: Locale;
-};
-
-export function MobileNav({ locale }: MobileNavProps) {
+export function MobileNav() {
   return (
     <div className="md:hidden">
       <Sheet>
@@ -38,7 +34,7 @@ export function MobileNav({ locale }: MobileNavProps) {
             {navItems.map((item) => (
               <SheetClose asChild key={item.label}>
                 <Link
-                  href={item.href(locale)}
+                  href={item.href}
                   className="rounded-md px-3 py-2 text-body font-medium text-gray-100/90 hover:bg-gray-900/60 hover:text-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
                 >
                   {item.label}

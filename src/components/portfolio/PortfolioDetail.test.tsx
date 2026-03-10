@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { PortfolioDetail } from "./PortfolioDetail";
 
 describe("PortfolioDetail", () => {
-  it("renders title, tags, gallery, and description", () => {
+  it("renders title, tags, gallery, and description with locale prefix", () => {
     render(
       <PortfolioDetail
         item={{
@@ -38,5 +38,28 @@ describe("PortfolioDetail", () => {
     expect(screen.getByText("Sanity")).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(2);
     expect(screen.getByText("Hello from Sanity.")).toBeInTheDocument();
+  });
+
+  it("renders with Spanish locale prefix", () => {
+    render(
+      <PortfolioDetail
+        item={{
+          id: "1",
+          title: "Estudio de Caso",
+          slug: "case-study",
+          category: "Diseño",
+          images: [{ url: "/a.jpg", alt: "Imagen A" }],
+          description: [],
+          date: "2026-02-01T00:00:00Z",
+          tags: ["Next.js"],
+          locale: "es"
+        }}
+      />
+    );
+
+    expect(screen.getByRole("link", { name: "Back to portfolio" })).toHaveAttribute(
+      "href",
+      "/es/portfolio"
+    );
   });
 });

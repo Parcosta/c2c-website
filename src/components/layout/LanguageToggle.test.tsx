@@ -1,17 +1,47 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
 
-describe("LanguageToggle", () => {
-  it("switches locales while preserving pathname", () => {
-    (globalThis as unknown as { __NEXT_PATHNAME__?: string }).__NEXT_PATHNAME__ =
-      "/en/portfolio/item";
+const mockPush = vi.fn();
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/en/portfolio",
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
 
+describe("LanguageToggle", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("renders language buttons without locale in pathname", () => {
     render(<LanguageToggle locale="en" />);
 
-    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute("href", "/en/portfolio/item");
-    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: "ES" })).toHaveAttribute("href", "/es/portfolio/item");
+    const enButton = screen.getByRole("button", { name: "EN" });
+    const esButton = screen.getByRole("button", { name: "ES" });
+
+    expect(enButton).toHaveAttribute("aria-current", "page");
+    expect(esButton).toBeInTheDocument();
+  });
+
+  it("switches locales using URL navigation", () => {
+    render(<LanguageToggle locale="en" />);
+
+    const esButton = screen.getByRole("button", { name: "ES" });
+    fireEvent.click(esButton);
+
+    // Should navigate to Spanish version of current page
+    expect(mockPush).toHaveBeenCalledWith("/es/portfolio");
+  });
+
+  it("switches from Spanish to English", () => {
+    render(<LanguageToggle locale="es" />);
+
+    const enButton = screen.getByRole("button", { name: "EN" });
+    fireEvent.click(enButton);
+
+    expect(mockPush).toHaveBeenCalledWith("/en/portfolio");
   });
 });

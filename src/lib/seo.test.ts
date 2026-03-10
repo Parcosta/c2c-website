@@ -44,14 +44,15 @@ describe("seo", () => {
     const meta = buildMetadata({
       title: "Components",
       description: "Preview",
-      pathname: "/en/components"
+      pathname: "/components",
+      locale: "en"
     });
 
     expect(meta.metadataBase?.toString()).toBe("https://example.com/");
-    expect(meta.alternates?.canonical).toBe("/en/components");
+    expect(meta.alternates?.canonical).toBe("https://example.com/en/components");
     expect(meta.alternates?.languages).toMatchObject({
-      en: "/en/components",
-      es: "/es/components"
+      en: "https://example.com/en/components",
+      es: "https://example.com/es/components"
     });
     expect(meta.openGraph?.siteName).toBe("Coast2Coast (C2C)");
     expect((meta.twitter as Record<string, unknown>)?.card).toBe("summary_large_image");

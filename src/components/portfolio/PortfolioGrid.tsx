@@ -6,7 +6,7 @@ import { ImageCard } from "@/components/custom/ImageCard";
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import type { Locale } from "@/lib/i18n";
-import { addLocaleToPathname } from "@/lib/i18n";
+
 import { cn } from "@/lib/utils";
 
 import type { PortfolioCardItem } from "./types";
@@ -120,7 +120,7 @@ export function PortfolioGrid({ items, locale }: { items: PortfolioCardItem[]; l
                 alt={item.title}
                 title={item.title}
                 description={meta}
-                href={addLocaleToPathname(`/portfolio/${item.slug}`, locale)}
+                href={`/portfolio/${item.slug}`}
                 className={cn("bg-gray-950/30 border-gray-800 hover:border-gray-600")}
               />
             );

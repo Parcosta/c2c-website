@@ -22,14 +22,14 @@ export function Header({ locale }: HeaderProps) {
       <Container className="h-16">
         <div className="flex h-full items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Logo locale={locale} />
+            <Logo />
           </div>
 
           <DesktopNav locale={locale} className="flex-1 justify-center" />
 
           <div className="flex items-center gap-1">
             <LanguageToggle locale={locale} />
-            <MobileNav locale={locale} />
+            <MobileNav />
           </div>
         </div>
       </Container>

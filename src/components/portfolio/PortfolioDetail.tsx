@@ -11,7 +11,7 @@ import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import type { Locale } from "@/lib/i18n";
-import { addLocaleToPathname } from "@/lib/i18n";
+
 import { cn } from "@/lib/utils";
 
 import type { PortfolioDetailItem } from "./types";
@@ -71,7 +71,7 @@ export function PortfolioDetail({ item }: { item: PortfolioDetailItem }) {
     <div className="space-y-6">
       <div className="space-y-4">
         <Link
-          href={addLocaleToPathname("/portfolio", item.locale)}
+          href={`/${item.locale}/portfolio`}
           className="text-small text-muted-foreground underline-offset-4 hover:underline"
         >
           Back to portfolio

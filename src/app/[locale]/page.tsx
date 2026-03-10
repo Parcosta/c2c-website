@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { HeroBlock } from "@/components/blocks/HeroBlock";
 import { EventsBlock } from "@/components/blocks/EventsBlock";
 import { JsonLdScript } from "@/components/seo/JsonLd";
-import { type Locale } from "@/lib/i18n";
+import { locales, defaultLocale, type Locale } from "@/lib/i18n";
 import {
   buildMetadata,
   createMusicGroupJsonLd,
@@ -11,6 +11,10 @@ import {
   createEventJsonLd,
   getSiteName
 } from "@/lib/seo";
+
+type HomePageProps = {
+  params: Promise<{ locale: string }>;
+};
 
 function getHomeSeo(locale: Locale): { title: string; description: string } {
   switch (locale) {
@@ -28,21 +32,21 @@ function getHomeSeo(locale: Locale): { title: string; description: string } {
   }
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
-  const seo = getHomeSeo(locale);
+  const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
+  const seo = getHomeSeo(validLocale);
   return buildMetadata({
     ...seo,
-    pathname: `/${locale}`
+    pathname: "/",
+    locale: validLocale
   });
 }
 
-export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
+export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
+  const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
+  
   const org = createOrganizationJsonLd({ name: "Coast2Coast" });
   const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
 
@@ -63,7 +67,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     <main>
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
       <HeroBlock />
-      <EventsBlock locale={locale} />
+      <EventsBlock locale={validLocale} />
     </main>
   );
 }

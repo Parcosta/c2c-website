@@ -4,11 +4,11 @@ import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
-  locale: Locale;
   className?: string;
+  locale?: Locale;
 };
 
-export function Logo({ locale, className }: LogoProps) {
+export function Logo({ className, locale = "en" }: LogoProps) {
   return (
     <Link
       href={`/${locale}`}

@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
 
-import { resolveUrl } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = getSiteUrl();
+  
   return {
     rules: [
       {
@@ -11,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/studio"]
       }
     ],
-    sitemap: resolveUrl("/sitemap.xml").toString()
+    sitemap: `${siteUrl}/sitemap.xml`
   };
 }

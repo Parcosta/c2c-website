@@ -12,7 +12,7 @@ export default function NotFound() {
             <h1 className="font-display text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl">
               Page not found
             </h1>
-            <p className="text-gray-400">That route doesn’t exist.</p>
+            <p className="text-gray-400">That route doesn&apos;t exist.</p>
             <Link
               href="/en"
               className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"

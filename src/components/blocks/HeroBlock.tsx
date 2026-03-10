@@ -1,21 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { AudioPlayer } from "@/components/custom/AudioPlayer";
 import { Container } from "@/components/layout/Container";
+import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export interface HeroBlockProps {
   className?: string;
   audioSrc?: string;
   audioTitle?: string;
+  locale?: Locale;
 }
 
 export function HeroBlock({
   className,
   audioSrc,
-  audioTitle
+  audioTitle,
+  locale = "en"
 }: HeroBlockProps) {
   const { t } = useTranslation();
   
@@ -75,12 +80,12 @@ export function HeroBlock({
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <AnimatedButton asChild size="lg" className="rounded-full px-8">
-              <Link href="/contact">
+              <Link href={`/${locale}/contact`}>
                 {t("home.heroCtaPrimary")}
               </Link>
             </AnimatedButton>
             <AnimatedButton asChild variant="secondary" size="lg" className="rounded-full px-8">
-              <Link href="/portfolio">
+              <Link href={`/${locale}/portfolio`}>
                 {t("home.heroCtaSecondary")}
               </Link>
             </AnimatedButton>

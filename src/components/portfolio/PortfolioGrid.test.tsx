@@ -31,11 +31,11 @@ describe("PortfolioGrid", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Portfolio" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Project One" })).toHaveAttribute(
       "href",
-      "/en/portfolio/project-one"
+      "/portfolio/project-one"
     );
     expect(screen.getByRole("link", { name: "Project Two" })).toHaveAttribute(
       "href",
-      "/en/portfolio/project-two"
+      "/portfolio/project-two"
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Design" }));

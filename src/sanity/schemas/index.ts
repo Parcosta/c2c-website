@@ -8,6 +8,7 @@ import { pressItem } from "@/sanity/schemas/documents/pressItem";
 import { pressPage } from "@/sanity/schemas/documents/pressPage";
 import { service } from "@/sanity/schemas/documents/service";
 import { siteSettings } from "@/sanity/schemas/documents/siteSettings";
+import { uiContent } from "@/sanity/schemas/documents/uiContent";
 import { localeBlockContent } from "@/sanity/schemas/localized/localeBlockContent";
 import { localeSlug } from "@/sanity/schemas/localized/localeSlug";
 import { localeString } from "@/sanity/schemas/localized/localeString";
@@ -39,5 +40,6 @@ export const schemaTypes = [
   service,
   pressItem,
   pressPage,
-  siteSettings
+  siteSettings,
+  uiContent
 ];

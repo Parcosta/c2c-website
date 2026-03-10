@@ -13,7 +13,7 @@ describe("not-found", () => {
     expect(screen.getByText(/that route doesn.*t exist/i)).toBeInTheDocument();
 
     const homeLink = screen.getByRole("link", { name: "Back to home" });
-    // In test environment without locale header, it defaults to "en"
+    // Link now goes to /en as default locale
     expect(homeLink).toHaveAttribute("href", "/en");
   });
 });

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
-import { switchLocaleInPathname } from "@/lib/i18n";
 
 type NavItem = { href: string; label: string; testId: string };
 
@@ -18,22 +17,24 @@ function buildNav(t: (key: string) => string, locale: Locale): NavItem[] {
   ];
 }
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+type SiteHeaderProps = {
+  locale: Locale;
+};
+
+export function SiteHeader({ locale }: SiteHeaderProps) {
+  const pathname = usePathname() ?? "/";
   const router = useRouter();
-  const pathname = usePathname() ?? `/${locale}`;
   const { t, i18n } = useTranslation();
 
   const nav = useMemo(() => buildNav(t as (key: string) => string, locale), [t, locale]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  function onSwitchLocale(nextLocale: Locale) {
-    // Change i18next language
-    i18n.changeLanguage(nextLocale);
-    // Navigate to the new locale path
-    const nextPath = switchLocaleInPathname(pathname, nextLocale);
-    setMobileOpen(false);
-    router.push(nextPath);
-  }
+  // Sync i18n language with locale prop
+  const handleLanguageChange = useCallback((newLocale: Locale) => {
+    // Replace current locale in pathname with new locale
+    const newPath = pathname.replace(/^\/(en|es)/, `/${newLocale}`);
+    router.push(newPath);
+  }, [pathname, router]);
 
   return (
     <header
@@ -67,7 +68,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <div className="flex items-center gap-2" data-testid="language-switcher">
             <button
               type="button"
-              onClick={() => onSwitchLocale("en")}
+              onClick={() => handleLanguageChange("en")}
               data-testid="lang-en"
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                 locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
@@ -78,7 +79,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             </button>
             <button
               type="button"
-              onClick={() => onSwitchLocale("es")}
+              onClick={() => handleLanguageChange("es")}
               data-testid="lang-es"
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                 locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
@@ -126,7 +127,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <div className="flex items-center gap-2" data-testid="mobile-language-switcher">
                 <button
                   type="button"
-                  onClick={() => onSwitchLocale("en")}
+                  onClick={() => handleLanguageChange("en")}
                   data-testid="mobile-lang-en"
                   className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                     locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
@@ -136,7 +137,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => onSwitchLocale("es")}
+                  onClick={() => handleLanguageChange("es")}
                   data-testid="mobile-lang-es"
                   className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                     locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { DM_Sans, Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
@@ -29,11 +28,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const headerStore = await headers();
-  const locale = headerStore.get("x-locale") ?? "en";
-
+  // Root layout doesn't set lang attribute - that's done in [locale]/layout
+  // This allows the middleware to redirect to the appropriate locale
   return (
-    <html lang={locale} className="dark">
+    <html className="dark">
       <body
         className={`${inter.variable} ${dmSans.variable} antialiased bg-slate-950 text-slate-50`}
       >

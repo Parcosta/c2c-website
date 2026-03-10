@@ -1,21 +1,42 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
 import { PressPageView } from "@/features/press/PressPageView";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { locales, defaultLocale, type Locale } from "@/lib/i18n";
+import { buildMetadata } from "@/lib/seo";
 import { isSanityConfigured } from "@/sanity/config";
 import { getClient } from "@/sanity/client";
 import { buildPressEpkQuery, type PressEpkValue } from "@/sanity/queries";
 
+type PressPageProps = {
+  params: Promise<{ locale: string }>;
+};
+
 export const dynamic = "force-dynamic";
 
-export default async function PressPage({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({ params }: PressPageProps): Promise<Metadata> {
   const { locale } = await params;
-  if (!isLocale(locale)) notFound();
-  const resolvedLocale: Locale = locale;
+  const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
+  const title = validLocale === "es" ? "Prensa" : "Press";
+  const description = validLocale === "es"
+    ? "Kit de prensa y EP de Coast2Coast - fotos, biografía y recursos para medios."
+    : "Coast2Coast press kit and EPK - photos, biography, and media resources.";
+  return buildMetadata({
+    title,
+    description,
+    pathname: "/press",
+    locale: validLocale
+  });
+}
+
+export default async function PressPage({ params }: PressPageProps) {
+  const { locale } = await params;
+  const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
 
   let data: PressEpkValue | null = null;
   if (isSanityConfigured()) {
-    const def = buildPressEpkQuery(resolvedLocale);
+    const def = buildPressEpkQuery(validLocale);
     try {
       data = await getClient().fetch(def.query, def.params);
     } catch {
@@ -32,7 +53,7 @@ export default async function PressPage({ params }: { params: Promise<{ locale: 
 
   return (
     <PressPageView
-      locale={resolvedLocale}
+      locale={validLocale}
       title={pressPage?.title}
       bio={pressPage?.bio}
       pressPhotos={pressPage?.pressPhotos}

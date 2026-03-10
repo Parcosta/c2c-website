@@ -20,8 +20,8 @@ vi.mock("react-i18next", () => ({
 import { HeroBlock } from "@/components/blocks/HeroBlock";
 
 describe("HeroBlock", () => {
-  it("renders hero section with title, subtitle, and CTAs", () => {
-    render(<HeroBlock />);
+  it("renders hero section with title, subtitle, and CTAs with locale prefix", () => {
+    render(<HeroBlock locale="en" />);
 
     // Check for region landmark with title
     expect(screen.getByRole("region", { name: "Live modular techno & DJ sets" })).toBeInTheDocument();
@@ -34,23 +34,33 @@ describe("HeroBlock", () => {
       screen.getByText("Coast2Coast (C2C) — bold sound, dark visuals, clean interface.")
     ).toBeInTheDocument();
 
-    // Check for CTA buttons
+    // Check for CTA buttons with locale prefix
     const primaryCta = screen.getByRole("link", { name: "Get in touch" });
-    expect(primaryCta).toHaveAttribute("href", "/contact");
+    expect(primaryCta).toHaveAttribute("href", "/en/contact");
     
     const secondaryCta = screen.getByRole("link", { name: "View portfolio" });
-    expect(secondaryCta).toHaveAttribute("href", "/portfolio");
+    expect(secondaryCta).toHaveAttribute("href", "/en/portfolio");
+  });
+
+  it("renders with Spanish locale prefix", () => {
+    render(<HeroBlock locale="es" />);
+
+    const primaryCta = screen.getByRole("link", { name: "Get in touch" });
+    expect(primaryCta).toHaveAttribute("href", "/es/contact");
+    
+    const secondaryCta = screen.getByRole("link", { name: "View portfolio" });
+    expect(secondaryCta).toHaveAttribute("href", "/es/portfolio");
   });
 
   it("renders with audio player when audioSrc is provided", () => {
-    render(<HeroBlock audioSrc="/audio/sample.mp3" audioTitle="Sample Track" />);
+    render(<HeroBlock audioSrc="/audio/sample.mp3" audioTitle="Sample Track" locale="en" />);
 
     // Check that the audio element is rendered
     expect(screen.getByRole("button", { name: /reproducir|pausar/i })).toBeInTheDocument();
   });
 
   it("renders without audio player when audioSrc is not provided", () => {
-    render(<HeroBlock />);
+    render(<HeroBlock locale="en" />);
 
     // Should still render CTAs
     expect(screen.getByRole("link", { name: "Get in touch" })).toBeInTheDocument();

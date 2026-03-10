@@ -26,7 +26,7 @@ export function DesktopNav({ locale, className }: DesktopNavProps) {
           {navItems.map((item) => (
             <NavigationMenuItem key={item.label}>
               <NavigationMenuLink asChild>
-                <Link href={item.href(locale)} className={navigationMenuTriggerStyle()}>
+                <Link href={`/${locale}${item.href === "/" ? "" : item.href}`} className={navigationMenuTriggerStyle()}>
                   {item.label}
                 </Link>
               </NavigationMenuLink>
