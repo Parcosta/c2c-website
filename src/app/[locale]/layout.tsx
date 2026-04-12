@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { isLocale, locales } from "@/lib/i18n";
-import { SiteHeader } from "@/components/site/SiteHeader";
-import { Container } from "@/components/layout/Container";
+import { SiteHeaderWrapper } from "@/components/site/SiteHeaderWrapper";
+import { FooterWrapper } from "@/components/site/FooterWrapper";
 import { I18nProvider } from "@/components/providers/I18nProvider";
 
 export function generateStaticParams() {
@@ -23,15 +23,9 @@ export default async function LocaleLayout({
   return (
     <I18nProvider locale={locale}>
       <div className="min-h-dvh">
-        <SiteHeader locale={locale} />
+        <SiteHeaderWrapper locale={locale} />
         {children}
-        <footer className="border-t border-gray-800 py-10">
-          <Container>
-            <p className="text-sm text-gray-400" data-testid="site-footer">
-              © {new Date().getFullYear()} Coast2Coast
-            </p>
-          </Container>
-        </footer>
+        <FooterWrapper locale={locale} />
       </div>
     </I18nProvider>
   );

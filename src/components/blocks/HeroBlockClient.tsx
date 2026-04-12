@@ -1,25 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { AudioPlayer } from "@/components/custom/AudioPlayer";
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
-
 import type { Locale } from "@/lib/i18n";
 
-export interface HeroBlockProps {
+interface HeroBlockTranslations {
+  brand: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  heroCtaPrimary: string;
+  heroCtaSecondary: string;
+}
+
+export interface HeroBlockClientProps {
   className?: string;
   audioSrc?: string;
   audioTitle?: string;
   locale: Locale;
+  translations: HeroBlockTranslations;
 }
 
-export function HeroBlock({ className, audioSrc, audioTitle, locale }: HeroBlockProps) {
-  const { t } = useTranslation();
-
+export function HeroBlockClient({
+  className,
+  audioSrc,
+  audioTitle,
+  locale,
+  translations
+}: HeroBlockClientProps) {
   return (
     <section
       aria-labelledby="homepage-hero-title"
@@ -50,15 +61,15 @@ export function HeroBlock({ className, audioSrc, audioTitle, locale }: HeroBlock
           {/* Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-gray-800 bg-gray-900/40 px-3 py-1 text-xs font-medium text-gray-200">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-accent shadow-[0_0_0_4px_rgba(59,130,246,0.15)]" />
-            {t("brand")}
+            {translations.brand}
           </div>
 
           {/* Title and subtitle */}
           <div className="space-y-6">
             <h1 id="homepage-hero-title" className="font-display text-hero text-gray-100">
-              {t("home.heroTitle")}
+              {translations.heroTitle}
             </h1>
-            <p className="max-w-2xl text-body text-gray-200">{t("home.heroSubtitle")}</p>
+            <p className="max-w-2xl text-body text-gray-200">{translations.heroSubtitle}</p>
           </div>
 
           {/* Audio Player */}
@@ -71,10 +82,10 @@ export function HeroBlock({ className, audioSrc, audioTitle, locale }: HeroBlock
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <AnimatedButton asChild size="lg" className="rounded-full px-8">
-              <Link href={`/${locale}/contact`}>{t("home.heroCtaPrimary")}</Link>
+              <Link href={`/${locale}/contact`}>{translations.heroCtaPrimary}</Link>
             </AnimatedButton>
             <AnimatedButton asChild variant="secondary" size="lg" className="rounded-full px-8">
-              <Link href={`/${locale}/portfolio`}>{t("home.heroCtaSecondary")}</Link>
+              <Link href={`/${locale}/portfolio`}>{translations.heroCtaSecondary}</Link>
             </AnimatedButton>
           </div>
         </div>

@@ -28,7 +28,13 @@ const i18nInstance = i18n
     },
 
     // Debug mode in development
-    debug: process.env.NODE_ENV === "development"
+    debug: process.env.NODE_ENV === "development",
+
+    // Add a default namespace
+    defaultNS: "translation",
+
+    // Ensure we wait for translations to load
+    initImmediate: false
   });
 
 export default i18n;

@@ -7,7 +7,9 @@
     "about": "About",
     "services": "Services",
     "press": "Press",
-    "store": "Store"
+    "store": "Store",
+    "mobileMenu": "Menu",
+    "close": "Close"
   },
   "home": {
     "heroTitle": "Live modular techno & DJ sets",
