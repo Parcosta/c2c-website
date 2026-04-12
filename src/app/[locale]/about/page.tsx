@@ -9,9 +9,9 @@ import { client } from "@/sanity/client";
 import { getSanityImageUrl } from "@/sanity/image";
 import { buildAboutPageQuery, type AboutPageValue } from "@/sanity/queries";
 
-export default async function AboutPage({ params }: { params: { locale: string } }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
 
   let data: AboutPageValue | null = null;
   if (isSanityConfigured()) {
