@@ -8,7 +8,7 @@ import { locales, defaultLocale, type Locale } from "@/lib/i18n";
 
 const fallbackResources: Record<Locale, Record<string, string>> = {
   en: {
-    // Navigation
+    // Navigation - Main site navigation
     "nav.home": "Home",
     "nav.portfolio": "Portfolio",
     "nav.contact": "Contact",
