@@ -120,6 +120,13 @@ Additional useful scripts:
 - **`npm run test:run`**: Run Vitest in CI mode (`vitest run`).
 - **`npm run format`**: Format with Prettier.
 
+Translation scripts:
+
+- **`node scripts/sync-translations.mjs check`**: Verify translations are in sync.
+- **`node scripts/sync-translations.mjs sync`**: Sync server fallbacks from client.
+- **`node scripts/sync-translations.mjs export`**: Export to Sanity import format.
+- **`node scripts/sync-translations.mjs validate`**: Validate EN/ES completeness.
+
 Infrastructure scripts (run from `infra/`):
 
 ```bash
@@ -207,6 +214,57 @@ The CDK stack also defines an equivalent build spec in code.
   - **Media**: mixes, videos, press photos
   - **Press**: quotes, articles, embeds
 - **Bilingual support (EN/ES)**: Model content with localized fields (or separate documents per locale) and map to locale-aware routes (e.g. `/en`, `/es`) or a language switcher. Keep UI copy and CMS content strategy aligned.
+- **UI Content**: Translations are managed via the `uiContent` document type in Sanity. This allows content editors to override any UI text without code changes.
+
+## Internationalization (i18n)
+
+This project uses a hybrid i18n approach:
+
+### Translation System
+
+- **Client-side**: `react-i18next` with fallback translations in `src/i18n/index.ts`
+- **Server-side**: `src/lib/i18n-server.ts` fetches from Sanity with local fallbacks
+- **Priority**: Sanity CMS → Fallback translations → Translation key (last resort)
+
+### Adding New Translations
+
+1. Add translation keys to `src/i18n/index.ts` (both EN and ES)
+2. Run `node scripts/sync-translations.mjs sync` to update server fallbacks
+3. Or let the pre-commit hook handle it automatically
+
+### Translation Sync Script
+
+```bash
+# Check if translations are in sync
+node scripts/sync-translations.mjs check
+
+# Sync server fallbacks from client
+node scripts/sync-translations.mjs sync
+
+# Export to Sanity import format
+node scripts/sync-translations.mjs export
+
+# Validate all keys have both EN and ES
+node scripts/sync-translations.mjs validate
+```
+
+### Pre-commit Hook
+
+A pre-commit hook is configured to automatically sync server fallbacks when `src/i18n/index.ts` changes. To enable:
+
+```bash
+git config core.hooksPath .husky
+```
+
+### Translation Keys
+
+Translation keys use dot notation for organization:
+
+- `nav.home`, `nav.portfolio` - Navigation
+- `footer.tagline`, `footer.rights` - Footer
+- `events.title`, `events.ticketsLabel` - Events block
+- `services.title`, `services.pricingLabel` - Services
+- `error.notFoundTitle`, `error.backToHome` - Error pages
 
 ## Contributing
 
@@ -216,3 +274,7 @@ The CDK stack also defines an equivalent build spec in code.
   - Create a feature branch from `main`
   - Keep PRs focused and small
   - Ensure `npm run lint`, `npm test`, and `npm run e2e` pass before requesting review
+- **Translation workflow**
+  - Add new translation keys to `src/i18n/index.ts` (both EN and ES)
+  - The pre-commit hook will auto-sync server fallbacks
+  - Run `node scripts/sync-translations.mjs validate` to verify completeness

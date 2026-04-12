@@ -1,0 +1,27 @@
+#!/bin/sh
+# Pre-commit hook for translation sync
+# Only runs when src/i18n/index.ts has changes
+
+# Check if src/i18n/index.ts is in the staged files
+if git diff --cached --name-only | grep -q "^src/i18n/index.ts$"; then
+  echo "🔄 Translation file changed, running sync..."
+  
+  # Run the sync script
+  node scripts/sync-translations.mjs sync
+  
+  # Check if server file was updated
+  if git diff --name-only | grep -q "^src/lib/i18n-server.ts$"; then
+    echo "✅ Server translations synced, adding to commit..."
+    git add src/lib/i18n-server.ts
+  fi
+  
+  # Run validation to ensure everything is consistent
+  echo "🔍 Validating translations..."
+  if ! node scripts/sync-translations.mjs check; then
+    echo "❌ Translation validation failed. Please fix before committing."
+    exit 1
+  fi
+fi
+
+# Continue with the commit
+exit 0

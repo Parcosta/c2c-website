@@ -58,6 +58,23 @@ When running commands, follow the repo’s package manager:
 - Sanity is the source of truth for all CMS content.
 - No database: forms send email via Resend (keep email sending server-side; never expose keys).
 
+## Internationalization (i18n)
+
+- **All user-facing text must use translation keys** - no hardcoded strings in components
+- Translation keys use dot notation: `nav.home`, `footer.tagline`, `events.ticketsLabel`
+- Client components use `useTranslation()` from `react-i18next`
+- Server components use `getTranslation()` from `@/lib/i18n-server`
+- Fallback translations exist in:
+  - `src/i18n/index.ts` (client-side fallbacks)
+  - `src/lib/i18n-server.ts` (server-side fallbacks)
+- **Sanity CMS** is the ultimate source of truth via `uiContent` documents
+- Translation sync script: `node scripts/sync-translations.mjs`
+  - `check` - Verify client/server translations are in sync
+  - `sync` - Copy client translations to server fallbacks
+  - `export` - Generate Sanity import file
+  - `validate` - Check all keys have EN/ES translations
+- Pre-commit hook auto-syncs server fallbacks when `src/i18n/index.ts` changes
+
 ## Important Notes
 
 - Not a commercial brand: bold colors are allowed.
