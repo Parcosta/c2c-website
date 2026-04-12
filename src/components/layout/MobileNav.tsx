@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Menu } from "lucide-react";
-
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,27 +17,29 @@ import {
 import { navItems } from "@/components/layout/navItems";
 
 export function MobileNav() {
+  const { t } = useTranslation();
+
   return (
     <div className="md:hidden">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Open menu">
+          <Button variant="ghost" size="icon" aria-label={t("nav.mobileMenu")}>
             <Menu className="h-5 w-5" aria-hidden="true" />
           </Button>
         </SheetTrigger>
         <SheetContent className="bg-gray-950 text-gray-100 border-gray-800/60">
           <SheetHeader>
-            <SheetTitle className="text-gray-100">Menu</SheetTitle>
-            <SheetDescription className="sr-only">Primary navigation</SheetDescription>
+            <SheetTitle className="text-gray-100">{t("nav.menuTitle")}</SheetTitle>
+            <SheetDescription className="sr-only">{t("nav.menuDescription")}</SheetDescription>
           </SheetHeader>
           <nav className="mt-6 grid gap-2" aria-label="Mobile">
             {navItems.map((item) => (
-              <SheetClose asChild key={item.label}>
+              <SheetClose asChild key={item.labelKey}>
                 <Link
                   href={item.href}
                   className="rounded-md px-3 py-2 text-body font-medium text-gray-100/90 hover:bg-gray-900/60 hover:text-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               </SheetClose>
             ))}

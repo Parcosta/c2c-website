@@ -13,7 +13,7 @@ export function getLocaleFromParams(params: { locale?: string }): Locale {
 }
 
 /**
- * @deprecated Use getLocaleFromParams instead. 
+ * @deprecated Use getLocaleFromParams instead.
  * This function is kept for backward compatibility during migration.
  * In the new URL-based routing system, locale comes from URL params, not cookies.
  */

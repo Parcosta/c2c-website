@@ -22,23 +22,23 @@ describe("AudioPlayer", () => {
     render(<AudioPlayer src="/audio/test.mp3" title="Test Track" />);
 
     expect(screen.getByText("Test Track")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /reproducir/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /play/i })).toBeInTheDocument();
   });
 
   it("renders audio player without title", () => {
     render(<AudioPlayer src="/audio/test.mp3" />);
 
-    expect(screen.getByRole("button", { name: /reproducir/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /play/i })).toBeInTheDocument();
   });
 
   it("toggles play/pause when button is clicked", () => {
     render(<AudioPlayer src="/audio/test.mp3" title="Test Track" />);
 
-    const playButton = screen.getByRole("button", { name: /reproducir/i });
+    const playButton = screen.getByRole("button", { name: /play/i });
     fireEvent.click(playButton);
 
     // After clicking, should show pause button
-    expect(screen.getByRole("button", { name: /pausar/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /pause/i })).toBeInTheDocument();
   });
 
   it("displays time progress", () => {

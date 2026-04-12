@@ -7,16 +7,19 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
 ## Success Criteria - ALL COMPLETED ✅
 
 ### Phase 1: Content Extraction & Image Upload ✅
+
 - [x] All 12 DOCX files parsed (11 content + 1 PRD)
 - [x] All 21 images uploaded to Sanity
 
 ### Phase 2: Site Settings ✅
+
 - [x] siteSettings document created with:
   - siteName: {en: "Coast2Coast", es: "Coast2Coast"}
   - socialLinks: Instagram, SoundCloud, Bandcamp, Spotify
   - contactEmail: bookings@coast2c.com
 
 ### Phase 3: About Page ✅
+
 - [x] aboutPage document created with:
   - Full bilingual biography (EN/ES)
   - Artist photo
@@ -25,6 +28,7 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
   - Musical influences
 
 ### Phase 4: Portfolio Items ✅
+
 - [x] 8 portfolioItem documents created:
   1. Radical Devotion (Music Release)
   2. Proximity (Music Release)
@@ -36,12 +40,14 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
   8. Landscape Counterclockwise (Collaboration)
 
 ### Phase 5: Press Page ✅
+
 - [x] pressPage document created with:
   - Bilingual bio
   - Press photos
   - Bookings email
 
 ### Phase 6: Press Items ✅
+
 - [x] 11 pressItem documents created from LISTA DE PRENSA:
   1. NFT Magazine (2025)
   2. Fifteen Questions (2025)
@@ -57,6 +63,7 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
   12. Tom Tom Mag (2018)
 
 ### Phase 7: Services ✅
+
 - [x] 4 service documents created:
   1. Live Modular Performance
   2. DJ Sets
@@ -64,29 +71,35 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
   4. Workshops
 
 ### Phase 8: Video Integration ✅
+
 - [x] 3 MOV files identified and documented (videos are referenced in content, actual hosting would be on Vimeo/YouTube)
 
 ## Sanity Assets Summary
 
 ### Images Uploaded (21 total)
+
 **Profile/Press Photos (4):**
+
 - profile_coast2c (Coast2c.jpg)
 - profile_img5248 (IMG_5248.JPG)
 - profile_coast2c107 (Coast2c_107 1.jpg)
 - studio_coast2c2 (coast2c2-AlexanderPomper.png)
 
 **Performance Photos (3):**
+
 - performance_sofia (SofiaAcosta_026LRcredit_CarlyDiaz.jpg)
 - performance_studio_july (studio-july-2025.png)
 - performance_live_ephemeral_2960 (08 Live Ephemeral [Coast2C + Julieta Gil]-2960-Diego Figueroa.JPG)
 
 **Modular/System Photos (4):**
+
 - modular_2944 (08 Live Ephemeral [Coast2C + Julieta Gil]-2944-Diego Figueroa.JPG)
 - modular_julieta1 (coast2c-julietaGil-credito-Carlos-Mendoza (1).JPG)
 - modular_2821 (08 Live Ephemeral [Coast2C + Julieta Gil]-2821-Diego Figueroa.JPG)
 - modular_julieta2 (coast2c-julieta-gil-credito-Carlos-Mendoza.JPG)
 
 **Project Images (10):**
+
 - project_radical_cover (WHITEOWL013_Cover_Artwork_web.jpg)
 - project_mix192_modules (modules8.png)
 - project_machine_music (machine-music-human-dance.jpg)
@@ -101,10 +114,12 @@ All content from `/Users/george-openclaw/Downloads/COAST2C WEBSITE 26/` has been
 ## Sanity Dataset Verification
 
 All content is live in the Sanity production dataset:
+
 - Project ID: `u2aaya1a`
 - Dataset: `production`
 
 Query to verify:
+
 ```bash
 curl "https://u2aaya1a.api.sanity.io/v2026-02-17/data/query/production?query=*%5B%5D%7B_type%2C%20_id%7D"
 ```
@@ -116,6 +131,7 @@ curl "https://u2aaya1a.api.sanity.io/v2026-02-17/data/query/production?query=*%5
 **Error:** `createContext is not a function`
 
 **Recommended fix:** The project needs to either:
+
 1. Downgrade to React 18 and Next.js 14/15
 2. Or update the i18n configuration to work with React 19
 3. Or wait for react-i18next to fully support React 19
@@ -132,6 +148,7 @@ This script can be re-run if needed (it uses `createOrReplace` so it's idempoten
 ## Content Structure
 
 All documents follow the bilingual (EN/ES) structure defined in the Sanity schemas:
+
 - `localeString` fields for short text
 - `localeText` fields for longer text
 - `localeBlockContent` fields for rich text/bios

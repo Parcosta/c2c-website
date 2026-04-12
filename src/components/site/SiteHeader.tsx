@@ -30,11 +30,14 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Sync i18n language with locale prop
-  const handleLanguageChange = useCallback((newLocale: Locale) => {
-    // Replace current locale in pathname with new locale
-    const newPath = pathname.replace(/^\/(en|es)/, `/${newLocale}`);
-    router.push(newPath);
-  }, [pathname, router]);
+  const handleLanguageChange = useCallback(
+    (newLocale: Locale) => {
+      // Replace current locale in pathname with new locale
+      const newPath = pathname.replace(/^\/(en|es)/, `/${newLocale}`);
+      router.push(newPath);
+    },
+    [pathname, router]
+  );
 
   return (
     <header

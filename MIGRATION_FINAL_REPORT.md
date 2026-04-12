@@ -7,30 +7,33 @@ All content from the Google Drive folder has been successfully migrated to Sanit
 ## Completed Tasks
 
 ### Content Migration ✅
+
 - **12 DOCX files parsed** and content extracted
 - **21 images uploaded** to Sanity with asset references
 - **All bilingual content** (EN/ES) properly structured
 
 ### Sanity Documents Created ✅
 
-| Document Type | Count | Status |
-|--------------|-------|--------|
-| siteSettings | 1 | ✅ Created |
-| aboutPage | 1 | ✅ Created |
-| portfolioItem | 8 | ✅ Created |
-| pressPage | 1 | ✅ Created |
-| pressItem | 11 | ✅ Created |
-| service | 4 | ✅ Created |
-| sanity.imageAsset | 21 | ✅ Uploaded |
+| Document Type     | Count | Status      |
+| ----------------- | ----- | ----------- |
+| siteSettings      | 1     | ✅ Created  |
+| aboutPage         | 1     | ✅ Created  |
+| portfolioItem     | 8     | ✅ Created  |
+| pressPage         | 1     | ✅ Created  |
+| pressItem         | 11    | ✅ Created  |
+| service           | 4     | ✅ Created  |
+| sanity.imageAsset | 21    | ✅ Uploaded |
 
 ### Content Breakdown
 
 **Site Settings:**
+
 - Site name: Coast2Coast
 - Social links: Instagram, SoundCloud, Bandcamp, Spotify
 - Contact email: bookings@coast2c.com
 
 **About Page:**
+
 - Full bilingual biography
 - Artist photo
 - Discography (4 releases)
@@ -38,6 +41,7 @@ All content from the Google Drive folder has been successfully migrated to Sanit
 - Musical influences
 
 **Portfolio Items (8):**
+
 1. Radical Devotion (EP)
 2. Proximity (Single)
 3. Machine Music, Human Dance (EP)
@@ -48,6 +52,7 @@ All content from the Google Drive folder has been successfully migrated to Sanit
 8. Landscape Counterclockwise (Collaboration)
 
 **Press Items (11):**
+
 - 2025: NFT Magazine, Fifteen Questions, Revista 192, Entropy Management
 - 2023: Warp Magazine, DJ Mag, Mixmag Mexico
 - 2022: HolaWave
@@ -55,6 +60,7 @@ All content from the Google Drive folder has been successfully migrated to Sanit
 - 2018: Tom Tom Mag
 
 **Services (4):**
+
 1. Live Modular Performance
 2. DJ Sets
 3. Sound Design
@@ -63,12 +69,15 @@ All content from the Google Drive folder has been successfully migrated to Sanit
 ## Verification
 
 ### Sanity Studio Access ✅
+
 The Sanity Studio is accessible at `http://localhost:3000/studio`
 
 All content can be viewed and edited through the Studio interface.
 
 ### API Verification ✅
+
 All documents are queryable via the Sanity API:
+
 ```bash
 curl "https://u2aaya1a.api.sanity.io/v2026-02-17/data/query/production?query=*%5B%5D%7B_type%2C%20_id%7D"
 ```
@@ -80,7 +89,9 @@ curl "https://u2aaya1a.api.sanity.io/v2026-02-17/data/query/production?query=*%5
 **This issue is unrelated to the content migration.**
 
 ### Recommended Fix
+
 To fix the frontend, either:
+
 1. Downgrade Next.js to version 15 and React to 18
 2. Or update the i18n configuration to work with React 19
 3. Or wait for full React 19 support in react-i18next

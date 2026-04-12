@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
+import { I18nProvider } from "@/components/providers/I18nProvider";
 import { locales, defaultLocale, type Locale } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/seo";
 
@@ -19,18 +20,18 @@ export async function generateMetadata({ params }: LocaleLayoutProps): Promise<M
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const siteUrl = getSiteUrl();
-  
+
   // Build hreflang alternates for all locales
   const languages: Record<string, string> = {};
   locales.forEach((loc) => {
     languages[loc] = `${siteUrl}/${loc}`;
   });
-  
+
   return {
     alternates: {
       canonical: `${siteUrl}/${validLocale}`,
-      languages,
-    },
+      languages
+    }
   };
 }
 
@@ -39,10 +40,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
 
   return (
-    <div className="min-h-dvh" lang={validLocale}>
-      <SiteHeader locale={validLocale} />
-      {children}
-      <Footer locale={validLocale} />
-    </div>
+    <I18nProvider locale={validLocale}>
+      <div className="min-h-dvh" lang={validLocale}>
+        <SiteHeader locale={validLocale} />
+        {children}
+        <Footer locale={validLocale} />
+      </div>
+    </I18nProvider>
   );
 }

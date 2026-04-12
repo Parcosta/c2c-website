@@ -6,7 +6,7 @@ describe("not-found", () => {
   it("renders a 404 message and a link home", async () => {
     // Dynamic import to ensure mocks are set up first
     const { default: NotFound } = await import("../not-found");
-    
+
     render(await NotFound());
 
     expect(screen.getByRole("heading", { name: "Page not found" })).toBeInTheDocument();

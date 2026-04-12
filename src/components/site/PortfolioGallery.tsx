@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -44,15 +45,19 @@ function FilterButton({ active, onClick, children, testId }: FilterButtonProps) 
 
 // Figma card styling - 258px width equivalent with proper styling
 function PortfolioCard({ item, locale }: { item: PortfolioItemValue; locale: Locale }) {
-  const imageUrl = item.images && item.images.length > 0 
-    ? getSanityImageUrl(item.images[0], { width: 600 })
-    : null;
+  const imageUrl =
+    item.images && item.images.length > 0
+      ? getSanityImageUrl(item.images[0], { width: 600 })
+      : null;
 
   // Map category to filter type
-  const category: Category = 
-    item.category?.toLowerCase().includes("live") ? "live" :
-    item.category?.toLowerCase().includes("dj") ? "dj" :
-    item.category?.toLowerCase().includes("studio") ? "studio" : "live";
+  const category: Category = item.category?.toLowerCase().includes("live")
+    ? "live"
+    : item.category?.toLowerCase().includes("dj")
+      ? "dj"
+      : item.category?.toLowerCase().includes("studio")
+        ? "studio"
+        : "live";
 
   return (
     <Link href={`/portfolio/${item.slug}`}>
@@ -67,11 +72,13 @@ function PortfolioCard({ item, locale }: { item: PortfolioItemValue; locale: Loc
       >
         {imageUrl ? (
           <div className="aspect-video w-full overflow-hidden">
-            <img
+            <Image
               src={imageUrl}
               alt={item.title ?? ""}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
               loading="lazy"
+              width={600}
+              height={338}
             />
           </div>
         ) : (
@@ -168,8 +175,8 @@ export function PortfolioGallery({ locale, translations, items }: PortfolioGalle
         className="grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         data-testid="portfolio-grid"
       >
-        {visible.map((item) => (
-          <PortfolioCard key={item._id} item={item} locale={locale} />
+        {visible.map((item, index) => (
+          <PortfolioCard key={item._id || `portfolio-item-${index}`} item={item} locale={locale} />
         ))}
       </div>
 

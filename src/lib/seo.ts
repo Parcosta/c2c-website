@@ -62,12 +62,12 @@ function buildLanguageAlternates(pathname: string, currentLocale: Locale): Recor
   // Build language alternates with full URLs including locale prefix
   const normalized = normalizePathname(pathname);
   const siteUrl = getSiteUrl();
-  
+
   const languages: Record<string, string> = {};
   locales.forEach((locale) => {
     languages[locale] = `${siteUrl}/${locale}${normalized}`;
   });
-  
+
   return languages;
 }
 

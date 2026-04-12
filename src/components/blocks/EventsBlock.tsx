@@ -1,30 +1,23 @@
-import type { ComponentPropsWithoutRef } from "react";
+"use client";
 
-import { headers } from "next/headers";
+import type { ComponentPropsWithoutRef } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { getClient } from "@/sanity/client";
-import { isSanityConfigured } from "@/sanity/config";
-import { buildUpcomingEventsQuery, type EventValue } from "@/sanity/queries";
+import type { EventValue } from "@/sanity/queries";
 
 export type EventsBlockViewProps = ComponentPropsWithoutRef<"section"> & {
-  locale: Locale;
   title?: string;
   subtitle?: string;
   events: EventValue[];
+  locale: Locale;
 };
-
-async function getLocaleFromHeaders(): Promise<Locale> {
-  const headerStore = await headers();
-  const headerLocale = headerStore.get("x-locale") ?? defaultLocale;
-  return isLocale(headerLocale) ? headerLocale : defaultLocale;
-}
 
 function formatEventDate(value: string, locale: Locale) {
   const date = new Date(value);
@@ -61,38 +54,20 @@ function formatEventDate(value: string, locale: Locale) {
   return { dateTime, formatted, timestamp: date.getTime(), dayNumber, monthShort, weekdayShort };
 }
 
-function getDefaultCopy(locale: Locale) {
-  switch (locale) {
-    case "es":
-      return {
-        title: "Eventos",
-        subtitle: "Próximos shows y presentaciones.",
-        ticketsLabel: "Entradas"
-      };
-    case "en":
-    default:
-      return {
-        title: "Events",
-        subtitle: "Upcoming shows and appearances.",
-        ticketsLabel: "Tickets"
-      };
-  }
-}
-
 function formatLocation(city?: string, country?: string) {
   const parts = [city?.trim(), country?.trim()].filter((value): value is string => Boolean(value));
   return parts.length ? parts.join(", ") : null;
 }
 
 export function EventsBlockView({
-  locale,
   title,
   subtitle,
   events,
+  locale,
   className,
   ...props
 }: EventsBlockViewProps) {
-  const copy = getDefaultCopy(locale);
+  const { t } = useTranslation();
 
   const visibleEvents = (events ?? [])
     .map((event) => {
@@ -126,22 +101,22 @@ export function EventsBlockView({
         <div className="space-y-8 md:space-y-12">
           {/* Section Header - Figma Specs: 28px semibold, -0.025em tracking */}
           <SectionHeading
-            title={title ?? copy.title}
-            subtitle={subtitle ?? copy.subtitle}
+            title={title ?? t("events.title")}
+            subtitle={subtitle ?? t("events.subtitle")}
             className="text-center md:text-left"
           />
 
           {/* Event Cards Grid - Figma Specs: 24px gap on mobile, 32px on desktop */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleEvents.map(({ event, date }) => {
+            {visibleEvents.map(({ event, date }, index) => {
               const venue = event.venue?.trim();
               const location = formatLocation(event.city, event.country);
 
               return (
                 <GlassCard
-                  key={event._id}
+                  key={event._id || `event-${index}`}
                   className="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:border-gray-600/80"
-                  data-testid={`event-card-${event._id}`}
+                  data-testid={`event-card-${event._id || index}`}
                 >
                   {/* Card Header with Date Badge - Figma-inspired design */}
                   <div className="relative flex items-start gap-4 border-b border-border/40 bg-gradient-to-br from-card/60 to-card/30 p-5">
@@ -235,12 +210,7 @@ export function EventsBlockView({
                   {/* Card Footer - Tickets Button */}
                   {event.ticketUrl ? (
                     <div className="border-t border-border/40 p-5 pt-0">
-                      <AnimatedButton
-                        asChild
-                        size="sm"
-                        variant="secondary"
-                        className="w-full"
-                      >
+                      <AnimatedButton asChild size="sm" variant="secondary" className="w-full">
                         <a
                           href={event.ticketUrl}
                           target="_blank"
@@ -261,7 +231,7 @@ export function EventsBlockView({
                               d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
                             />
                           </svg>
-                          {copy.ticketsLabel}
+                          {t("events.ticketsLabel")}
                         </a>
                       </AnimatedButton>
                     </div>
@@ -276,20 +246,6 @@ export function EventsBlockView({
   );
 }
 
-export type EventsBlockProps = Omit<EventsBlockViewProps, "events" | "locale"> & {
-  locale?: Locale;
-};
-
-export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockProps) {
-  const locale = localeProp ?? (await getLocaleFromHeaders());
-  if (!isSanityConfigured()) return null;
-
-  const def = buildUpcomingEventsQuery(locale);
-  const events = await getClient()
-    .fetch<EventValue[]>(def.query, def.params, {
-      next: { revalidate: 60 }
-    })
-    .catch(() => []);
-
-  return <EventsBlockView {...props} locale={locale} events={events ?? []} />;
-}
+// Note: Data fetching for events is now handled by the parent component
+// to avoid mixing server/client concerns. Use EventsBlockView directly
+// with pre-fetched events data.

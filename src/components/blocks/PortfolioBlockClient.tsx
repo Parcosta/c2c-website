@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ImageCard } from "@/components/custom/ImageCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
@@ -53,11 +54,8 @@ function FilterButton({ active, onClick, children }: FilterButtonProps) {
   );
 }
 
-export function PortfolioBlockClient({
-  items,
-  heading = "Portfolio",
-  subheading = "A selection of recent work, filterable by category."
-}: PortfolioBlockClientProps) {
+export function PortfolioBlockClient({ items, heading, subheading }: PortfolioBlockClientProps) {
+  const { t } = useTranslation();
   const categories = useMemo(() => {
     const unique = new Set<string>();
     for (const item of items) {
@@ -78,7 +76,10 @@ export function PortfolioBlockClient({
     <Section>
       <Container>
         <div className="space-y-8">
-          <SectionHeading title={heading} subtitle={subheading} />
+          <SectionHeading
+            title={heading ?? t("portfolio.blockTitle")}
+            subtitle={subheading ?? t("portfolio.blockSubtitle")}
+          />
 
           {/* Filter buttons with Figma styling */}
           <div className="flex flex-wrap items-center gap-3">
@@ -110,7 +111,7 @@ export function PortfolioBlockClient({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No items in this category yet.</p>
+            <p className="text-sm text-muted-foreground">{t("portfolio.emptyCategory")}</p>
           )}
         </div>
       </Container>

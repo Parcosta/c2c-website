@@ -26,13 +26,9 @@ export function SectionHeading({
             className="h-1 w-10 rounded-full bg-primary shadow-[0_0_24px_-8px_hsl(var(--ring))]"
           />
         ) : null}
-        <HeadingTag className="font-display text-header text-gray-100">
-          {title}
-        </HeadingTag>
+        <HeadingTag className="font-display text-header text-gray-100">{title}</HeadingTag>
       </div>
-      {subtitle ? (
-        <p className="max-w-prose text-body text-gray-400">{subtitle}</p>
-      ) : null}
+      {subtitle ? <p className="max-w-prose text-body text-gray-400">{subtitle}</p> : null}
     </div>
   );
 }

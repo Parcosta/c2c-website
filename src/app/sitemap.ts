@@ -21,16 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Generate sitemap entries for all locale variants
   const entries: MetadataRoute.Sitemap = [];
-  
+
   for (const locale of locales) {
     for (const route of routes) {
       entries.push({
         url: `${siteUrl}/${locale}${route}`,
         lastModified,
         alternates: {
-          languages: Object.fromEntries(
-            locales.map((loc) => [loc, `${siteUrl}/${loc}${route}`])
-          )
+          languages: Object.fromEntries(locales.map((loc) => [loc, `${siteUrl}/${loc}${route}`]))
         }
       });
     }

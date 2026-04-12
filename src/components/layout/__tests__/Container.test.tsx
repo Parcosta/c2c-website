@@ -20,6 +20,9 @@ describe("Container", () => {
     expect(screen.getByTestId("container")).toHaveClass("mx-auto");
     expect(screen.getByTestId("container")).toHaveClass("bg-brand-accent");
     // Container now uses CSS variable for max-width (1200px per Figma specs)
-    expect(screen.getByTestId("container")).toHaveAttribute("style", expect.stringContaining("max-width"));
+    expect(screen.getByTestId("container")).toHaveAttribute(
+      "style",
+      expect.stringContaining("max-width")
+    );
   });
 });

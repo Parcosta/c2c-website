@@ -1,13 +1,15 @@
+// Navigation items use translation keys instead of hardcoded labels
+// The actual labels are sourced from Sanity via the uiContent document type
 export type NavItem = {
-  label: string;
+  labelKey: string;
   href: string;
 };
 
 export const navItems: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Services", href: "/services" },
-  { label: "Press", href: "/press" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" }
+  { labelKey: "nav.home", href: "/" },
+  { labelKey: "nav.portfolio", href: "/portfolio" },
+  { labelKey: "nav.services", href: "/services" },
+  { labelKey: "nav.press", href: "/press" },
+  { labelKey: "nav.about", href: "/about" },
+  { labelKey: "nav.contact", href: "/contact" }
 ];

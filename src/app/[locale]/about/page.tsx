@@ -18,9 +18,10 @@ export async function generateMetadata({ params }: AboutPageProps): Promise<Meta
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Sobre mí" : "About";
-  const description = validLocale === "es" 
-    ? "Conoce más sobre Coast2Coast - artista de techno modular en vivo."
-    : "Learn more about Coast2Coast - live modular techno artist.";
+  const description =
+    validLocale === "es"
+      ? "Conoce más sobre Coast2Coast - artista de techno modular en vivo."
+      : "Learn more about Coast2Coast - live modular techno artist.";
   return buildMetadata({
     title,
     description,

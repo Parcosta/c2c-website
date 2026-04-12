@@ -1,4 +1,7 @@
+"use client";
+
 import { Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
@@ -14,41 +17,27 @@ export type ServicesPageViewProps = {
   services: ServiceValue[];
 };
 
-function getLabels(locale: Locale) {
-  return locale === "es"
-    ? { heading: "Servicios", subheading: "Todo lo que ofrecemos—en detalle.", pricing: "Precio" }
-    : {
-        heading: "Services",
-        subheading: "Everything we offer—explained in detail.",
-        pricing: "Pricing"
-      };
-}
-
 export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
-  const labels = getLabels(locale);
+  const { t } = useTranslation();
 
   return (
     <div className="space-y-10">
       <header className="space-y-4">
-        <SectionHeading title={labels.heading} subtitle={labels.subheading} as="h1" />
+        <SectionHeading title={t("services.title")} subtitle={t("services.subtitle")} as="h1" />
       </header>
 
       {services.length === 0 ? (
         <GlassCard className="p-6">
-          <p className="text-small text-muted-foreground">
-            {locale === "es"
-              ? "No hay servicios publicados todavía."
-              : "No services are published yet."}
-          </p>
+          <p className="text-small text-muted-foreground">{t("services.empty")}</p>
         </GlassCard>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
-          {services.map((service) => {
-            const title = service.title?.trim() || (locale === "es" ? "Servicio" : "Service");
+          {services.map((service, index) => {
+            const title = service.title?.trim() || t("services.fallbackTitle");
             const features = (service.features ?? []).filter(Boolean);
 
             return (
-              <GlassCard key={service._id} className="h-full">
+              <GlassCard key={service._id || `service-${index}`} className="h-full">
                 <CardHeader className="gap-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-4">
@@ -69,7 +58,7 @@ export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
 
                     {service.pricing ? (
                       <Badge variant="secondary" className="shrink-0">
-                        {labels.pricing}: {service.pricing}
+                        {t("services.pricingLabel")}: {service.pricing}
                       </Badge>
                     ) : null}
                   </div>

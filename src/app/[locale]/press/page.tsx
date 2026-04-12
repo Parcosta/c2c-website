@@ -19,9 +19,10 @@ export async function generateMetadata({ params }: PressPageProps): Promise<Meta
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Prensa" : "Press";
-  const description = validLocale === "es"
-    ? "Kit de prensa y EP de Coast2Coast - fotos, biografía y recursos para medios."
-    : "Coast2Coast press kit and EPK - photos, biography, and media resources.";
+  const description =
+    validLocale === "es"
+      ? "Kit de prensa y EP de Coast2Coast - fotos, biografía y recursos para medios."
+      : "Coast2Coast press kit and EPK - photos, biography, and media resources.";
   return buildMetadata({
     title,
     description,

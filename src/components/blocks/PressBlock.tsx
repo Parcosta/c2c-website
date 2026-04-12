@@ -1,22 +1,23 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
-import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { PressItemValue } from "@/sanity/queries";
 
 export type PressBlockProps = {
   items: PressItemValue[];
-  locale: Locale;
   className?: string;
 };
 
-function formatPressDate(value: string, locale: Locale) {
+function formatPressDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return null;
 
   const dateTime = date.toISOString().slice(0, 10);
-  const formatted = new Intl.DateTimeFormat(locale, {
+  const formatted = new Intl.DateTimeFormat(undefined, {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -26,7 +27,8 @@ function formatPressDate(value: string, locale: Locale) {
   return { dateTime, formatted };
 }
 
-export function PressBlock({ items, locale, className }: PressBlockProps) {
+export function PressBlock({ items, className }: PressBlockProps) {
+  const { t } = useTranslation();
   const visibleItems = items.filter((item) => item.publication || item.quote || item.url);
   if (visibleItems.length === 0) return null;
 
@@ -39,13 +41,13 @@ export function PressBlock({ items, locale, className }: PressBlockProps) {
           "md:grid md:grid-cols-3 md:overflow-visible md:pb-0"
         )}
       >
-        {visibleItems.map((item) => {
-          const label = item.publication || item.title || "Press mention";
-          const date = item.date ? formatPressDate(item.date, locale) : null;
+        {visibleItems.map((item, index) => {
+          const label = item.publication || item.title || t("press.fallbackMention");
+          const date = item.date ? formatPressDate(item.date) : null;
 
           return (
             <GlassCard
-              key={item._id}
+              key={item._id || `press-${index}`}
               className={cn(
                 "w-[min(85vw,24rem)] shrink-0 snap-start p-6",
                 "md:w-auto md:shrink md:snap-none"
@@ -81,7 +83,7 @@ export function PressBlock({ items, locale, className }: PressBlockProps) {
                       rel="noreferrer noopener"
                       className="text-xs font-medium text-primary hover:underline"
                     >
-                      Read
+                      {t("press.readLink")}
                     </Link>
                   ) : null}
                 </div>

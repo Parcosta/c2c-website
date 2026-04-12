@@ -6,7 +6,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "brand": "Coast2Coast",
+        brand: "Coast2Coast",
         "home.heroTitle": "Live modular techno & DJ sets",
         "home.heroSubtitle": "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
         "home.heroCtaPrimary": "Get in touch",
@@ -24,11 +24,15 @@ describe("HeroBlock", () => {
     render(<HeroBlock locale="en" />);
 
     // Check for region landmark with title
-    expect(screen.getByRole("region", { name: "Live modular techno & DJ sets" })).toBeInTheDocument();
-    
+    expect(
+      screen.getByRole("region", { name: "Live modular techno & DJ sets" })
+    ).toBeInTheDocument();
+
     // Check for title
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Live modular techno & DJ sets");
-    
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Live modular techno & DJ sets"
+    );
+
     // Check for subtitle
     expect(
       screen.getByText("Coast2Coast (C2C) — bold sound, dark visuals, clean interface.")
@@ -37,7 +41,7 @@ describe("HeroBlock", () => {
     // Check for CTA buttons with locale prefix
     const primaryCta = screen.getByRole("link", { name: "Get in touch" });
     expect(primaryCta).toHaveAttribute("href", "/en/contact");
-    
+
     const secondaryCta = screen.getByRole("link", { name: "View portfolio" });
     expect(secondaryCta).toHaveAttribute("href", "/en/portfolio");
   });
@@ -47,7 +51,7 @@ describe("HeroBlock", () => {
 
     const primaryCta = screen.getByRole("link", { name: "Get in touch" });
     expect(primaryCta).toHaveAttribute("href", "/es/contact");
-    
+
     const secondaryCta = screen.getByRole("link", { name: "View portfolio" });
     expect(secondaryCta).toHaveAttribute("href", "/es/portfolio");
   });
@@ -56,7 +60,7 @@ describe("HeroBlock", () => {
     render(<HeroBlock audioSrc="/audio/sample.mp3" audioTitle="Sample Track" locale="en" />);
 
     // Check that the audio element is rendered
-    expect(screen.getByRole("button", { name: /reproducir|pausar/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /play|pause/i })).toBeInTheDocument();
   });
 
   it("renders without audio player when audioSrc is not provided", () => {

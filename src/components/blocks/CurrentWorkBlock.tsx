@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 import Image from "next/image";
 import { PortableText, type PortableTextBlock } from "@portabletext/react";
@@ -30,15 +33,19 @@ function isPortableTextValue(value: unknown): value is unknown[] {
 }
 
 export function CurrentWorkBlock({
-  heading = "Current work",
-  subtitle = "What I'm building right now.",
+  heading,
+  subtitle,
   project,
   className,
   ...props
 }: CurrentWorkBlockProps) {
+  const { t } = useTranslation();
   return (
     <div className={cn("space-y-6", className)} {...props}>
-      <SectionHeading title={heading} subtitle={subtitle} />
+      <SectionHeading
+        title={heading ?? t("currentWork.title")}
+        subtitle={subtitle ?? t("currentWork.subtitle")}
+      />
       <GlassCard className="overflow-hidden">
         <div className="grid gap-6 p-5 md:grid-cols-2 md:gap-8 md:p-8">
           <div className="relative overflow-hidden rounded-xl border border-gray-800 bg-gray-900/40">
@@ -66,7 +73,7 @@ export function CurrentWorkBlock({
                   className="absolute inset-0 grid place-items-center text-sm text-gray-400"
                   data-testid="current-work-media-empty"
                 >
-                  No media yet
+                  {t("currentWork.noMedia")}
                 </div>
               )}
             </div>
@@ -75,10 +82,10 @@ export function CurrentWorkBlock({
           <div className="space-y-3">
             <div className="space-y-2">
               <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                Latest project
+                {t("currentWork.label")}
               </p>
               <h3 className="font-display text-header text-gray-100">
-                {project?.title ?? "Coming soon"}
+                {project?.title ?? t("currentWork.comingSoon")}
               </h3>
             </div>
 
@@ -87,14 +94,9 @@ export function CurrentWorkBlock({
                 <PortableText value={project.description as PortableTextBlock[]} />
               </div>
             ) : project?.description ? (
-              <p className="text-body text-gray-400">
-                {String(project.description)}
-              </p>
+              <p className="text-body text-gray-400">{String(project.description)}</p>
             ) : (
-              <p className="text-body text-gray-400">
-                I’m currently working on the next piece in my portfolio. Check back soon for
-                updates.
-              </p>
+              <p className="text-body text-gray-400">{t("currentWork.fallbackDescription")}</p>
             )}
           </div>
         </div>

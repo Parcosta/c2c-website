@@ -13,7 +13,7 @@ beforeEach(() => {
   mockStorage = {};
   // Reset cookie
   document.cookie = `${CONSENT_COOKIE_NAME}=; Max-Age=0; Path=/`;
-  
+
   // Setup localStorage mock with working implementation
   Object.defineProperty(window, "localStorage", {
     value: {

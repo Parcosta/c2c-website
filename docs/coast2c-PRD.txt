@@ -1,0 +1,631 @@
+﻿PRODUCT REQUIREMENTS DOCUMENT
+
+
+Project: Coast2c Artist website
+Versión 2.0
+Goal: Conversion + Authority + Scalability
+
+
+
+
+Core Objective: Convert qualified visitors into booking inquiries (live modular, DJ sets, production services) while positioning the artist as a multi-disciplinary media, high-level modular, sound designer, sound for movies and DJ for festivals, press, and interdisciplinary collaborations.
+
+
+Primary Audience: 
+
+
+1.- Festival bookers and promoters
+
+
+Needs from client:
+* Immediate genre clarity
+
+* Live performance video proof
+
+* Professional photos
+
+* Recognizable events (Mutek, Kontaktor)
+
+* Technical rider
+
+* Fast contact method
+
+
+2.- Musical Journalists and PR 
+
+
+Strong narrative high-res photos, press quotes, Downloadable EPK, clear genre tags for SEO
+
+
+   * Strong positioning statement
+
+   * High-res photos
+
+   * Downloadable EPK
+
+   * Press quotes
+
+   * Clear genre categorization
+
+   * Achievements visible quickly
+3. Creative Directors / Film and Ad Producers
+
+
+Needs:
+      * Production portfolio
+
+      * Clear services
+
+      * Case examples
+
+      * Professional tone
+
+      * Contact clarity
+
+
+4. Instagram Audience
+
+
+         * Seamless aesthetic continuity
+
+         * Music access
+
+         * Events
+
+         * Emotional narrative
+
+They need emotional continuity, music access, events, deeper story
+
+
+
+
+Revenue Priorities (Next 12 Months)
+            1. Paid DJ gigs
+
+            2. Paid live modular performances
+
+            3. Paid music production / sound design commissions
+
+The website must prioritize performance credibility first, then services.
+Positioning Statement:
+
+
+Live modular techno artist, DJ, and sound designer creating immersive performances for club stages, festivals, and interdisciplinary collaborations.
+
+
+
+
+Success Metrics:
+
+
+               * 3 booking inquiries per month within 6 months
+               * 2 paid gigs within first 6 months post-launch
+               * 5% click-through to Spotify/Bandcamp
+               * 30 Newsletter signups
+               * Average 1.45 minute session website visit
+               * Bounce rate 55%
+Events + Tracking Framework
+A booking inquiry counts when one of the following occurs:
+Primary Conversion (High Intent):
+               * contact_submit (form submitted successfully)
+
+               * booking_form_submit (if separated from general contact)
+
+Secondary High-Intent Signals:
+                  * email_click (click on booking email link)
+
+                  * calendar_request_click (if added later)
+
+Only form submissions count toward official “Booking Inquiry” KPI. The others are supporting indicators.
+Core Events to Track
+These events must be configured in GA4 (or Plausible with custom events).
+Booking & Contact
+                     * book_live_click
+
+                     * book_dj_click
+
+                     * start_project_click
+
+                     * contact_submit
+
+                     * email_click
+
+                     * whatsapp_click
+
+Press & Authority
+                        * epk_download
+
+                        * rider_download
+
+                        * press_photo_download
+
+These are especially important for tracking booker and journalist behavior.
+Engagement Signals
+                           * video_play_live
+
+                           * video_50_percent
+
+                           * dj_mix_play
+
+                           * portfolio_project_view
+
+                           * services_page_view
+
+Video engagement is a huge indicator of serious interest.
+Music Streaming Outbound
+                              * spotify_click
+
+                              * bandcamp_click
+
+                              * soundcloud_click
+
+Track as outbound link events.
+Newsletter Growth
+                                 * newsletter_signup_start
+
+                                 * newsletter_submit
+
+C. Funnel Targets Per Audience
+
+
+
+
+Strategy
+1 Festival Booker Funnel
+Landing → Live Video → Rider → Contact Submit
+Track:
+                                    * video_play_live
+
+                                    * rider_download
+
+                                    * contact_submit
+
+Target benchmarks (first 6 months):
+                                       * 40% of live video viewers watch 50%
+
+                                       * 15% of live viewers download rider
+
+                                       * 5% of rider downloaders submit inquiry
+
+2 DJ Booker Funnel
+Landing → DJ Section → Mix Play → Contact
+Track:
+                                          * dj_mix_play
+
+                                          * book_dj_click
+
+                                          * contact_submit
+
+3 Film / Production Funnel
+Landing → Production Page → Case Study View → Start Project
+Track:
+                                             * portfolio_project_view
+
+                                             * start_project_click
+
+                                             * contact_submit
+
+4 Instagram Fan Funnel
+Landing → Music Click → Newsletter Signup
+Track:
+                                                * spotify_click
+
+                                                * newsletter_submit
+
+Information Architecture
+
+
+                                                   * Inicio
+                                                   * Portafolio
+                                                   * Servicios
+                                                   * Press / EPK
+                                                   * Booking (or Contact)
+                                                   * Acerca
+
+
+
+
+Inicio: Página modular para ser escalable con bloques de contenido. 
+
+
+El primer bloque contiene descripción SEO con dos CTA’s. En ese mismo bloque, al lado hay una imagen con el sistema modular y una canción que colocamos localmente con un html. 
+
+
+El segundo bloque es una galería de imágenes de las portadas de todo el trabajo realizado con un navegador en la parte posterior ( todos, música, sonoro, videoremixes, dev). Al dar click a la imagen se abre una vista con detalles del proyecto. En la vista de detalle del proyecto, el formato es el formato blog plataforma Framer para poder agregar diferentes tipos de información como Soundcloud, embeds, imágenes, etc.
+
+
+El tercer bloque son eventos en vivo y es modular ya que si no hay eventos se apaga y desaparece con un booleano. Hay opción de poner eventos pasados y relevantes. 
+
+
+El cuarto  bloque es el de Servicios: En este apartado se enlistan los servicios con descripción: Producción musical, diseño sonoro, talleres, colaboración artística, consulta técnica y abajo un CTA de un botón que dice: Trabaja conmigo.  
+
+
+El quinto bloque es el de Prensa. En este apartado se enlista con fecha, título y el link del artículo.
+
+
+El sexto bloque es un cierre de texto en el que estoy trabajando actualmente. ejemplo: Producción Musical y Diseño Sonoro para Multimedia. Actualmente desarrollando un proyecto integral de diseño sonoro para una pieza de performance experimental, explorando la intersección entre síntesis modular, audio espacial y artes visuales. 
+
+
+El séptimo bloque es una galería de fotografías con descripción del evento (O sin descripción).
+
+
+Al final en el footer agregamos: Ciudad de México, síntesis modular, diseño sonoro del lado izquierdo y del lado derecho: contacto y mis redes sociales
+
+
+
+
+Portafolio: Galería de imágenes de las portadas de todo el trabajo realizado
+
+
+Servicios: Descripción de servicios
+
+
+Press / EPK:  lista de artículos de prensa con EPK descargable
+
+
+Acerca De: 
+Structure:
+                                                   * Short bio (80 words)
+                                                   * Long bio (300–400 words)
+                                                   * Studio and Creative Process
+                                                   * Music production and Sound design for Multimedia case. 
+
+                                                   * Artist statement
+
+                                                   * Key milestones
+
+                                                   * FAQ:
+
+                                                      * Technical setup?
+
+                                                      * Travel availability?
+
+                                                      * DJ vs Live differences?
+
+                                                      * Collaboration formats?
+Include: Portrait press image / downloadable rider
+Press / EPK Page
+Must include:
+                                                         * Downloadable PDF (updated)
+
+                                                         * Short bio
+
+                                                         * Long bio
+
+                                                         * High-res photos
+
+                                                         * Technical rider
+
+                                                         * Stage plot
+
+                                                         * Video links
+
+                                                         * Contact info
+                                                         * List of articles with link and date 
+Booking
+
+Split the form into three entry points:
+                                                            * Booking Inquiry (Live / DJ)
+
+                                                            * Production / Sound Design Project
+
+                                                            * Press Inquiry
+
+Each with slightly different form fields.
+
+
+Tone Guardrails 
+Regardless of direction:
+                                                               * Avoid apologetic language.
+
+                                                               * Avoid “emerging artist” framing.
+
+                                                               * Avoid unnecessary personal narrative in booking-focused sections.
+
+                                                               * Keep sentences under 20 words when possible.
+
+                                                               * No filler adjectives like “amazing,” “unique,” “incredible.”
+
+                                                               * No overly technical jargon unless in rider/technical section.
+
+
+
+
+
+
+
+Core Features:
+
+
+                                                                  * Live performance video 
+                                                                  * Downloadable press kit
+                                                                  * Booking contact form 
+                                                                  * Mobile-first design
+
+
+Nice-to-have:
+
+
+                                                                  * Shop
+
+
+Brand and Visual Direction: 
+
+
+See Figma.
+
+
+Principles:
+                                                                  * Minimal but bold
+                                                                  * Dark-forward aesthetic 
+                                                                  * Strong typography 
+                                                                  * Modular-inspired layout logic
+                                                                  * High contrast for accessinility
+
+
+Content Requirements:
+
+
+Bio (short 80-word version = long 300 word version)
+High-res press photos
+Live performance video
+Logo 
+EP cover arts 
+Press quotes
+Updated technical rider
+Updated EPK PDF
+3–5 high-res press photos
+1 strong live video
+1 DJ mix
+Short + long bio
+Service descriptions (case-oriented)
+Press quotes
+Mutek / Kontaktor documentation
+
+Technical Requirements
+ 
+Bilingual CMS: Spanish primary with English translation.  Are URLs localized (/en/...)?
+Video hosting: Youtube
+Structured data for events: good, but only if events are first-class objects in the CMS.
+Analytics: choose one. GA4 is fine; Plausible is simpler and privacy-forward.
+Performance: add explicit targets (Core Web Vitals-ish): LCP under ~2.5s on mobile, image formats WebP/AVIF, etc.
+CTA Strategy
+The website will implement a clear CTA hierarchy aligned with audience intent to maximize conversions. Festival and club bookers will be directed primarily to “Book Live Performance” or “Book DJ Set,” supported by access to the technical rider and live performance video. Journalists and PR professionals will be guided toward “Download Press Kit” and high-resolution media assets for fast editorial access. Film directors and creative agencies will be prompted to “Start a Project” within the Production & Sound Design section, supported by case studies. Instagram and general visitors will be encouraged to “Listen Now” and join studio updates. Across the site, only one dominant CTA will appear per section, with booking-related actions receiving highest visual priority to align with revenue goals.
+Festival & Club Bookers
+Primary Goal: Secure performance booking
+Psychology: “Can she deliver? Is she professional? Is it easy to book?”
+Primary CTA: Book a Live Performance
+Alternate version: Book Live Modular Set
+Secondary CTA: Download Technical Rider
+Supporting CTA: Watch Live Performance
+
+
+DJ Bookers (Clubs / Festivals)
+separate Live and DJ clearly, DJ needs its own conversion path.
+Primary CTA: Book DJ Set
+Secondary CTA: Listen to DJ Mix
+Placement: DJ Section header
+After embedded mix
+Footer quick link
+Journalists & PR
+Primary Goal: Access assets quickly
+Psychology: “Can I write about this easily?”
+Primary CTA: Download Press Kit
+Secondary CTA: Download High-Res Photos
+Supporting CTA: Read Artist Bio
+
+
+Film Directors / Creative Directors / Agencies
+Primary Goal: Initiate project conversation
+Psychology: “Can she deliver for our production?”
+Primary CTA: Start a Project
+Alternative: Discuss a Sound Design Project
+Secondary CTA: View Production Work
+Placement: Production & Sound Design page hero
+End of case studies Homepage services section
+
+
+Booking-First Conversion Spine Strategy
+
+
+Core Principle
+The website is optimized to convert festival and club bookers into inquiry submissions within 3–5 minutes of landing.
+All major pages must support this path:
+Proof → Authority → Practical Info → Booking CTA
+Conversion Hierarchy
+Primary Revenue Target (Year 1):
+                                                                  1. Live Modular bookings
+
+                                                                  2. DJ bookings
+
+                                                                  3. Sound design commissions
+
+Therefore, visual and structural hierarchy:
+                                                                     1. Book Live Performance
+
+                                                                     2. Book DJ Set
+
+                                                                     3. Start a Project
+
+                                                                     4. Download Press Kit
+
+                                                                     5. Listen Now
+
+Booking actions must always visually dominate.
+3 Homepage Conversion Spine
+This is the literal spine.
+Section 1 – Clear Positioning + Primary CTA
+Headline:
+Live Modular Techno Artist & DJ for Festivals and Clubs
+Primary CTA:
+Book Live Performance
+Secondary:
+Watch Live
+Immediately answers:
+What genre? What format? Is she bookable?
+
+
+Section 2 – Immediate Proof
+Embedded live performance video (strong, high production).
+Under it:
+Performed at Mutek, Kontaktor.
+CTA:
+Download Technical Rider
+This is credibility acceleration.
+Section 3 – Offer Clarity
+Three clear tiles:
+Live Modular
+DJ
+Sound Design
+Each with direct booking or project CTA.
+This removes confusion.
+
+
+Section 4 – Authority Signals
+                                                                        * Press logos
+
+                                                                        * Venue highlights
+
+                                                                        * Quotes
+
+CTA:
+Download Press Kit
+
+
+Section 5 – Friction Reduction
+Short FAQ:
+                                                                           * International travel available?
+
+                                                                           * Technical setup requirements?
+
+                                                                           * Adaptable to club/festival formats?
+
+                                                                           * DJ vs Live differences?
+
+You remove reasons not to book.
+
+
+
+
+Section 6 – Final Booking Push
+Strong closing statement.
+Primary CTA:
+Book Live Performance
+Secondary:
+Book DJ Set
+This repetition is intentional.
+4 Live & DJ Pages (Deep Conversion Pages)
+These are not portfolios. They are booking engines.
+Each should include:
+                                                                              1. Clear format explanation
+
+                                                                              2. 2–3 performance images
+
+                                                                              3. Video proof
+
+                                                                              4. Technical rider download
+
+                                                                              5. Short testimonial (if possible)
+
+                                                                              6. Booking CTA repeated 3 times
+
+Every scroll interval should reintroduce the booking action.
+5 Contact Page Optimization
+Instead of generic form, split entry:
+                                                                                 * Booking Inquiry (Live / DJ)
+
+                                                                                 * Production / Sound Design
+
+                                                                                 * Press Inquiry
+
+Booking form fields should include:
+                                                                                    * Event type
+
+                                                                                    * Location
+
+                                                                                    * Date
+
+                                                                                    * Budget range (optional but powerful)
+
+This qualifies leads and signals professionalism.
+6 Trust Accelerators
+To increase booking confidence:
+                                                                                       * High-resolution stage photos
+
+                                                                                       * Clear genre labeling (Modular Techno / DJ Set)
+
+                                                                                       * Downloadable rider
+
+                                                                                       * Clean EPK page
+
+                                                                                       * Professional email address
+
+                                                                                       * Bilingual execution
+
+Bookers hesitate when friction exists.
+Remove ambiguity.
+7  Psychological Triggers to Use
+Subtle but important:
+Authority:
+“Performed at Mutek.”
+Clarity:
+“60-minute Live Modular Set.”
+Specificity:
+“Fully hardware, improvisation-driven.”
+Professionalism:
+“Available for international bookings.”
+Scarcity (optional later):
+“Limited 2026 availability.”
+8 Post-Launch Optimization Loop
+After launch, measure:
+                                                                                          * % of visitors clicking “Book Live”
+
+                                                                                          * Rider downloads
+
+                                                                                          * Video watch rate
+
+                                                                                          * Contact submissions
+
+If:
+High traffic + low booking clicks → messaging issue
+High rider downloads + low contact → friction issue
+Low video play → hero not strong enough
+The spine must evolve.
+9 Long-Term Booking Engine Evolution
+Phase 2:
+                                                                                             * Add testimonials from promoters
+
+                                                                                             * Add short quotes from collaborators
+
+                                                                                             * Add press excerpts
+
+Phase 3:
+                                                                                                * Add touring schedule
+
+                                                                                                * Add residency highlights
+
+                                                                                                * Add international press
+
+Each layer increases conversion confidence.
+10 Core Strategic Rule
+If a section does not:
+                                                                                                   * Prove performance quality
+
+                                                                                                   * Increase authority
+
+                                                                                                   * Reduce booking friction
+
+                                                                                                   * Or push toward inquiry
+
+It does not belong on a booking-first homepage.
+
+
+MVP Checklist
+                                                                                                      * 10 High Quality Photos
+                                                                                                      * 1 live video (strong)
+                                                                                                      * 10 curated releases/works
+                                                                                                      * 10  press quotes (even if short) and links
+                                                                                                      * 1 updated rider PDF
+                                                                                                      * short bio + long bio
+                                                                                                      * service descriptions with 1–2 concrete examples each
+                                                                                                      * Everything else is Phase 2.

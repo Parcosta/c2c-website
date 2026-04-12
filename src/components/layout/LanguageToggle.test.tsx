@@ -7,8 +7,8 @@ const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({
   usePathname: () => "/en/portfolio",
   useRouter: () => ({
-    push: mockPush,
-  }),
+    push: mockPush
+  })
 }));
 
 describe("LanguageToggle", () => {

@@ -16,14 +16,9 @@ export interface HeroBlockProps {
   locale?: Locale;
 }
 
-export function HeroBlock({
-  className,
-  audioSrc,
-  audioTitle,
-  locale = "en"
-}: HeroBlockProps) {
+export function HeroBlock({ className, audioSrc, audioTitle, locale = "en" }: HeroBlockProps) {
   const { t } = useTranslation();
-  
+
   return (
     <section
       aria-labelledby="homepage-hero-title"
@@ -59,15 +54,10 @@ export function HeroBlock({
 
           {/* Title and subtitle */}
           <div className="space-y-6">
-            <h1
-              id="homepage-hero-title"
-              className="font-display text-hero text-gray-100"
-            >
+            <h1 id="homepage-hero-title" className="font-display text-hero text-gray-100">
               {t("home.heroTitle")}
             </h1>
-            <p className="max-w-2xl text-body text-gray-200">
-              {t("home.heroSubtitle")}
-            </p>
+            <p className="max-w-2xl text-body text-gray-200">{t("home.heroSubtitle")}</p>
           </div>
 
           {/* Audio Player */}
@@ -80,14 +70,10 @@ export function HeroBlock({
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <AnimatedButton asChild size="lg" className="rounded-full px-8">
-              <Link href={`/${locale}/contact`}>
-                {t("home.heroCtaPrimary")}
-              </Link>
+              <Link href={`/${locale}/contact`}>{t("home.heroCtaPrimary")}</Link>
             </AnimatedButton>
             <AnimatedButton asChild variant="secondary" size="lg" className="rounded-full px-8">
-              <Link href={`/${locale}/portfolio`}>
-                {t("home.heroCtaSecondary")}
-              </Link>
+              <Link href={`/${locale}/portfolio`}>{t("home.heroCtaSecondary")}</Link>
             </AnimatedButton>
           </div>
         </div>

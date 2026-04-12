@@ -16,7 +16,7 @@ type FooterProps = ComponentPropsWithoutRef<"footer"> & {
 };
 
 type FooterLink = {
-  labelKey: "nav.home" | "nav.portfolio" | "nav.services" | "nav.press" | "nav.about" | "nav.contact";
+  labelKey: string;
   href: string;
 };
 
@@ -31,19 +31,26 @@ function buildNavLinks(locale: Locale): FooterLink[] {
   ];
 }
 
-const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com/c2c", Icon: InstagramIcon },
-  { label: "SoundCloud", href: "https://soundcloud.com/c2c", Icon: SoundCloudIcon },
-  { label: "Spotify", href: "https://open.spotify.com/artist/c2c", Icon: SpotifyIcon },
-  { label: "YouTube", href: "https://youtube.com/c2c", Icon: YouTubeIcon }
-] as const;
+// Social links use translation keys for labels
+const getSocialLinks = (t: (key: string) => string) => [
+  { label: t("social.instagram"), href: "https://instagram.com/c2c", Icon: InstagramIcon },
+  { label: t("social.soundcloud"), href: "https://soundcloud.com/c2c", Icon: SoundCloudIcon },
+  { label: t("social.spotify"), href: "https://open.spotify.com/artist/c2c", Icon: SpotifyIcon },
+  { label: t("social.youtube"), href: "https://youtube.com/c2c", Icon: YouTubeIcon }
+];
 
-export function Footer({ className, contactEmail = "contact@c2c.com", locale, ...props }: FooterProps) {
+export function Footer({
+  className,
+  contactEmail = "contact@c2c.com",
+  locale,
+  ...props
+}: FooterProps) {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname() ?? "/";
 
   const navLinks = useMemo(() => buildNavLinks(locale), [locale]);
+  const socialLinks = useMemo(() => getSocialLinks(t), [t]);
 
   const languageLinks = useMemo(
     () => locales.map((targetLocale) => ({ locale: targetLocale })),
@@ -59,23 +66,17 @@ export function Footer({ className, contactEmail = "contact@c2c.com", locale, ..
   const year = new Date().getFullYear();
 
   return (
-    <footer
-      className={cn(
-        "bg-gray-950",
-        className
-      )}
-      {...props}
-    >
+    <footer className={cn("bg-gray-950", className)} {...props}>
       <Container className="py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
           {/* Brand & Contact Column */}
           <div className="space-y-6 md:col-span-4">
             <Link href={`/${locale}`} className="inline-flex items-center gap-3">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-small font-semibold text-gray-950">
-                C2C
+                {t("brand.abbr")}
               </span>
               <span className="font-display text-body font-semibold text-gray-100">
-                Coast2Coast
+                {t("brand.full")}
               </span>
             </Link>
 
@@ -155,8 +156,10 @@ export function Footer({ className, contactEmail = "contact@c2c.com", locale, ..
 
         {/* Copyright Bar */}
         <div className="mt-16 flex flex-col gap-4 border-t border-gray-800 pt-8 text-small text-gray-400 sm:flex-row sm:items-center sm:justify-between md:mt-20">
-          <div>© {year} Coast2Coast. {t("footer.rights")}</div>
-          <div className="text-gray-600">Modular techno & DJ sets</div>
+          <div>
+            © {year} {t("brand.full")}. {t("footer.rights")}
+          </div>
+          <div className="text-gray-600">{t("footer.tagline")}</div>
         </div>
       </Container>
     </footer>

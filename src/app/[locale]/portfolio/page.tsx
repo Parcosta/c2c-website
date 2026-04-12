@@ -17,9 +17,10 @@ export async function generateMetadata({ params }: PortfolioPageProps): Promise<
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Portafolio" : "Portfolio";
-  const description = validLocale === "es"
-    ? "Explora el trabajo de Coast2Coast - sets de techno modular en vivo y DJ."
-    : "Explore Coast2Coast's work - live modular techno sets and DJ performances.";
+  const description =
+    validLocale === "es"
+      ? "Explora el trabajo de Coast2Coast - sets de techno modular en vivo y DJ."
+      : "Explore Coast2Coast's work - live modular techno sets and DJ performances.";
   return buildMetadata({
     title,
     description,
@@ -60,7 +61,11 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
 
       <Section className="pt-0">
         <Container>
-          <PortfolioGallery locale={validLocale} translations={translations} items={portfolioItems} />
+          <PortfolioGallery
+            locale={validLocale}
+            translations={translations}
+            items={portfolioItems}
+          />
         </Container>
       </Section>
     </main>

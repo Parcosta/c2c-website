@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { GlassCard } from "@/components/custom/GlassCard";
@@ -18,6 +19,8 @@ export default function ErrorBoundary({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -38,26 +41,22 @@ export default function ErrorBoundary({
               />
               <div className="relative space-y-6">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="destructive">Error</Badge>
-                  <Badge variant="outline">Something went wrong</Badge>
+                  <Badge variant="destructive">{t("error.badgeError")}</Badge>
+                  <Badge variant="outline">{t("error.badgeMessage")}</Badge>
                 </div>
 
-                <SectionHeading
-                  as="h1"
-                  title="We hit a snag"
-                  subtitle="Try again in a moment. If the problem persists, return home and retry from there."
-                />
+                <SectionHeading as="h1" title={t("error.title")} subtitle={t("error.subtitle")} />
 
                 <div className="flex flex-col gap-3 sm:flex-row">
-                  <AnimatedButton onClick={reset}>Try again</AnimatedButton>
+                  <AnimatedButton onClick={reset}>{t("error.tryAgain")}</AnimatedButton>
                   <AnimatedButton asChild variant="secondary" glow={false}>
-                    <Link href={`/${defaultLocale}`}>Go to homepage</Link>
+                    <Link href={`/${defaultLocale}`}>{t("error.goHome")}</Link>
                   </AnimatedButton>
                 </div>
 
                 {error.digest ? (
                   <p className="text-xs text-muted-foreground">
-                    Reference:{" "}
+                    {t("error.reference")}:{" "}
                     <code className="rounded bg-gray-900/60 px-1.5 py-0.5">{error.digest}</code>
                   </p>
                 ) : null}

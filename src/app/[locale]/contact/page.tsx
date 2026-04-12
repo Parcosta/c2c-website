@@ -15,9 +15,10 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Contacto" : "Contact";
-  const description = validLocale === "es"
-    ? "Contacta a Coast2Coast para bookings y consultas."
-    : "Contact Coast2Coast for bookings and inquiries.";
+  const description =
+    validLocale === "es"
+      ? "Contacta a Coast2Coast para bookings y consultas."
+      : "Contact Coast2Coast for bookings and inquiries.";
   return buildMetadata({
     title,
     description,

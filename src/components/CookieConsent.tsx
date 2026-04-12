@@ -109,7 +109,9 @@ export function CookieConsent({ locale }: { locale: string }) {
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="space-y-2">
-          <div className="font-display text-body font-semibold text-gray-100">{t("cookieConsent.title")}</div>
+          <div className="font-display text-body font-semibold text-gray-100">
+            {t("cookieConsent.title")}
+          </div>
           <p className="max-w-2xl text-small text-gray-400">{t("cookieConsent.description")}</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
             <Link className="text-gray-200 underline-offset-4 hover:underline" href={privacyHref}>
@@ -142,8 +144,12 @@ export function CookieConsent({ locale }: { locale: string }) {
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
-                    <div className="text-sm font-medium text-gray-100">{t("cookieConsent.necessaryLabel")}</div>
-                    <div className="text-sm text-gray-400">{t("cookieConsent.necessaryDescription")}</div>
+                    <div className="text-sm font-medium text-gray-100">
+                      {t("cookieConsent.necessaryLabel")}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      {t("cookieConsent.necessaryDescription")}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -158,8 +164,12 @@ export function CookieConsent({ locale }: { locale: string }) {
 
                 <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
-                    <div className="text-sm font-medium text-gray-100">{t("cookieConsent.analyticsLabel")}</div>
-                    <div className="text-sm text-gray-400">{t("cookieConsent.analyticsDescription")}</div>
+                    <div className="text-sm font-medium text-gray-100">
+                      {t("cookieConsent.analyticsLabel")}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      {t("cookieConsent.analyticsDescription")}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -177,7 +187,9 @@ export function CookieConsent({ locale }: { locale: string }) {
                 <Button variant="secondary" onClick={() => save(false)}>
                   {t("cookieConsent.rejectNonEssential")}
                 </Button>
-                <Button onClick={() => save(analyticsEnabled)}>{t("cookieConsent.savePreferences")}</Button>
+                <Button onClick={() => save(analyticsEnabled)}>
+                  {t("cookieConsent.savePreferences")}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

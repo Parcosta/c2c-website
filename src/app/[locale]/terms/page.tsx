@@ -11,9 +11,10 @@ export async function generateMetadata({ params }: TermsPageProps): Promise<Meta
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Términos de servicio" : "Terms of Service";
-  const description = validLocale === "es"
-    ? "Términos de servicio de Coast2Coast"
-    : "Terms of service for Coast2Coast";
+  const description =
+    validLocale === "es"
+      ? "Términos de servicio de Coast2Coast"
+      : "Terms of service for Coast2Coast";
   return buildMetadata({
     title,
     description,

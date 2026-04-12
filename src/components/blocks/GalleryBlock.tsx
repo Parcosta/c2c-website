@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -29,6 +30,7 @@ const FIGMA_CARD_WIDTH = 258;
 const FIGMA_GAP = 40;
 
 function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: () => void }) {
+  const { t } = useTranslation();
   const imageUrl = getSanityImageUrl(image.src, { width: 600 });
 
   return (
@@ -40,7 +42,7 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
         "group relative w-full overflow-hidden rounded-lg bg-gray-900",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
       )}
-      style={{ aspectRatio: '1/1' }}
+      style={{ aspectRatio: "1/1" }}
       data-testid={`gallery-image-${image._id}`}
     >
       {imageUrl ? (
@@ -54,7 +56,7 @@ function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: ()
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center text-gray-400">
-          No image
+          {t("gallery.noImage")}
         </div>
       )}
       <div
@@ -92,6 +94,7 @@ function Lightbox({
   onNext: () => void;
   onPrevious: () => void;
 }) {
+  const { t } = useTranslation();
   const currentImage = images[currentIndex];
   const imageUrl = currentImage ? getSanityImageUrl(currentImage.src, { width: 1200 }) : null;
 
@@ -123,10 +126,11 @@ function Lightbox({
         data-testid="gallery-lightbox"
       >
         <DialogTitle className="sr-only">
-          {currentImage.alt || `Image ${currentIndex + 1} of ${images.length}`}
+          {currentImage.alt ||
+            t("gallery.imageCounter", { current: currentIndex + 1, total: images.length })}
         </DialogTitle>
         <DialogDescription className="sr-only">
-          Use arrow keys to navigate between images. Press Escape to close.
+          {t("gallery.lightboxInstructions")}
         </DialogDescription>
 
         {/* Close button */}
@@ -138,7 +142,7 @@ function Lightbox({
             "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
             "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
           )}
-          aria-label="Close lightbox"
+          aria-label={t("gallery.closeLightbox")}
           data-testid="lightbox-close"
         >
           <X className="h-5 w-5" />
@@ -154,7 +158,7 @@ function Lightbox({
               "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
               "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             )}
-            aria-label="Previous image"
+            aria-label={t("gallery.previousImage")}
             data-testid="lightbox-previous"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -175,7 +179,7 @@ function Lightbox({
             />
           ) : (
             <div className="flex h-64 w-64 items-center justify-center text-gray-1000">
-              No image available
+              {t("gallery.noImageAvailable")}
             </div>
           )}
 
@@ -202,7 +206,7 @@ function Lightbox({
               "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
               "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             )}
-            aria-label="Next image"
+            aria-label={t("gallery.nextImage")}
             data-testid="lightbox-next"
           >
             <ChevronRight className="h-6 w-6" />
@@ -258,11 +262,7 @@ export function GalleryBlock({
       <div className="space-y-8">
         {(title || subtitle) && (
           <div className="space-y-2 text-center">
-            {title && (
-              <h2 className="font-display text-header text-gray-100">
-                {title}
-              </h2>
-            )}
+            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
             {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
           </div>
         )}

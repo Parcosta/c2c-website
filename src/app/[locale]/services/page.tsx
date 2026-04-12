@@ -16,9 +16,10 @@ export async function generateMetadata({ params }: ServicesPageProps): Promise<M
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
   const title = validLocale === "es" ? "Servicios" : "Services";
-  const description = validLocale === "es"
-    ? "Servicios de Coast2Coast - booking para eventos, producción y más."
-    : "Coast2Coast services - event booking, production, and more.";
+  const description =
+    validLocale === "es"
+      ? "Servicios de Coast2Coast - booking para eventos, producción y más."
+      : "Coast2Coast services - event booking, production, and more.";
   return buildMetadata({
     title,
     description,

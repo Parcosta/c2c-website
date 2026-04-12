@@ -29,14 +29,10 @@ const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="text-small text-gray-200">{children}</p>,
     h2: ({ children }) => (
-      <h2 className="pt-2 font-display text-subheader text-gray-100">
-        {children}
-      </h2>
+      <h2 className="pt-2 font-display text-subheader text-gray-100">{children}</h2>
     ),
     h3: ({ children }) => (
-      <h3 className="pt-2 font-display text-body font-semibold text-gray-100">
-        {children}
-      </h3>
+      <h3 className="pt-2 font-display text-body font-semibold text-gray-100">{children}</h3>
     )
   },
   list: {

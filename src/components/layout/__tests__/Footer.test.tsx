@@ -8,8 +8,8 @@ const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({
   usePathname: () => "/en",
   useRouter: () => ({
-    push: mockPush,
-  }),
+    push: mockPush
+  })
 }));
 
 vi.mock("react-i18next", () => ({
@@ -22,10 +22,17 @@ vi.mock("react-i18next", () => ({
         "nav.press": "Press",
         "nav.about": "About",
         "nav.contact": "Contact",
+        "brand.full": "Coast2Coast",
+        "brand.abbr": "C2C",
         "footer.contact": "Contact",
         "footer.language": "Language",
         "footer.follow": "Follow",
-        "footer.rights": "All rights reserved."
+        "footer.rights": "All rights reserved.",
+        "footer.tagline": "Modular techno & DJ sets",
+        "social.instagram": "Instagram",
+        "social.soundcloud": "SoundCloud",
+        "social.spotify": "Spotify",
+        "social.youtube": "YouTube"
       };
       return translations[key] || key;
     },
@@ -77,15 +84,15 @@ describe("Footer", () => {
       "mailto:hello@c2c.com"
     );
 
-    expect(screen.getByLabelText("Instagram")).toHaveAttribute(
-      "href",
-      "https://instagram.com/c2c"
-    );
+    expect(screen.getByLabelText("Instagram")).toHaveAttribute("href", "https://instagram.com/c2c");
     expect(screen.getByLabelText("SoundCloud")).toHaveAttribute(
       "href",
       "https://soundcloud.com/c2c"
     );
-    expect(screen.getByLabelText("Spotify")).toHaveAttribute("href", "https://open.spotify.com/artist/c2c");
+    expect(screen.getByLabelText("Spotify")).toHaveAttribute(
+      "href",
+      "https://open.spotify.com/artist/c2c"
+    );
     expect(screen.getByLabelText("YouTube")).toHaveAttribute("href", "https://youtube.com/c2c");
   });
 

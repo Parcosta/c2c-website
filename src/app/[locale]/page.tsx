@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 import { HeroBlock } from "@/components/blocks/HeroBlock";
-import { EventsBlock } from "@/components/blocks/EventsBlock";
+import { EventsBlockView } from "@/components/blocks/EventsBlock";
 import { JsonLdScript } from "@/components/seo/JsonLd";
 import { locales, defaultLocale, type Locale } from "@/lib/i18n";
+import { getTranslation } from "@/lib/i18n-server";
 import {
   buildMetadata,
   createMusicGroupJsonLd,
@@ -11,31 +12,26 @@ import {
   createEventJsonLd,
   getSiteName
 } from "@/lib/seo";
+import { isSanityConfigured } from "@/sanity/config";
+import { getClient } from "@/sanity/client";
+import { buildUpcomingEventsQuery, type EventValue } from "@/sanity/queries";
 
 type HomePageProps = {
   params: Promise<{ locale: string }>;
 };
 
-function getHomeSeo(locale: Locale): { title: string; description: string } {
-  switch (locale) {
-    case "es":
-      return {
-        title: getSiteName(),
-        description: "Live modular techno y DJ. Música, shows y lanzamientos de Coast2Coast (C2C)."
-      };
-    case "en":
-    default:
-      return {
-        title: getSiteName(),
-        description: "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C)."
-      };
-  }
+async function getHomeSeo(locale: Locale): Promise<{ title: string; description: string }> {
+  const t = await getTranslation(locale);
+  return {
+    title: getSiteName(),
+    description: t("home.metaDescription")
+  };
 }
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
-  const seo = getHomeSeo(validLocale);
+  const seo = await getHomeSeo(validLocale);
   return buildMetadata({
     ...seo,
     pathname: "/",
@@ -46,9 +42,21 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
   const validLocale = locales.includes(locale as Locale) ? (locale as Locale) : defaultLocale;
-  
-  const org = createOrganizationJsonLd({ name: "Coast2Coast" });
-  const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
+  const t = await getTranslation(validLocale);
+
+  const org = createOrganizationJsonLd({ name: t("brand.full") });
+  const group = createMusicGroupJsonLd({ name: `${t("brand.full")} (${t("brand.abbr")})` });
+
+  // Fetch events from Sanity
+  let events: EventValue[] = [];
+  if (isSanityConfigured()) {
+    const def = buildUpcomingEventsQuery(validLocale);
+    events = await getClient()
+      .fetch<EventValue[]>(def.query, def.params, {
+        next: { revalidate: 60 }
+      })
+      .catch(() => []);
+  }
 
   const nextEventName = (process.env.NEXT_PUBLIC_NEXT_EVENT_NAME ?? "").trim();
   const nextEventStartDate = (process.env.NEXT_PUBLIC_NEXT_EVENT_START_DATE ?? "").trim();
@@ -59,7 +67,7 @@ export default async function HomePage({ params }: HomePageProps) {
           name: nextEventName,
           startDate: nextEventStartDate,
           url: nextEventUrl || undefined,
-          organizerName: "Coast2Coast"
+          organizerName: t("brand.full")
         })
       : null;
 
@@ -67,7 +75,7 @@ export default async function HomePage({ params }: HomePageProps) {
     <main>
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
       <HeroBlock />
-      <EventsBlock locale={validLocale} />
+      <EventsBlockView events={events} locale={validLocale} />
     </main>
   );
 }

@@ -67,7 +67,7 @@ vi.mock("next/navigation", () => ({
 // Mock react-i18next
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    t: (key: string, options?: Record<string, string | number>) => {
       // Simple mock translations for tests
       const translations: Record<string, string> = {
         // Nav
@@ -76,15 +76,31 @@ vi.mock("react-i18next", () => ({
         "nav.contact": "Contact",
         "nav.about": "About",
         "nav.services": "Services",
+        "nav.press": "Press",
         "nav.store": "Store",
+        "nav.mobileMenu": "Open menu",
+        "nav.menuTitle": "Menu",
+        "nav.menuDescription": "Primary navigation",
         // Brand
-        "brand": "Coast2Coast",
+        brand: "Coast2Coast",
+        "brand.full": "Coast2Coast",
+        "brand.abbr": "C2C",
+        // Hero
+        "home.heroTitle": "Live modular techno & DJ sets",
+        "home.heroSubtitle": "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
+        "home.heroCtaPrimary": "Get in touch",
+        "home.heroCtaSecondary": "View portfolio",
+        "home.metaDescription":
+          "Live modular techno & DJ. Music, shows, and releases by Coast2Coast (C2C).",
         // Language
         "language.switchToEnglish": "Switch language to English",
         "language.switchToSpanish": "Switch language to Spanish",
         // Portfolio
         "portfolio.title": "Portfolio",
         "portfolio.subtitle": "Filter by category to explore selected work.",
+        "portfolio.blockTitle": "Portfolio",
+        "portfolio.blockSubtitle": "A selection of recent work, filterable by category.",
+        "portfolio.emptyCategory": "No items in this category yet.",
         "portfolio.filters.all": "All",
         "portfolio.filters.live": "Live",
         "portfolio.filters.dj": "DJ",
@@ -130,32 +146,93 @@ vi.mock("react-i18next", () => ({
         "press.bookingsEmpty": "Contact details will appear here once configured.",
         "press.downloadLabel": "Download",
         "press.viewLabel": "View",
-        // Not Found
-        "notFound.title": "Page not found",
-        "notFound.body": "That route doesn't exist.",
-        "notFound.backHome": "Back to home",
+        "press.readLink": "Read",
+        "press.fallbackMention": "Press mention",
         // Footer
         "footer.contact": "Contact",
         "footer.language": "Language",
         "footer.follow": "Follow",
         "footer.rights": "All rights reserved.",
+        "footer.tagline": "Modular techno & DJ sets",
+        // Social
+        "social.instagram": "Instagram",
+        "social.soundcloud": "SoundCloud",
+        "social.spotify": "Spotify",
+        "social.youtube": "YouTube",
+        // Services
+        "services.title": "Services",
+        "services.subtitle": "Everything we offer—explained in detail.",
+        "services.empty": "No services are published yet.",
+        "services.fallbackTitle": "Service",
+        "services.pricingLabel": "Pricing",
+        // Events
+        "events.title": "Events",
+        "events.subtitle": "Upcoming shows and appearances.",
+        "events.ticketsLabel": "Tickets",
+        // Gallery
+        "gallery.noImage": "No image",
+        "gallery.noImageAvailable": "No image available",
+        "gallery.closeLightbox": "Close lightbox",
+        "gallery.previousImage": "Previous image",
+        "gallery.nextImage": "Next image",
+        "gallery.imageCounter": "Image {{current}} of {{total}}",
+        "gallery.lightboxInstructions":
+          "Use arrow keys to navigate between images. Press Escape to close.",
+        // Current Work
+        "currentWork.title": "Current work",
+        "currentWork.subtitle": "What I'm building right now.",
+        "currentWork.label": "Latest project",
+        "currentWork.comingSoon": "Coming soon",
+        "currentWork.noMedia": "No media yet",
+        "currentWork.fallbackDescription":
+          "I'm currently working on the next piece in my portfolio. Check back soon for updates.",
+        // Audio
+        "audio.play": "Play",
+        "audio.pause": "Pause",
+        // Error
+        "error.notFoundTitle": "Page not found",
+        "error.notFoundDescription": "That route doesn't exist.",
+        "error.backToHome": "Back to home",
+        "error.title": "We hit a snag",
+        "error.subtitle":
+          "Try again in a moment. If the problem persists, return home and retry from there.",
+        "error.tryAgain": "Try again",
+        "error.goHome": "Go to homepage",
+        "error.badgeError": "Error",
+        "error.badgeMessage": "Something went wrong",
+        "error.reference": "Reference",
+        // Not Found (legacy keys)
+        "notFound.title": "Page not found",
+        "notFound.body": "That route doesn't exist.",
+        "notFound.backHome": "Back to home",
         // Cookie Consent
         "cookieConsent.title": "Cookies & privacy",
-        "cookieConsent.description": "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
+        "cookieConsent.description":
+          "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
         "cookieConsent.acceptAll": "Accept all",
         "cookieConsent.rejectNonEssential": "Reject non-essential",
         "cookieConsent.customize": "Preferences",
         "cookieConsent.dialogTitle": "Cookie preferences",
-        "cookieConsent.dialogDescription": "You can change your preferences at any time by clearing your browser cookies.",
+        "cookieConsent.dialogDescription":
+          "You can change your preferences at any time by clearing your browser cookies.",
         "cookieConsent.necessaryLabel": "Essential (always on)",
-        "cookieConsent.necessaryDescription": "Required for security, navigation, and basic site functionality.",
+        "cookieConsent.necessaryDescription":
+          "Required for security, navigation, and basic site functionality.",
         "cookieConsent.analyticsLabel": "Analytics",
-        "cookieConsent.analyticsDescription": "Helps us measure site usage to improve performance and content.",
+        "cookieConsent.analyticsDescription":
+          "Helps us measure site usage to improve performance and content.",
         "cookieConsent.savePreferences": "Save preferences",
         "cookieConsent.privacyPolicy": "Privacy Policy",
         "cookieConsent.terms": "Terms"
       };
-      return translations[key] ?? key;
+      let result = translations[key] ?? key;
+      // Handle interpolation for keys like {{current}}
+      if (options) {
+        Object.entries(options).forEach(([optKey, value]) => {
+          result = result.replace(new RegExp(`{{${optKey}}}`, "g"), String(value));
+        });
+      }
+      return result;
     },
     i18n: {
       changeLanguage: vi.fn(),
