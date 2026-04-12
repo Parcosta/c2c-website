@@ -20,7 +20,7 @@ type FooterLink = {
   href: string;
 };
 
-function buildNavLinks(locale: Locale): FooterLink[] {
+function buildFooterNavLinks(locale: Locale): FooterLink[] {
   return [
     { labelKey: "nav.home", href: `/${locale}` },
     { labelKey: "nav.portfolio", href: `/${locale}/portfolio` },
@@ -49,7 +49,7 @@ export function Footer({
   const router = useRouter();
   const pathname = usePathname() ?? "/";
 
-  const navLinks = useMemo(() => buildNavLinks(locale), [locale]);
+  const navLinks = useMemo(() => buildFooterNavLinks(locale), [locale]);
   const socialLinks = useMemo(() => getSocialLinks(t), [t]);
 
   const languageLinks = useMemo(
