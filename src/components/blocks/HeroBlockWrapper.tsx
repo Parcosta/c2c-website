@@ -7,10 +7,7 @@ interface HeroBlockWrapperProps {
   className?: string;
 }
 
-export async function HeroBlockWrapper({
-  locale,
-  className
-}: HeroBlockWrapperProps) {
+export async function HeroBlockWrapper({ locale, className }: HeroBlockWrapperProps) {
   const translations = await loadTranslations(locale);
 
   const heroTranslations = {
@@ -20,14 +17,8 @@ export async function HeroBlockWrapper({
     description: getTranslation(translations, "home.hero.description"),
     ctaPrimary: getTranslation(translations, "home.hero.ctaPrimary"),
     ctaSecondary: getTranslation(translations, "home.hero.ctaSecondary"),
-    audioPlaceholder: getTranslation(translations, "home.hero.audioPlaceholder"),
+    audioPlaceholder: getTranslation(translations, "home.hero.audioPlaceholder")
   };
 
-  return (
-    <HeroBlockClient
-      locale={locale}
-      translations={heroTranslations}
-      className={className}
-    />
-  );
+  return <HeroBlockClient locale={locale} translations={heroTranslations} className={className} />;
 }

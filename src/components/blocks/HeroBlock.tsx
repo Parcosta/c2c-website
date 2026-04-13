@@ -20,10 +20,7 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
   return (
     <section
       aria-labelledby="homepage-hero-title"
-      className={cn(
-        "relative isolate overflow-hidden bg-black",
-        className
-      )}
+      className={cn("relative isolate overflow-hidden bg-black", className)}
     >
       <Container className="relative py-10 px-6">
         <div className="flex flex-col lg:flex-row gap-20 items-center">
@@ -37,14 +34,14 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
 
             {/* Main Title and Description */}
             <div className="flex flex-col gap-2 text-gray-50 w-full">
-              <h1 
-                id="homepage-hero-title" 
+              <h1
+                id="homepage-hero-title"
                 className="font-semibold text-6xl leading-none tracking-tight"
                 style={{ fontVariationSettings: "'opsz' 14" }}
               >
                 {t("home.hero.title")}
               </h1>
-              <p 
+              <p
                 className="text-base leading-normal tracking-wide"
                 style={{ fontVariationSettings: "'opsz' 14" }}
               >
@@ -54,13 +51,13 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
 
             {/* CTA Buttons */}
             <div className="flex gap-6 items-start pt-2">
-              <Link 
+              <Link
                 href={`/${locale}/contact`}
                 className="h-9 px-3 flex items-center justify-center bg-gray-950 text-white text-xs tracking-widest hover:bg-gray-800 transition-colors"
               >
                 {t("home.hero.ctaPrimary")}
               </Link>
-              <Link 
+              <Link
                 href={`/${locale}/store`}
                 className="h-9 px-3 flex items-center justify-center border border-gray-800 text-white text-xs tracking-widest hover:border-gray-600 transition-colors"
               >
@@ -87,19 +84,26 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
             <div className="border border-gray-800 flex items-center gap-20 overflow-hidden p-4">
               <div className="flex-1 flex gap-2 items-center">
                 {/* Play Button */}
-                <button 
+                <button
                   className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors"
                   aria-label={t("home.hero.audioPlaceholder")}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                    <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </button>
 
                 {/* Song Title */}
-                <span className="text-xs text-gray-500">
-                  {t("home.hero.audioPlaceholder")}
-                </span>
+                <span className="text-xs text-gray-500">{t("home.hero.audioPlaceholder")}</span>
 
                 {/* Progress Bar */}
                 <div className="flex-1 flex items-center" aria-hidden="true">
@@ -108,12 +112,21 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
                 </div>
 
                 {/* Download Button */}
-                <button 
+                <button
                   className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors"
                   aria-label="Download"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                    <path fillRule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </button>
               </div>

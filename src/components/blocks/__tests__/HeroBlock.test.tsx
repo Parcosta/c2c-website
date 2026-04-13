@@ -6,11 +6,13 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        brand: "Coast2Coast",
-        "home.heroTitle": "Live modular techno & DJ sets",
-        "home.heroSubtitle": "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
-        "home.heroCtaPrimary": "Get in touch",
-        "home.heroCtaSecondary": "View portfolio"
+        "home.hero.tag1": "Multimedia Artist from Mexico",
+        "home.hero.tag2": "Modular Synthesis",
+        "home.hero.title": "Experimental Sound Design",
+        "home.hero.description": "Multimedia artist and modular synthesist based in Mexico City.",
+        "home.hero.ctaPrimary": "Contact Me",
+        "home.hero.ctaSecondary": "Official Store",
+        "home.hero.audioPlaceholder": "Track Name"
       };
       return translations[key] || key;
     }
@@ -21,42 +23,39 @@ import { HeroBlock } from "@/components/blocks/HeroBlock";
 
 describe("HeroBlock", () => {
   it("renders hero section with title, subtitle, and CTAs", () => {
-    render(<HeroBlock />);
-
-    // Check for region landmark with title
-    expect(
-      screen.getByRole("region", { name: "Live modular techno & DJ sets" })
-    ).toBeInTheDocument();
+    render(<HeroBlock locale="en" />);
 
     // Check for title
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Live modular techno & DJ sets"
+      "Experimental Sound Design"
     );
 
-    // Check for subtitle
+    // Check for description
     expect(
-      screen.getByText("Coast2Coast (C2C) — bold sound, dark visuals, clean interface.")
+      screen.getByText("Multimedia artist and modular synthesist based in Mexico City.")
     ).toBeInTheDocument();
 
     // Check for CTA buttons
-    const primaryCta = screen.getByRole("link", { name: "Get in touch" });
-    expect(primaryCta).toHaveAttribute("href", "/contact");
+    const primaryCta = screen.getByRole("link", { name: "Contact Me" });
+    expect(primaryCta).toHaveAttribute("href", "/en/contact");
 
-    const secondaryCta = screen.getByRole("link", { name: "View portfolio" });
-    expect(secondaryCta).toHaveAttribute("href", "/portfolio");
+    const secondaryCta = screen.getByRole("link", { name: "Official Store" });
+    expect(secondaryCta).toHaveAttribute("href", "/en/store");
   });
 
-  it("renders with audio player when audioSrc is provided", () => {
-    render(<HeroBlock audioSrc="/audio/sample.mp3" audioTitle="Sample Track" />);
+  it("renders with hero image", () => {
+    render(<HeroBlock locale="en" />);
 
-    // Check that the audio element is rendered
-    expect(screen.getByRole("button", { name: /reproducir|pausar/i })).toBeInTheDocument();
+    // Check that the hero image is rendered
+    const heroImage = screen.getByAltText("Experimental Sound Design");
+    expect(heroImage).toBeInTheDocument();
   });
 
-  it("renders without audio player when audioSrc is not provided", () => {
-    render(<HeroBlock />);
+  it("renders audio player UI", () => {
+    render(<HeroBlock locale="en" />);
 
-    // Should still render CTAs
-    expect(screen.getByRole("link", { name: "Get in touch" })).toBeInTheDocument();
+    // Check for audio player elements
+    expect(screen.getByLabelText("Track Name")).toBeInTheDocument();
+    expect(screen.getByText("Track Name")).toBeInTheDocument();
   });
 });
