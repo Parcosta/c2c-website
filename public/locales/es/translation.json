@@ -154,6 +154,10 @@
     "switchToEnglish": "Cambiar idioma a inglés",
     "switchToSpanish": "Cambiar idioma a español"
   },
+  "gallery": {
+    "sectionLabel": "DOCUMENTACIÓN VISUAL",
+    "title": "GALERÍA"
+  },
   "footer": {
     "contact": "Contacto",
     "language": "Idioma",

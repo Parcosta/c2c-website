@@ -1,282 +1,70 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
-import { getSanityImageUrl } from "@/sanity/image";
-import type { ImageValue } from "@/sanity/queries";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-export interface GalleryImage {
-  _id: string;
-  src: ImageValue;
-  alt?: string;
-  caption?: string;
+import type { Locale } from "@/lib/i18n";
+
+interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
 }
 
+const galleryImages: GalleryImage[] = [
+  { id: "1", src: "/images/gallery-1.jpg", alt: "Gallery image 1" },
+  { id: "2", src: "/images/gallery-2.jpg", alt: "Gallery image 2" },
+  { id: "3", src: "/images/gallery-3.jpg", alt: "Gallery image 3" },
+  { id: "4", src: "/images/gallery-4.jpg", alt: "Gallery image 4" },
+  { id: "5", src: "/images/gallery-5.jpg", alt: "Gallery image 5" },
+  { id: "6", src: "/images/gallery-6.jpg", alt: "Gallery image 6" },
+];
+
 export interface GalleryBlockProps {
-  images: GalleryImage[];
-  title?: string;
-  subtitle?: string;
-  columns?: 2 | 3 | 4;
+  locale: Locale;
   className?: string;
 }
 
-// Figma specs: 258px cards, 40px gaps
-const FIGMA_CARD_WIDTH = 258;
-const FIGMA_GAP = 40;
-
-function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: () => void }) {
-  const imageUrl = getSanityImageUrl(image.src, { width: 600 });
+export function GalleryBlock({ locale, className }: GalleryBlockProps) {
+  const { t } = useTranslation();
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        // Figma specs: 258px cards with rounded corners
-        "group relative w-full overflow-hidden rounded-lg bg-gray-900",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-      )}
-      style={{ aspectRatio: "1/1" }}
-      data-testid={`gallery-image-${image._id}`}
-    >
-      {imageUrl ? (
-        <Image
-          src={imageUrl}
-          alt={image.alt || ""}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className={cn("object-cover transition-transform duration-500", "group-hover:scale-105")}
-          loading="lazy"
-        />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center text-gray-400">No image</div>
-      )}
-      <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent",
-          "opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        )}
-      />
-      {image.caption && (
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 right-0 p-3 text-sm text-white",
-            "translate-y-full transition-transform duration-300 group-hover:translate-y-0"
-          )}
-        >
-          {image.caption}
-        </div>
-      )}
-    </button>
-  );
-}
-
-function Lightbox({
-  images,
-  currentIndex,
-  isOpen,
-  onClose,
-  onNext,
-  onPrevious
-}: {
-  images: GalleryImage[];
-  currentIndex: number;
-  isOpen: boolean;
-  onClose: () => void;
-  onNext: () => void;
-  onPrevious: () => void;
-}) {
-  const currentImage = images[currentIndex];
-  const imageUrl = currentImage ? getSanityImageUrl(currentImage.src, { width: 1200 }) : null;
-
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") onNext();
-      if (e.key === "ArrowLeft") onPrevious();
-      if (e.key === "Escape") onClose();
-    },
-    [onNext, onPrevious, onClose]
-  );
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
-    }
-  }, [isOpen, handleKeyDown]);
-
-  if (!currentImage) return null;
-
-  return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent
-        className={cn(
-          "max-w-[95vw] max-h-[95vh] p-0 border-none bg-gray-950/95",
-          "flex items-center justify-center"
-        )}
-        data-testid="gallery-lightbox"
-      >
-        <DialogTitle className="sr-only">
-          {currentImage.alt || `Image ${currentIndex + 1} of ${images.length}`}
-        </DialogTitle>
-        <DialogDescription className="sr-only">
-          Use arrow keys to navigate between images. Press Escape to close.
-        </DialogDescription>
-
-        {/* Close button */}
-        <button
-          type="button"
-          onClick={onClose}
-          className={cn(
-            "absolute top-4 right-4 z-50 p-2 rounded-full",
-            "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
-            "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-          )}
-          aria-label="Close lightbox"
-          data-testid="lightbox-close"
-        >
-          <X className="h-5 w-5" />
-        </button>
-
-        {/* Previous button */}
-        {images.length > 1 && (
-          <button
-            type="button"
-            onClick={onPrevious}
-            className={cn(
-              "absolute left-4 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full",
-              "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
-              "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-            )}
-            aria-label="Previous image"
-            data-testid="lightbox-previous"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </button>
-        )}
-
-        {/* Image container */}
-        <div className="flex flex-col items-center justify-center max-w-full max-h-full p-4">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={currentImage.alt || ""}
-              width={1200}
-              height={800}
-              className="max-w-full max-h-[80vh] object-contain rounded-lg w-auto h-auto"
-              data-testid="lightbox-image"
-              priority
-            />
-          ) : (
-            <div className="flex h-64 w-64 items-center justify-center text-gray-1000">
-              No image available
-            </div>
-          )}
-
-          {currentImage.caption && (
-            <p className="mt-4 text-center text-sm text-gray-400 max-w-2xl">
-              {currentImage.caption}
+    <section className={cn("w-full", className)}>
+      <Container>
+        <div className="flex flex-col gap-8 py-10 px-6">
+          {/* Header */}
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-medium text-gray-500">
+              {t("gallery.sectionLabel")}
             </p>
-          )}
-
-          {images.length > 1 && (
-            <div className="mt-2 text-sm text-gray-400">
-              {currentIndex + 1} / {images.length}
-            </div>
-          )}
-        </div>
-
-        {/* Next button */}
-        {images.length > 1 && (
-          <button
-            type="button"
-            onClick={onNext}
-            className={cn(
-              "absolute right-4 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full",
-              "bg-gray-900/80 text-gray-100 hover:bg-gray-800",
-              "transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-            )}
-            aria-label="Next image"
-            data-testid="lightbox-next"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </button>
-        )}
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-export function GalleryBlock({
-  images,
-  title,
-  subtitle,
-  columns = 4,
-  className
-}: GalleryBlockProps) {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const openLightbox = useCallback((index: number) => {
-    setCurrentIndex(index);
-    setLightboxOpen(true);
-  }, []);
-
-  const closeLightbox = useCallback(() => {
-    setLightboxOpen(false);
-  }, []);
-
-  const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
-
-  const goToPrevious = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length]);
-
-  if (!images.length) return null;
-
-  // Figma 4-column grid with 40px gaps
-  const gridCols = {
-    2: "grid-cols-1 sm:grid-cols-2",
-    3: "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-  };
-
-  return (
-    <section
-      className={cn("py-16 sm:py-20", className)}
-      aria-label={title || "Image gallery"}
-      data-testid="gallery-block"
-    >
-      <div className="space-y-8">
-        {(title || subtitle) && (
-          <div className="space-y-2 text-center">
-            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
-            {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
+            <h2 className="text-2xl font-semibold text-gray-50 tracking-tight">
+              {t("gallery.title")}
+            </h2>
           </div>
-        )}
 
-        {/* Figma specs: 40px gaps between cards */}
-        <div className={cn("grid gap-10", gridCols[columns])}>
-          {images.map((image, index) => (
-            <GalleryImageCard key={image._id} image={image} onClick={() => openLightbox(index)} />
-          ))}
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {galleryImages.map((image) => (
+              <div
+                key={image.id}
+                className="relative aspect-square overflow-hidden group cursor-pointer"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-
-      <Lightbox
-        images={images}
-        currentIndex={currentIndex}
-        isOpen={lightboxOpen}
-        onClose={closeLightbox}
-        onNext={goToNext}
-        onPrevious={goToPrevious}
-      />
+      </Container>
     </section>
   );
 }
