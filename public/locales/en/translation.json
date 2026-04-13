@@ -12,6 +12,15 @@
     "close": "Close"
   },
   "home": {
+    "hero": {
+      "tag1": "Multimedia Artist from Mexico",
+      "tag2": "Modular Synthesis",
+      "title": "Experimental Sound Design",
+      "description": "Multimedia artist and modular synthesist based in Mexico City, known for her raw and exploratory approach to live electronic music.",
+      "ctaPrimary": "Contact Me",
+      "ctaSecondary": "Official Store",
+      "audioPlaceholder": "Track Name"
+    },
     "heroTitle": "Live modular techno & DJ sets",
     "heroSubtitle": "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
     "heroCtaPrimary": "Get in touch",

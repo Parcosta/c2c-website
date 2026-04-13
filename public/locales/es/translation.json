@@ -12,6 +12,15 @@
     "close": "Cerrar"
   },
   "home": {
+    "hero": {
+      "tag1": "ARTISTA MULTIMEDIA MEXICANA",
+      "tag2": "SÍNTESIS MODULAR",
+      "title": "DISEÑO SONORO EXPERIMENTAL",
+      "description": "Artista multimedia y sintetista modular con sede en la Ciudad de México, conocida por su enfoque crudo y exploratorio de la música electrónica en vivo.",
+      "ctaPrimary": "CONTÁCTAME",
+      "ctaSecondary": "TIENDA OFICIAL",
+      "audioPlaceholder": "NOMBRE DE EL TEMA"
+    },
     "heroTitle": "Techno modular en vivo y sets de DJ",
     "heroSubtitle": "Coast2Coast (C2C) — sonido audaz, visuales oscuros, interfaz limpia.",
     "heroCtaPrimary": "Contactar",

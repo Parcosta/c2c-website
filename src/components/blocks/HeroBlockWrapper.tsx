@@ -5,24 +5,22 @@ import { HeroBlockClient } from "./HeroBlockClient";
 interface HeroBlockWrapperProps {
   locale: Locale;
   className?: string;
-  audioSrc?: string;
-  audioTitle?: string;
 }
 
 export async function HeroBlockWrapper({
   locale,
-  className,
-  audioSrc,
-  audioTitle
+  className
 }: HeroBlockWrapperProps) {
   const translations = await loadTranslations(locale);
 
   const heroTranslations = {
-    brand: getTranslation(translations, "brand"),
-    heroTitle: getTranslation(translations, "home.heroTitle"),
-    heroSubtitle: getTranslation(translations, "home.heroSubtitle"),
-    heroCtaPrimary: getTranslation(translations, "home.heroCtaPrimary"),
-    heroCtaSecondary: getTranslation(translations, "home.heroCtaSecondary"),
+    tag1: getTranslation(translations, "home.hero.tag1"),
+    tag2: getTranslation(translations, "home.hero.tag2"),
+    title: getTranslation(translations, "home.hero.title"),
+    description: getTranslation(translations, "home.hero.description"),
+    ctaPrimary: getTranslation(translations, "home.hero.ctaPrimary"),
+    ctaSecondary: getTranslation(translations, "home.hero.ctaSecondary"),
+    audioPlaceholder: getTranslation(translations, "home.hero.audioPlaceholder"),
   };
 
   return (
@@ -30,8 +28,6 @@ export async function HeroBlockWrapper({
       locale={locale}
       translations={heroTranslations}
       className={className}
-      audioSrc={audioSrc}
-      audioTitle={audioTitle}
     />
   );
 }
