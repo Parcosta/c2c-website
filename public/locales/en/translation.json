@@ -101,6 +101,10 @@
     "photoAltFallback": "Artist photo"
   },
   "services": {
+    "sectionLabel": "Professional Services",
+    "title": "What We Offer",
+    "description": "From live modular techno performances to sound design and music production workshops, we offer a range of professional services tailored to your needs.",
+    "ctaPrimary": "View All Services",
     "pageTitle": "Services | Live Techno, DJ & Music Production | Coast2c",
     "pageDescription": "Professional electronic music services: live hardware techno performances, DJ sets, sound design for film & commercials, Ableton Live lessons, modular synthesis workshops, studio consultation, and artistic collaborations.",
     "heading": "Services",
