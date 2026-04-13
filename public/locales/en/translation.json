@@ -154,6 +154,14 @@
     "switchToEnglish": "Switch language to English",
     "switchToSpanish": "Switch language to Spanish"
   },
+  "multimedia": {
+    "sectionLabel": "Video & Audio Content",
+    "title": "Multimedia"
+  },
+  "news": {
+    "sectionLabel": "Latest Updates",
+    "title": "News"
+  },
   "footer": {
     "contact": "Contact",
     "language": "Language",

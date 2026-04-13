@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { HeroBlockWrapper } from "@/components/blocks/HeroBlockWrapper";
+import { MultimediaBlock } from "@/components/blocks/MultimediaBlock";
+import { NewsBlock } from "@/components/blocks/NewsBlock";
 import { EventsBlock } from "@/components/blocks/EventsBlock";
 import { JsonLdScript } from "@/components/seo/JsonLd";
 import { type Locale } from "@/lib/i18n";
@@ -63,6 +65,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     <main>
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
       <HeroBlockWrapper locale={locale} />
+      <MultimediaBlock locale={locale} />
+      <NewsBlock locale={locale} />
       <EventsBlock locale={locale} />
     </main>
   );
