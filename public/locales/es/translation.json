@@ -1,15 +1,16 @@
 {
   "brand": "Coast2c",
   "nav": {
-    "home": "Inicio",
-    "portfolio": "Portafolio",
-    "contact": "Contacto",
-    "about": "Sobre mí",
-    "services": "Servicios",
-    "press": "Prensa",
-    "store": "Tienda",
-    "mobileMenu": "Menú",
-    "close": "Cerrar"
+    "home": "INICIO",
+    "portfolio": "PORTAFOLIO",
+    "contact": "CONTACTO",
+    "about": "ACERCA DE",
+    "services": "SERVICIOS",
+    "press": "PRENSA",
+    "store": "TIENDA",
+    "mobileMenu": "MENÚ",
+    "close": "CERRAR",
+    "cta": "CONTÁCTAME"
   },
   "home": {
     "heroTitle": "Techno modular en vivo y sets de DJ",
