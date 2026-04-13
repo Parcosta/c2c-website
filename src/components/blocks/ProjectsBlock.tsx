@@ -76,13 +76,13 @@ const projects: Project[] = [
   },
 ];
 
-const filters = [
-  { key: "all", label: "TODOS" },
-  { key: "musica", label: "MUSICA" },
-  { key: "sonoro", label: "SONORO" },
-  { key: "video", label: "VIDEO" },
-  { key: "mixes", label: "MIXES" },
-  { key: "dev", label: "DEV" },
+const filterKeys = [
+  { key: "all", translationKey: "all" },
+  { key: "musica", translationKey: "music" },
+  { key: "sonoro", translationKey: "sound" },
+  { key: "video", translationKey: "video" },
+  { key: "mixes", translationKey: "mixes" },
+  { key: "dev", translationKey: "dev" },
 ] as const;
 
 export interface ProjectsBlockProps {
@@ -106,27 +106,28 @@ export function ProjectsBlock({ locale, className }: ProjectsBlockProps) {
           {/* Header */}
           <div className="flex flex-col gap-3">
             <p className="text-xs font-medium text-gray-500">
-              MÚSICA ELECTRÓNICA EXPERIMENTAL Y SÍNTESIS MODULAR
+              {t("projects.sectionLabel")}
             </p>
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-gray-50 tracking-tight">
-                PROYECTOS Y LANZAMIENTOS
+                {t("projects.title")}
               </h2>
               <a
                 href={`/${locale}/store`}
                 className="text-lg text-gray-500 hover:text-gray-300 transition-colors"
               >
-                VISITA LA TIENDA
+                {t("projects.visitStore")}
               </a>
             </div>
           </div>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-4">
-            {filters.map((filter) => (
+            {filterKeys.map((filter) => (
               <button
                 key={filter.key}
                 onClick={() => setActiveFilter(filter.key)}
+                aria-pressed={activeFilter === filter.key}
                 className={cn(
                   "h-9 px-3 text-xs tracking-wide transition-colors",
                   activeFilter === filter.key
@@ -134,7 +135,7 @@ export function ProjectsBlock({ locale, className }: ProjectsBlockProps) {
                     : "border border-gray-800 text-white hover:border-gray-600"
                 )}
               >
-                {filter.label}
+                {t(`projects.filters.${filter.translationKey}`)}
               </button>
             ))}
           </div>
