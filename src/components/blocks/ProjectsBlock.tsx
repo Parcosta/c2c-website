@@ -21,59 +21,64 @@ const projects: Project[] = [
   {
     id: "1",
     title: "Fauna Reve",
-    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes",
+    description:
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes",
     imageUrl: "/images/project-1.jpg",
-    category: "musica",
+    category: "musica"
   },
   {
     id: "2",
     title: "Modular Sessions",
-    description: "Live modular synthesis performances exploring the boundaries of electronic music and improvisation.",
+    description:
+      "Live modular synthesis performances exploring the boundaries of electronic music and improvisation.",
     imageUrl: "/images/project-2.jpg",
-    category: "sonoro",
+    category: "sonoro"
   },
   {
     id: "3",
     title: "Visual Landscapes",
-    description: "Audio-reactive visual installations combining generative art with live electronic music.",
+    description:
+      "Audio-reactive visual installations combining generative art with live electronic music.",
     imageUrl: "/images/project-3.jpg",
-    category: "video",
+    category: "video"
   },
   {
     id: "4",
     title: "Underground Mix",
-    description: "A curated selection of deep techno and ambient tracks for late night listening sessions.",
+    description:
+      "A curated selection of deep techno and ambient tracks for late night listening sessions.",
     imageUrl: "/images/project-4.jpg",
-    category: "mixes",
+    category: "mixes"
   },
   {
     id: "5",
     title: "Synth Toolkit",
-    description: "Open-source Max/MSP patches and Ableton Live devices for electronic music production.",
+    description:
+      "Open-source Max/MSP patches and Ableton Live devices for electronic music production.",
     imageUrl: "/images/project-5.jpg",
-    category: "dev",
+    category: "dev"
   },
   {
     id: "6",
     title: "Echoes of Berlin",
     description: "Field recordings and sonic explorations from the streets and clubs of Berlin.",
     imageUrl: "/images/project-6.jpg",
-    category: "musica",
+    category: "musica"
   },
   {
     id: "7",
     title: "Spatial Audio",
     description: "Immersive 8-channel sound design for installations and live performances.",
     imageUrl: "/images/project-7.jpg",
-    category: "sonoro",
+    category: "sonoro"
   },
   {
     id: "8",
     title: "Code & Sound",
     description: "Interactive web-based audio experiments using Web Audio API and React.",
     imageUrl: "/images/project-8.jpg",
-    category: "dev",
-  },
+    category: "dev"
+  }
 ];
 
 const filterKeys = [
@@ -82,7 +87,7 @@ const filterKeys = [
   { key: "sonoro", translationKey: "sound" },
   { key: "video", translationKey: "video" },
   { key: "mixes", translationKey: "mixes" },
-  { key: "dev", translationKey: "dev" },
+  { key: "dev", translationKey: "dev" }
 ] as const;
 
 export interface ProjectsBlockProps {
@@ -95,9 +100,7 @@ export function ProjectsBlock({ locale, className }: ProjectsBlockProps) {
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
   const filteredProjects =
-    activeFilter === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeFilter);
+    activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
 
   return (
     <section className={cn("w-full", className)}>
@@ -105,9 +108,7 @@ export function ProjectsBlock({ locale, className }: ProjectsBlockProps) {
         <div className="flex flex-col gap-8 py-10 px-6">
           {/* Header */}
           <div className="flex flex-col gap-3">
-            <p className="text-xs font-medium text-gray-500">
-              {t("projects.sectionLabel")}
-            </p>
+            <p className="text-xs font-medium text-gray-500">{t("projects.sectionLabel")}</p>
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-gray-50 tracking-tight">
                 {t("projects.title")}

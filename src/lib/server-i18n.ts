@@ -31,10 +31,7 @@ export async function loadTranslations(locale: Locale): Promise<Record<string, u
   }
 }
 
-export function getTranslation(
-  translations: Record<string, unknown>,
-  key: string
-): string {
+export function getTranslation(translations: Record<string, unknown>, key: string): string {
   const keys = key.split(".");
   let value: unknown = translations;
 

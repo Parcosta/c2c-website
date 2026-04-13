@@ -17,16 +17,10 @@ export function ProjectCard({
   description,
   imageUrl,
   category,
-  className,
+  className
 }: ProjectCardProps) {
   return (
-    <article
-      className={cn(
-        "flex flex-col gap-1",
-        className
-      )}
-      data-category={category}
-    >
+    <article className={cn("flex flex-col gap-1", className)} data-category={category}>
       <div className="relative aspect-square w-full overflow-hidden">
         <Image
           src={imageUrl}
@@ -37,13 +31,9 @@ export function ProjectCard({
         />
       </div>
       <div className="flex gap-2 items-start">
-        <h3 className="flex-1 font-semibold text-lg leading-7 text-gray-100">
-          {title}
-        </h3>
+        <h3 className="flex-1 font-semibold text-lg leading-7 text-gray-100">{title}</h3>
       </div>
-      <p className="text-sm leading-6 text-gray-100 line-clamp-3">
-        {description}
-      </p>
+      <p className="text-sm leading-6 text-gray-100 line-clamp-3">{description}</p>
     </article>
   );
 }

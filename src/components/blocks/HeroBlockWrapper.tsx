@@ -22,7 +22,7 @@ export async function HeroBlockWrapper({
     heroTitle: getTranslation(translations, "home.heroTitle"),
     heroSubtitle: getTranslation(translations, "home.heroSubtitle"),
     heroCtaPrimary: getTranslation(translations, "home.heroCtaPrimary"),
-    heroCtaSecondary: getTranslation(translations, "home.heroCtaSecondary"),
+    heroCtaSecondary: getTranslation(translations, "home.heroCtaSecondary")
   };
 
   return (

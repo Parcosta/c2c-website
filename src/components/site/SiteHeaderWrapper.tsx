@@ -21,7 +21,7 @@ export async function SiteHeaderWrapper({ locale }: SiteHeaderWrapperProps) {
     navMobileMenu: getTranslation(translations, "nav.mobileMenu"),
     navClose: getTranslation(translations, "nav.close"),
     languageSwitchToEnglish: getTranslation(translations, "language.switchToEnglish"),
-    languageSwitchToSpanish: getTranslation(translations, "language.switchToSpanish"),
+    languageSwitchToSpanish: getTranslation(translations, "language.switchToSpanish")
   };
 
   return <SiteHeaderClient locale={locale} translations={navTranslations} />;
