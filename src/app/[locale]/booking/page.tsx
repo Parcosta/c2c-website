@@ -4,9 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { BookingForm } from "@/components/site/BookingForm";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
-import { getClient } from "@/sanity/client";
-import { isSanityConfigured } from "@/sanity/config";
-import { buildSiteLabelsQuery } from "@/sanity/queries";
+import { getSiteLabels } from "@/sanity/cache";
 
 export async function generateMetadata({
   params
@@ -14,8 +12,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const def = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = await getSiteLabels(locale);
   return buildMetadata({
     title: labels?.bookingPage?.seoTitle ?? "",
     description: labels?.bookingPage?.seoDescription ?? "",
@@ -25,8 +22,7 @@ export async function generateMetadata({
 
 export default async function BookingPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const def = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = await getSiteLabels(locale);
 
   return (
     <main data-testid="booking-page">

@@ -7,7 +7,8 @@ import { ServicesPageView } from "@/components/services/ServicesPageView";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
-import { buildServicesQuery, buildSiteLabelsQuery } from "@/sanity/queries";
+import { buildServicesQuery } from "@/sanity/queries";
+import { getSiteLabels } from "@/sanity/cache";
 import { buildMetadata, serializeJsonLd, createOrganizationJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -17,8 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const validLocale = isLocale(locale) ? locale : "en";
-  const def = buildSiteLabelsQuery(validLocale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = await getSiteLabels(validLocale);
 
   return buildMetadata({
     title: labels?.servicesPage?.seoTitle ?? "",
@@ -32,11 +32,10 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   if (!isLocale(locale)) notFound();
 
   const servicesDef = buildServicesQuery(locale);
-  const labelsDef = buildSiteLabelsQuery(locale);
   const [services, labels] = isSanityConfigured()
     ? await Promise.all([
         getClient().fetch(servicesDef.query, servicesDef.params),
-        getClient().fetch(labelsDef.query, labelsDef.params)
+        getSiteLabels(locale)
       ])
     : [[], null];
 
