@@ -1,41 +1,37 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import HttpBackend from "i18next-http-backend";
 
 import { locales, defaultLocale } from "@/lib/i18n";
 
-// Initialize i18next with HttpBackend for loading translation files
-// This is configured for client-side usage with Next.js App Router
+// Import translations directly to avoid HTTP backend issues during SSR
+import enTranslations from "../../public/locales/en/translation.json";
+import esTranslations from "../../public/locales/es/translation.json";
 
-const i18nInstance = i18n
-  .use(HttpBackend)
-  .use(initReactI18next)
-  .init({
-    lng: defaultLocale,
-    fallbackLng: "en",
-    supportedLngs: [...locales],
+const resources = {
+  en: { translation: enTranslations },
+  es: { translation: esTranslations }
+};
 
-    backend: {
-      loadPath: "/locales/{{lng}}/translation.json"
-    },
+// Initialize i18next with bundled translations
+// This avoids HTTP backend issues during SSR and E2E tests
 
-    interpolation: {
-      escapeValue: false // React already escapes values
-    },
+const i18nInstance = i18n.use(initReactI18next).init({
+  lng: defaultLocale,
+  fallbackLng: "en",
+  supportedLngs: [...locales],
+  resources,
 
-    react: {
-      useSuspense: false // Disable suspense to avoid SSR issues
-    },
+  interpolation: {
+    escapeValue: false // React already escapes values
+  },
 
-    // Debug mode in development
-    debug: process.env.NODE_ENV === "development",
+  react: {
+    useSuspense: false // Disable suspense to avoid SSR issues
+  },
 
-    // Add a default namespace
-    defaultNS: "translation",
-
-    // Ensure we wait for translations to load
-    initImmediate: false
-  });
+  // Debug mode in development
+  debug: process.env.NODE_ENV === "development"
+});
 
 export default i18n;
 export { i18nInstance };
