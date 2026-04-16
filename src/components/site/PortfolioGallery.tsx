@@ -109,6 +109,8 @@ function PortfolioCard({ item, locale }: { item: PortfolioItem; locale: Locale }
 interface PortfolioGalleryProps {
   locale: Locale;
   translations: {
+    filtersLabel: string;
+    itemsCountLabel: string;
     filters: {
       all: string;
       live: string;
@@ -139,7 +141,7 @@ export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps
       <div
         className="flex flex-wrap gap-3"
         role="group"
-        aria-label="Portfolio filters"
+        aria-label={translations.filtersLabel}
         data-testid="portfolio-filters"
       >
         {filters.map((f) => (
@@ -165,7 +167,7 @@ export function PortfolioGallery({ locale, translations }: PortfolioGalleryProps
       </div>
 
       <p className="text-sm text-gray-400" data-testid="portfolio-count">
-        {visible.length} items
+        {visible.length} {translations.itemsCountLabel}
       </p>
     </div>
   );

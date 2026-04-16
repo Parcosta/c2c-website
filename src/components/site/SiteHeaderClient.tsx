@@ -15,6 +15,8 @@ interface NavItem {
 
 interface SiteHeaderTranslations {
   brand: string;
+  primaryAriaLabel: string;
+  mobileAriaLabel: string;
   navHome: string;
   navPortfolio: string;
   navServices: string;
@@ -73,7 +75,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
 
         <nav
           className="hidden items-center gap-6 md:flex"
-          aria-label="Primary"
+          aria-label={translations.primaryAriaLabel}
           data-testid="desktop-nav"
         >
           {nav.map((item) => (
@@ -131,7 +133,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
           className="border-t border-gray-800 bg-gray-950 md:hidden"
         >
           <div className="mx-auto w-full max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
-            <nav aria-label="Mobile" className="flex flex-col gap-2">
+            <nav aria-label={translations.mobileAriaLabel} className="flex flex-col gap-2">
               {nav.map((item) => (
                 <Link
                   key={item.href}

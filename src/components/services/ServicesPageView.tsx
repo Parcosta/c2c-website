@@ -1,39 +1,37 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Locale } from "@/lib/i18n";
-import type { ServiceValue } from "@/sanity/queries";
+import type { ServiceValue, SiteLabelsValue } from "@/sanity/queries";
 
 import { ServiceIcon } from "./ServiceIcon";
 
 export type ServicesPageViewProps = {
   locale: Locale;
   services: ServiceValue[];
+  content?: SiteLabelsValue["servicesPage"];
 };
 
-export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
-  const { t } = useTranslation();
-
+export function ServicesPageView({ locale, services, content }: ServicesPageViewProps) {
   return (
     <div className="space-y-10" data-testid="services-page">
       <header className="space-y-4">
-        <SectionHeading title={t("services.heading")} subtitle={t("services.subheading")} as="h1" />
+        <SectionHeading title={content?.heading ?? ""} subtitle={content?.subheading} as="h1" />
       </header>
 
       {services.length === 0 ? (
         <GlassCard className="p-6">
-          <p className="text-small text-muted-foreground">{t("services.emptyMessage")}</p>
+          <p className="text-small text-muted-foreground">{content?.emptyMessage}</p>
         </GlassCard>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
           {services.map((service) => {
-            const title = service.title?.trim() || (locale === "es" ? "Servicio" : "Service");
+            const title = service.title?.trim() || content?.serviceFallbackTitle || "";
             const features = (service.features ?? []).filter(Boolean);
 
             return (
@@ -58,7 +56,7 @@ export function ServicesPageView({ locale, services }: ServicesPageViewProps) {
 
                     {service.pricing ? (
                       <Badge variant="secondary" className="shrink-0">
-                        {t("services.pricingLabel")}: {service.pricing}
+                        {content?.pricingLabel}: {service.pricing}
                       </Badge>
                     ) : null}
                   </div>

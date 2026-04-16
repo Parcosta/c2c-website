@@ -7,17 +7,22 @@ import { isLocale, type Locale } from "@/lib/i18n";
 import { isSanityConfigured } from "@/sanity/config";
 import { client } from "@/sanity/client";
 import { getSanityImageUrl } from "@/sanity/image";
-import { buildAboutPageQuery, type AboutPageValue } from "@/sanity/queries";
+import { buildAboutPageQuery, buildSiteLabelsQuery, type AboutPageValue } from "@/sanity/queries";
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
   let data: AboutPageValue | null = null;
+  let labels = null;
   if (isSanityConfigured()) {
     const def = buildAboutPageQuery(locale);
+    const labelsDef = buildSiteLabelsQuery(locale);
     try {
-      data = await client.fetch(def.query, def.params);
+      [data, labels] = await Promise.all([
+        client.fetch(def.query, def.params),
+        client.fetch(labelsDef.query, labelsDef.params)
+      ]);
     } catch {
       data = null;
     }
@@ -31,6 +36,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <Container>
           <AboutPageView
             locale={locale}
+            content={labels?.aboutPage}
             title={data?.title}
             intro={data?.intro}
             photoUrl={photoUrl}
