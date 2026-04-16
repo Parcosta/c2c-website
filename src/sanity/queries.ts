@@ -148,6 +148,19 @@ export type SiteLabelsValue = {
     studioFilter?: string;
     itemsCountLabel?: string;
   };
+  projectsPage?: {
+    sectionLabel?: string;
+    title?: string;
+    visitStore?: string;
+    filters?: {
+      all?: string;
+      music?: string;
+      sound?: string;
+      video?: string;
+      mixes?: string;
+      dev?: string;
+    };
+  };
   contactPage?: {
     title?: string;
     subtitle?: string;
@@ -562,6 +575,19 @@ export function buildSiteLabelsQuery(
         "djFilter": djFilter[$locale],
         "studioFilter": studioFilter[$locale],
         "itemsCountLabel": itemsCountLabel[$locale]
+      },
+      "projectsPage": projectsPage{
+        "sectionLabel": sectionLabel[$locale],
+        "title": title[$locale],
+        "visitStore": visitStore[$locale],
+        "filters": filters{
+          "all": all[$locale],
+          "music": music[$locale],
+          "sound": sound[$locale],
+          "video": video[$locale],
+          "mixes": mixes[$locale],
+          "dev": dev[$locale]
+        }
       },
       contactPage{
         "title": title[$locale],

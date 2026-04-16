@@ -76,6 +76,29 @@ export const siteLabels = defineType({
       ]
     }),
     defineField({
+      name: "projectsPage",
+      title: "Projects page (homepage)",
+      type: "object",
+      fields: [
+        defineField({ name: "sectionLabel", title: "Section label", type: "localeString" }),
+        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "visitStore", title: "Visit store link", type: "localeString" }),
+        defineField({
+          name: "filters",
+          title: "Filter labels",
+          type: "object",
+          fields: [
+            defineField({ name: "all", title: "All", type: "localeString" }),
+            defineField({ name: "music", title: "Music", type: "localeString" }),
+            defineField({ name: "sound", title: "Sound", type: "localeString" }),
+            defineField({ name: "video", title: "Video", type: "localeString" }),
+            defineField({ name: "mixes", title: "Mixes", type: "localeString" }),
+            defineField({ name: "dev", title: "Dev", type: "localeString" })
+          ]
+        })
+      ]
+    }),
+    defineField({
       name: "contactPage",
       title: "Contact page",
       type: "object",
