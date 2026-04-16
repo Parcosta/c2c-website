@@ -51,6 +51,19 @@
       "studio": "Studio"
     }
   },
+  "projects": {
+    "sectionLabel": "Experimental Electronic Music and Modular Synthesis",
+    "title": "Projects and Releases",
+    "visitStore": "Visit the Store",
+    "filters": {
+      "all": "ALL",
+      "music": "MUSIC",
+      "sound": "SOUND",
+      "video": "VIDEO",
+      "mixes": "MIXES",
+      "dev": "DEV"
+    }
+  },
   "contact": {
     "title": "Contact",
     "subtitle": "Send a quick message—no account required.",
