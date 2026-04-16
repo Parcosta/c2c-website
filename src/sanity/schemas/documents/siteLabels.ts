@@ -11,9 +11,21 @@ export const siteLabels = defineType({
       title: "Navigation",
       type: "object",
       fields: [
-        defineField({ name: "primaryAriaLabel", title: "Primary nav aria label", type: "localeString" }),
-        defineField({ name: "mobileAriaLabel", title: "Mobile nav aria label", type: "localeString" }),
-        defineField({ name: "footerAriaLabel", title: "Footer nav aria label", type: "localeString" }),
+        defineField({
+          name: "primaryAriaLabel",
+          title: "Primary nav aria label",
+          type: "localeString"
+        }),
+        defineField({
+          name: "mobileAriaLabel",
+          title: "Mobile nav aria label",
+          type: "localeString"
+        }),
+        defineField({
+          name: "footerAriaLabel",
+          title: "Footer nav aria label",
+          type: "localeString"
+        }),
         defineField({ name: "home", title: "Home", type: "localeString" }),
         defineField({ name: "portfolio", title: "Portfolio", type: "localeString" }),
         defineField({ name: "services", title: "Services", type: "localeString" }),
@@ -105,7 +117,11 @@ export const siteLabels = defineType({
             defineField({ name: "eventType", title: "Event type", type: "localeString" }),
             defineField({ name: "eventDate", title: "Event date", type: "localeString" }),
             defineField({ name: "location", title: "Location", type: "localeString" }),
-            defineField({ name: "locationPlaceholder", title: "Location placeholder", type: "localeString" }),
+            defineField({
+              name: "locationPlaceholder",
+              title: "Location placeholder",
+              type: "localeString"
+            }),
             defineField({ name: "message", title: "Message", type: "localeString" }),
             defineField({ name: "submit", title: "Submit", type: "localeString" }),
             defineField({ name: "sending", title: "Sending", type: "localeString" }),
@@ -132,7 +148,11 @@ export const siteLabels = defineType({
       title: "About page labels",
       type: "object",
       fields: [
-        defineField({ name: "pageTitleFallback", title: "Page title fallback", type: "localeString" }),
+        defineField({
+          name: "pageTitleFallback",
+          title: "Page title fallback",
+          type: "localeString"
+        }),
         defineField({ name: "introFallback", title: "Intro fallback", type: "localeText" }),
         defineField({ name: "bioTitle", title: "Bio title", type: "localeString" }),
         defineField({ name: "bioEmpty", title: "Bio empty", type: "localeText" }),
@@ -157,7 +177,11 @@ export const siteLabels = defineType({
         defineField({ name: "jsonLdName", title: "JSON-LD name", type: "localeString" }),
         defineField({ name: "emptyMessage", title: "Empty message", type: "localeText" }),
         defineField({ name: "pricingLabel", title: "Pricing label", type: "localeString" }),
-        defineField({ name: "serviceFallbackTitle", title: "Service fallback title", type: "localeString" })
+        defineField({
+          name: "serviceFallbackTitle",
+          title: "Service fallback title",
+          type: "localeString"
+        })
       ]
     }),
     defineField({
@@ -165,20 +189,40 @@ export const siteLabels = defineType({
       title: "Press page labels",
       type: "object",
       fields: [
-        defineField({ name: "pageTitleFallback", title: "Page title fallback", type: "localeString" }),
+        defineField({
+          name: "pageTitleFallback",
+          title: "Page title fallback",
+          type: "localeString"
+        }),
         defineField({ name: "intro", title: "Intro", type: "localeText" }),
         defineField({ name: "bioTitle", title: "Bio title", type: "localeString" }),
         defineField({ name: "bioEmpty", title: "Bio empty", type: "localeText" }),
-        defineField({ name: "pressPhotosTitle", title: "Press photos title", type: "localeString" }),
+        defineField({
+          name: "pressPhotosTitle",
+          title: "Press photos title",
+          type: "localeString"
+        }),
         defineField({ name: "pressPhotosEmpty", title: "Press photos empty", type: "localeText" }),
-        defineField({ name: "pressMentionsTitle", title: "Press mentions title", type: "localeString" }),
-        defineField({ name: "pressMentionsEmpty", title: "Press mentions empty", type: "localeText" }),
+        defineField({
+          name: "pressMentionsTitle",
+          title: "Press mentions title",
+          type: "localeString"
+        }),
+        defineField({
+          name: "pressMentionsEmpty",
+          title: "Press mentions empty",
+          type: "localeText"
+        }),
         defineField({ name: "pressKitTitle", title: "Press kit title", type: "localeString" }),
         defineField({ name: "pressKitEmpty", title: "Press kit empty", type: "localeText" }),
         defineField({ name: "techRiderTitle", title: "Tech rider title", type: "localeString" }),
         defineField({ name: "techRiderEmpty", title: "Tech rider empty", type: "localeText" }),
         defineField({ name: "stagePlotTitle", title: "Stage plot title", type: "localeString" }),
-        defineField({ name: "stagePlotPlaceholder", title: "Stage plot placeholder", type: "localeText" }),
+        defineField({
+          name: "stagePlotPlaceholder",
+          title: "Stage plot placeholder",
+          type: "localeText"
+        }),
         defineField({ name: "bookingsTitle", title: "Bookings title", type: "localeString" }),
         defineField({ name: "bookingsEmpty", title: "Bookings empty", type: "localeText" }),
         defineField({ name: "downloadLabel", title: "Download label", type: "localeString" })
@@ -203,14 +247,26 @@ export const siteLabels = defineType({
         defineField({ name: "title", title: "Title", type: "localeString" }),
         defineField({ name: "description", title: "Description", type: "localeText" }),
         defineField({ name: "acceptAll", title: "Accept all", type: "localeString" }),
-        defineField({ name: "rejectNonEssential", title: "Reject non-essential", type: "localeString" }),
+        defineField({
+          name: "rejectNonEssential",
+          title: "Reject non-essential",
+          type: "localeString"
+        }),
         defineField({ name: "customize", title: "Customize", type: "localeString" }),
         defineField({ name: "dialogTitle", title: "Dialog title", type: "localeString" }),
         defineField({ name: "dialogDescription", title: "Dialog description", type: "localeText" }),
         defineField({ name: "necessaryLabel", title: "Necessary label", type: "localeString" }),
-        defineField({ name: "necessaryDescription", title: "Necessary description", type: "localeText" }),
+        defineField({
+          name: "necessaryDescription",
+          title: "Necessary description",
+          type: "localeText"
+        }),
         defineField({ name: "analyticsLabel", title: "Analytics label", type: "localeString" }),
-        defineField({ name: "analyticsDescription", title: "Analytics description", type: "localeText" }),
+        defineField({
+          name: "analyticsDescription",
+          title: "Analytics description",
+          type: "localeText"
+        }),
         defineField({ name: "savePreferences", title: "Save preferences", type: "localeString" }),
         defineField({ name: "privacyPolicy", title: "Privacy policy label", type: "localeString" }),
         defineField({ name: "terms", title: "Terms label", type: "localeString" })

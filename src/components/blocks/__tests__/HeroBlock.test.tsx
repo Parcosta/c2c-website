@@ -15,7 +15,9 @@ describe("HeroBlock", () => {
   it("renders hero section with title, subtitle, and CTAs", () => {
     render(<HeroBlock locale="en" content={content} />);
 
-    expect(screen.getByRole("region", { name: "Live modular techno & DJ sets" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Live modular techno & DJ sets" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Live modular techno & DJ sets"
     );

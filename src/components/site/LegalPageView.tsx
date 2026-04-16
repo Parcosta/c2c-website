@@ -7,13 +7,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import type { LegalPageValue } from "@/sanity/queries";
 
-export function LegalPageView({
-  locale,
-  page
-}: {
-  locale: string;
-  page: LegalPageValue | null;
-}) {
+export function LegalPageView({ locale, page }: { locale: string; page: LegalPageValue | null }) {
   const prefix = `/${locale}`;
   const resolveHref = (href: string) => (href.startsWith("/") ? `${prefix}${href}` : href);
 

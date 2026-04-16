@@ -162,9 +162,7 @@ export function AboutPageView({
                 })}
               </ul>
             ) : (
-              <p className="text-sm text-muted-foreground sm:text-base">
-                {content?.releasesEmpty}
-              </p>
+              <p className="text-sm text-muted-foreground sm:text-base">{content?.releasesEmpty}</p>
             )}
           </CardContent>
         </GlassCard>

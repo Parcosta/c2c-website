@@ -37,7 +37,10 @@ describe("Footer", () => {
     );
 
     expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/en");
-    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute("href", "/en/portfolio");
+    expect(screen.getByRole("link", { name: "Portfolio" })).toHaveAttribute(
+      "href",
+      "/en/portfolio"
+    );
     expect(screen.getByRole("link", { name: "Services" })).toHaveAttribute("href", "/en/services");
   });
 

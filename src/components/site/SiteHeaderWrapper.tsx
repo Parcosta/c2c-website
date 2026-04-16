@@ -10,7 +10,10 @@ interface SiteHeaderWrapperProps {
 
 export async function SiteHeaderWrapper({ locale }: SiteHeaderWrapperProps) {
   const labels = isSanityConfigured()
-    ? await getClient().fetch(buildSiteLabelsQuery(locale).query, buildSiteLabelsQuery(locale).params)
+    ? await getClient().fetch(
+        buildSiteLabelsQuery(locale).query,
+        buildSiteLabelsQuery(locale).params
+      )
     : null;
   const navTranslations = {
     brand: labels?.brand ?? "",
