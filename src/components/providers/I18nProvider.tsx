@@ -10,10 +10,9 @@ import type { Locale } from "@/lib/i18n";
 interface I18nProviderProps {
   children: ReactNode;
   locale: string;
-  initialTranslations?: Record<string, string>;
 }
 
-export function I18nProvider({ children, locale, initialTranslations }: I18nProviderProps) {
+export function I18nProvider({ children, locale }: I18nProviderProps) {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -21,11 +20,6 @@ export function I18nProvider({ children, locale, initialTranslations }: I18nProv
 
     // Change language and wait for resources to load
     const changeLanguage = async () => {
-      // Add initial translations if provided
-      if (initialTranslations && i18n.isInitialized) {
-        i18n.addResources(resolvedLocale, "translation", initialTranslations);
-      }
-
       if (i18n.language !== resolvedLocale) {
         await i18n.changeLanguage(resolvedLocale);
       }
@@ -34,7 +28,7 @@ export function I18nProvider({ children, locale, initialTranslations }: I18nProv
     };
 
     changeLanguage();
-  }, [locale, initialTranslations]);
+  }, [locale]);
 
   // During SSR and initial client render, show children without translations
   // They will hydrate and then useEffect will trigger re-render with translations
