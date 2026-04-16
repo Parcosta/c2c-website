@@ -114,9 +114,7 @@ export function CookieConsent({
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="space-y-2">
-          <div className="font-display text-body font-semibold text-gray-100">
-            {content?.title}
-          </div>
+          <div className="font-display text-body font-semibold text-gray-100">{content?.title}</div>
           <p className="max-w-2xl text-small text-gray-400">{content?.description}</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
             <Link className="text-gray-200 underline-offset-4 hover:underline" href={privacyHref}>
@@ -152,9 +150,7 @@ export function CookieConsent({
                     <div className="text-sm font-medium text-gray-100">
                       {content?.necessaryLabel}
                     </div>
-                    <div className="text-sm text-gray-400">
-                      {content?.necessaryDescription}
-                    </div>
+                    <div className="text-sm text-gray-400">{content?.necessaryDescription}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -172,9 +168,7 @@ export function CookieConsent({
                     <div className="text-sm font-medium text-gray-100">
                       {content?.analyticsLabel}
                     </div>
-                    <div className="text-sm text-gray-400">
-                      {content?.analyticsDescription}
-                    </div>
+                    <div className="text-sm text-gray-400">{content?.analyticsDescription}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -192,9 +186,7 @@ export function CookieConsent({
                 <Button variant="secondary" onClick={() => save(false)}>
                   {content?.rejectNonEssential}
                 </Button>
-                <Button onClick={() => save(analyticsEnabled)}>
-                  {content?.savePreferences}
-                </Button>
+                <Button onClick={() => save(analyticsEnabled)}>{content?.savePreferences}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

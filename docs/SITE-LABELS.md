@@ -11,10 +11,13 @@ The `siteLabels` document is a **singleton** (only one instance) that stores all
 ## Structure
 
 ### Brand
+
 - **brand**: Site brand name (e.g., "Coast2Coast")
 
 ### Navigation
+
 All navigation labels:
+
 - **primaryAriaLabel**: ARIA label for main navigation
 - **mobileAriaLabel**: ARIA label for mobile navigation
 - **footerAriaLabel**: ARIA label for footer navigation
@@ -31,10 +34,12 @@ All navigation labels:
 - **close**: Close button text
 
 ### Language Switcher
+
 - **switchToEnglish**: "Switch to English" text
 - **switchToSpanish**: "Switch to Spanish" text
 
 ### Footer
+
 - **contact**: "Contact" section label
 - **language**: "Language" section label
 - **follow**: "Follow" section label
@@ -42,6 +47,7 @@ All navigation labels:
 - **tagline**: Footer tagline
 
 ### Portfolio Page
+
 - **title**: Page title
 - **subtitle**: Page subtitle/description
 - **filtersLabel**: ARIA label for filter buttons
@@ -52,6 +58,7 @@ All navigation labels:
 - **itemsCountLabel**: Label for item count
 
 ### Contact Page
+
 - **title**: Page title
 - **subtitle**: Page subtitle
 - **form.name**: Name field label
@@ -63,6 +70,7 @@ All navigation labels:
 - **form.error**: Error message
 
 ### Booking Page
+
 - **title**: Page title
 - **subtitle**: Page subtitle
 - **seoTitle**: SEO title
@@ -85,6 +93,7 @@ All navigation labels:
 - **eventTypes.other**: "Other" option
 
 ### About Page Labels
+
 - **pageTitleFallback**: Fallback page title
 - **introFallback**: Fallback intro text
 - **bioTitle**: "Artist bio" heading
@@ -98,6 +107,7 @@ All navigation labels:
 - **photoAltFallback**: Fallback alt text for photo
 
 ### Services Page Labels
+
 - **seoTitle**: SEO title
 - **seoDescription**: SEO description
 - **heading**: Page heading
@@ -108,6 +118,7 @@ All navigation labels:
 - **serviceFallbackTitle**: Fallback service title
 
 ### Press Page Labels
+
 - **pageTitleFallback**: Fallback page title
 - **intro**: Page intro text
 - **bioTitle**: "Bio" heading
@@ -127,11 +138,13 @@ All navigation labels:
 - **downloadLabel**: "Download" button text
 
 ### Not Found Page (404)
+
 - **title**: "Page not found" heading
 - **body**: Description text
 - **backHome**: "Back to home" button text
 
 ### Cookie Consent
+
 - **dialogAriaLabel**: ARIA label for cookie dialog
 - **title**: "Cookies & privacy" heading
 - **description**: Cookie description text
@@ -159,11 +172,11 @@ All navigation labels:
 
 If migrating from the old i18next JSON files, the translation keys map to these fields:
 
-| Old i18next Key | Site Labels Field |
-|-----------------|-------------------|
-| `brand` | `brand` |
-| `nav.home` | `navigation.home` |
-| `nav.portfolio` | `navigation.portfolio` |
-| `footer.contact` | `footer.contact` |
+| Old i18next Key     | Site Labels Field       |
+| ------------------- | ----------------------- |
+| `brand`             | `brand`                 |
+| `nav.home`          | `navigation.home`       |
+| `nav.portfolio`     | `navigation.portfolio`  |
+| `footer.contact`    | `footer.contact`        |
 | `contact.form.name` | `contactPage.form.name` |
-| etc. | etc. |
+| etc.                | etc.                    |

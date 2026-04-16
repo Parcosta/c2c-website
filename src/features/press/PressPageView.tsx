@@ -120,7 +120,9 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{content?.pressPhotosTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">
+                    {content?.pressPhotosTitle}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {photos.length > 0 ? (
@@ -128,8 +130,7 @@ export function PressPageView({
                       {photos.map((photo) => {
                         const imageUrl = photo.imageUrl?.trim();
                         const filename = photo.filename?.trim();
-                        const label =
-                          photo.title?.trim() || filename || content?.pressPhotosTitle;
+                        const label = photo.title?.trim() || filename || content?.pressPhotosTitle;
                         return (
                           <div
                             key={photo._key}
@@ -178,7 +179,9 @@ export function PressPageView({
 
               <Card>
                 <CardHeader className="space-y-1">
-                  <CardTitle className="text-base sm:text-lg">{content?.pressMentionsTitle}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">
+                    {content?.pressMentionsTitle}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {mentions.length > 0 ? (
@@ -284,7 +287,9 @@ export function PressPageView({
                   <Separator className="bg-gray-800" />
 
                   <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-100">{content?.stagePlotTitle}</div>
+                    <div className="text-sm font-medium text-gray-100">
+                      {content?.stagePlotTitle}
+                    </div>
                     {stagePlot?.url ? (
                       <a
                         href={stagePlot.url}

@@ -100,6 +100,7 @@ sections:
 ## URL Routing
 
 Legal pages are accessed at:
+
 - English: `/en/privacy-policy`, `/en/terms`
 - Spanish: `/es/privacy-policy`, `/es/terms`
 

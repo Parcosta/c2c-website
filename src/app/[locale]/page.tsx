@@ -61,7 +61,22 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     <main>
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
       <HeroBlockWrapper locale={locale} />
-      <ProjectsBlock locale={locale} />
+      <ProjectsBlock
+        locale={locale}
+        labels={{
+          sectionLabel: "Projects",
+          title: "Selected Work",
+          visitStore: "Visit Store",
+          filters: {
+            all: "All",
+            music: "Music",
+            sound: "Sound",
+            video: "Video",
+            mixes: "Mixes",
+            dev: "Dev"
+          }
+        }}
+      />
       <EventsBlock locale={locale} />
     </main>
   );
