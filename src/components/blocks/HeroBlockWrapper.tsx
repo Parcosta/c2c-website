@@ -27,11 +27,11 @@ export async function HeroBlockWrapper({
     : [null, null];
 
   const heroTranslations = {
-    brand: labels?.brand ?? "",
-    heroTitle: page?.hero?.heading ?? "",
+    brand: labels?.brand ?? "Coast2Coast",
+    heroTitle: page?.hero?.heading ?? "Live modular techno",
     heroSubtitle: page?.hero?.subheading ?? "",
     heroCtaPrimary: page?.hero?.cta?.label ?? "",
-    heroCtaSecondary: labels?.navigation?.portfolio ?? ""
+    heroCtaSecondary: labels?.navigation?.portfolio ?? "Portfolio"
   };
 
   return (
