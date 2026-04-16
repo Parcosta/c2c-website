@@ -5,9 +5,9 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { ServicesPageView } from "@/components/services/ServicesPageView";
 import { isLocale, type Locale } from "@/lib/i18n";
-import { getTranslation } from "@/lib/i18n-server";
 import { getClient } from "@/sanity/client";
-import { buildServicesQuery } from "@/sanity/queries";
+import { isSanityConfigured } from "@/sanity/config";
+import { buildServicesQuery, buildSiteLabelsQuery } from "@/sanity/queries";
 import { buildMetadata, serializeJsonLd, createOrganizationJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -17,11 +17,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const validLocale = isLocale(locale) ? locale : "en";
-  const t = await getTranslation(validLocale);
+  const def = buildSiteLabelsQuery(validLocale);
+  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
 
   return buildMetadata({
-    title: t("services.pageTitle"),
-    description: t("services.pageDescription"),
+    title: labels?.servicesPage?.seoTitle ?? "",
+    description: labels?.servicesPage?.seoDescription ?? "",
     pathname: `/${validLocale}/services`
   });
 }
@@ -30,14 +31,17 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const def = buildServicesQuery(locale);
-  const services = await getClient().fetch(def.query, def.params);
-
-  // Get translation for JSON-LD structured data
-  const t = await getTranslation(locale);
+  const servicesDef = buildServicesQuery(locale);
+  const labelsDef = buildSiteLabelsQuery(locale);
+  const [services, labels] = isSanityConfigured()
+    ? await Promise.all([
+        getClient().fetch(servicesDef.query, servicesDef.params),
+        getClient().fetch(labelsDef.query, labelsDef.params)
+      ])
+    : [[], null];
 
   const jsonLd = createOrganizationJsonLd({
-    name: t("services.jsonLdName"),
+    name: labels?.servicesPage?.jsonLdName ?? "",
     url: process.env.NEXT_PUBLIC_SITE_URL,
     sameAs: [
       "https://instagram.com/coast2c",
@@ -55,7 +59,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
       <main>
         <Section>
           <Container>
-            <ServicesPageView locale={locale} services={services} />
+            <ServicesPageView locale={locale} services={services} content={labels?.servicesPage} />
           </Container>
         </Section>
       </main>

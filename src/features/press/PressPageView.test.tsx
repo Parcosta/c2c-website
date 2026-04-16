@@ -3,11 +3,32 @@ import { describe, expect, it } from "vitest";
 
 import { PressPageView } from "@/features/press/PressPageView";
 
+const content = {
+  pageTitleFallback: "Press / EPK",
+  intro: "Everything you need for press and bookings.",
+  bioTitle: "Bio",
+  bioEmpty: "Bio content will appear here once added in Sanity.",
+  pressPhotosTitle: "Press photos",
+  pressPhotosEmpty: "Press photos will appear here once added in Sanity.",
+  pressMentionsTitle: "Press mentions",
+  pressMentionsEmpty: "No press mentions yet.",
+  pressKitTitle: "Press kit downloads",
+  pressKitEmpty: "Downloadable assets will appear here once added in Sanity.",
+  techRiderTitle: "Tech rider",
+  techRiderEmpty: "Available upon request.",
+  stagePlotTitle: "Stage plot",
+  stagePlotPlaceholder: "Placeholder — available upon request.",
+  bookingsTitle: "Bookings",
+  bookingsEmpty: "Contact details will appear here once configured.",
+  downloadLabel: "Download"
+};
+
 describe("PressPageView", () => {
   it("renders core sections and placeholders", () => {
     render(
       <PressPageView
         locale="en"
+        content={content}
         title="Press / EPK"
         pressMentions={[]}
         pressPhotos={[]}
@@ -38,6 +59,7 @@ describe("PressPageView", () => {
     render(
       <PressPageView
         locale="en"
+        content={content}
         title="Press / EPK"
         pressPhotos={[
           {
