@@ -60,6 +60,19 @@
       "studio": "Estudio"
     }
   },
+  "projects": {
+    "sectionLabel": "MÚSICA ELECTRÓNICA EXPERIMENTAL Y SÍNTESIS MODULAR",
+    "title": "PROYECTOS Y LANZAMIENTOS",
+    "visitStore": "VISITA LA TIENDA",
+    "filters": {
+      "all": "TODOS",
+      "music": "MUSICA",
+      "sound": "SONORO",
+      "video": "VIDEO",
+      "mixes": "MIXES",
+      "dev": "DEV"
+    }
+  },
   "contact": {
     "title": "Contacto",
     "subtitle": "Envía un mensaje rápido—sin cuenta.",
