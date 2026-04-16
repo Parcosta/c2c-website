@@ -1,13 +1,13 @@
 "use client";
 
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
-import { useTranslation } from "react-i18next";
 
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Locale } from "@/lib/i18n";
+import type { SiteLabelsValue } from "@/sanity/queries";
 
 export type AboutRelease = {
   _key: string;
@@ -25,6 +25,7 @@ export type AboutEquipmentGroup = {
 
 export type AboutPageViewModel = {
   locale: Locale;
+  content?: SiteLabelsValue["aboutPage"];
   title?: string;
   intro?: string;
   photoUrl?: string | null;
@@ -71,6 +72,7 @@ export function AboutPageView({
   locale,
   title,
   intro,
+  content,
   photoUrl,
   photoAlt,
   bio,
@@ -78,11 +80,9 @@ export function AboutPageView({
   equipmentGroups,
   influences
 }: AboutPageViewModel) {
-  const { t } = useTranslation();
-
-  const effectiveTitle = title?.trim() || t("about.pageTitleFallback");
-  const effectiveIntro = intro?.trim() || t("about.introFallback");
-  const effectivePhotoAlt = photoAlt?.trim() || t("about.photoAltFallback");
+  const effectiveTitle = title?.trim() || content?.pageTitleFallback || "";
+  const effectiveIntro = intro?.trim() || content?.introFallback;
+  const effectivePhotoAlt = photoAlt?.trim() || content?.photoAltFallback;
 
   const releaseItems = (releases ?? []).filter((r) => r.title?.trim());
   const groups = (equipmentGroups ?? []).filter(
@@ -99,7 +99,7 @@ export function AboutPageView({
       <div className="grid gap-6 lg:grid-cols-2">
         <GlassCard className="h-full">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{t("about.bioTitle")}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{content?.bioTitle}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-5 sm:grid-cols-[160px_1fr]">
             <div className="overflow-hidden rounded-xl border border-border/60 bg-background/20">
@@ -112,7 +112,7 @@ export function AboutPageView({
                 />
               ) : (
                 <div className="flex h-40 w-full items-center justify-center text-sm text-muted-foreground sm:h-full">
-                  {t("about.photoAltFallback")}
+                  {content?.photoAltFallback}
                 </div>
               )}
             </div>
@@ -121,7 +121,7 @@ export function AboutPageView({
               {bio ? (
                 <PortableText value={bio as never} components={portableTextComponents} />
               ) : (
-                <p className="text-sm text-muted-foreground sm:text-base">{t("about.bioEmpty")}</p>
+                <p className="text-sm text-muted-foreground sm:text-base">{content?.bioEmpty}</p>
               )}
             </div>
           </CardContent>
@@ -129,7 +129,7 @@ export function AboutPageView({
 
         <GlassCard className="h-full">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{t("about.releasesTitle")}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{content?.releasesTitle}</CardTitle>
           </CardHeader>
           <CardContent>
             {releaseItems.length > 0 ? (
@@ -163,7 +163,7 @@ export function AboutPageView({
               </ul>
             ) : (
               <p className="text-sm text-muted-foreground sm:text-base">
-                {t("about.releasesEmpty")}
+                {content?.releasesEmpty}
               </p>
             )}
           </CardContent>
@@ -173,13 +173,13 @@ export function AboutPageView({
       <div className="grid gap-6 lg:grid-cols-3">
         <GlassCard className="lg:col-span-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{t("about.equipmentTitle")}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{content?.equipmentTitle}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {groups.length > 0 ? (
               <div className="grid gap-4 sm:grid-cols-2">
                 {groups.map((group) => {
-                  const groupTitle = group.title?.trim() || t("about.equipmentTitle");
+                  const groupTitle = group.title?.trim() || content?.equipmentTitle;
                   const items = (group.items ?? []).map((i) => i.trim()).filter(Boolean);
                   return (
                     <div key={group._key} className="space-y-2">
@@ -191,7 +191,7 @@ export function AboutPageView({
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-sm text-muted-foreground">{t("about.equipmentEmpty")}</p>
+                        <p className="text-sm text-muted-foreground">{content?.equipmentEmpty}</p>
                       )}
                     </div>
                   );
@@ -199,7 +199,7 @@ export function AboutPageView({
               </div>
             ) : (
               <p className="text-sm text-muted-foreground sm:text-base">
-                {t("about.equipmentEmpty")}
+                {content?.equipmentEmpty}
               </p>
             )}
           </CardContent>
@@ -207,7 +207,7 @@ export function AboutPageView({
 
         <GlassCard>
           <CardHeader className="space-y-1">
-            <CardTitle className="text-base sm:text-lg">{t("about.influencesTitle")}</CardTitle>
+            <CardTitle className="text-base sm:text-lg">{content?.influencesTitle}</CardTitle>
           </CardHeader>
           <CardContent>
             {influenceItems.length > 0 ? (
@@ -220,7 +220,7 @@ export function AboutPageView({
               </div>
             ) : (
               <p className="text-sm text-muted-foreground sm:text-base">
-                {t("about.influencesEmpty")}
+                {content?.influencesEmpty}
               </p>
             )}
           </CardContent>

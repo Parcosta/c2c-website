@@ -3,36 +3,46 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
 import { switchLocaleInPathname } from "@/lib/i18n";
 
 type NavItem = { href: string; label: string; testId: string };
 
-function buildNav(t: (key: string) => string, locale: Locale): NavItem[] {
+type SiteHeaderContent = {
+  brand?: string;
+  primaryAriaLabel?: string;
+  mobileAriaLabel?: string;
+  navHome?: string;
+  navPortfolio?: string;
+  navServices?: string;
+  navPress?: string;
+  navAbout?: string;
+  navContact?: string;
+  navMobileMenu?: string;
+  navClose?: string;
+  languageSwitchToEnglish?: string;
+  languageSwitchToSpanish?: string;
+};
+
+function buildNav(content: SiteHeaderContent, locale: Locale): NavItem[] {
   return [
-    { href: `/${locale}`, label: t("nav.home"), testId: "nav-home" },
-    { href: `/${locale}/portfolio`, label: t("nav.portfolio"), testId: "nav-portfolio" },
-    { href: `/${locale}/services`, label: t("nav.services"), testId: "nav-services" },
-    { href: `/${locale}/press`, label: t("nav.press"), testId: "nav-press" },
-    { href: `/${locale}/about`, label: t("nav.about"), testId: "nav-about" },
-    { href: `/${locale}/contact`, label: t("nav.contact"), testId: "nav-contact" }
+    { href: `/${locale}`, label: content.navHome ?? "", testId: "nav-home" },
+    { href: `/${locale}/portfolio`, label: content.navPortfolio ?? "", testId: "nav-portfolio" },
+    { href: `/${locale}/services`, label: content.navServices ?? "", testId: "nav-services" },
+    { href: `/${locale}/press`, label: content.navPress ?? "", testId: "nav-press" },
+    { href: `/${locale}/about`, label: content.navAbout ?? "", testId: "nav-about" },
+    { href: `/${locale}/contact`, label: content.navContact ?? "", testId: "nav-contact" }
   ];
 }
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+export function SiteHeader({ locale, content }: { locale: Locale; content: SiteHeaderContent }) {
   const router = useRouter();
   const pathname = usePathname() ?? `/${locale}`;
-  const { t, i18n } = useTranslation();
-
-  const nav = useMemo(() => buildNav(t as (key: string) => string, locale), [t, locale]);
+  const nav = useMemo(() => buildNav(content, locale), [content, locale]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   function onSwitchLocale(nextLocale: Locale) {
-    // Change i18next language
-    i18n.changeLanguage(nextLocale);
-    // Navigate to the new locale path
     const nextPath = switchLocaleInPathname(pathname, nextLocale);
     setMobileOpen(false);
     router.push(nextPath);
@@ -49,12 +59,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           className="font-display text-base font-semibold text-gray-100"
           data-testid="brand"
         >
-          {t("brand")}
+          {content.brand}
         </Link>
 
         <nav
           className="hidden items-center gap-6 md:flex"
-          aria-label="Primary"
+          aria-label={content.primaryAriaLabel}
           data-testid="desktop-nav"
         >
           {nav.map((item) => (
@@ -75,7 +85,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                 locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
               }`}
-              aria-label={t("language.switchToEnglish")}
+              aria-label={content.languageSwitchToEnglish}
             >
               EN
             </button>
@@ -86,7 +96,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
                 locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
               }`}
-              aria-label={t("language.switchToSpanish")}
+              aria-label={content.languageSwitchToSpanish}
             >
               ES
             </button>
@@ -101,7 +111,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           aria-controls="mobile-menu"
           data-testid="mobile-menu-button"
         >
-          {t("nav.mobileMenu")}
+          {content.navMobileMenu}
         </button>
       </div>
 
@@ -112,7 +122,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           className="border-t border-gray-800 bg-gray-950 md:hidden"
         >
           <div className="mx-auto w-full max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
-            <nav aria-label="Mobile" className="flex flex-col gap-2">
+            <nav aria-label={content.mobileAriaLabel} className="flex flex-col gap-2">
               {nav.map((item) => (
                 <Link
                   key={item.href}
@@ -155,7 +165,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 onClick={() => setMobileOpen(false)}
                 data-testid="mobile-menu-close"
               >
-                {t("nav.close")}
+                {content.navClose}
               </button>
             </div>
           </div>

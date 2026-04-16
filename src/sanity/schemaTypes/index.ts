@@ -4,11 +4,13 @@ import { blockContent } from "../schemas/blocks/blockContent";
 import { servicesBlock } from "../schemas/blocks/servicesBlock";
 import { aboutPage } from "../schemas/documents/aboutPage";
 import { event } from "../schemas/documents/event";
+import { legalPage } from "../schemas/documents/legalPage";
 import { page } from "../schemas/documents/page";
 import { portfolioItem } from "../schemas/documents/portfolioItem";
 import { pressItem } from "../schemas/documents/pressItem";
 import { pressPage } from "../schemas/documents/pressPage";
 import { service } from "../schemas/documents/service";
+import { siteLabels } from "../schemas/documents/siteLabels";
 import { siteSettings } from "../schemas/documents/siteSettings";
 import { localeBlockContent } from "../schemas/localized/localeBlockContent";
 import { localeSlug } from "../schemas/localized/localeSlug";
@@ -36,12 +38,14 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     pressPhoto,
     pressDownload,
     aboutPage,
+    legalPage,
     page,
     portfolioItem,
     event,
     service,
     pressItem,
     pressPage,
+    siteLabels,
     siteSettings
   ]
 };

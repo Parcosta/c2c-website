@@ -108,6 +108,150 @@ export type SiteSettingsValue = {
   contactEmail?: string;
 };
 
+export type SiteLabelsValue = {
+  _id: string;
+  brand?: string;
+  navigation?: {
+    primaryAriaLabel?: string;
+    mobileAriaLabel?: string;
+    footerAriaLabel?: string;
+    home?: string;
+    portfolio?: string;
+    services?: string;
+    press?: string;
+    about?: string;
+    contact?: string;
+    booking?: string;
+    privacyPolicy?: string;
+    terms?: string;
+    mobileMenu?: string;
+    close?: string;
+  };
+  language?: {
+    switchToEnglish?: string;
+    switchToSpanish?: string;
+  };
+  footer?: {
+    contact?: string;
+    language?: string;
+    follow?: string;
+    rights?: string;
+    tagline?: string;
+  };
+  portfolioPage?: {
+    title?: string;
+    subtitle?: string;
+    filtersLabel?: string;
+    allFilter?: string;
+    liveFilter?: string;
+    djFilter?: string;
+    studioFilter?: string;
+    itemsCountLabel?: string;
+  };
+  contactPage?: {
+    title?: string;
+    subtitle?: string;
+    form?: ContactFormContentValue;
+  };
+  bookingPage?: {
+    title?: string;
+    subtitle?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+    form?: BookingFormContentValue;
+    eventTypes?: BookingEventTypesValue;
+  };
+  aboutPage?: {
+    pageTitleFallback?: string;
+    introFallback?: string;
+    bioTitle?: string;
+    bioEmpty?: string;
+    releasesTitle?: string;
+    releasesEmpty?: string;
+    equipmentTitle?: string;
+    equipmentEmpty?: string;
+    influencesTitle?: string;
+    influencesEmpty?: string;
+    photoAltFallback?: string;
+  };
+  servicesPage?: {
+    seoTitle?: string;
+    seoDescription?: string;
+    heading?: string;
+    subheading?: string;
+    jsonLdName?: string;
+    emptyMessage?: string;
+    pricingLabel?: string;
+    serviceFallbackTitle?: string;
+  };
+  pressPage?: {
+    pageTitleFallback?: string;
+    intro?: string;
+    bioTitle?: string;
+    bioEmpty?: string;
+    pressPhotosTitle?: string;
+    pressPhotosEmpty?: string;
+    pressMentionsTitle?: string;
+    pressMentionsEmpty?: string;
+    pressKitTitle?: string;
+    pressKitEmpty?: string;
+    techRiderTitle?: string;
+    techRiderEmpty?: string;
+    stagePlotTitle?: string;
+    stagePlotPlaceholder?: string;
+    bookingsTitle?: string;
+    bookingsEmpty?: string;
+    downloadLabel?: string;
+  };
+  notFoundPage?: {
+    title?: string;
+    body?: string;
+    backHome?: string;
+  };
+  cookieConsent?: {
+    dialogAriaLabel?: string;
+    title?: string;
+    description?: string;
+    acceptAll?: string;
+    rejectNonEssential?: string;
+    customize?: string;
+    dialogTitle?: string;
+    dialogDescription?: string;
+    necessaryLabel?: string;
+    necessaryDescription?: string;
+    analyticsLabel?: string;
+    analyticsDescription?: string;
+    savePreferences?: string;
+    privacyPolicy?: string;
+    terms?: string;
+  };
+};
+
+export type ContactFormContentValue = {
+  name?: string;
+  email?: string;
+  message?: string;
+  submit?: string;
+  sending?: string;
+  success?: string;
+  error?: string;
+};
+
+export type BookingFormContentValue = ContactFormContentValue & {
+  eventType?: string;
+  eventDate?: string;
+  location?: string;
+  locationPlaceholder?: string;
+};
+
+export type BookingEventTypesValue = {
+  live?: string;
+  dj?: string;
+  corporate?: string;
+  private?: string;
+  other?: string;
+};
+
 export type FileAssetValue = {
   url?: string;
   filename?: string;
@@ -170,6 +314,38 @@ export type AboutPageValue = {
   releases?: AboutReleaseValue[];
   equipmentGroups?: AboutEquipmentGroupValue[];
   influences?: string[];
+  seo?: SeoValue;
+};
+
+export type LegalTextPartValue = {
+  _key?: string;
+  text?: string;
+  href?: string;
+};
+
+export type LegalContentBlockValue = {
+  _key?: string;
+  type?: "p" | "ul" | "ol" | "pWithLinks";
+  text?: string;
+  items?: string[];
+  parts?: LegalTextPartValue[];
+};
+
+export type LegalSectionValue = {
+  _key?: string;
+  heading?: string;
+  body?: LegalContentBlockValue[];
+};
+
+export type LegalPageValue = {
+  _id: string;
+  title?: string;
+  slug?: string;
+  subtitle?: string;
+  lastUpdatedLabel?: string;
+  lastUpdated?: string;
+  intro?: string;
+  sections?: LegalSectionValue[];
   seo?: SeoValue;
 };
 
@@ -343,6 +519,158 @@ export function buildSiteSettingsQuery(
   };
 }
 
+export function buildSiteLabelsQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, SiteLabelsValue | null> {
+  return {
+    query: groq`*[_type == "siteLabels"][0]{
+      _id,
+      "brand": brand[$locale],
+      navigation{
+        "primaryAriaLabel": primaryAriaLabel[$locale],
+        "mobileAriaLabel": mobileAriaLabel[$locale],
+        "footerAriaLabel": footerAriaLabel[$locale],
+        "home": home[$locale],
+        "portfolio": portfolio[$locale],
+        "services": services[$locale],
+        "press": press[$locale],
+        "about": about[$locale],
+        "contact": contact[$locale],
+        "booking": booking[$locale],
+        "privacyPolicy": privacyPolicy[$locale],
+        "terms": terms[$locale],
+        "mobileMenu": mobileMenu[$locale],
+        "close": close[$locale]
+      },
+      language{
+        "switchToEnglish": switchToEnglish[$locale],
+        "switchToSpanish": switchToSpanish[$locale]
+      },
+      footer{
+        "contact": contact[$locale],
+        "language": language[$locale],
+        "follow": follow[$locale],
+        "rights": rights[$locale],
+        "tagline": tagline[$locale]
+      },
+      portfolioPage{
+        "title": title[$locale],
+        "subtitle": subtitle[$locale],
+        "filtersLabel": filtersLabel[$locale],
+        "allFilter": allFilter[$locale],
+        "liveFilter": liveFilter[$locale],
+        "djFilter": djFilter[$locale],
+        "studioFilter": studioFilter[$locale],
+        "itemsCountLabel": itemsCountLabel[$locale]
+      },
+      contactPage{
+        "title": title[$locale],
+        "subtitle": subtitle[$locale],
+        form{
+          "name": name[$locale],
+          "email": email[$locale],
+          "message": message[$locale],
+          "submit": submit[$locale],
+          "sending": sending[$locale],
+          "success": success[$locale],
+          "error": error[$locale]
+        }
+      },
+      bookingPage{
+        "title": title[$locale],
+        "subtitle": subtitle[$locale],
+        "seoTitle": seoTitle[$locale],
+        "seoDescription": seoDescription[$locale],
+        form{
+          "name": name[$locale],
+          "email": email[$locale],
+          "eventType": eventType[$locale],
+          "eventDate": eventDate[$locale],
+          "location": location[$locale],
+          "locationPlaceholder": locationPlaceholder[$locale],
+          "message": message[$locale],
+          "submit": submit[$locale],
+          "sending": sending[$locale],
+          "success": success[$locale],
+          "error": error[$locale]
+        },
+        eventTypes{
+          "live": live[$locale],
+          "dj": dj[$locale],
+          "corporate": corporate[$locale],
+          "private": private[$locale],
+          "other": other[$locale]
+        }
+      },
+      aboutPage{
+        "pageTitleFallback": pageTitleFallback[$locale],
+        "introFallback": introFallback[$locale],
+        "bioTitle": bioTitle[$locale],
+        "bioEmpty": bioEmpty[$locale],
+        "releasesTitle": releasesTitle[$locale],
+        "releasesEmpty": releasesEmpty[$locale],
+        "equipmentTitle": equipmentTitle[$locale],
+        "equipmentEmpty": equipmentEmpty[$locale],
+        "influencesTitle": influencesTitle[$locale],
+        "influencesEmpty": influencesEmpty[$locale],
+        "photoAltFallback": photoAltFallback[$locale]
+      },
+      servicesPage{
+        "seoTitle": seoTitle[$locale],
+        "seoDescription": seoDescription[$locale],
+        "heading": heading[$locale],
+        "subheading": subheading[$locale],
+        "jsonLdName": jsonLdName[$locale],
+        "emptyMessage": emptyMessage[$locale],
+        "pricingLabel": pricingLabel[$locale],
+        "serviceFallbackTitle": serviceFallbackTitle[$locale]
+      },
+      pressPage{
+        "pageTitleFallback": pageTitleFallback[$locale],
+        "intro": intro[$locale],
+        "bioTitle": bioTitle[$locale],
+        "bioEmpty": bioEmpty[$locale],
+        "pressPhotosTitle": pressPhotosTitle[$locale],
+        "pressPhotosEmpty": pressPhotosEmpty[$locale],
+        "pressMentionsTitle": pressMentionsTitle[$locale],
+        "pressMentionsEmpty": pressMentionsEmpty[$locale],
+        "pressKitTitle": pressKitTitle[$locale],
+        "pressKitEmpty": pressKitEmpty[$locale],
+        "techRiderTitle": techRiderTitle[$locale],
+        "techRiderEmpty": techRiderEmpty[$locale],
+        "stagePlotTitle": stagePlotTitle[$locale],
+        "stagePlotPlaceholder": stagePlotPlaceholder[$locale],
+        "bookingsTitle": bookingsTitle[$locale],
+        "bookingsEmpty": bookingsEmpty[$locale],
+        "downloadLabel": downloadLabel[$locale]
+      },
+      notFoundPage{
+        "title": title[$locale],
+        "body": body[$locale],
+        "backHome": backHome[$locale]
+      },
+      cookieConsent{
+        "dialogAriaLabel": dialogAriaLabel[$locale],
+        "title": title[$locale],
+        "description": description[$locale],
+        "acceptAll": acceptAll[$locale],
+        "rejectNonEssential": rejectNonEssential[$locale],
+        "customize": customize[$locale],
+        "dialogTitle": dialogTitle[$locale],
+        "dialogDescription": dialogDescription[$locale],
+        "necessaryLabel": necessaryLabel[$locale],
+        "necessaryDescription": necessaryDescription[$locale],
+        "analyticsLabel": analyticsLabel[$locale],
+        "analyticsDescription": analyticsDescription[$locale],
+        "savePreferences": savePreferences[$locale],
+        "privacyPolicy": privacyPolicy[$locale],
+        "terms": terms[$locale]
+      }
+    }`,
+    params: { locale }
+  };
+}
+
 export function buildPressEpkQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, PressEpkValue> {
@@ -432,5 +760,43 @@ export function buildAboutPageQuery(
       }
     }`,
     params: { locale }
+  };
+}
+
+export function buildLegalPageQuery(
+  locale: Locale,
+  slug: string
+): QueryDefinition<{ locale: Locale; slug: string }, LegalPageValue | null> {
+  return {
+    query: groq`*[_type == "legalPage" && slug[$locale].current == $slug][0]{
+      _id,
+      "title": title[$locale],
+      "slug": slug[$locale].current,
+      "subtitle": subtitle[$locale],
+      "lastUpdatedLabel": lastUpdatedLabel[$locale],
+      lastUpdated,
+      "intro": intro[$locale],
+      "sections": sections[]{
+        _key,
+        "heading": heading[$locale],
+        "body": body[]{
+          _key,
+          type,
+          "text": text[$locale],
+          "items": items[][$locale],
+          "parts": parts[]{
+            _key,
+            "text": text[$locale],
+            href
+          }
+        }
+      },
+      seo{
+        "title": title[$locale],
+        "description": description[$locale],
+        image
+      }
+    }`,
+    params: { locale, slug }
   };
 }

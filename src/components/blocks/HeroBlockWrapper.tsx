@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n";
-import { loadTranslations, getTranslation } from "@/lib/server-i18n";
+import { getClient } from "@/sanity/client";
+import { isSanityConfigured } from "@/sanity/config";
+import { buildHomepageQuery, buildSiteLabelsQuery } from "@/sanity/queries";
 import { HeroBlockClient } from "./HeroBlockClient";
 
 interface HeroBlockWrapperProps {
@@ -15,14 +17,21 @@ export async function HeroBlockWrapper({
   audioSrc,
   audioTitle
 }: HeroBlockWrapperProps) {
-  const translations = await loadTranslations(locale);
+  const pageDef = buildHomepageQuery(locale);
+  const labelsDef = buildSiteLabelsQuery(locale);
+  const [page, labels] = isSanityConfigured()
+    ? await Promise.all([
+        getClient().fetch(pageDef.query, pageDef.params),
+        getClient().fetch(labelsDef.query, labelsDef.params)
+      ])
+    : [null, null];
 
   const heroTranslations = {
-    brand: getTranslation(translations, "brand"),
-    heroTitle: getTranslation(translations, "home.heroTitle"),
-    heroSubtitle: getTranslation(translations, "home.heroSubtitle"),
-    heroCtaPrimary: getTranslation(translations, "home.heroCtaPrimary"),
-    heroCtaSecondary: getTranslation(translations, "home.heroCtaSecondary")
+    brand: labels?.brand ?? "",
+    heroTitle: page?.hero?.heading ?? "",
+    heroSubtitle: page?.hero?.subheading ?? "",
+    heroCtaPrimary: page?.hero?.cta?.label ?? "",
+    heroCtaSecondary: labels?.navigation?.portfolio ?? ""
   };
 
   return (

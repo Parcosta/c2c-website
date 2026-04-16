@@ -4,7 +4,9 @@ import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import type { Locale } from "@/lib/i18n";
-import { getTranslation } from "@/lib/i18n-server";
+import { getClient } from "@/sanity/client";
+import { isSanityConfigured } from "@/sanity/config";
+import { buildSiteLabelsQuery } from "@/sanity/queries";
 
 async function getLocaleFromHeaders(): Promise<Locale> {
   const headerStore = await headers();
@@ -14,7 +16,8 @@ async function getLocaleFromHeaders(): Promise<Locale> {
 
 export default async function NotFound() {
   const locale = await getLocaleFromHeaders();
-  const t = await getTranslation(locale);
+  const def = buildSiteLabelsQuery(locale);
+  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
 
   return (
     <main data-testid="not-found">
@@ -22,15 +25,15 @@ export default async function NotFound() {
         <Container>
           <div className="max-w-2xl space-y-4">
             <h1 className="font-display text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl">
-              {t("notFound.title")}
+              {labels?.notFoundPage?.title}
             </h1>
-            <p className="text-gray-400">{t("notFound.body")}</p>
+            <p className="text-gray-400">{labels?.notFoundPage?.body}</p>
             <Link
               href={`/${locale}`}
               className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
               data-testid="not-found-home"
             >
-              {t("notFound.backHome")}
+              {labels?.notFoundPage?.backHome}
             </Link>
           </div>
         </Container>

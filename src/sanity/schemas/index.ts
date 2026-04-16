@@ -2,11 +2,13 @@ import { blockContent } from "@/sanity/schemas/blocks/blockContent";
 import { servicesBlock } from "@/sanity/schemas/blocks/servicesBlock";
 import { aboutPage } from "@/sanity/schemas/documents/aboutPage";
 import { event } from "@/sanity/schemas/documents/event";
+import { legalPage } from "@/sanity/schemas/documents/legalPage";
 import { page } from "@/sanity/schemas/documents/page";
 import { portfolioItem } from "@/sanity/schemas/documents/portfolioItem";
 import { pressItem } from "@/sanity/schemas/documents/pressItem";
 import { pressPage } from "@/sanity/schemas/documents/pressPage";
 import { service } from "@/sanity/schemas/documents/service";
+import { siteLabels } from "@/sanity/schemas/documents/siteLabels";
 import { siteSettings } from "@/sanity/schemas/documents/siteSettings";
 import { localeBlockContent } from "@/sanity/schemas/localized/localeBlockContent";
 import { localeSlug } from "@/sanity/schemas/localized/localeSlug";
@@ -33,11 +35,13 @@ export const schemaTypes = [
   pressPhoto,
   pressDownload,
   aboutPage,
+  legalPage,
   page,
   portfolioItem,
   event,
   service,
   pressItem,
   pressPage,
+  siteLabels,
   siteSettings
 ];

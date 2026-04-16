@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
 import { isLocale } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
+import type { SiteLabelsValue } from "@/sanity/queries";
 import {
   Dialog,
   DialogContent,
@@ -70,9 +70,14 @@ function getInitialConsent(): ConsentState | null {
   return null;
 }
 
-export function CookieConsent({ locale }: { locale: string }) {
+export function CookieConsent({
+  locale,
+  content
+}: {
+  locale: string;
+  content?: SiteLabelsValue["cookieConsent"];
+}) {
   const resolvedLocale = useMemo<Locale>(() => (isLocale(locale) ? locale : "en"), [locale]);
-  const { t } = useTranslation();
 
   const [isVisible, setIsVisible] = useState(() => {
     if (typeof document === "undefined") return false;
@@ -104,40 +109,40 @@ export function CookieConsent({ locale }: { locale: string }) {
   return (
     <div
       role="dialog"
-      aria-label="Cookie consent"
+      aria-label={content?.dialogAriaLabel}
       className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80"
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="space-y-2">
           <div className="font-display text-body font-semibold text-gray-100">
-            {t("cookieConsent.title")}
+            {content?.title}
           </div>
-          <p className="max-w-2xl text-small text-gray-400">{t("cookieConsent.description")}</p>
+          <p className="max-w-2xl text-small text-gray-400">{content?.description}</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-small">
             <Link className="text-gray-200 underline-offset-4 hover:underline" href={privacyHref}>
-              {t("cookieConsent.privacyPolicy")}
+              {content?.privacyPolicy}
             </Link>
             <Link className="text-gray-200 underline-offset-4 hover:underline" href={termsHref}>
-              {t("cookieConsent.terms")}
+              {content?.terms}
             </Link>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
           <Button variant="secondary" onClick={() => save(false)}>
-            {t("cookieConsent.rejectNonEssential")}
+            {content?.rejectNonEssential}
           </Button>
-          <Button onClick={() => save(true)}>{t("cookieConsent.acceptAll")}</Button>
+          <Button onClick={() => save(true)}>{content?.acceptAll}</Button>
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">{t("cookieConsent.customize")}</Button>
+              <Button variant="outline">{content?.customize}</Button>
             </DialogTrigger>
             <DialogContent className="border-gray-800 bg-gray-950 text-gray-100">
               <DialogHeader>
-                <DialogTitle className="font-display">{t("cookieConsent.dialogTitle")}</DialogTitle>
+                <DialogTitle className="font-display">{content?.dialogTitle}</DialogTitle>
                 <DialogDescription className="text-gray-400">
-                  {t("cookieConsent.dialogDescription")}
+                  {content?.dialogDescription}
                 </DialogDescription>
               </DialogHeader>
 
@@ -145,15 +150,15 @@ export function CookieConsent({ locale }: { locale: string }) {
                 <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
                     <div className="text-sm font-medium text-gray-100">
-                      {t("cookieConsent.necessaryLabel")}
+                      {content?.necessaryLabel}
                     </div>
                     <div className="text-sm text-gray-400">
-                      {t("cookieConsent.necessaryDescription")}
+                      {content?.necessaryDescription}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
-                      aria-label="Essential cookies"
+                      aria-label={content?.necessaryLabel}
                       type="checkbox"
                       checked
                       disabled
@@ -165,15 +170,15 @@ export function CookieConsent({ locale }: { locale: string }) {
                 <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-800 bg-gray-900/30 p-4">
                   <div className="space-y-1">
                     <div className="text-sm font-medium text-gray-100">
-                      {t("cookieConsent.analyticsLabel")}
+                      {content?.analyticsLabel}
                     </div>
                     <div className="text-sm text-gray-400">
-                      {t("cookieConsent.analyticsDescription")}
+                      {content?.analyticsDescription}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
-                      aria-label="Analytics cookies"
+                      aria-label={content?.analyticsLabel}
                       type="checkbox"
                       checked={analyticsEnabled}
                       onChange={(event) => setAnalyticsEnabled(event.currentTarget.checked)}
@@ -185,10 +190,10 @@ export function CookieConsent({ locale }: { locale: string }) {
 
               <DialogFooter className="gap-2 sm:gap-2">
                 <Button variant="secondary" onClick={() => save(false)}>
-                  {t("cookieConsent.rejectNonEssential")}
+                  {content?.rejectNonEssential}
                 </Button>
                 <Button onClick={() => save(analyticsEnabled)}>
-                  {t("cookieConsent.savePreferences")}
+                  {content?.savePreferences}
                 </Button>
               </DialogFooter>
             </DialogContent>
