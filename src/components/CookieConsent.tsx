@@ -109,7 +109,7 @@ export function CookieConsent({
   return (
     <div
       role="dialog"
-      aria-label={content?.dialogAriaLabel}
+      aria-label={content?.dialogAriaLabel ?? "Cookie consent"}
       className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80"
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">

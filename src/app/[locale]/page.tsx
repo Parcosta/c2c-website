@@ -64,16 +64,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <ProjectsBlock
         locale={locale}
         labels={{
-          sectionLabel: "Projects",
-          title: "Selected Work",
-          visitStore: "Visit Store",
+          sectionLabel: labels?.projectsPage?.sectionLabel ?? "Projects",
+          title: labels?.projectsPage?.title ?? "Selected Work",
+          visitStore: labels?.projectsPage?.visitStore ?? "Visit Store",
           filters: {
-            all: "All",
-            music: "Music",
-            sound: "Sound",
-            video: "Video",
-            mixes: "Mixes",
-            dev: "Dev"
+            all: labels?.projectsPage?.filters?.all ?? "All",
+            music: labels?.projectsPage?.filters?.music ?? "Music",
+            sound: labels?.projectsPage?.filters?.sound ?? "Sound",
+            video: labels?.projectsPage?.filters?.video ?? "Video",
+            mixes: labels?.projectsPage?.filters?.mixes ?? "Mixes",
+            dev: labels?.projectsPage?.filters?.dev ?? "Dev"
           }
         }}
       />
