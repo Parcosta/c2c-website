@@ -2,19 +2,24 @@ import type { Locale } from "@/lib/i18n";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PortfolioGallery } from "@/components/site/PortfolioGallery";
-import { getTranslation } from "@/lib/i18n-server";
+import { getClient } from "@/sanity/client";
+import { isSanityConfigured } from "@/sanity/config";
+import { buildSiteLabelsQuery } from "@/sanity/queries";
 
 export default async function PortfolioPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const t = await getTranslation(locale);
+  const def = buildSiteLabelsQuery(locale);
+  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
 
   const translations = {
     filters: {
-      all: t("portfolio.filters.all"),
-      live: t("portfolio.filters.live"),
-      dj: t("portfolio.filters.dj"),
-      studio: t("portfolio.filters.studio")
-    }
+      all: labels?.portfolioPage?.allFilter ?? "",
+      live: labels?.portfolioPage?.liveFilter ?? "",
+      dj: labels?.portfolioPage?.djFilter ?? "",
+      studio: labels?.portfolioPage?.studioFilter ?? ""
+    },
+    filtersLabel: labels?.portfolioPage?.filtersLabel ?? "",
+    itemsCountLabel: labels?.portfolioPage?.itemsCountLabel ?? ""
   };
 
   return (
@@ -23,9 +28,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
         <Container>
           <div className="space-y-2">
             <h1 className="font-display text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl">
-              {t("portfolio.title")}
+              {labels?.portfolioPage?.title}
             </h1>
-            <p className="max-w-2xl text-base text-gray-400">{t("portfolio.subtitle")}</p>
+            <p className="max-w-2xl text-base text-gray-400">{labels?.portfolioPage?.subtitle}</p>
           </div>
         </Container>
       </Section>

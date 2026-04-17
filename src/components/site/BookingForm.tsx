@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
+import type { BookingEventTypesValue, BookingFormContentValue } from "@/sanity/queries";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -18,8 +18,15 @@ type FormState = "idle" | "sending" | "success" | "error";
 
 type EventType = "live" | "dj" | "corporate" | "private" | "other";
 
-export function BookingForm({ locale }: { locale: Locale }) {
-  const { t } = useTranslation();
+export function BookingForm({
+  locale,
+  content,
+  eventTypesContent
+}: {
+  locale: Locale;
+  content?: BookingFormContentValue;
+  eventTypesContent?: BookingEventTypesValue;
+}) {
   const [state, setState] = useState<FormState>("idle");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,7 +66,7 @@ export function BookingForm({ locale }: { locale: Locale }) {
     <form onSubmit={onSubmit} className="space-y-4" data-testid="booking-form">
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium text-gray-200">
-          {t("booking.form.name")}
+          {content?.name}
         </label>
         <Input
           id="name"
@@ -74,7 +81,7 @@ export function BookingForm({ locale }: { locale: Locale }) {
 
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium text-gray-200">
-          {t("booking.form.email")}
+          {content?.email}
         </label>
         <Input
           id="email"
@@ -90,7 +97,7 @@ export function BookingForm({ locale }: { locale: Locale }) {
 
       <div className="space-y-2">
         <label htmlFor="eventType" className="text-sm font-medium text-gray-200">
-          {t("booking.form.eventType")}
+          {content?.eventType}
         </label>
         <Select
           value={eventType}
@@ -98,21 +105,21 @@ export function BookingForm({ locale }: { locale: Locale }) {
           required
         >
           <SelectTrigger data-testid="booking-event-type">
-            <SelectValue placeholder={t("booking.form.eventType")} />
+            <SelectValue placeholder={content?.eventType} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="live">{t("booking.eventTypes.live")}</SelectItem>
-            <SelectItem value="dj">{t("booking.eventTypes.dj")}</SelectItem>
-            <SelectItem value="corporate">{t("booking.eventTypes.corporate")}</SelectItem>
-            <SelectItem value="private">{t("booking.eventTypes.private")}</SelectItem>
-            <SelectItem value="other">{t("booking.eventTypes.other")}</SelectItem>
+            <SelectItem value="live">{eventTypesContent?.live}</SelectItem>
+            <SelectItem value="dj">{eventTypesContent?.dj}</SelectItem>
+            <SelectItem value="corporate">{eventTypesContent?.corporate}</SelectItem>
+            <SelectItem value="private">{eventTypesContent?.private}</SelectItem>
+            <SelectItem value="other">{eventTypesContent?.other}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="space-y-2">
         <label htmlFor="eventDate" className="text-sm font-medium text-gray-200">
-          {t("booking.form.eventDate")}
+          {content?.eventDate}
         </label>
         <Input
           id="eventDate"
@@ -126,21 +133,21 @@ export function BookingForm({ locale }: { locale: Locale }) {
 
       <div className="space-y-2">
         <label htmlFor="location" className="text-sm font-medium text-gray-200">
-          {t("booking.form.location")}
+          {content?.location}
         </label>
         <Input
           id="location"
           name="location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="City, Venue"
+          placeholder={content?.locationPlaceholder}
           data-testid="booking-location"
         />
       </div>
 
       <div className="space-y-2">
         <label htmlFor="message" className="text-sm font-medium text-gray-200">
-          {t("booking.form.message")}
+          {content?.message}
         </label>
         <Textarea
           id="message"
@@ -158,18 +165,18 @@ export function BookingForm({ locale }: { locale: Locale }) {
         className="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 px-4 text-sm font-medium text-gray-950 shadow hover:bg-gray-200 disabled:opacity-60"
         data-testid="booking-submit"
       >
-        {isSending ? t("booking.form.sending") : t("booking.form.submit")}
+        {isSending ? content?.sending : content?.submit}
       </button>
 
       {state === "success" ? (
         <p className="text-sm text-emerald-400" data-testid="booking-success">
-          {t("booking.form.success")}
+          {content?.success}
         </p>
       ) : null}
 
       {state === "error" ? (
         <p className="text-sm text-red-400" data-testid="booking-error">
-          {t("booking.form.error")}
+          {content?.error}
         </p>
       ) : null}
     </form>

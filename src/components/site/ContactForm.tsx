@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import type { Locale } from "@/lib/i18n";
+import type { ContactFormContentValue } from "@/sanity/queries";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
-export function ContactForm({ locale }: { locale: Locale }) {
-  const { t } = useTranslation();
+export function ContactForm({
+  locale,
+  content
+}: {
+  locale: Locale;
+  content?: ContactFormContentValue;
+}) {
   const [state, setState] = useState<FormState>("idle");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +43,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
     <form onSubmit={onSubmit} className="space-y-4" data-testid="contact-form">
       <div className="space-y-2">
         <label htmlFor="name" className="text-sm font-medium text-gray-200">
-          {t("contact.form.name")}
+          {content?.name}
         </label>
         <Input
           id="name"
@@ -53,7 +58,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium text-gray-200">
-          {t("contact.form.email")}
+          {content?.email}
         </label>
         <Input
           id="email"
@@ -69,7 +74,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div className="space-y-2">
         <label htmlFor="message" className="text-sm font-medium text-gray-200">
-          {t("contact.form.message")}
+          {content?.message}
         </label>
         <Textarea
           id="message"
@@ -88,18 +93,18 @@ export function ContactForm({ locale }: { locale: Locale }) {
         className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 disabled:opacity-60"
         data-testid="contact-submit"
       >
-        {isSending ? t("contact.form.sending") : t("contact.form.submit")}
+        {isSending ? content?.sending : content?.submit}
       </button>
 
       {state === "success" ? (
         <p className="text-sm text-emerald-400" data-testid="contact-success">
-          {t("contact.form.success")}
+          {content?.success}
         </p>
       ) : null}
 
       {state === "error" ? (
         <p className="text-sm text-red-400" data-testid="contact-error">
-          {t("contact.form.error")}
+          {content?.error}
         </p>
       ) : null}
     </form>

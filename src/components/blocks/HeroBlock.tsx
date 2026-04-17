@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 
 import { Container } from "@/components/layout/Container";
 import { cn } from "@/lib/utils";
@@ -12,11 +11,21 @@ import type { Locale } from "@/lib/i18n";
 export interface HeroBlockProps {
   className?: string;
   locale: Locale;
+  content: {
+    brand?: string;
+    heroTitle?: string;
+    heroSubtitle?: string;
+    heroCtaPrimary?: string;
+    heroCtaSecondary?: string;
+    tag1?: string;
+    tag2?: string;
+    audioPlaceholder?: string;
+  };
+  audioSrc?: string;
+  audioTitle?: string;
 }
 
-export function HeroBlock({ className, locale }: HeroBlockProps) {
-  const { t } = useTranslation();
-
+export function HeroBlock({ className, locale, content, audioSrc, audioTitle }: HeroBlockProps) {
   return (
     <section
       aria-labelledby="homepage-hero-title"
@@ -27,10 +36,12 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
           {/* Left Column - Text Content */}
           <div className="flex-1 flex flex-col gap-4 items-start justify-center">
             {/* Title Tags */}
-            <div className="flex gap-2 items-center text-xs text-gray-500">
-              <span>{t("home.hero.tag1")}</span>
-              <span>{t("home.hero.tag2")}</span>
-            </div>
+            {(content.tag1 || content.tag2) && (
+              <div className="flex gap-2 items-center text-xs text-gray-500">
+                {content.tag1 && <span>{content.tag1}</span>}
+                {content.tag2 && <span>{content.tag2}</span>}
+              </div>
+            )}
 
             {/* Main Title and Description */}
             <div className="flex flex-col gap-2 text-gray-50 w-full">
@@ -39,13 +50,13 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
                 className="font-semibold text-6xl leading-none tracking-tight"
                 style={{ fontVariationSettings: "'opsz' 14" }}
               >
-                {t("home.hero.title")}
+                {content.heroTitle}
               </h1>
               <p
                 className="text-base leading-normal tracking-wide"
                 style={{ fontVariationSettings: "'opsz' 14" }}
               >
-                {t("home.hero.description")}
+                {content.heroSubtitle}
               </p>
             </div>
 
@@ -55,13 +66,13 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
                 href={`/${locale}/contact`}
                 className="h-9 px-3 flex items-center justify-center bg-gray-950 text-white text-xs tracking-widest hover:bg-gray-800 transition-colors"
               >
-                {t("home.hero.ctaPrimary")}
+                {content.heroCtaPrimary}
               </Link>
               <Link
-                href={`/${locale}/store`}
+                href={`/${locale}/portfolio`}
                 className="h-9 px-3 flex items-center justify-center border border-gray-800 text-white text-xs tracking-widest hover:border-gray-600 transition-colors"
               >
-                {t("home.hero.ctaSecondary")}
+                {content.heroCtaSecondary}
               </Link>
             </div>
           </div>
@@ -72,7 +83,7 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
             <div className="relative h-[364px] w-full">
               <Image
                 src="/images/hero-image.jpg"
-                alt={t("home.hero.title")}
+                alt={content.heroTitle || "Hero image"}
                 fill
                 className="object-cover"
                 priority
@@ -86,7 +97,7 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
                 {/* Play Button */}
                 <button
                   className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-white transition-colors"
-                  aria-label={t("home.hero.audioPlaceholder")}
+                  aria-label={audioTitle || content.audioPlaceholder || "Play audio"}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +114,7 @@ export function HeroBlock({ className, locale }: HeroBlockProps) {
                 </button>
 
                 {/* Song Title */}
-                <span className="text-xs text-gray-500">{t("home.hero.audioPlaceholder")}</span>
+                <span className="text-xs text-gray-500">{audioTitle || content.audioPlaceholder || "Track"}</span>
 
                 {/* Progress Bar */}
                 <div className="flex-1 flex items-center" aria-hidden="true">

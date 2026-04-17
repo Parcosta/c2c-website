@@ -1,24 +1,50 @@
 import type { Locale } from "@/lib/i18n";
-import { loadTranslations, getTranslation } from "@/lib/server-i18n";
-import { HeroBlockClient } from "./HeroBlockClient";
+import { getClient } from "@/sanity/client";
+import { isSanityConfigured } from "@/sanity/config";
+import { buildHomepageQuery, buildSiteLabelsQuery } from "@/sanity/queries";
+import { HeroBlock } from "./HeroBlock";
 
 interface HeroBlockWrapperProps {
   locale: Locale;
   className?: string;
+  audioSrc?: string;
+  audioTitle?: string;
 }
 
-export async function HeroBlockWrapper({ locale, className }: HeroBlockWrapperProps) {
-  const translations = await loadTranslations(locale);
+export async function HeroBlockWrapper({
+  locale,
+  className,
+  audioSrc,
+  audioTitle
+}: HeroBlockWrapperProps) {
+  const pageDef = buildHomepageQuery(locale);
+  const labelsDef = buildSiteLabelsQuery(locale);
+  const [page, labels] = isSanityConfigured()
+    ? await Promise.all([
+        getClient().fetch(pageDef.query, pageDef.params),
+        getClient().fetch(labelsDef.query, labelsDef.params)
+      ])
+    : [null, null];
 
-  const heroTranslations = {
-    tag1: getTranslation(translations, "home.hero.tag1"),
-    tag2: getTranslation(translations, "home.hero.tag2"),
-    title: getTranslation(translations, "home.hero.title"),
-    description: getTranslation(translations, "home.hero.description"),
-    ctaPrimary: getTranslation(translations, "home.hero.ctaPrimary"),
-    ctaSecondary: getTranslation(translations, "home.hero.ctaSecondary"),
-    audioPlaceholder: getTranslation(translations, "home.hero.audioPlaceholder")
+  const heroContent = {
+    brand: labels?.brand ?? "Coast2Coast",
+    heroTitle: page?.hero?.heading ?? "Live modular techno",
+    heroSubtitle: page?.hero?.subheading ?? "",
+    heroCtaPrimary: page?.hero?.cta?.label ?? "Get in touch",
+    heroCtaSecondary: labels?.navigation?.portfolio ?? "Portfolio",
+    // These fields would need to be added to Sanity schema for full two-column support
+    tag1: undefined,
+    tag2: undefined,
+    audioPlaceholder: "Track Name"
   };
 
-  return <HeroBlockClient locale={locale} translations={heroTranslations} className={className} />;
+  return (
+    <HeroBlock
+      locale={locale}
+      content={heroContent}
+      className={className}
+      audioSrc={audioSrc}
+      audioTitle={audioTitle}
+    />
+  );
 }

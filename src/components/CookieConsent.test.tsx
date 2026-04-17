@@ -44,9 +44,29 @@ function getConsentFromStorage(): unknown {
 }
 
 describe("CookieConsent", () => {
+  const content = {
+    dialogAriaLabel: "Cookie consent",
+    title: "Cookies & privacy",
+    description:
+      "We use essential cookies to make the site work and, with your permission, analytics cookies to understand usage and improve the experience.",
+    acceptAll: "Accept all",
+    rejectNonEssential: "Reject non-essential",
+    customize: "Preferences",
+    dialogTitle: "Cookie preferences",
+    dialogDescription:
+      "You can change your preferences at any time by clearing your browser cookies.",
+    necessaryLabel: "Essential cookies",
+    necessaryDescription: "Required for security, navigation, and basic site functionality.",
+    analyticsLabel: "Analytics cookies",
+    analyticsDescription: "Helps us measure site usage to improve performance and content.",
+    savePreferences: "Save preferences",
+    privacyPolicy: "Privacy Policy",
+    terms: "Terms"
+  } as const;
+
   it("shows banner when no prior consent exists", async () => {
     clearConsent();
-    render(<CookieConsent locale="en" />);
+    render(<CookieConsent locale="en" content={content} />);
     expect(await screen.findByText("Cookies & privacy")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Accept all" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reject non-essential" })).toBeInTheDocument();
@@ -54,7 +74,7 @@ describe("CookieConsent", () => {
 
   it("accepts all and persists consent", async () => {
     clearConsent();
-    render(<CookieConsent locale="en" />);
+    render(<CookieConsent locale="en" content={content} />);
 
     const accept = await screen.findByRole("button", { name: "Accept all" });
     fireEvent.click(accept);
@@ -69,7 +89,7 @@ describe("CookieConsent", () => {
 
   it("rejects non-essential and persists consent", async () => {
     clearConsent();
-    render(<CookieConsent locale="en" />);
+    render(<CookieConsent locale="en" content={content} />);
 
     const reject = await screen.findByRole("button", { name: "Reject non-essential" });
     fireEvent.click(reject);
@@ -82,7 +102,7 @@ describe("CookieConsent", () => {
 
   it("allows saving preferences from the dialog", async () => {
     clearConsent();
-    render(<CookieConsent locale="en" />);
+    render(<CookieConsent locale="en" content={content} />);
 
     const preferences = await screen.findByRole("button", { name: "Preferences" });
     fireEvent.click(preferences);

@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n";
-import { loadTranslations, getTranslation } from "@/lib/server-i18n";
+import { isSanityConfigured } from "@/sanity/config";
+import { getClient } from "@/sanity/client";
+import { buildSiteLabelsQuery } from "@/sanity/queries";
 import { SiteHeaderClient } from "./SiteHeaderClient";
 
 interface SiteHeaderWrapperProps {
@@ -7,21 +9,24 @@ interface SiteHeaderWrapperProps {
 }
 
 export async function SiteHeaderWrapper({ locale }: SiteHeaderWrapperProps) {
-  const translations = await loadTranslations(locale);
-
-  // Extract the specific translations needed for the header
+  const labelsDef = buildSiteLabelsQuery(locale);
+  const labels = isSanityConfigured()
+    ? await getClient().fetch(labelsDef.query, labelsDef.params)
+    : null;
   const navTranslations = {
-    brand: getTranslation(translations, "brand"),
-    navHome: getTranslation(translations, "nav.home"),
-    navPortfolio: getTranslation(translations, "nav.portfolio"),
-    navServices: getTranslation(translations, "nav.services"),
-    navPress: getTranslation(translations, "nav.press"),
-    navAbout: getTranslation(translations, "nav.about"),
-    navContact: getTranslation(translations, "nav.contact"),
-    navMobileMenu: getTranslation(translations, "nav.mobileMenu"),
-    navClose: getTranslation(translations, "nav.close"),
-    languageSwitchToEnglish: getTranslation(translations, "language.switchToEnglish"),
-    languageSwitchToSpanish: getTranslation(translations, "language.switchToSpanish")
+    brand: labels?.brand ?? "",
+    navHome: labels?.navigation?.home ?? "",
+    navPortfolio: labels?.navigation?.portfolio ?? "",
+    navServices: labels?.navigation?.services ?? "",
+    navPress: labels?.navigation?.press ?? "",
+    navAbout: labels?.navigation?.about ?? "",
+    navContact: labels?.navigation?.contact ?? "",
+    navMobileMenu: labels?.navigation?.mobileMenu ?? "",
+    navClose: labels?.navigation?.close ?? "",
+    primaryAriaLabel: labels?.navigation?.primaryAriaLabel ?? "",
+    mobileAriaLabel: labels?.navigation?.mobileAriaLabel ?? "",
+    languageSwitchToEnglish: labels?.language?.switchToEnglish ?? "",
+    languageSwitchToSpanish: labels?.language?.switchToSpanish ?? ""
   };
 
   return <SiteHeaderClient locale={locale} translations={navTranslations} />;

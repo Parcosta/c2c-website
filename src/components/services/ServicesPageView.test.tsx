@@ -3,11 +3,20 @@ import { describe, expect, it } from "vitest";
 
 import { ServicesPageView } from "./ServicesPageView";
 
+const content = {
+  heading: "Services",
+  subheading: "Everything we offer",
+  emptyMessage: "No services are published yet.",
+  pricingLabel: "Pricing",
+  serviceFallbackTitle: "Service"
+};
+
 describe("ServicesPageView", () => {
   it("renders service cards with title, description, features, icon, and pricing when present", () => {
     render(
       <ServicesPageView
         locale="en"
+        content={content}
         services={[
           {
             _id: "svc-1",
@@ -30,7 +39,7 @@ describe("ServicesPageView", () => {
   });
 
   it("renders an empty state when no services are provided", () => {
-    render(<ServicesPageView locale="en" services={[]} />);
+    render(<ServicesPageView locale="en" services={[]} content={content} />);
     expect(screen.getByText("No services are published yet.")).toBeInTheDocument();
   });
 });
