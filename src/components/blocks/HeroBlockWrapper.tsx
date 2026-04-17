@@ -11,37 +11,16 @@ interface HeroBlockWrapperProps {
   audioTitle?: string;
 }
 
-// Locale-aware fallback content for when Sanity is not configured
-const fallbackContent: Record<
-  Locale,
-  {
-    tag1: string;
-    tag2: string;
-    title: string;
-    description: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
-    audioPlaceholder: string;
-  }
-> = {
-  en: {
-    tag1: "Multimedia Artist from Mexico",
-    tag2: "Modular Synthesis",
-    title: "Live modular techno",
-    description: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
-    ctaPrimary: "Get in touch",
-    ctaSecondary: "Portfolio",
-    audioPlaceholder: "Track Name"
-  },
-  es: {
-    tag1: "Artista Multimedia de México",
-    tag2: "Síntesis Modular",
-    title: "Techno modular en vivo",
-    description: "Coast2Coast (C2C) — sonido audaz, visuales oscuros, interfaz limpia.",
-    ctaPrimary: "Contactar",
-    ctaSecondary: "Portafolio",
-    audioPlaceholder: "Nombre de Pista"
-  }
+// Fallback content when Sanity is not configured
+// These are static defaults - all content should come from Sanity CMS
+const fallbackContent = {
+  tag1: "Multimedia Artist from Mexico",
+  tag2: "Modular Synthesis",
+  title: "Live modular techno",
+  description: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
+  ctaPrimary: "Get in touch",
+  ctaSecondary: "Portfolio",
+  audioPlaceholder: "Track Name"
 };
 
 export async function HeroBlockWrapper({
@@ -59,25 +38,22 @@ export async function HeroBlockWrapper({
       ])
     : [null, null];
 
-  // Get locale-aware fallbacks
-  const fallback = fallbackContent[locale] ?? fallbackContent.en;
-
-  // Map Sanity data to the translation structure expected by HeroBlockClient
-  // Uses Sanity data when available, falls back to locale-aware defaults
-  const translations = {
-    tag1: fallback.tag1,
-    tag2: fallback.tag2,
-    title: page?.hero?.heading ?? fallback.title,
-    description: page?.hero?.subheading ?? fallback.description,
-    ctaPrimary: page?.hero?.cta?.label ?? fallback.ctaPrimary,
-    ctaSecondary: labels?.navigation?.portfolio ?? fallback.ctaSecondary,
-    audioPlaceholder: audioTitle ?? fallback.audioPlaceholder
+  // Map Sanity data to the content structure expected by HeroBlockClient
+  // Uses Sanity data when available, falls back to static defaults
+  const content = {
+    tag1: fallbackContent.tag1,
+    tag2: fallbackContent.tag2,
+    title: page?.hero?.heading ?? fallbackContent.title,
+    description: page?.hero?.subheading ?? fallbackContent.description,
+    ctaPrimary: page?.hero?.cta?.label ?? fallbackContent.ctaPrimary,
+    ctaSecondary: labels?.navigation?.portfolio ?? fallbackContent.ctaSecondary,
+    audioPlaceholder: audioTitle ?? fallbackContent.audioPlaceholder
   };
 
   return (
     <HeroBlockClient
       locale={locale}
-      translations={translations}
+      translations={content}
       className={className}
       audioSrc={audioSrc}
     />
