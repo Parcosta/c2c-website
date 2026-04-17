@@ -3,6 +3,28 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { BookingForm } from "./BookingForm";
 
+const content = {
+  name: "Name",
+  email: "Email",
+  eventType: "Event Type",
+  eventDate: "Event Date",
+  location: "Location",
+  locationPlaceholder: "City, Venue",
+  message: "Additional Details",
+  submit: "Submit Request",
+  sending: "Sending...",
+  success: "Request sent. We'll be in touch!",
+  error: "Something went wrong. Please try again."
+};
+
+const eventTypesContent = {
+  live: "Live Performance",
+  dj: "DJ Set",
+  corporate: "Corporate Event",
+  private: "Private Event",
+  other: "Other"
+};
+
 // Mock fetch
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -13,7 +35,7 @@ describe("BookingForm", () => {
   });
 
   it("renders all form fields", () => {
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     expect(screen.getByTestId("booking-name")).toBeInTheDocument();
     expect(screen.getByTestId("booking-email")).toBeInTheDocument();
@@ -25,7 +47,7 @@ describe("BookingForm", () => {
   });
 
   it("updates input values on change", () => {
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     const nameInput = screen.getByTestId("booking-name") as HTMLInputElement;
     const emailInput = screen.getByTestId("booking-email") as HTMLInputElement;
@@ -43,7 +65,7 @@ describe("BookingForm", () => {
       json: async () => ({ success: true })
     } as Response);
 
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     // Fill in required fields
     fireEvent.change(screen.getByTestId("booking-name"), {
@@ -74,7 +96,7 @@ describe("BookingForm", () => {
       json: async () => ({ success: true })
     } as Response);
 
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     fireEvent.change(screen.getByTestId("booking-name"), {
       target: { value: "John Doe" }
@@ -93,7 +115,7 @@ describe("BookingForm", () => {
   it("shows error message after failed submission", async () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     fireEvent.change(screen.getByTestId("booking-name"), {
       target: { value: "John Doe" }
@@ -114,7 +136,7 @@ describe("BookingForm", () => {
       () => new Promise((resolve) => setTimeout(() => resolve({ ok: true } as Response), 100))
     );
 
-    render(<BookingForm locale="en" />);
+    render(<BookingForm locale="en" content={content} eventTypesContent={eventTypesContent} />);
 
     fireEvent.change(screen.getByTestId("booking-name"), {
       target: { value: "John Doe" }
@@ -133,7 +155,7 @@ describe("BookingForm", () => {
   });
 
   it("renders with Spanish locale", () => {
-    render(<BookingForm locale="es" />);
+    render(<BookingForm locale="es" content={content} eventTypesContent={eventTypesContent} />);
 
     expect(screen.getByTestId("booking-form")).toBeInTheDocument();
     expect(screen.getByTestId("booking-name")).toBeInTheDocument();

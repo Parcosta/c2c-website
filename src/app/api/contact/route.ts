@@ -1,13 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
-import { createFixedWindowRateLimiter } from "@/lib/rateLimit";
 import { contactFormSchema } from "@/lib/validation";
-
-export const __contactRateLimiter = createFixedWindowRateLimiter({
-  limit: 5,
-  windowMs: 60_000
-});
+import { contactRateLimiter } from "./rateLimiter";
 
 function getClientIp(request: Request): string {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -17,7 +12,7 @@ function getClientIp(request: Request): string {
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  const rateCheck = __contactRateLimiter.check(ip);
+  const rateCheck = contactRateLimiter.check(ip);
   if (!rateCheck.allowed) {
     return NextResponse.json({ ok: false, error: { code: "RATE_LIMITED" } }, { status: 429 });
   }

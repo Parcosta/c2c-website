@@ -5,12 +5,13 @@ vi.mock("@/lib/email/sendContactEmail", () => ({
 }));
 
 import { sendContactEmail } from "@/lib/email/sendContactEmail";
+import { contactRateLimiter } from "./rateLimiter";
 
-import { POST, __contactRateLimiter } from "./route";
+import { POST } from "./route";
 
 describe("POST /api/contact", () => {
   beforeEach(() => {
-    __contactRateLimiter.reset();
+    contactRateLimiter.reset();
     vi.clearAllMocks();
   });
 
