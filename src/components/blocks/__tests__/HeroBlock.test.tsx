@@ -43,11 +43,37 @@ describe("HeroBlockClient", () => {
     expect(heroImage).toBeInTheDocument();
   });
 
-  it("renders audio player UI", () => {
+  it("renders audio player UI with disabled buttons when no audio source", () => {
     render(<HeroBlockClient locale="en" translations={translations} />);
 
-    // Check for audio player elements
-    expect(screen.getByLabelText("Track Name")).toBeInTheDocument();
+    // Check for audio player elements - buttons should be disabled
+    const playButton = screen.getByLabelText("Track Name");
+    expect(playButton).toBeInTheDocument();
+    expect(playButton).toBeDisabled();
+
+    const downloadButton = screen.getByLabelText("Download");
+    expect(downloadButton).toBeInTheDocument();
+    expect(downloadButton).toBeDisabled();
+
     expect(screen.getByText("Track Name")).toBeInTheDocument();
+  });
+
+  it("renders audio player with enabled buttons when audio source is provided", () => {
+    render(
+      <HeroBlockClient locale="en" translations={translations} audioSrc="/audio/sample.mp3" />
+    );
+
+    // Check for audio player elements - buttons should be enabled
+    const playButton = screen.getByLabelText("Track Name");
+    expect(playButton).toBeInTheDocument();
+    expect(playButton).not.toBeDisabled();
+
+    const downloadButton = screen.getByLabelText("Download");
+    expect(downloadButton).toBeInTheDocument();
+    expect(downloadButton).not.toBeDisabled();
+
+    // Audio element should be present
+    const audioElement = document.querySelector('audio[src="/audio/sample.mp3"]');
+    expect(audioElement).toBeInTheDocument();
   });
 });

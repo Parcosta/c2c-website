@@ -11,6 +11,39 @@ interface HeroBlockWrapperProps {
   audioTitle?: string;
 }
 
+// Locale-aware fallback content for when Sanity is not configured
+const fallbackContent: Record<
+  Locale,
+  {
+    tag1: string;
+    tag2: string;
+    title: string;
+    description: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    audioPlaceholder: string;
+  }
+> = {
+  en: {
+    tag1: "Multimedia Artist from Mexico",
+    tag2: "Modular Synthesis",
+    title: "Live modular techno",
+    description: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
+    ctaPrimary: "Get in touch",
+    ctaSecondary: "Portfolio",
+    audioPlaceholder: "Track Name"
+  },
+  es: {
+    tag1: "Artista Multimedia de México",
+    tag2: "Síntesis Modular",
+    title: "Techno modular en vivo",
+    description: "Coast2Coast (C2C) — sonido audaz, visuales oscuros, interfaz limpia.",
+    ctaPrimary: "Contactar",
+    ctaSecondary: "Portafolio",
+    audioPlaceholder: "Nombre de Pista"
+  }
+};
+
 export async function HeroBlockWrapper({
   locale,
   className,
@@ -26,18 +59,27 @@ export async function HeroBlockWrapper({
       ])
     : [null, null];
 
+  // Get locale-aware fallbacks
+  const fallback = fallbackContent[locale] ?? fallbackContent.en;
+
   // Map Sanity data to the translation structure expected by HeroBlockClient
-  // Fallback values ensure the component works even without Sanity configured
+  // Uses Sanity data when available, falls back to locale-aware defaults
   const translations = {
-    tag1: "Multimedia Artist from Mexico",
-    tag2: "Modular Synthesis",
-    title: page?.hero?.heading ?? "Live modular techno",
-    description:
-      page?.hero?.subheading ?? "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
-    ctaPrimary: page?.hero?.cta?.label ?? "Get in touch",
-    ctaSecondary: labels?.navigation?.portfolio ?? "Portfolio",
-    audioPlaceholder: audioTitle ?? "Track Name"
+    tag1: fallback.tag1,
+    tag2: fallback.tag2,
+    title: page?.hero?.heading ?? fallback.title,
+    description: page?.hero?.subheading ?? fallback.description,
+    ctaPrimary: page?.hero?.cta?.label ?? fallback.ctaPrimary,
+    ctaSecondary: labels?.navigation?.portfolio ?? fallback.ctaSecondary,
+    audioPlaceholder: audioTitle ?? fallback.audioPlaceholder
   };
 
-  return <HeroBlockClient locale={locale} translations={translations} className={className} />;
+  return (
+    <HeroBlockClient
+      locale={locale}
+      translations={translations}
+      className={className}
+      audioSrc={audioSrc}
+    />
+  );
 }
