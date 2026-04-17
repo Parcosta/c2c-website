@@ -8,13 +8,13 @@ ESLint v10 (released 2026-02-06) removed deprecated context APIs (`context.getFi
 
 As of the last review, the blockers are:
 
-| Plugin (bundled by `eslint-config-next`) | v10 compatible? | Upstream tracking |
-| --- | --- | --- |
-| `eslint-plugin-react` | No (7.37.5 latest) | [PR #3979](https://github.com/jsx-eslint/eslint-plugin-react/pull/3979) |
-| `eslint-plugin-import` | No (2.32.0 latest) | [Issue #3227](https://github.com/import-js/eslint-plugin-import/issues/3227) |
-| `eslint-plugin-jsx-a11y` | No (6.10.2 latest) | peer dep still `^9` |
-| `eslint-plugin-react-hooks` | Yes | — |
-| `@typescript-eslint/*` | Yes (8.54+) | — |
+| Plugin (bundled by `eslint-config-next`) | v10 compatible?    | Upstream tracking                                                            |
+| ---------------------------------------- | ------------------ | ---------------------------------------------------------------------------- |
+| `eslint-plugin-react`                    | No (7.37.5 latest) | [PR #3979](https://github.com/jsx-eslint/eslint-plugin-react/pull/3979)      |
+| `eslint-plugin-import`                   | No (2.32.0 latest) | [Issue #3227](https://github.com/import-js/eslint-plugin-import/issues/3227) |
+| `eslint-plugin-jsx-a11y`                 | No (6.10.2 latest) | peer dep still `^9`                                                          |
+| `eslint-plugin-react-hooks`              | Yes                | —                                                                            |
+| `@typescript-eslint/*`                   | Yes (8.54+)        | —                                                                            |
 
 Symptoms when forcing the upgrade: `TypeError: contextOrFilename.getFilename is not a function` from `eslint-plugin-react/lib/util/version.js` on first lint run.
 

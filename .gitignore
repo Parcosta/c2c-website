@@ -6,8 +6,8 @@ coverage
 playwright-report
 test-results
 backups
-.env
-.env.*.local
+.env.*
+!.env.example
 .DS_Store
 *.tsbuildinfo
 
