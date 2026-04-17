@@ -1,47 +1,79 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { HeroBlock } from "@/components/blocks/HeroBlock";
+import { HeroBlockClient } from "@/components/blocks/HeroBlockClient";
 
-const content = {
-  brand: "Coast2Coast",
-  heroTitle: "Live modular techno & DJ sets",
-  heroSubtitle: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
-  heroCtaPrimary: "Get in touch",
-  heroCtaSecondary: "View portfolio"
+const translations = {
+  tag1: "Multimedia Artist from Mexico",
+  tag2: "Modular Synthesis",
+  title: "Experimental Sound Design",
+  description: "Multimedia artist and modular synthesist based in Mexico City.",
+  ctaPrimary: "Contact Me",
+  ctaSecondary: "Official Store",
+  audioPlaceholder: "Track Name"
 };
 
-describe("HeroBlock", () => {
+describe("HeroBlockClient", () => {
   it("renders hero section with title, subtitle, and CTAs", () => {
-    render(<HeroBlock locale="en" content={content} />);
+    render(<HeroBlockClient locale="en" translations={translations} />);
 
-    expect(
-      screen.getByRole("region", { name: "Live modular techno & DJ sets" })
-    ).toBeInTheDocument();
+    // Check for title
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Live modular techno & DJ sets"
+      "Experimental Sound Design"
     );
-    expect(screen.getByText(content.heroSubtitle)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: content.heroCtaPrimary })).toHaveAttribute(
-      "href",
-      "/en/contact"
-    );
-    expect(screen.getByRole("link", { name: content.heroCtaSecondary })).toHaveAttribute(
-      "href",
-      "/en/portfolio"
-    );
+
+    // Check for description
+    expect(
+      screen.getByText("Multimedia artist and modular synthesist based in Mexico City.")
+    ).toBeInTheDocument();
+
+    // Check for CTA buttons
+    const primaryCta = screen.getByRole("link", { name: "Contact Me" });
+    expect(primaryCta).toHaveAttribute("href", "/en/contact");
+
+    const secondaryCta = screen.getByRole("link", { name: "Official Store" });
+    expect(secondaryCta).toHaveAttribute("href", "/en/store");
   });
 
-  it("renders with audio player when audioSrc is provided", () => {
+  it("renders with hero image", () => {
+    render(<HeroBlockClient locale="en" translations={translations} />);
+
+    // Check that the hero image is rendered
+    const heroImage = screen.getByAltText("Experimental Sound Design");
+    expect(heroImage).toBeInTheDocument();
+  });
+
+  it("renders audio player UI with disabled buttons when no audio source", () => {
+    render(<HeroBlockClient locale="en" translations={translations} />);
+
+    // Check for audio player elements - buttons should be disabled
+    const playButton = screen.getByLabelText("Track Name");
+    expect(playButton).toBeInTheDocument();
+    expect(playButton).toBeDisabled();
+
+    const downloadButton = screen.getByLabelText("Download");
+    expect(downloadButton).toBeInTheDocument();
+    expect(downloadButton).toBeDisabled();
+
+    expect(screen.getByText("Track Name")).toBeInTheDocument();
+  });
+
+  it("renders audio player with enabled buttons when audio source is provided", () => {
     render(
-      <HeroBlock
-        locale="en"
-        content={content}
-        audioSrc="/audio/sample.mp3"
-        audioTitle="Sample Track"
-      />
+      <HeroBlockClient locale="en" translations={translations} audioSrc="/audio/sample.mp3" />
     );
 
-    expect(screen.getByRole("button")).toBeInTheDocument();
+    // Check for audio player elements - buttons should be enabled
+    const playButton = screen.getByLabelText("Track Name");
+    expect(playButton).toBeInTheDocument();
+    expect(playButton).not.toBeDisabled();
+
+    const downloadButton = screen.getByLabelText("Download");
+    expect(downloadButton).toBeInTheDocument();
+    expect(downloadButton).not.toBeDisabled();
+
+    // Audio element should be present
+    const audioElement = document.querySelector('audio[src="/audio/sample.mp3"]');
+    expect(audioElement).toBeInTheDocument();
   });
 });

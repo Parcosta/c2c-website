@@ -11,6 +11,18 @@ interface HeroBlockWrapperProps {
   audioTitle?: string;
 }
 
+// Fallback content when Sanity is not configured
+// These are static defaults - all content should come from Sanity CMS
+const fallbackContent = {
+  tag1: "Multimedia Artist from Mexico",
+  tag2: "Modular Synthesis",
+  title: "Live modular techno",
+  description: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
+  ctaPrimary: "Get in touch",
+  ctaSecondary: "Portfolio",
+  audioPlaceholder: "Track Name"
+};
+
 export async function HeroBlockWrapper({
   locale,
   className,
@@ -26,21 +38,24 @@ export async function HeroBlockWrapper({
       ])
     : [null, null];
 
-  const heroTranslations = {
-    brand: labels?.brand ?? "Coast2Coast",
-    heroTitle: page?.hero?.heading ?? "Live modular techno",
-    heroSubtitle: page?.hero?.subheading ?? "",
-    heroCtaPrimary: page?.hero?.cta?.label ?? "",
-    heroCtaSecondary: labels?.navigation?.portfolio ?? "Portfolio"
+  // Map Sanity data to the content structure expected by HeroBlockClient
+  // Uses Sanity data when available, falls back to static defaults
+  const content = {
+    tag1: fallbackContent.tag1,
+    tag2: fallbackContent.tag2,
+    title: page?.hero?.heading ?? fallbackContent.title,
+    description: page?.hero?.subheading ?? fallbackContent.description,
+    ctaPrimary: page?.hero?.cta?.label ?? fallbackContent.ctaPrimary,
+    ctaSecondary: labels?.navigation?.portfolio ?? fallbackContent.ctaSecondary,
+    audioPlaceholder: audioTitle ?? fallbackContent.audioPlaceholder
   };
 
   return (
     <HeroBlockClient
       locale={locale}
-      translations={heroTranslations}
+      translations={content}
       className={className}
       audioSrc={audioSrc}
-      audioTitle={audioTitle}
     />
   );
 }
