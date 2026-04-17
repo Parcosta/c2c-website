@@ -14,7 +14,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const labels = await getSiteLabels(locale);
   return buildMetadata({
-    title: labels?.bookingPage?.seoTitle ?? "",
+    title: labels?.bookingPage?.seoTitle ?? "Book",
     description: labels?.bookingPage?.seoDescription ?? "",
     pathname: `/${locale}/booking`
   });
