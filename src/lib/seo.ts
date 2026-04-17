@@ -76,7 +76,8 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
   const canonical = resolveUrl(pathname);
 
   const siteName = input.siteName ?? getSiteName();
-  const title = input.title === siteName ? siteName : `${input.title} | ${siteName}`;
+  const trimmedTitle = input.title.trim();
+  const title = !trimmedTitle || trimmedTitle === siteName ? siteName : `${trimmedTitle} | ${siteName}`;
 
   const metadataBase = new URL(getSiteUrl());
   const ogImage = input.image ?? getDefaultOgImage();
