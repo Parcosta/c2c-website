@@ -7,7 +7,29 @@ export const portfolioItem = defineType({
   fields: [
     defineField({ name: "title", title: "Title", type: "localeString" }),
     defineField({ name: "slug", title: "Slug", type: "localeSlug" }),
-    defineField({ name: "category", title: "Category", type: "localeString" }),
+    defineField({
+      name: "category",
+      title: "Category (display label)",
+      description: "Free-form localized category shown on portfolio detail/grid pages.",
+      type: "localeString"
+    }),
+    defineField({
+      name: "filterCategory",
+      title: "Homepage filter category",
+      description:
+        "Constrained key used by the homepage projects filter tabs. Human-readable labels for each key live in siteLabels.projectsPage.filters. Leave blank to exclude from the homepage filters.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Music (musica)", value: "musica" },
+          { title: "Sound (sonoro)", value: "sonoro" },
+          { title: "Video remixes (video)", value: "video" },
+          { title: "Mixes (mixes)", value: "mixes" },
+          { title: "Dev (dev)", value: "dev" }
+        ],
+        layout: "radio"
+      }
+    }),
     defineField({
       name: "images",
       title: "Images",

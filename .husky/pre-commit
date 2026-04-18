@@ -1,19 +1,2 @@
 #!/bin/sh
-# Pre-commit hook for translation validation
-# Validates that EN and ES translations are in sync
-
-# Check if translation files are in the staged files
-if git diff --cached --name-only | grep -qE "^public/locales/(en|es)/translation.json$"; then
-  echo "🔄 Translation files changed, validating..."
-  
-  # Run the validation script
-  if ! node scripts/sync-translations.mjs validate; then
-    echo "❌ Translation validation failed. Please fix missing translations before committing."
-    exit 1
-  fi
-  
-  echo "✅ Translations validated successfully!"
-fi
-
-# Continue with the commit
-exit 0
+# Pre-commit hook

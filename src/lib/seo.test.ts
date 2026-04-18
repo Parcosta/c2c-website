@@ -32,14 +32,19 @@ describe("seo", () => {
     expect(getSiteUrl()).toBe("https://example.com");
   });
 
-  it("getSiteName falls back when unset", () => {
+  it("getSiteName returns empty string when unset (no hardcoded content fallback)", () => {
     delete process.env.NEXT_PUBLIC_SITE_NAME;
-    expect(getSiteName()).toBeTruthy();
+    expect(getSiteName()).toBe("");
+  });
+
+  it("getSiteName returns the env value when set", () => {
+    process.env.NEXT_PUBLIC_SITE_NAME = "Coast2c";
+    expect(getSiteName()).toBe("Coast2c");
   });
 
   it("buildMetadata generates canonical and language alternates", () => {
     process.env.NEXT_PUBLIC_SITE_URL = "https://example.com";
-    process.env.NEXT_PUBLIC_SITE_NAME = "Coast2Coast (C2C)";
+    process.env.NEXT_PUBLIC_SITE_NAME = "Coast2c (C2C)";
 
     const meta = buildMetadata({
       title: "Components",
@@ -53,7 +58,7 @@ describe("seo", () => {
       en: "/en/components",
       es: "/es/components"
     });
-    expect(meta.openGraph?.siteName).toBe("Coast2Coast (C2C)");
+    expect(meta.openGraph?.siteName).toBe("Coast2c (C2C)");
     expect((meta.twitter as Record<string, unknown>)?.card).toBe("summary_large_image");
   });
 
@@ -69,8 +74,8 @@ describe("seo", () => {
   it("creates Organization, MusicGroup, and Event JSON-LD", () => {
     process.env.NEXT_PUBLIC_SITE_URL = "https://example.com";
 
-    const org = createOrganizationJsonLd({ name: "Coast2Coast", logoUrl: "/logo.png" });
-    const group = createMusicGroupJsonLd({ name: "Coast2Coast (C2C)" });
+    const org = createOrganizationJsonLd({ name: "Coast2c", logoUrl: "/logo.png" });
+    const group = createMusicGroupJsonLd({ name: "Coast2c (C2C)" });
     const event = createEventJsonLd({ name: "Live set", startDate: "2026-01-01T20:00:00Z" });
 
     expect(org["@type"]).toBe("Organization");

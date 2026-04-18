@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 
-import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
+import { defaultLocale, isLocale, type Locale } from "@/lib/locale";
 import { getSanityImageUrl } from "@/sanity/image";
 import { getClient } from "@/sanity/client";
 import { buildPortfolioItemsQuery, type PortfolioItemValue } from "@/sanity/queries";

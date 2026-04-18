@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { isLocale, locales } from "@/lib/i18n";
+import { isLocale, locales } from "@/lib/locale";
 import { SiteHeaderWrapper } from "@/components/site/SiteHeaderWrapper";
 import { FooterWrapper } from "@/components/site/FooterWrapper";
 

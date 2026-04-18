@@ -18,8 +18,8 @@ export interface GalleryImage {
 
 export interface GalleryBlockProps {
   images: GalleryImage[];
-  title?: string;
-  subtitle?: string;
+  title: string;
+  eyebrow: string;
   columns?: 2 | 3 | 4;
   className?: string;
 }
@@ -214,7 +214,7 @@ function Lightbox({
 export function GalleryBlock({
   images,
   title,
-  subtitle,
+  eyebrow,
   columns = 4,
   className
 }: GalleryBlockProps) {
@@ -250,16 +250,16 @@ export function GalleryBlock({
   return (
     <section
       className={cn("py-16 sm:py-20", className)}
-      aria-label={title || "Image gallery"}
+      aria-label={title}
       data-testid="gallery-block"
     >
       <div className="space-y-8">
-        {(title || subtitle) && (
-          <div className="space-y-2 text-center">
-            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
-            {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
-          </div>
-        )}
+        <div className="space-y-2 text-center">
+          <p className="font-display text-xs font-medium uppercase tracking-wide text-gray-500">
+            {eyebrow}
+          </p>
+          <h2 className="font-display text-header text-gray-100">{title}</h2>
+        </div>
 
         {/* Figma specs: 40px gaps between cards */}
         <div className={cn("grid gap-10", gridCols[columns])}>

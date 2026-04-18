@@ -1,6 +1,6 @@
-# Coast2Coast (C2C) Website
+# Coast2
 
-Artist website for **live modular techno** & **DJ** — Coast2Coast (C2C).
+Artist website for **live modular techno** & **DJ** — Coast2c (C2C).
 
 This repo is a **Next.js 14 (App Router)** project written in **TypeScript** and styled with **Tailwind CSS**. It’s designed to pair with **Sanity** for content management, **Resend** for transactional email, and **AWS Amplify** for hosting (provisioned via **AWS CDK**).
 

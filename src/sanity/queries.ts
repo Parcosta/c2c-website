@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
 
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 
 export type QueryDefinition<TParams extends Record<string, unknown>, TResult> = {
   query: string;
@@ -32,11 +32,55 @@ export type SeoValue = {
   image?: ImageValue;
 };
 
+export type HomeGalleryImageValue = {
+  _key?: string;
+  image?: ImageValue;
+  alt?: string;
+  caption?: string;
+};
+
+export type HomeSectionsValue = {
+  heroEyebrows?: string[];
+  heroSecondaryCta?: CtaValue;
+  heroAudioTrackLabel?: string;
+  servicesSection?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+  eventsSection?: {
+    eyebrow?: string;
+    title?: string;
+    moreInfoLabel?: string;
+    ticketsLabel?: string;
+  };
+  newsSection?: {
+    eyebrow?: string;
+    title?: string;
+    ctaLabel?: string;
+  };
+  multimediaCtaSection?: {
+    title?: string;
+    description?: string;
+    ctaLabel?: string;
+    ctaHref?: string;
+  };
+  gallerySection?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    images?: HomeGalleryImageValue[];
+  };
+};
+
 export type PageValue = {
   _id: string;
   title?: string;
   slug?: string;
   hero?: HeroValue;
+  homeSections?: HomeSectionsValue;
   body?: unknown;
   seo?: SeoValue;
 };
@@ -45,29 +89,14 @@ export type PortfolioItemValue = {
   _id: string;
   title?: string;
   slug?: string;
+  /** Free-form localized category name (display label). */
   category?: string;
+  /** Constrained key used by the homepage filter tabs ('musica' | 'sonoro' | 'video' | 'mixes' | 'dev'). */
+  filterCategory?: string;
   images?: ImageValue[];
   description?: unknown[];
   date?: string;
   tags?: string[];
-};
-
-export type MediaAssetValue = {
-  url?: string;
-  mimeType?: string;
-};
-
-export type FeaturedMediaValue = {
-  _type: "image" | "file";
-  asset?: MediaAssetValue;
-};
-
-export type CurrentWorkValue = {
-  _id: string;
-  title?: string;
-  description?: unknown;
-  date?: string;
-  media?: FeaturedMediaValue | null;
 };
 
 export type EventValue = {
@@ -362,14 +391,19 @@ export type LegalPageValue = {
   seo?: SeoValue;
 };
 
+/**
+ * Well-known document ID for the home page. Fetching by `_id` decouples the
+ * home route from whatever the editor happens to name the Sanity slug.
+ */
+export const HOME_PAGE_ID = "home-page";
+
 export function buildHomepageQuery(
   locale: Locale
-): QueryDefinition<{ locale: Locale; slug: string }, PageValue> {
+): QueryDefinition<{ locale: Locale; id: string }, PageValue> {
   return {
-    query: groq`*[_type == "page" && slug[$locale].current == $slug][0]{
+    query: groq`*[_id == $id][0]{
       _id,
       "title": title[$locale],
-      "slug": slug[$locale].current,
       hero{
         "heading": heading[$locale],
         "subheading": subheading[$locale],
@@ -379,14 +413,56 @@ export function buildHomepageQuery(
           href
         }
       },
-      "body": body[$locale],
+      homeSections{
+        "heroEyebrows": heroEyebrows[][$locale],
+        heroSecondaryCta{
+          "label": label[$locale],
+          href
+        },
+        "heroAudioTrackLabel": heroAudioTrackLabel[$locale],
+        servicesSection{
+          "eyebrow": eyebrow[$locale],
+          "title": title[$locale],
+          "description": description[$locale],
+          "ctaLabel": ctaLabel[$locale],
+          ctaHref
+        },
+        eventsSection{
+          "eyebrow": eyebrow[$locale],
+          "title": title[$locale],
+          "moreInfoLabel": moreInfoLabel[$locale],
+          "ticketsLabel": ticketsLabel[$locale]
+        },
+        newsSection{
+          "eyebrow": eyebrow[$locale],
+          "title": title[$locale],
+          "ctaLabel": ctaLabel[$locale]
+        },
+        multimediaCtaSection{
+          "title": title[$locale],
+          "description": description[$locale],
+          "ctaLabel": ctaLabel[$locale],
+          ctaHref
+        },
+        gallerySection{
+          "eyebrow": eyebrow[$locale],
+          "title": title[$locale],
+          "description": description[$locale],
+          images[]{
+            _key,
+            image,
+            "alt": alt[$locale],
+            "caption": caption[$locale]
+          }
+        }
+      },
       seo{
         "title": title[$locale],
         "description": description[$locale],
         image
       }
     }`,
-    params: { locale, slug: "home" }
+    params: { locale, id: HOME_PAGE_ID }
   };
 }
 
@@ -399,31 +475,11 @@ export function buildPortfolioItemsQuery(
       "title": title[$locale],
       "slug": slug[$locale].current,
       "category": category[$locale],
+      filterCategory,
       images,
       "description": description[$locale],
       date,
       tags
-    }`,
-    params: { locale }
-  };
-}
-
-export function buildCurrentWorkQuery(
-  locale: Locale
-): QueryDefinition<{ locale: Locale }, CurrentWorkValue | null> {
-  return {
-    query: groq`*[_type == "portfolioItem"]|order(date desc)[0]{
-      _id,
-      "title": title[$locale],
-      "description": description[$locale],
-      date,
-      "media": coalesce(featuredMedia[0], images[0]){
-        _type,
-        asset->{
-          url,
-          mimeType
-        }
-      }
     }`,
     params: { locale }
   };

@@ -1,30 +1,26 @@
 import type { ComponentPropsWithoutRef } from "react";
 
-import { headers } from "next/headers";
-
 import { AnimatedButton } from "@/components/custom/AnimatedButton";
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { defaultLocale, isLocale, type Locale } from "@/lib/i18n";
+import { type Locale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
-import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildUpcomingEventsQuery, type EventValue } from "@/sanity/queries";
 
 export type EventsBlockViewProps = ComponentPropsWithoutRef<"section"> & {
   locale: Locale;
-  title?: string;
-  subtitle?: string;
+  /** Section title. */
+  title: string;
+  /** Section subtitle / eyebrow text above the title. */
+  subtitle: string;
+  /** Per-event tickets button label. */
+  ticketsLabel: string;
   events: EventValue[];
 };
-
-async function getLocaleFromHeaders(): Promise<Locale> {
-  const headerStore = await headers();
-  const headerLocale = headerStore.get("x-locale") ?? defaultLocale;
-  return isLocale(headerLocale) ? headerLocale : defaultLocale;
-}
 
 function formatEventDate(value: string, locale: Locale) {
   const date = new Date(value);
@@ -32,13 +28,11 @@ function formatEventDate(value: string, locale: Locale) {
 
   const dateTime = date.toISOString().slice(0, 10);
 
-  // Format day number separately for visual hierarchy
   const dayNumber = new Intl.DateTimeFormat(locale, {
     day: "numeric",
     timeZone: "UTC"
   }).format(date);
 
-  // Format month and weekday for the date badge
   const monthShort = new Intl.DateTimeFormat(locale, {
     month: "short",
     timeZone: "UTC"
@@ -49,7 +43,6 @@ function formatEventDate(value: string, locale: Locale) {
     timeZone: "UTC"
   }).format(date);
 
-  // Full formatted date for display and accessibility
   const formatted = new Intl.DateTimeFormat(locale, {
     weekday: "short",
     year: "numeric",
@@ -61,24 +54,6 @@ function formatEventDate(value: string, locale: Locale) {
   return { dateTime, formatted, timestamp: date.getTime(), dayNumber, monthShort, weekdayShort };
 }
 
-function getDefaultCopy(locale: Locale) {
-  switch (locale) {
-    case "es":
-      return {
-        title: "Eventos",
-        subtitle: "Próximos shows y presentaciones.",
-        ticketsLabel: "Entradas"
-      };
-    case "en":
-    default:
-      return {
-        title: "Events",
-        subtitle: "Upcoming shows and appearances.",
-        ticketsLabel: "Tickets"
-      };
-  }
-}
-
 function formatLocation(city?: string, country?: string) {
   const parts = [city?.trim(), country?.trim()].filter((value): value is string => Boolean(value));
   return parts.length ? parts.join(", ") : null;
@@ -88,12 +63,11 @@ export function EventsBlockView({
   locale,
   title,
   subtitle,
+  ticketsLabel,
   events,
   className,
   ...props
 }: EventsBlockViewProps) {
-  const copy = getDefaultCopy(locale);
-
   const visibleEvents = (events ?? [])
     .map((event) => {
       if (!event.date) return null;
@@ -124,14 +98,8 @@ export function EventsBlockView({
     <Section className={cn("py-12 md:py-20", className)} {...props}>
       <Container>
         <div className="space-y-8 md:space-y-12">
-          {/* Section Header - Figma Specs: 28px semibold, -0.025em tracking */}
-          <SectionHeading
-            title={title ?? copy.title}
-            subtitle={subtitle ?? copy.subtitle}
-            className="text-center md:text-left"
-          />
+          <SectionHeading title={title} subtitle={subtitle} className="text-center md:text-left" />
 
-          {/* Event Cards Grid - Figma Specs: 24px gap on mobile, 32px on desktop */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visibleEvents.map(({ event, date }) => {
               const venue = event.venue?.trim();
@@ -143,9 +111,7 @@ export function EventsBlockView({
                   className="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:border-gray-600/80"
                   data-testid={`event-card-${event._id}`}
                 >
-                  {/* Card Header with Date Badge - Figma-inspired design */}
                   <div className="relative flex items-start gap-4 border-b border-border/40 bg-gradient-to-br from-card/60 to-card/30 p-5">
-                    {/* Date Badge - Figma Specs: Visual hierarchy with day number prominent */}
                     <div
                       className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg border border-border/60 bg-background/80 text-center shadow-sm"
                       aria-label={date.formatted}
@@ -161,7 +127,6 @@ export function EventsBlockView({
                       </span>
                     </div>
 
-                    {/* Event Title */}
                     <div className="min-w-0 flex-1 pt-1">
                       {event.title ? (
                         <h3 className="font-display text-lg font-semibold leading-snug tracking-tight text-gray-100 line-clamp-2">
@@ -171,9 +136,7 @@ export function EventsBlockView({
                     </div>
                   </div>
 
-                  {/* Card Body - Venue & Location */}
                   <div className="flex flex-1 flex-col gap-3 p-5">
-                    {/* Venue - Figma Specs: 16px semibold, tight tracking */}
                     {venue ? (
                       <div className="flex items-center gap-2">
                         <svg
@@ -201,7 +164,6 @@ export function EventsBlockView({
                       </div>
                     ) : null}
 
-                    {/* Location - Figma Specs: 14px regular, gray-400 color */}
                     {location ? (
                       <div className="flex items-center gap-2">
                         <svg
@@ -222,7 +184,6 @@ export function EventsBlockView({
                       </div>
                     ) : null}
 
-                    {/* Full Date (visually hidden but accessible) */}
                     <time
                       data-testid={`event-date-${event._id}`}
                       dateTime={date.dateTime}
@@ -232,7 +193,6 @@ export function EventsBlockView({
                     </time>
                   </div>
 
-                  {/* Card Footer - Tickets Button */}
                   {event.ticketUrl ? (
                     <div className="border-t border-border/40 p-5 pt-0">
                       <AnimatedButton asChild size="sm" variant="secondary" className="w-full">
@@ -256,7 +216,7 @@ export function EventsBlockView({
                               d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
                             />
                           </svg>
-                          {copy.ticketsLabel}
+                          {ticketsLabel}
                         </a>
                       </AnimatedButton>
                     </div>
@@ -271,20 +231,14 @@ export function EventsBlockView({
   );
 }
 
-export type EventsBlockProps = Omit<EventsBlockViewProps, "events" | "locale"> & {
-  locale?: Locale;
-};
+export type EventsBlockProps = Omit<EventsBlockViewProps, "events">;
 
-export async function EventsBlock({ locale: localeProp, ...props }: EventsBlockProps) {
-  const locale = localeProp ?? (await getLocaleFromHeaders());
+export async function EventsBlock({ locale, ...props }: EventsBlockProps) {
   if (!isSanityConfigured()) return null;
 
-  const def = buildUpcomingEventsQuery(locale);
-  const events = await getClient()
-    .fetch<EventValue[]>(def.query, def.params, {
-      next: { revalidate: 60 }
-    })
-    .catch(() => []);
+  const events = await sanityFetch(buildUpcomingEventsQuery(locale), { revalidate: 60 }).catch(
+    () => [] as EventValue[]
+  );
 
   return <EventsBlockView {...props} locale={locale} events={events ?? []} />;
 }

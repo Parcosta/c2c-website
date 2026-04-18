@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { ServicesPageView } from "@/components/services/ServicesPageView";
-import { isLocale, type Locale } from "@/lib/i18n";
-import { getClient } from "@/sanity/client";
+import { isLocale, type Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildServicesQuery } from "@/sanity/queries";
 import { getSiteLabels } from "@/sanity/cache";
 import { buildMetadata, serializeJsonLd, createOrganizationJsonLd } from "@/lib/seo";
@@ -31,12 +31,8 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const servicesDef = buildServicesQuery(locale);
   const [services, labels] = isSanityConfigured()
-    ? await Promise.all([
-        getClient().fetch(servicesDef.query, servicesDef.params),
-        getSiteLabels(locale)
-      ])
+    ? await Promise.all([sanityFetch(buildServicesQuery(locale)), getSiteLabels(locale)])
     : [[], null];
 
   const jsonLd = createOrganizationJsonLd({

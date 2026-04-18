@@ -3,9 +3,9 @@ import { headers } from "next/headers";
 
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import type { Locale } from "@/lib/i18n";
-import { getClient } from "@/sanity/client";
+import type { Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildSiteLabelsQuery } from "@/sanity/queries";
 
 async function getLocaleFromHeaders(): Promise<Locale> {
@@ -16,8 +16,7 @@ async function getLocaleFromHeaders(): Promise<Locale> {
 
 export default async function NotFound() {
   const locale = await getLocaleFromHeaders();
-  const def = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = isSanityConfigured() ? await sanityFetch(buildSiteLabelsQuery(locale)) : null;
 
   return (
     <main data-testid="not-found">

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 import { LegalPageView } from "@/components/site/LegalPageView";
-import { isLocale, type Locale } from "@/lib/i18n";
-import { getClient } from "@/sanity/client";
+import { isLocale, type Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildLegalPageQuery } from "@/sanity/queries";
 
 export async function generateMetadata({
@@ -13,8 +13,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const def = buildLegalPageQuery(locale, "privacy-policy");
-  const page = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const page = isSanityConfigured()
+    ? await sanityFetch(buildLegalPageQuery(locale, "privacy-policy"))
+    : null;
   return { title: page?.seo?.title ?? page?.title };
 }
 
@@ -25,8 +26,9 @@ export default async function PrivacyPolicyPage({
 }) {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const def = buildLegalPageQuery(locale, "privacy-policy");
-  const page = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const page = isSanityConfigured()
+    ? await sanityFetch(buildLegalPageQuery(locale, "privacy-policy"))
+    : null;
 
   return <LegalPageView locale={locale} page={page} />;
 }

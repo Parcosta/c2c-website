@@ -16,6 +16,7 @@ import { localeString } from "@/sanity/schemas/localized/localeString";
 import { localeText } from "@/sanity/schemas/localized/localeText";
 import { cta } from "@/sanity/schemas/objects/cta";
 import { hero } from "@/sanity/schemas/objects/hero";
+import { homeSections } from "@/sanity/schemas/objects/homeSections";
 import { pressDownload } from "@/sanity/schemas/objects/pressDownload";
 import { pressPhoto } from "@/sanity/schemas/objects/pressPhoto";
 import { seo } from "@/sanity/schemas/objects/seo";
@@ -30,6 +31,7 @@ export const schemaTypes = [
   localeBlockContent,
   cta,
   hero,
+  homeSections,
   seo,
   socialLink,
   pressPhoto,

@@ -15,6 +15,8 @@ const buttonVariants = cva(
         // Secondary: border-gray-600, text-gray-100, transparent bg per Figma
         secondary:
           "border border-gray-600 bg-transparent text-gray-100 hover:bg-gray-800 hover:border-gray-400",
+        // Dark: solid gray-950 bg with gray-900 border — used for on-page CTAs in the Figma design
+        dark: "bg-gray-950 text-gray-100 border border-gray-900 hover:bg-gray-900 hover:border-gray-800",
         // Outline variant for compatibility
         outline: "border border-gray-600 bg-transparent text-gray-100 hover:bg-gray-800",
         // Ghost variant for subtle interactions

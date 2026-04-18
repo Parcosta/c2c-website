@@ -1,8 +1,8 @@
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import { Container } from "@/components/layout/Container";
-import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildSiteLabelsQuery, buildSiteSettingsQuery } from "@/sanity/queries";
 
 interface FooterWrapperProps {
@@ -10,12 +10,10 @@ interface FooterWrapperProps {
 }
 
 export async function FooterWrapper({ locale }: FooterWrapperProps) {
-  const labelsDef = buildSiteLabelsQuery(locale);
-  const settingsDef = buildSiteSettingsQuery(locale);
   const [labels, settings] = isSanityConfigured()
     ? await Promise.all([
-        getClient().fetch(labelsDef.query, labelsDef.params),
-        getClient().fetch(settingsDef.query, settingsDef.params)
+        sanityFetch(buildSiteLabelsQuery(locale)),
+        sanityFetch(buildSiteSettingsQuery(locale))
       ])
     : [null, null];
 

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { PressPageView } from "@/features/press/PressPageView";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
-import { getClient } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildPressEpkQuery, buildSiteLabelsQuery, type PressEpkValue } from "@/sanity/queries";
 
 export const dynamic = "force-dynamic";
@@ -16,12 +16,10 @@ export default async function PressPage({ params }: { params: Promise<{ locale: 
   let data: PressEpkValue | null = null;
   let labels = null;
   if (isSanityConfigured()) {
-    const def = buildPressEpkQuery(resolvedLocale);
-    const labelsDef = buildSiteLabelsQuery(resolvedLocale);
     try {
       [data, labels] = await Promise.all([
-        getClient().fetch(def.query, def.params),
-        getClient().fetch(labelsDef.query, labelsDef.params)
+        sanityFetch(buildPressEpkQuery(resolvedLocale)),
+        sanityFetch(buildSiteLabelsQuery(resolvedLocale))
       ]);
     } catch {
       data = null;

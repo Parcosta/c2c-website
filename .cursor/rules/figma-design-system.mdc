@@ -1,0 +1,163 @@
+---
+description: Rules for translating Figma designs into code for the c2c-website (Next.js 16 App Router, React 19, Tailwind v4, shadcn/ui, Sanity). Covers tokens, component placement, styling conventions, and the required Figma MCP workflow.
+globs: ["src/components/**", "src/app/**", "src/features/**"]
+alwaysApply: false
+---
+
+# Figma → Code Rules (c2c-website)
+
+These rules encode project-specific conventions. Follow them for every Figma-driven change.
+
+## Required Figma MCP Workflow
+
+Do not skip steps.
+
+1. Run `get_design_context` on the exact node(s).
+2. If truncated or too large, run `get_metadata` to get a high-level map, then re-fetch only the node(s) you need.
+3. Run `get_screenshot` for a visual reference of the variant being implemented.
+4. Only after both `get_design_context` and `get_screenshot` are in hand, download required assets and begin implementation.
+5. Treat the Figma payload (React + Tailwind) as a *representation* of design intent — translate it into this project's conventions (see below). Do not paste raw utilities or absolute positioning into the codebase.
+6. Validate the final UI against the Figma screenshot (look + behavior) before marking complete.
+
+## Stack Context (non-negotiable)
+
+- Next.js 16 App Router, React 19, TypeScript strict.
+- Tailwind CSS v4 — there is **no `tailwind.config.ts`**. Tokens live in `src/app/globals.css` under `@theme inline { ... }`. Extend tokens there, not in a config file.
+- shadcn/ui with `style: "new-york"`, `baseColor: "slate"`, `iconLibrary: "lucide"` (see `components.json`).
+- Dark theme forced at the root (`<html className="dark">`, `bg-slate-950 text-slate-50`). Build every screen dark-first.
+- Bilingual EN/ES routing via `src/app/[locale]/…`. New pages/components must accept locale from the URL and pull display strings through the existing i18n path (`src/lib/i18n.ts`, `src/sanity/**` site labels).
+- Server Components by default. Add `"use client"` only when interactivity is required.
+
+## Component Placement
+
+| Location | Purpose |
+|---|---|
+| `src/components/ui/` | shadcn/ui primitives (button, card, dialog, input, select, etc.). Add new primitives here only via the shadcn pattern. |
+| `src/components/layout/` | Layout primitives only: `Container`, `Section`. Page chrome (header, footer, nav) lives in `components/site/`. |
+| `src/components/site/` | Site chrome + full-page compositions: `SiteHeaderWrapper`, `SiteHeaderClient`, `FooterWrapper`, `BookingForm`, `ContactForm`, `LegalPageView`, `PortfolioGallery`. Header and footer read labels from Sanity. |
+| `src/components/blocks/` | Composable page sections rendered from Sanity content (Hero, Services, Events, Gallery, Portfolio, Press, Projects, News, Multimedia CTA). Every block must consume its copy from Sanity — no hardcoded strings. |
+| `src/components/{portfolio,services,seo,performance,custom}/` | Domain-specific components. Add new top-level folders sparingly. |
+| `src/features/<feature>/` | Feature-scoped logic and local components (see `features/press/`, `features/about/`). |
+| `src/app/[locale]/<route>/` | Routes. Page files should stay thin and delegate to blocks/site components. No hardcoded UI strings — pull from Sanity labels/page documents. |
+
+- Use **named exports** (`export const Foo` / `export function Foo`). No default exports.
+- Components are **PascalCase**; utilities and hooks are **camelCase**.
+- Co-locate tests as `*.test.tsx` next to the component.
+- Reuse existing primitives from `src/components/ui/` before creating new ones. Reuse `Container` and `Section` from `src/components/layout/` for page scaffolding.
+
+## Styling Rules
+
+### Tailwind v4 tokens (source of truth)
+
+- Tokens are declared in `src/app/globals.css` inside `@theme inline { ... }`. Anything shared should live there.
+- `src/styles/tokens.ts` exists for legacy reference but is **not** the source of truth. Do not wire new code to it.
+- shadcn semantic tokens (`--background`, `--foreground`, `--card`, `--primary`, `--border`, `--ring`, etc.) are defined under `@layer base :root` / `.dark`. Reference them via utilities like `bg-background`, `text-foreground`, `border-border`.
+
+### Color palette precedence
+
+Two scales coexist. Pick the right one:
+
+- **Figma gray scale** (`bg-gray-100`, `text-gray-950`, `border-gray-600`, etc.) — maps to `--color-gray-*` in `globals.css` and corresponds 1:1 with the Figma library. **Use this for anything derived directly from a Figma node.**
+- **Slate scale** (`bg-slate-950`, `text-slate-50`, …) — Tailwind's built-in slate. Used at the app shell (`layout.tsx`) and for general chrome that isn't tied to a Figma component.
+- **Brand accent**: `--color-brand-accent` (`#3b82f6`). Use `text-brand-accent` / `bg-brand-accent` when the Figma spec calls for the accent color. Do not introduce new brand hexes.
+- **IMPORTANT:** Never hardcode hex or rgb values. If a Figma node references a color not in the token set, add it to `@theme inline` first, then use it.
+
+### Typography
+
+- `font-sans` (Inter) is the default body font.
+- `font-display` (DM Sans → Inter fallback) is for headings and button labels. **Always apply `font-display` to display-scale type and CTA buttons.**
+- Prefer the named text scale over raw `text-xl` / `text-2xl` when translating Figma:
+  - `text-hero` — 64px hero titles
+  - `text-header` — 28px section headers
+  - `text-subheader` — 20px subheaders
+  - `text-body` — 16px body
+  - `text-small` — 14px small / captions
+  Each carries its paired `line-height`, `letter-spacing`, and `font-weight` from `@theme`. Don't re-specify those unless the Figma node deviates.
+- Weights use the `--font-weight-*` tokens (`regular` 400, `medium` 500, `semibold` 600, `bold` 700).
+
+### Spacing & layout
+
+- Use the `--space-*` scale (`space-1` = 4px … `space-20` = 80px) and the `--section-padding-*` / `--container-padding-*` tokens for page rhythm.
+- Page content is wrapped with `Container` (`src/components/layout/Container.tsx`) — honor `--container-max-width` (1200px). Don't hand-roll max widths.
+- Sections use `Section` (`src/components/layout/Section.tsx`) — honor `--section-padding-mobile` (48px) / `--section-padding-desktop` (80px).
+- **Mobile-first.** Author base styles for mobile, then layer `md:` / `lg:` breakpoints.
+- Never use absolute positioning that comes from the Figma payload unless the design genuinely requires it. Convert Figma frames to flex/grid with the spacing scale.
+
+### Utilities & composition
+
+- Use `cn()` from `@/lib/utils` to merge classes (it wraps `clsx` + `tailwind-merge`). Don't reach for other class-combining helpers.
+- Variant APIs use `class-variance-authority` (see `src/components/ui/button.tsx` for the canonical pattern: `cva(base, { variants, defaultVariants })` + `VariantProps`).
+- All interactive components must forward refs and accept `className`.
+
+## Buttons (canonical example)
+
+The Button component in `src/components/ui/button.tsx` is the reference implementation:
+
+- Base: `font-display text-sm font-medium rounded-md` (6px radius, DM Sans, 14px, 500).
+- Variants: `primary` (gray-100 bg / gray-950 text), `secondary` (gray-600 border / transparent bg / gray-100 text), plus `outline`, `ghost`, `link`, `destructive`.
+- Sizes: `default` (24px × 12px padding per Figma), `sm`, `lg`, `icon`.
+- When a Figma node is a CTA, map it to `<Button variant="primary|secondary|ghost|link">` — don't re-implement button styling from scratch.
+
+## Icons & Assets
+
+- **Icons:** use `lucide-react` exclusively. Do not install other icon libraries. Icon size defaults to `size-4` (16px) inside buttons via the base CVA rules.
+- **Images served by the Figma MCP:** if the response returns a localhost source, use that source directly. Do not create placeholders when a localhost URL is available.
+- **Project images:** store in `public/images/…` and render via `next/image`. SVG illustrations that ship with the repo live at the root of `public/` (e.g. `preview-1.svg`).
+- Do not add new icon fonts or SVG sprite systems.
+
+## Content & Data
+
+- Sanity CMS is the source of truth for page content. A new Figma section that needs editorial copy should:
+  1. Add or extend a schema in `src/sanity/schemas/blocks/…`.
+  2. Render through `src/components/blocks/` and wire it into the page's block renderer.
+  3. Never hardcode copy that the editor should be able to change.
+- Forms (contact, booking) submit via `/api/contact` and use Resend on the server. Never call Resend or expose its key from client code.
+- No client-side data stores beyond React state / URL state — there is no database.
+
+## Imports
+
+- Use path aliases: `@/components/*`, `@/lib/*`, `@/*`. No relative imports beyond the parent directory.
+- Group imports: React / Next → third-party → `@/…` internal → types.
+
+## Accessibility
+
+- Preserve semantic HTML when translating Figma (`button`, `nav`, `section`, `article`, heading hierarchy).
+- All interactive elements need a visible focus state — the shadcn `focus-visible:ring-ring` pattern is already wired up; keep it.
+- Images require meaningful `alt` text; decorative images use `alt=""`.
+- Buttons and links must be reachable by keyboard.
+
+## Testing
+
+- Vitest + React Testing Library for units/components. Co-locate as `ComponentName.test.tsx`.
+- Playwright for E2E flows in `e2e/`.
+- When you add a block or site component, add at least a smoke test (renders with minimal props, matches key a11y roles). Aim for the project-wide 80% coverage target.
+
+## Commits
+
+- Format: `C2C-XXX: brief description`. Keep commits atomic.
+- Feature branches: `feature/C2C-XXX-short-name`.
+
+## Content is Sanity-only (no hardcoded strings)
+
+**IMPORTANT: Every user-facing string must come from Sanity. No exceptions.**
+
+- No `?? "fallback string"` patterns for UI copy.
+- No `locale === "es" ? "…" : "…"` bilingual branches in components or pages.
+- No `{labels?.x ? <p>{labels.x}</p> : null}` defensive rendering for strings that are supposed to appear. If the string is supposed to be there, it's required — missing content is an error, not a branch.
+- All required, displayed strings on a component are non-nullable props. The component body renders them directly: `<h1>{title}</h1>`. No conditionals.
+- Validation happens at the data boundary (page.tsx / wrappers) via `cms.text(value, "sanity.path", { locale })` from `@/lib/cms`. If the Sanity field is missing or empty: in development, it throws a loud error that includes the document path and locale; in production, it logs via `console.error` and returns an empty string so one editorial typo doesn't crash the page for every visitor.
+- Conditional rendering is only acceptable when it's **data-driven**, not copy-driven: e.g. `{services.length > 0 && <ServicesBlock …>}`, or "render the audio player only if `audioSrc` is provided". Never conditional on "is the label authored?".
+- When a new copy surface appears in a Figma section, extend the Sanity schema first, seed the content, then wire the component with `requireString` at the boundary. Never ship a component that reads hardcoded copy or has string fallbacks.
+- `src/app/layout.tsx` metadata, og tags, and alt text also come from Sanity (via `siteSettings` / `siteLabels`) — not from string literals in code.
+- Every Sanity fetch goes through `sanityFetch()` from `@/sanity/fetch`, which applies the `"sanity"` cache tag so `revalidateTag("sanity")` (fired by the `/api/revalidate` webhook) actually invalidates the response.
+- The only acceptable string literals in components are: DOM structural values (`role="list"`, `data-testid`, test fixtures), CSS utility classes, and technical identifiers (URLs, asset paths).
+
+## Anti-patterns (do not do these)
+
+- Editing a non-existent `tailwind.config.ts` — this project is Tailwind v4, extend `@theme inline` in `src/app/globals.css`.
+- Pasting raw Figma payloads with absolute positioning into the codebase.
+- Hardcoding hex colors, pixel spacing, or font-family strings.
+- Creating new `Button` / `Card` / `Dialog` / `Input` / `Select` implementations instead of using `@/components/ui/*`.
+- Adding new icon, animation, or form libraries without a written justification that satisfies the dependency rule in `AGENTS.md`.
+- Introducing a default export for a component.
+- **Hardcoding any user-facing copy** — see "Content is Sanity-only" above.

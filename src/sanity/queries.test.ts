@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import {
   buildAboutPageQuery,
   buildEventsQuery,
@@ -16,12 +16,12 @@ import {
 import { createMockSanityClient, type SanityFetch } from "@/sanity/test/mockSanityClient";
 
 describe("Sanity GROQ query builders", () => {
-  it("builds homepage query with correct params and localized projections", () => {
+  it("builds homepage query by well-known _id with localized projections", () => {
     const def = buildHomepageQuery("en");
-    expect(def.params).toEqual({ locale: "en", slug: "home" });
-    expect(def.query).toContain('*[_type == "page"');
+    expect(def.params).toEqual({ locale: "en", id: "home-page" });
+    expect(def.query).toContain("*[_id == $id]");
     expect(def.query).toContain('"title": title[$locale]');
-    expect(def.query).toContain('"body": body[$locale]');
+    expect(def.query).toContain("homeSections");
   });
 
   it("builds portfolio items query", () => {

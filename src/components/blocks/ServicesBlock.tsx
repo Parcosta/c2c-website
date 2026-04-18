@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 import * as Lucide from "lucide-react";
 
 export type ServicesBlockProps = ComponentPropsWithoutRef<"section"> & {
-  title?: string;
-  subtitle?: string;
-  services?: ServiceValue[];
+  title: string;
+  subtitle: string;
+  services: ServiceValue[];
 };
 
 function resolveLucideIcon(name?: string): LucideIcon {
@@ -30,14 +30,13 @@ export function ServicesBlock({
   className,
   ...props
 }: ServicesBlockProps) {
-  if (!services?.length) return null;
+  if (!services.length) return null;
 
   return (
     <Section className={className} {...props}>
       <Container>
         <div className="space-y-12 md:space-y-16">
-          {/* Section Header - Figma Spec: accent line + title + subtitle */}
-          {title && <SectionHeading title={title} subtitle={subtitle} />}
+          <SectionHeading title={title} subtitle={subtitle} />
 
           {/* Service Cards Grid - Figma Spec: 3-column grid with 24px gap */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

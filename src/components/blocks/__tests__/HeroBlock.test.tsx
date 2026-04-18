@@ -9,25 +9,25 @@ const translations = {
   title: "Experimental Sound Design",
   description: "Multimedia artist and modular synthesist based in Mexico City.",
   ctaPrimary: "Contact Me",
+  ctaPrimaryHref: "/contact",
   ctaSecondary: "Official Store",
-  audioPlaceholder: "Track Name"
+  ctaSecondaryHref: "/store"
 };
 
-describe("HeroBlockClient", () => {
-  it("renders hero section with title, subtitle, and CTAs", () => {
-    render(<HeroBlockClient locale="en" translations={translations} />);
+const heroImage = { src: "https://cdn.example.com/hero.jpg", alt: "Hero image" };
 
-    // Check for title
+describe("HeroBlockClient", () => {
+  it("renders hero section with title, subtitle, and CTAs (hrefs prefixed by locale)", () => {
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
+
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Experimental Sound Design"
     );
 
-    // Check for description
     expect(
       screen.getByText("Multimedia artist and modular synthesist based in Mexico City.")
     ).toBeInTheDocument();
 
-    // Check for CTA buttons
     const primaryCta = screen.getByRole("link", { name: "Contact Me" });
     expect(primaryCta).toHaveAttribute("href", "/en/contact");
 
@@ -35,45 +35,28 @@ describe("HeroBlockClient", () => {
     expect(secondaryCta).toHaveAttribute("href", "/en/store");
   });
 
-  it("renders with hero image", () => {
-    render(<HeroBlockClient locale="en" translations={translations} />);
-
-    // Check that the hero image is rendered
-    const heroImage = screen.getByAltText("Experimental Sound Design");
-    expect(heroImage).toBeInTheDocument();
+  it("renders the hero image from the provided src and alt", () => {
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
+    expect(screen.getByAltText("Hero image")).toBeInTheDocument();
   });
 
-  it("renders audio player UI with disabled buttons when no audio source", () => {
-    render(<HeroBlockClient locale="en" translations={translations} />);
-
-    // Check for audio player elements - buttons should be disabled
-    const playButton = screen.getByLabelText("Track Name");
-    expect(playButton).toBeInTheDocument();
-    expect(playButton).toBeDisabled();
-
-    const downloadButton = screen.getByLabelText("Download");
-    expect(downloadButton).toBeInTheDocument();
-    expect(downloadButton).toBeDisabled();
-
-    expect(screen.getByText("Track Name")).toBeInTheDocument();
+  it("omits the audio player UI when audio is not provided", () => {
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
+    expect(document.querySelector("audio")).toBeNull();
   });
 
-  it("renders audio player with enabled buttons when audio source is provided", () => {
+  it("renders audio player UI when audio prop is provided", () => {
     render(
-      <HeroBlockClient locale="en" translations={translations} audioSrc="/audio/sample.mp3" />
+      <HeroBlockClient
+        locale="en"
+        translations={translations}
+        heroImage={heroImage}
+        audio={{ src: "/audio/sample.mp3", label: "Track Name" }}
+      />
     );
 
-    // Check for audio player elements - buttons should be enabled
-    const playButton = screen.getByLabelText("Track Name");
-    expect(playButton).toBeInTheDocument();
-    expect(playButton).not.toBeDisabled();
-
-    const downloadButton = screen.getByLabelText("Download");
-    expect(downloadButton).toBeInTheDocument();
-    expect(downloadButton).not.toBeDisabled();
-
-    // Audio element should be present
     const audioElement = document.querySelector('audio[src="/audio/sample.mp3"]');
     expect(audioElement).toBeInTheDocument();
+    expect(screen.getByText("Track Name")).toBeInTheDocument();
   });
 });

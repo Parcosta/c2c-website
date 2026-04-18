@@ -5,8 +5,8 @@ import { useMemo, useState } from "react";
 import { ImageCard } from "@/components/custom/ImageCard";
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
-import type { Locale } from "@/lib/i18n";
-import { addLocaleToPathname } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
+import { addLocaleToPathname } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 import type { PortfolioCardItem } from "./types";

@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 const content = {
-  brand: "Coast2Coast",
+  brand: "Coast2c",
   primaryAriaLabel: "Primary",
   mobileAriaLabel: "Mobile",
   navHome: "Home",
@@ -39,7 +39,7 @@ describe("SiteHeader", () => {
     expect(screen.getByTestId("nav-home")).toHaveTextContent("Home");
     expect(screen.getByTestId("nav-portfolio")).toHaveTextContent("Portfolio");
     expect(screen.getByTestId("nav-contact")).toHaveTextContent("Contact");
-    expect(screen.getByTestId("brand")).toHaveTextContent("Coast2Coast");
+    expect(screen.getByTestId("brand")).toHaveTextContent("Coast2c");
   });
 
   it("navigates when switching locales", () => {

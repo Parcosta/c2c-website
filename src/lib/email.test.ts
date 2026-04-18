@@ -65,7 +65,7 @@ describe("sendEmail", () => {
     resendMocks.send.mockReset();
     resendMocks.Resend.mockClear();
     process.env.RESEND_API_KEY = "re_test_key";
-    delete process.env.RESEND_FROM;
+    process.env.RESEND_FROM = "Coast2c <no-reply@example.com>";
   });
 
   it("calls Resend with expected payload", async () => {
@@ -82,6 +82,7 @@ describe("sendEmail", () => {
     expect(resendMocks.Resend).toHaveBeenCalledWith("re_test_key");
     expect(resendMocks.send).toHaveBeenCalledWith(
       expect.objectContaining({
+        from: "Coast2c <no-reply@example.com>",
         to: "user@example.com",
         subject: "Hello",
         replyTo: "reply@example.com"
@@ -100,5 +101,13 @@ describe("sendEmail", () => {
         html: "<p>Test</p>"
       })
     ).rejects.toThrow("nope");
+  });
+
+  it("throws when RESEND_FROM is not set and no from was passed in", async () => {
+    delete process.env.RESEND_FROM;
+
+    await expect(
+      sendEmail({ to: "user@example.com", subject: "Hello", html: "<p>Test</p>" })
+    ).rejects.toThrow(/RESEND_FROM/);
   });
 });

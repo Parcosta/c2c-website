@@ -196,22 +196,22 @@ async function seedSiteSettings() {
   const settings = {
     _type: "siteSettings",
     _id: "siteSettings",
-    siteName: "Coast2Coast",
+    siteName: "Coast2c",
     socialLinks: [
-      { _type: "socialLink", platform: "instagram", url: "https://instagram.com/coast2coast" },
+      { _type: "socialLink", platform: "instagram", url: "https://instagram.com/Coast2c" },
       {
         _type: "socialLink",
         platform: "spotify",
-        url: "https://open.spotify.com/artist/coast2coast"
+        url: "https://open.spotify.com/artist/Coast2c"
       },
-      { _type: "socialLink", platform: "soundcloud", url: "https://soundcloud.com/coast2coast" }
+      { _type: "socialLink", platform: "soundcloud", url: "https://soundcloud.com/Coast2c" }
     ],
     seo: {
       _type: "seo",
       title: {
         _type: "localeString",
-        en: "Coast2Coast | Live Modular Techno & DJ",
-        es: "Coast2Coast | Techno Modular en Vivo & DJ"
+        en: "Coast2c | Live Modular Techno & DJ",
+        es: "Coast2c | Techno Modular en Vivo & DJ"
       },
       description: {
         _type: "localeString",

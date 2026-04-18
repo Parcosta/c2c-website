@@ -6,10 +6,13 @@
 @theme inline {
   --color-brand-accent: #3b82f6;
 
-  /* Figma Gray Palette */
+  /* Figma Gray Palette — synced with the C2C design system */
+  --color-gray-50: #f7f7f8;
   --color-gray-100: #eeeef0;
   --color-gray-200: #c8c8ce;
-  --color-gray-400: #88888f;
+  --color-gray-300: #b9bac0;
+  --color-gray-400: #93949d;
+  --color-gray-500: #767781;
   --color-gray-600: #62626a;
   --color-gray-800: #434349;
   --color-gray-900: #3a3a40;
@@ -40,8 +43,8 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
-  /* Typography - Figma Specifications */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Typography — Figma uses DM Sans for all text; Inter kept as fallback */
+  --font-sans: var(--font-dm-sans), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-dm-sans), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Font Sizes */
@@ -135,6 +138,14 @@
   --text-header--line-height: var(--line-height-snug);
   --text-header--letter-spacing: var(--letter-spacing-tight);
   --text-header--font-weight: var(--font-weight-semibold);
+
+  /* 40px - h3 scale used for featured/CTA headings */
+  --font-size-h3: 2.5rem;
+  --letter-spacing-h3: -0.015em;
+  --text-h3: var(--font-size-h3);
+  --text-h3--line-height: var(--line-height-tight);
+  --text-h3--letter-spacing: var(--letter-spacing-h3);
+  --text-h3--font-weight: var(--font-weight-semibold);
 
   --text-subheader: var(--font-size-subheader);
   --text-subheader--line-height: var(--line-height-snug);

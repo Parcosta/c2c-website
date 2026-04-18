@@ -3,11 +3,18 @@ import { describe, expect, it } from "vitest";
 
 import { EventsBlockView } from "./EventsBlock";
 
+const eventsBaseProps = {
+  title: "Events",
+  subtitle: "Upcoming shows",
+  ticketsLabel: "Tickets"
+};
+
 describe("EventsBlock", () => {
   it("renders upcoming events sorted by date with ticket links", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         title="Events"
         subtitle="Upcoming shows"
         events={[
@@ -65,7 +72,15 @@ describe("EventsBlock", () => {
   });
 
   it("renders nothing when there are no visible events", () => {
-    const { container } = render(<EventsBlockView locale="en" events={[]} />);
+    const { container } = render(
+      <EventsBlockView
+        locale="en"
+        title="Events"
+        subtitle="Upcoming shows"
+        ticketsLabel="Tickets"
+        events={[]}
+      />
+    );
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -73,6 +88,7 @@ describe("EventsBlock", () => {
     const { container } = render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-invalid",
@@ -92,6 +108,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         title="Events"
         events={[
           {
@@ -116,10 +133,13 @@ describe("EventsBlock", () => {
     expect(screen.queryByRole("link", { name: /Tickets/ })).not.toBeInTheDocument();
   });
 
-  it("renders Spanish copy when locale is es", () => {
+  it("renders the Spanish copy passed in by the caller", () => {
     render(
       <EventsBlockView
         locale="es"
+        title="Eventos"
+        subtitle="Próximos shows y presentaciones."
+        ticketsLabel="Entradas"
         events={[
           {
             _id: "event-es",
@@ -143,6 +163,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-minimal",
@@ -165,6 +186,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-city-only",
@@ -185,6 +207,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-country-only",
@@ -205,6 +228,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-with-date",
@@ -231,6 +255,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         title="Custom Title"
         subtitle="Custom subtitle text"
         events={[
@@ -251,6 +276,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="es"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-date-format",
@@ -273,6 +299,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-trim",
@@ -294,6 +321,7 @@ describe("EventsBlock", () => {
     render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-whitespace",
@@ -315,6 +343,7 @@ describe("EventsBlock", () => {
     const { container } = render(
       <EventsBlockView
         locale="en"
+        {...eventsBaseProps}
         className="custom-class"
         events={[
           {
