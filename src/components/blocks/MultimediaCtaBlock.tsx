@@ -53,21 +53,13 @@ export function MultimediaCtaBlock({
             )}
           >
             <div className="flex flex-col items-center gap-2">
-              <h2
-                id="multimedia-cta-title"
-                className="font-display text-h3 text-gray-50"
-              >
+              <h2 id="multimedia-cta-title" className="font-display text-h3 text-gray-50">
                 {title}
               </h2>
               <p className="text-body text-gray-50">{description}</p>
             </div>
 
-            <Button
-              asChild
-              variant="dark"
-              size="sm"
-              className="uppercase tracking-widest"
-            >
+            <Button asChild variant="dark" size="sm" className="uppercase tracking-widest">
               <Link href={ctaHref}>{ctaLabel}</Link>
             </Button>
           </div>

@@ -162,9 +162,7 @@ describe("GalleryBlock", () => {
   });
 
   it("renders with correct column classes for different column counts", () => {
-    const { rerender } = render(
-      <GalleryBlock {...baseProps} images={mockImages} columns={2} />
-    );
+    const { rerender } = render(<GalleryBlock {...baseProps} images={mockImages} columns={2} />);
 
     let grid = screen.getByTestId("gallery-block").querySelector(".grid");
     expect(grid).toHaveClass("sm:grid-cols-2");

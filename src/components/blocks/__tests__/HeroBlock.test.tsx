@@ -18,9 +18,7 @@ const heroImage = { src: "https://cdn.example.com/hero.jpg", alt: "Hero image" }
 
 describe("HeroBlockClient", () => {
   it("renders hero section with title, subtitle, and CTAs (hrefs prefixed by locale)", () => {
-    render(
-      <HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />
-    );
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Experimental Sound Design"
@@ -38,16 +36,12 @@ describe("HeroBlockClient", () => {
   });
 
   it("renders the hero image from the provided src and alt", () => {
-    render(
-      <HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />
-    );
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
     expect(screen.getByAltText("Hero image")).toBeInTheDocument();
   });
 
   it("omits the audio player UI when audio is not provided", () => {
-    render(
-      <HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />
-    );
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
     expect(document.querySelector("audio")).toBeNull();
   });
 

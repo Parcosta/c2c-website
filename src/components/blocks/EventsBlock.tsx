@@ -98,11 +98,7 @@ export function EventsBlockView({
     <Section className={cn("py-12 md:py-20", className)} {...props}>
       <Container>
         <div className="space-y-8 md:space-y-12">
-          <SectionHeading
-            title={title}
-            subtitle={subtitle}
-            className="text-center md:text-left"
-          />
+          <SectionHeading title={title} subtitle={subtitle} className="text-center md:text-left" />
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visibleEvents.map(({ event, date }) => {

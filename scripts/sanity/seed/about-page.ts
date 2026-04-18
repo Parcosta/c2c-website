@@ -47,10 +47,9 @@ export async function upsertAboutPage(): Promise<void> {
     }
   };
 
-  dryLog(
-    "upsert aboutPage (intro + long bio EN/ES, leaves releases/equipment/influences alone)",
-    { _id: id }
-  );
+  dryLog("upsert aboutPage (intro + long bio EN/ES, leaves releases/equipment/influences alone)", {
+    _id: id
+  });
   if (!CONFIRMED) return;
   if (existing) {
     await client

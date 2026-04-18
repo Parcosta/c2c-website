@@ -13,14 +13,18 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const page = isSanityConfigured() ? await sanityFetch(buildLegalPageQuery(locale, "terms")) : null;
+  const page = isSanityConfigured()
+    ? await sanityFetch(buildLegalPageQuery(locale, "terms"))
+    : null;
   return { title: page?.seo?.title ?? page?.title };
 }
 
 export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const page = isSanityConfigured() ? await sanityFetch(buildLegalPageQuery(locale, "terms")) : null;
+  const page = isSanityConfigured()
+    ? await sanityFetch(buildLegalPageQuery(locale, "terms"))
+    : null;
 
   return <LegalPageView locale={locale} page={page} />;
 }

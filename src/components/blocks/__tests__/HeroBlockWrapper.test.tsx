@@ -69,9 +69,7 @@ describe("HeroBlockWrapper (data boundary)", () => {
     page.hero!.heading = undefined;
     getHomePageMock.mockResolvedValue(page);
 
-    await expect(renderWrapper("es")).rejects.toThrowError(
-      /page\.hero\.heading.*for locale "es"/
-    );
+    await expect(renderWrapper("es")).rejects.toThrowError(/page\.hero\.heading.*for locale "es"/);
   });
 
   it("throws when one of the hero eyebrows is missing", async () => {
@@ -79,9 +77,7 @@ describe("HeroBlockWrapper (data boundary)", () => {
     page.homeSections!.heroEyebrows = ["Tag 1"]; // index [1] missing
     getHomePageMock.mockResolvedValue(page);
 
-    await expect(renderWrapper("en")).rejects.toThrowError(
-      /heroEyebrows\[1\]/
-    );
+    await expect(renderWrapper("en")).rejects.toThrowError(/heroEyebrows\[1\]/);
   });
 
   it("does not require audioTrackLabel when no audio source is provided", async () => {
@@ -105,4 +101,3 @@ describe("HeroBlockWrapper (data boundary)", () => {
     ).rejects.toThrowError(/heroAudioTrackLabel/);
   });
 });
-

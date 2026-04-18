@@ -42,7 +42,9 @@ async function main() {
   console.log(`  Project:  ${PROJECT_ID}`);
   console.log(`  Dataset:  ${DATASET}`);
   console.log(`  Mode:     ${CONFIRMED ? "LIVE (will commit)" : "DRY RUN (no writes)"}`);
-  console.log(`  Services: ${SEED_SERVICES ? "REPLACE with 5 PRD shells" : "skip (preserve existing)"}`);
+  console.log(
+    `  Services: ${SEED_SERVICES ? "REPLACE with 5 PRD shells" : "skip (preserve existing)"}`
+  );
   console.log(`  Events:   ${SEED_EVENTS ? "REPLACE with 4 Figma events" : "skip"}`);
   console.log("════════════════════════════════════════════════════════════");
   console.log("");
@@ -50,10 +52,7 @@ async function main() {
   try {
     console.log("── Uploading assets ─────────────────────────────────────────");
     const heroId = await uploadLocalImage("public/images/hero-image.jpg", "hero.jpg");
-    const logoId = await uploadLocalImage(
-      "public/images/logo-coast2c.svg",
-      "logo-coast2c.svg"
-    );
+    const logoId = await uploadLocalImage("public/images/logo-coast2c.svg", "logo-coast2c.svg");
     const galleryIds = await uploadGalleryImages();
 
     console.log("\n── Home page ────────────────────────────────────────────────");

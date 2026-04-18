@@ -33,9 +33,7 @@ export function ProjectsFilterableGrid({ projects, filters }: ProjectsFilterable
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
   const filteredProjects =
-    activeFilter === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeFilter);
+    activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
 
   return (
     <>

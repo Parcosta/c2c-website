@@ -34,8 +34,7 @@ async function getRootDescription(locale: Locale): Promise<string> {
 export async function generateMetadata(): Promise<Metadata> {
   const headerStore = await headers();
   const headerLocale = headerStore.get("x-locale");
-  const locale: Locale =
-    headerLocale && isLocale(headerLocale) ? headerLocale : defaultLocale;
+  const locale: Locale = headerLocale && isLocale(headerLocale) ? headerLocale : defaultLocale;
   const description = await getRootDescription(locale);
 
   return {

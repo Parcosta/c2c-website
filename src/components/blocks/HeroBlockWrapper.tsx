@@ -31,11 +31,9 @@ export async function HeroBlockWrapper({ locale, className, audioSrc }: HeroBloc
   const audio: HeroAudio | undefined = audioSrc
     ? {
         src: audioSrc,
-        label: cms.text(
-          sections?.heroAudioTrackLabel,
-          "page.homeSections.heroAudioTrackLabel",
-          { locale }
-        )
+        label: cms.text(sections?.heroAudioTrackLabel, "page.homeSections.heroAudioTrackLabel", {
+          locale
+        })
       }
     : undefined;
 

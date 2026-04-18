@@ -13,7 +13,8 @@ describe("EventsBlock", () => {
   it("renders upcoming events sorted by date with ticket links", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         title="Events"
         subtitle="Upcoming shows"
         events={[
@@ -71,14 +72,23 @@ describe("EventsBlock", () => {
   });
 
   it("renders nothing when there are no visible events", () => {
-    const { container } = render(<EventsBlockView locale="en" title="Events" subtitle="Upcoming shows" ticketsLabel="Tickets" events={[]} />);
+    const { container } = render(
+      <EventsBlockView
+        locale="en"
+        title="Events"
+        subtitle="Upcoming shows"
+        ticketsLabel="Tickets"
+        events={[]}
+      />
+    );
     expect(container).toBeEmptyDOMElement();
   });
 
   it("renders nothing when all events have invalid dates", () => {
     const { container } = render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-invalid",
@@ -97,7 +107,8 @@ describe("EventsBlock", () => {
   it("renders events without ticketUrl without button", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         title="Events"
         events={[
           {
@@ -151,7 +162,8 @@ describe("EventsBlock", () => {
   it("renders event without venue or location", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-minimal",
@@ -173,7 +185,8 @@ describe("EventsBlock", () => {
   it("renders event with only city (no country)", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-city-only",
@@ -193,7 +206,8 @@ describe("EventsBlock", () => {
   it("renders event with only country (no city)", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-country-only",
@@ -213,7 +227,8 @@ describe("EventsBlock", () => {
   it("filters out events without dates", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-with-date",
@@ -239,7 +254,8 @@ describe("EventsBlock", () => {
   it("uses custom title and subtitle when provided", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         title="Custom Title"
         subtitle="Custom subtitle text"
         events={[
@@ -259,7 +275,8 @@ describe("EventsBlock", () => {
   it("formats dates correctly for different locales", () => {
     render(
       <EventsBlockView
-        locale="es" {...eventsBaseProps}
+        locale="es"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-date-format",
@@ -281,7 +298,8 @@ describe("EventsBlock", () => {
   it("trims whitespace from city and country", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-trim",
@@ -302,7 +320,8 @@ describe("EventsBlock", () => {
   it("handles events with whitespace-only city/country", () => {
     render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         events={[
           {
             _id: "event-whitespace",
@@ -323,7 +342,8 @@ describe("EventsBlock", () => {
   it("applies custom className to section", () => {
     const { container } = render(
       <EventsBlockView
-        locale="en" {...eventsBaseProps}
+        locale="en"
+        {...eventsBaseProps}
         className="custom-class"
         events={[
           {

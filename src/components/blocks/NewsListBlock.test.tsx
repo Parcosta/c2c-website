@@ -45,9 +45,7 @@ describe("NewsListBlock", () => {
   });
 
   it("emits a dateTime attribute in ISO format for each dated row", () => {
-    const { container } = render(
-      <NewsListBlock {...baseProps} items={items} dateLocale="en" />
-    );
+    const { container } = render(<NewsListBlock {...baseProps} items={items} dateLocale="en" />);
     const times = container.querySelectorAll("time");
     expect(times).toHaveLength(2);
     expect(times[0]).toHaveAttribute("datetime", "2026-10-25");

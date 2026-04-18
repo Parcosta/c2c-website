@@ -119,10 +119,7 @@ export async function replaceCollectionOfType(
     { type }
   );
   const toDelete = existingIds.filter((id) => !keepIds.has(id));
-  dryLog(
-    `delete ${toDelete.length} stale ${label} (of ${existingIds.length} existing)`,
-    toDelete
-  );
+  dryLog(`delete ${toDelete.length} stale ${label} (of ${existingIds.length} existing)`, toDelete);
   if (!toDelete.length || !CONFIRMED) return;
 
   const tx = client.transaction();

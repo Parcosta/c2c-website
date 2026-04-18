@@ -61,14 +61,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         sanityFetch(buildServicesQuery(locale)),
         sanityFetch(buildPortfolioItemsQuery(locale))
       ])
-    : [
-        null,
-        null,
-        null,
-        [] as PressItemValue[],
-        [] as ServiceValue[],
-        [] as PortfolioItemValue[]
-      ];
+    : [null, null, null, [] as PressItemValue[], [] as ServiceValue[], [] as PortfolioItemValue[]];
 
   const siteName = settings?.siteName ?? labels?.brand ?? "";
   const org = createOrganizationJsonLd({ name: siteName });
@@ -132,8 +125,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     { key: "dev", label: labels?.projectsPage?.filters?.dev }
   ];
   const projectFilters: ProjectsFilter[] = filterSpec
-    .filter((f): f is { key: string; label: string } =>
-      typeof f.label === "string" && f.label.trim().length > 0
+    .filter(
+      (f): f is { key: string; label: string } =>
+        typeof f.label === "string" && f.label.trim().length > 0
     )
     .map((f) => ({ key: f.key, label: f.label }));
 
@@ -219,17 +213,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           "homeSections.multimediaCtaSection.description",
           { locale }
         )}
-        ctaLabel={cms.text(
-          multimediaCta?.ctaLabel,
-          "homeSections.multimediaCtaSection.ctaLabel",
-          { locale }
-        )}
+        ctaLabel={cms.text(multimediaCta?.ctaLabel, "homeSections.multimediaCtaSection.ctaLabel", {
+          locale
+        })}
         ctaHref={prefixLocaleHref(
-          cms.text(
-            multimediaCta?.ctaHref,
-            "homeSections.multimediaCtaSection.ctaHref",
-            { locale }
-          ),
+          cms.text(multimediaCta?.ctaHref, "homeSections.multimediaCtaSection.ctaHref", { locale }),
           locale
         )}
       />
@@ -239,11 +227,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           title={cms.text(gallerySection?.title, "homeSections.gallerySection.title", {
             locale
           })}
-          eyebrow={cms.text(
-            gallerySection?.eyebrow,
-            "homeSections.gallerySection.eyebrow",
-            { locale }
-          )}
+          eyebrow={cms.text(gallerySection?.eyebrow, "homeSections.gallerySection.eyebrow", {
+            locale
+          })}
           images={galleryImages}
         />
       )}

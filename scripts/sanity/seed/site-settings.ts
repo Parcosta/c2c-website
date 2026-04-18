@@ -11,10 +11,11 @@ const FIGMA_SOCIALS = [
 ];
 
 export async function patchSiteSettings(logoAssetId: string): Promise<void> {
-  const existing = await client.fetch<
-    | { _id: string; logo?: unknown; siteName?: { en?: string; es?: string } }
-    | null
-  >(`*[_id == "siteSettings"][0]{_id, logo, siteName}`);
+  const existing = await client.fetch<{
+    _id: string;
+    logo?: unknown;
+    siteName?: { en?: string; es?: string };
+  } | null>(`*[_id == "siteSettings"][0]{_id, logo, siteName}`);
 
   const socialLinks = FIGMA_SOCIALS.map((item) => ({
     _key: shortKey(),
@@ -57,7 +58,7 @@ export async function patchSiteSettings(logoAssetId: string): Promise<void> {
   patch.setIfMissing({ logo: imageRef(logoAssetId) });
   patch.set({ socialLinks, siteName: correctedSiteName });
   dryLog(
-    'patch siteSettings (siteName → Coast2c, add logo if missing, replace socialLinks with 7 confirmed links)',
+    "patch siteSettings (siteName → Coast2c, add logo if missing, replace socialLinks with 7 confirmed links)",
     { siteName: correctedSiteName }
   );
   if (CONFIRMED) {

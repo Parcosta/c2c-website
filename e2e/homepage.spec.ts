@@ -20,9 +20,9 @@ test.describe("Home page", () => {
   test("hero section renders Sanity-sourced copy and both CTAs (en)", async ({ page }) => {
     await page.goto("/en");
 
-    const hero = page.locator("section#homepage-hero-title").or(
-      page.locator("section").filter({ has: page.locator("h1#homepage-hero-title") })
-    );
+    const hero = page
+      .locator("section#homepage-hero-title")
+      .or(page.locator("section").filter({ has: page.locator("h1#homepage-hero-title") }));
     await expect(page.locator("h1#homepage-hero-title")).toBeVisible();
     // The heading copy is authored in Sanity; assert it's non-empty rather
     // than matching a specific string.
@@ -51,9 +51,7 @@ test.describe("Home page", () => {
     await expect(page.getByRole("heading", { name: /coming soon/i })).toBeVisible();
   });
 
-  test("renders the multimedia CTA block with title, description and CTA", async ({
-    page
-  }) => {
+  test("renders the multimedia CTA block with title, description and CTA", async ({ page }) => {
     await page.goto("/en");
 
     const multimedia = page.getByTestId("multimedia-cta-block");
@@ -62,9 +60,7 @@ test.describe("Home page", () => {
     await expect(multimedia.getByRole("link")).toBeVisible();
   });
 
-  test("no DOM element renders an empty heading (no unauthored fallbacks)", async ({
-    page
-  }) => {
+  test("no DOM element renders an empty heading (no unauthored fallbacks)", async ({ page }) => {
     await page.goto("/en");
 
     // Every heading on the home page must have non-empty trimmed text

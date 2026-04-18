@@ -20,12 +20,12 @@ describe("cms.text", () => {
 
   it("throws in non-production with a message that includes path and locale", () => {
     (process.env as Record<string, string>).NODE_ENV = "development";
-    expect(() =>
-      cms.text(undefined, "page.hero.heading", { locale: "es" })
-    ).toThrowError(/page\.hero\.heading/);
-    expect(() =>
-      cms.text("", "page.hero.heading", { locale: "es" })
-    ).toThrowError(/for locale "es"/);
+    expect(() => cms.text(undefined, "page.hero.heading", { locale: "es" })).toThrowError(
+      /page\.hero\.heading/
+    );
+    expect(() => cms.text("", "page.hero.heading", { locale: "es" })).toThrowError(
+      /for locale "es"/
+    );
   });
 
   it("throws on null and on non-string values in dev", () => {

@@ -144,9 +144,7 @@ describe("ServicesBlock", () => {
   });
 
   it("applies custom className", () => {
-    const services: ServiceValue[] = [
-      { _id: "service-a", title: "Brand Design", icon: "Palette" }
-    ];
+    const services: ServiceValue[] = [{ _id: "service-a", title: "Brand Design", icon: "Palette" }];
     const { container } = render(
       <ServicesBlock {...baseProps} className="custom-class" services={services} />
     );

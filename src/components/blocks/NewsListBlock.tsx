@@ -49,10 +49,7 @@ export function NewsListBlock({
             <p className="font-display text-xs font-medium uppercase tracking-wide text-gray-500">
               {eyebrow}
             </p>
-            <h2
-              id="news-list-title"
-              className="font-display text-header text-gray-50"
-            >
+            <h2 id="news-list-title" className="font-display text-header text-gray-50">
               {title}
             </h2>
           </header>
@@ -104,10 +101,7 @@ export function NewsListRow({
           {formattedDate}
         </time>
       ) : (
-        <span
-          aria-hidden="true"
-          className={cn("shrink-0 self-baseline", dateColumnWidthClass)}
-        />
+        <span aria-hidden="true" className={cn("shrink-0 self-baseline", dateColumnWidthClass)} />
       )}
 
       <span className="flex-1 self-baseline font-display text-body font-medium text-gray-300">
@@ -132,17 +126,14 @@ export function NewsListRow({
   );
 
   if (!item.href) {
-    return (
-      <div className="flex items-baseline gap-4 md:gap-6">{content}</div>
-    );
+    return <div className="flex items-baseline gap-4 md:gap-6">{content}</div>;
   }
 
   return (
     <Link
       href={item.href}
       aria-label={
-        item.ariaLabel ??
-        [formattedDate, item.label, item.location].filter(Boolean).join(" · ")
+        item.ariaLabel ?? [formattedDate, item.label, item.location].filter(Boolean).join(" · ")
       }
       className={cn(
         "group flex items-baseline gap-4 md:gap-6",

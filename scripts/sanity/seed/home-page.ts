@@ -1,11 +1,4 @@
-import {
-  CONFIRMED,
-  client,
-  dryLog,
-  imageRef,
-  shortKey,
-  uploadLocalImage
-} from "../shared";
+import { CONFIRMED, client, dryLog, imageRef, shortKey, uploadLocalImage } from "../shared";
 
 export async function uploadGalleryImages(): Promise<string[]> {
   const filenames = [

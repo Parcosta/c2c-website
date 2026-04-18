@@ -23,9 +23,7 @@ import { CONFIRMED, client, dryLog, imageRef } from "./shared";
 async function main() {
   const srcArg = process.argv[2];
   if (!srcArg) {
-    console.error(
-      "❌ Usage: npx tsx scripts/sanity/replace-hero-image.ts <local-image-path>"
-    );
+    console.error("❌ Usage: npx tsx scripts/sanity/replace-hero-image.ts <local-image-path>");
     console.error(
       "   Example: npx tsx scripts/sanity/replace-hero-image.ts public/images/hero-figma.jpg"
     );
@@ -35,8 +33,7 @@ async function main() {
   const abs = path.resolve(srcArg);
   const buf = await fs.readFile(abs);
   const ext = path.extname(abs).slice(1).toLowerCase();
-  const contentType =
-    ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
+  const contentType = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
   const stamped = `hero-${Date.now()}.${ext || "jpg"}`;
 
   console.log(

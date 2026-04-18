@@ -47,9 +47,9 @@ const LABELS = {
 };
 
 export async function patchSiteLabels(): Promise<void> {
-  const existing = await client.fetch<
-    { _id: string; brand?: { en?: string; es?: string } } | null
-  >(`*[_id == "siteLabels"][0]{_id, brand}`);
+  const existing = await client.fetch<{ _id: string; brand?: { en?: string; es?: string } } | null>(
+    `*[_id == "siteLabels"][0]{_id, brand}`
+  );
 
   if (!existing) {
     dryLog("create siteLabels (did not exist)");
@@ -69,21 +69,14 @@ export async function patchSiteLabels(): Promise<void> {
   const existingBrand = existing.brand ?? {};
   const correctedBrand = {
     _type: "localeString" as const,
-    en:
-      !existingBrand.en || /coast2coast/i.test(existingBrand.en)
-        ? "Coast2c"
-        : existingBrand.en,
-    es:
-      !existingBrand.es || /coast2coast/i.test(existingBrand.es)
-        ? "Coast2c"
-        : existingBrand.es
+    en: !existingBrand.en || /coast2coast/i.test(existingBrand.en) ? "Coast2c" : existingBrand.en,
+    es: !existingBrand.es || /coast2coast/i.test(existingBrand.es) ? "Coast2c" : existingBrand.es
   };
   patch.set({ brand: correctedBrand });
 
-  dryLog(
-    "patch siteLabels (setIfMissing nav/footer/projects + force-correct brand to \"Coast2c\")",
-    { correctedBrand }
-  );
+  dryLog('patch siteLabels (setIfMissing nav/footer/projects + force-correct brand to "Coast2c")', {
+    correctedBrand
+  });
   if (CONFIRMED) {
     await patch.commit();
   }

@@ -14,9 +14,7 @@ describe("MultimediaCtaBlock", () => {
   it("renders heading, description, and a link to the CTA href", () => {
     render(<MultimediaCtaBlock {...baseProps} />);
 
-    expect(
-      screen.getByRole("heading", { name: baseProps.title, level: 2 })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: baseProps.title, level: 2 })).toBeInTheDocument();
     expect(screen.getByText(baseProps.description)).toBeInTheDocument();
 
     const cta = screen.getByRole("link", { name: baseProps.ctaLabel });
