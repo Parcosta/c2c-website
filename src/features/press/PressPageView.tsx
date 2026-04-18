@@ -7,7 +7,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import type {
   PressDownloadValue,
   PressItemValue,

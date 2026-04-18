@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { locales } from "@/lib/i18n";
+import { locales } from "@/lib/locale";
 import { resolveUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {

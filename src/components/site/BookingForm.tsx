@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import type { BookingEventTypesValue, BookingFormContentValue } from "@/sanity/queries";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

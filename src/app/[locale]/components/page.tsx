@@ -6,7 +6,7 @@ import { ImageCard } from "@/components/custom/ImageCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { type Locale } from "@/lib/i18n";
+import { type Locale } from "@/lib/locale";
 import { buildMetadata } from "@/lib/seo";
 
 function getComponentsSeo(locale: Locale): { title: string; description: string } {

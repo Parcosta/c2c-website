@@ -12,7 +12,7 @@ The `siteLabels` document is a **singleton** (only one instance) that stores all
 
 ### Brand
 
-- **brand**: Site brand name (e.g., "Coast2Coast")
+- **brand**: Site brand name (e.g., "Coast2c")
 
 ### Navigation
 

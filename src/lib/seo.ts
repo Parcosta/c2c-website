@@ -6,7 +6,7 @@ import {
   locales,
   switchLocaleInPathname,
   type Locale
-} from "@/lib/i18n";
+} from "@/lib/locale";
 
 type OgImage = {
   url: string;
@@ -27,16 +27,25 @@ export type BuildMetadataInput = {
 
 export type JsonLd = Record<string, unknown>;
 
-const fallbackSiteUrl = "http://localhost:3000";
-const fallbackSiteName = "Coast2Coast (C2C)";
+// The dev-server URL fallback is infrastructure (not content); required
+// for `metadataBase` to parse at build time when no SITE_URL is set locally.
+const DEV_SITE_URL = "http://localhost:3000";
 
+/**
+ * Site name is sourced from the NEXT_PUBLIC_SITE_NAME env var (set in
+ * .env.local / Amplify). Authoritative content lives in Sanity
+ * (`siteSettings.siteName`) and is preferred whenever an async context
+ * allows fetching it. This helper returns an empty string when the env
+ * var isn't set — callers should handle the empty case explicitly rather
+ * than relying on a hardcoded brand fallback.
+ */
 export function getSiteName(): string {
-  return (process.env.NEXT_PUBLIC_SITE_NAME ?? "").trim() || fallbackSiteName;
+  return (process.env.NEXT_PUBLIC_SITE_NAME ?? "").trim();
 }
 
 export function getSiteUrl(): string {
   const raw = (process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL ?? "").trim();
-  if (!raw) return fallbackSiteUrl;
+  if (!raw) return DEV_SITE_URL;
   return raw.replace(/\/+$/, "");
 }
 
@@ -47,10 +56,6 @@ function normalizePathname(pathname: string): string {
 
 export function resolveUrl(pathname: string): URL {
   return new URL(normalizePathname(pathname), getSiteUrl());
-}
-
-function getDefaultOgImage(): OgImage {
-  return { url: "/preview-1.svg", alt: "Preview" };
 }
 
 function toOpenGraphLocale(locale: Locale): string {
@@ -75,12 +80,20 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
   const resolvedLocale = input.locale ?? getLocaleFromPathname(pathname) ?? defaultLocale;
   const canonical = resolveUrl(pathname);
 
-  const siteName = input.siteName ?? getSiteName();
-  const title = input.title === siteName ? siteName : `${input.title} | ${siteName}`;
+  const siteName = (input.siteName ?? getSiteName()).trim();
+
+  // Build a clean title. If the caller's title already matches siteName (rare,
+  // e.g. on a dedicated brand page), don't duplicate; otherwise append the
+  // " | siteName" suffix only when siteName is non-empty.
+  const title = !input.title
+    ? siteName || ""
+    : siteName && input.title !== siteName
+      ? `${input.title} | ${siteName}`
+      : input.title;
 
   const metadataBase = new URL(getSiteUrl());
-  const ogImage = input.image ?? getDefaultOgImage();
-  const ogImageUrl = resolveUrl(ogImage.url);
+  const ogImage = input.image;
+  const ogImageUrl = ogImage ? resolveUrl(ogImage.url) : null;
 
   const twitterSite = (process.env.NEXT_PUBLIC_TWITTER_HANDLE ?? "").trim() || undefined;
 
@@ -96,23 +109,25 @@ export function buildMetadata(input: BuildMetadataInput): Metadata {
       type: "website",
       url: canonical.pathname,
       locale: toOpenGraphLocale(resolvedLocale),
-      siteName,
+      siteName: siteName || undefined,
       title,
       description: input.description,
-      images: [
-        {
-          url: ogImageUrl.pathname,
-          width: ogImage.width,
-          height: ogImage.height,
-          alt: ogImage.alt
-        }
-      ]
+      images: ogImageUrl
+        ? [
+            {
+              url: ogImageUrl.pathname,
+              width: ogImage!.width,
+              height: ogImage!.height,
+              alt: ogImage!.alt
+            }
+          ]
+        : undefined
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: input.description,
-      images: [ogImageUrl.pathname],
+      images: ogImageUrl ? [ogImageUrl.pathname] : undefined,
       site: twitterSite
     },
     robots: input.noIndex

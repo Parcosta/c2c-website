@@ -1,15 +1,14 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { ContactForm } from "@/components/site/ContactForm";
-import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildSiteLabelsQuery } from "@/sanity/queries";
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const def = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = isSanityConfigured() ? await sanityFetch(buildSiteLabelsQuery(locale)) : null;
 
   return (
     <main data-testid="contact-page">

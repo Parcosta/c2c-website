@@ -1,13 +1,18 @@
 import Link from "next/link";
 
 import { GlassCard } from "@/components/custom/GlassCard";
-import type { Locale } from "@/lib/i18n";
+import { NewsListRow, type NewsListItem } from "@/components/blocks/NewsListBlock";
+import type { Locale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 import type { PressItemValue } from "@/sanity/queries";
+
+export type PressBlockVariant = "cards" | "list";
 
 export type PressBlockProps = {
   items: PressItemValue[];
   locale: Locale;
+  variant?: PressBlockVariant;
+  ctaLabel?: string;
   className?: string;
 };
 
@@ -26,9 +31,53 @@ function formatPressDate(value: string, locale: Locale) {
   return { dateTime, formatted };
 }
 
-export function PressBlock({ items, locale, className }: PressBlockProps) {
+export function PressBlock({
+  items,
+  locale,
+  variant = "cards",
+  ctaLabel,
+  className
+}: PressBlockProps) {
   const visibleItems = items.filter((item) => item.publication || item.quote || item.url);
   if (visibleItems.length === 0) return null;
+
+  if (variant === "list") {
+    if (!ctaLabel) {
+      if (process.env.NODE_ENV !== "production") {
+        throw new Error(
+          "PressBlock variant='list' requires a `ctaLabel` prop. Provide one from Sanity (e.g. siteLabels.pressPage.readMore)."
+        );
+      }
+      return null;
+    }
+    return (
+      <ul
+        className={cn("flex flex-col gap-6 md:gap-10", className)}
+        role="list"
+        data-testid="press-list"
+      >
+        {visibleItems.map((item) => {
+          const listItem: NewsListItem = {
+            _key: item._id,
+            date: item.date,
+            label: item.publication || item.title || "",
+            href: item.url ?? undefined
+          };
+
+          return (
+            <li key={item._id}>
+              <NewsListRow
+                item={listItem}
+                ctaLabel={ctaLabel}
+                dateLocale={locale}
+                dateColumnWidthClass="w-[100px]"
+              />
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
 
   return (
     <div className={cn("space-y-4", className)}>

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
-import type { Locale } from "@/lib/i18n";
-import { switchLocaleInPathname } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
+import { switchLocaleInPathname } from "@/lib/locale";
 
 interface NavItem {
   href: string;

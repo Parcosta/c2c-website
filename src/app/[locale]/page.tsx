@@ -1,19 +1,39 @@
 import type { Metadata } from "next";
 
-import { HeroBlockWrapper } from "@/components/blocks/HeroBlockWrapper";
-import { ProjectsBlock } from "@/components/blocks/ProjectsBlock";
 import { EventsBlock } from "@/components/blocks/EventsBlock";
+import { GalleryBlock, type GalleryImage } from "@/components/blocks/GalleryBlock";
+import { HeroBlockWrapper } from "@/components/blocks/HeroBlockWrapper";
+import { MultimediaCtaBlock } from "@/components/blocks/MultimediaCtaBlock";
+import { NewsListBlock, type NewsListItem } from "@/components/blocks/NewsListBlock";
+import {
+  ProjectsBlock,
+  type ProjectItem,
+  type ProjectsFilter
+} from "@/components/blocks/ProjectsBlock";
+import { ServicesBlock } from "@/components/blocks/ServicesBlock";
 import { JsonLdScript } from "@/components/seo/JsonLd";
-import { type Locale } from "@/lib/i18n";
+import { cms } from "@/lib/cms";
+import { prefixLocaleHref, type Locale } from "@/lib/locale";
 import {
   buildMetadata,
+  createEventJsonLd,
   createMusicGroupJsonLd,
-  createOrganizationJsonLd,
-  createEventJsonLd
+  createOrganizationJsonLd
 } from "@/lib/seo";
-import { getClient } from "@/sanity/client";
+import { getHomePage, getSiteLabels } from "@/sanity/cache";
 import { isSanityConfigured } from "@/sanity/config";
-import { buildHomepageQuery, buildSiteLabelsQuery, buildSiteSettingsQuery } from "@/sanity/queries";
+import { sanityFetch } from "@/sanity/fetch";
+import { getSanityImageUrl } from "@/sanity/image";
+import { portableTextToPlainText } from "@/sanity/portableText";
+import {
+  buildPortfolioItemsQuery,
+  buildPressQuery,
+  buildServicesQuery,
+  buildSiteSettingsQuery,
+  type PortfolioItemValue,
+  type PressItemValue,
+  type ServiceValue
+} from "@/sanity/queries";
 
 export async function generateMetadata({
   params
@@ -21,8 +41,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const def = buildHomepageQuery(locale);
-  const page = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const page = await getHomePage(locale);
   return buildMetadata({
     title: page?.seo?.title ?? "",
     description: page?.seo?.description ?? "",
@@ -32,14 +51,25 @@ export async function generateMetadata({
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const settingsDef = buildSiteSettingsQuery(locale);
-  const labelsDef = buildSiteLabelsQuery(locale);
-  const [settings, labels] = isSanityConfigured()
+
+  const [page, settings, labels, pressItems, services, portfolioItems] = isSanityConfigured()
     ? await Promise.all([
-        getClient().fetch(settingsDef.query, settingsDef.params),
-        getClient().fetch(labelsDef.query, labelsDef.params)
+        getHomePage(locale),
+        sanityFetch(buildSiteSettingsQuery(locale)),
+        getSiteLabels(locale),
+        sanityFetch(buildPressQuery(locale)),
+        sanityFetch(buildServicesQuery(locale)),
+        sanityFetch(buildPortfolioItemsQuery(locale))
       ])
-    : [null, null];
+    : [
+        null,
+        null,
+        null,
+        [] as PressItemValue[],
+        [] as ServiceValue[],
+        [] as PortfolioItemValue[]
+      ];
+
   const siteName = settings?.siteName ?? labels?.brand ?? "";
   const org = createOrganizationJsonLd({ name: siteName });
   const group = createMusicGroupJsonLd({ name: siteName });
@@ -57,27 +87,166 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         })
       : null;
 
+  const sections = page?.homeSections;
+
+  // Map Sanity portfolioItems → ProjectsBlock's ProjectItem shape.
+  const projectItems: ProjectItem[] = (portfolioItems ?? [])
+    .slice(0, 8)
+    .map((item) => ({
+      id: item._id,
+      title: item.title ?? "",
+      description: portableTextToPlainText(item.description as unknown[] | undefined),
+      imageUrl: getSanityImageUrl(item.images?.[0], { width: 600 }) ?? "",
+      category: item.filterCategory
+    }))
+    .filter((item) => Boolean(item.title && item.imageUrl));
+
+  const newsItems: NewsListItem[] = (pressItems ?? [])
+    .slice(0, 4)
+    .filter((item) => item.publication || item.title)
+    .map((item) => ({
+      _key: item._id,
+      date: item.date,
+      label: item.publication || item.title || "",
+      href: item.url ?? undefined
+    }));
+
+  const galleryImages: GalleryImage[] = (sections?.gallerySection?.images ?? [])
+    .filter((item) => Boolean(item.image?.asset?._ref))
+    .map((item, index) => ({
+      _id: item._key ?? `home-gallery-${index}`,
+      src: item.image!,
+      alt: item.alt,
+      caption: item.caption
+    }));
+
+  // Build filter tabs from Sanity-authored labels only. Filters with no
+  // label are dropped; if no labels are authored the block shows no filter
+  // tabs and just the grid.
+  const filterSpec: ReadonlyArray<{ key: string; label: string | undefined }> = [
+    { key: "all", label: labels?.projectsPage?.filters?.all },
+    { key: "musica", label: labels?.projectsPage?.filters?.music },
+    { key: "sonoro", label: labels?.projectsPage?.filters?.sound },
+    { key: "video", label: labels?.projectsPage?.filters?.video },
+    { key: "mixes", label: labels?.projectsPage?.filters?.mixes },
+    { key: "dev", label: labels?.projectsPage?.filters?.dev }
+  ];
+  const projectFilters: ProjectsFilter[] = filterSpec
+    .filter((f): f is { key: string; label: string } =>
+      typeof f.label === "string" && f.label.trim().length > 0
+    )
+    .map((f) => ({ key: f.key, label: f.label }));
+
+  const servicesSection = sections?.servicesSection;
+  const eventsSection = sections?.eventsSection;
+  const newsSection = sections?.newsSection;
+  const multimediaCta = sections?.multimediaCtaSection;
+  const gallerySection = sections?.gallerySection;
+
   return (
     <main>
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
+
       <HeroBlockWrapper locale={locale} />
-      <ProjectsBlock
+
+      {projectItems.length > 0 && (
+        <ProjectsBlock
+          projects={projectItems}
+          sectionLabel={cms.text(
+            labels?.projectsPage?.sectionLabel,
+            "siteLabels.projectsPage.sectionLabel",
+            { locale }
+          )}
+          title={cms.text(labels?.projectsPage?.title, "siteLabels.projectsPage.title", {
+            locale
+          })}
+          visitStoreLabel={cms.text(
+            labels?.projectsPage?.visitStore,
+            "siteLabels.projectsPage.visitStore",
+            { locale }
+          )}
+          filters={projectFilters}
+        />
+      )}
+
+      <EventsBlock
         locale={locale}
-        labels={{
-          sectionLabel: labels?.projectsPage?.sectionLabel ?? "Projects",
-          title: labels?.projectsPage?.title ?? "Selected Work",
-          visitStore: labels?.projectsPage?.visitStore ?? "Visit Store",
-          filters: {
-            all: labels?.projectsPage?.filters?.all ?? "All",
-            music: labels?.projectsPage?.filters?.music ?? "Music",
-            sound: labels?.projectsPage?.filters?.sound ?? "Sound",
-            video: labels?.projectsPage?.filters?.video ?? "Video",
-            mixes: labels?.projectsPage?.filters?.mixes ?? "Mixes",
-            dev: labels?.projectsPage?.filters?.dev ?? "Dev"
-          }
-        }}
+        title={cms.text(eventsSection?.title, "homeSections.eventsSection.title", { locale })}
+        subtitle={cms.text(eventsSection?.eyebrow, "homeSections.eventsSection.eyebrow", {
+          locale
+        })}
+        ticketsLabel={cms.text(
+          eventsSection?.ticketsLabel,
+          "homeSections.eventsSection.ticketsLabel",
+          { locale }
+        )}
       />
-      <EventsBlock locale={locale} />
+
+      {services.length > 0 && (
+        <ServicesBlock
+          title={cms.text(servicesSection?.title, "homeSections.servicesSection.title", {
+            locale
+          })}
+          subtitle={cms.text(
+            servicesSection?.description,
+            "homeSections.servicesSection.description",
+            { locale }
+          )}
+          services={services}
+        />
+      )}
+
+      {newsItems.length > 0 && (
+        <NewsListBlock
+          title={cms.text(newsSection?.title, "homeSections.newsSection.title", { locale })}
+          eyebrow={cms.text(newsSection?.eyebrow, "homeSections.newsSection.eyebrow", {
+            locale
+          })}
+          ctaLabel={cms.text(newsSection?.ctaLabel, "homeSections.newsSection.ctaLabel", {
+            locale
+          })}
+          items={newsItems}
+          dateLocale={locale}
+        />
+      )}
+
+      <MultimediaCtaBlock
+        title={cms.text(multimediaCta?.title, "homeSections.multimediaCtaSection.title", {
+          locale
+        })}
+        description={cms.text(
+          multimediaCta?.description,
+          "homeSections.multimediaCtaSection.description",
+          { locale }
+        )}
+        ctaLabel={cms.text(
+          multimediaCta?.ctaLabel,
+          "homeSections.multimediaCtaSection.ctaLabel",
+          { locale }
+        )}
+        ctaHref={prefixLocaleHref(
+          cms.text(
+            multimediaCta?.ctaHref,
+            "homeSections.multimediaCtaSection.ctaHref",
+            { locale }
+          ),
+          locale
+        )}
+      />
+
+      {galleryImages.length > 0 && (
+        <GalleryBlock
+          title={cms.text(gallerySection?.title, "homeSections.gallerySection.title", {
+            locale
+          })}
+          eyebrow={cms.text(
+            gallerySection?.eyebrow,
+            "homeSections.gallerySection.eyebrow",
+            { locale }
+          )}
+          images={galleryImages}
+        />
+      )}
     </main>
   );
 }

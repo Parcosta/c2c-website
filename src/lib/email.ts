@@ -123,7 +123,12 @@ function getResendClient(): Resend {
 
 export async function sendEmail(input: SendEmailInput) {
   const resend = getResendClient();
-  const from = input.from ?? process.env.RESEND_FROM ?? "C2C <onboarding@resend.dev>";
+  const from = input.from ?? process.env.RESEND_FROM;
+  if (!from) {
+    throw new Error(
+      "Missing RESEND_FROM environment variable. Set it in .env.local / deployment env (e.g. 'Coast2c <no-reply@yourdomain.com>')."
+    );
+  }
   const { data, error } = await resend.emails.send({
     from,
     to: input.to,

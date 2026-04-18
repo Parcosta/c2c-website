@@ -1,6 +1,6 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
-import { getClient } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildSiteLabelsQuery } from "@/sanity/queries";
 import { SiteHeaderClient } from "./SiteHeaderClient";
 
@@ -9,10 +9,7 @@ interface SiteHeaderWrapperProps {
 }
 
 export async function SiteHeaderWrapper({ locale }: SiteHeaderWrapperProps) {
-  const labelsDef = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured()
-    ? await getClient().fetch(labelsDef.query, labelsDef.params)
-    : null;
+  const labels = isSanityConfigured() ? await sanityFetch(buildSiteLabelsQuery(locale)) : null;
   const navTranslations = {
     brand: labels?.brand ?? "",
     navHome: labels?.navigation?.home ?? "",

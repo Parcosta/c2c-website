@@ -6,6 +6,12 @@ export const cta = defineType({
   type: "object",
   fields: [
     defineField({ name: "label", title: "Label", type: "localeString" }),
-    defineField({ name: "href", title: "URL", type: "url" })
+    defineField({
+      name: "href",
+      title: "Link",
+      description:
+        "Relative path (e.g. /booking) or a full URL (e.g. https://example.com). Relative paths are automatically locale-prefixed at render time.",
+      type: "string"
+    })
   ]
 });

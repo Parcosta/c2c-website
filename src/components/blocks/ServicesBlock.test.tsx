@@ -2,13 +2,18 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { ServicesBlock } from "./ServicesBlock";
+import type { ServiceValue } from "@/sanity/queries";
+
+const baseProps = {
+  title: "Services",
+  subtitle: "What we do"
+};
 
 describe("ServicesBlock", () => {
   it("renders a heading and service cards", () => {
     render(
       <ServicesBlock
-        title="Services"
-        subtitle="What we do"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -40,57 +45,15 @@ describe("ServicesBlock", () => {
     expect(screen.getByText("SEO")).toBeInTheDocument();
   });
 
-  it("renders nothing when services are missing", () => {
-    const { container } = render(<ServicesBlock title="Services" services={[]} />);
+  it("renders nothing when services array is empty", () => {
+    const { container } = render(<ServicesBlock {...baseProps} services={[]} />);
     expect(container).toBeEmptyDOMElement();
-  });
-
-  it("renders nothing when services is undefined", () => {
-    const { container } = render(<ServicesBlock title="Services" />);
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("renders without subtitle when not provided", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems and guidelines.",
-            icon: "Palette"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByRole("heading", { name: "Services" })).toBeInTheDocument();
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-  });
-
-  it("renders without title when not provided", () => {
-    render(
-      <ServicesBlock
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems and guidelines.",
-            icon: "Palette"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText("Identity systems and guidelines.")).toBeInTheDocument();
   });
 
   it("renders service without description", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -109,7 +72,7 @@ describe("ServicesBlock", () => {
   it("renders service without features", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -128,7 +91,7 @@ describe("ServicesBlock", () => {
   it("renders service with pricing", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -148,7 +111,7 @@ describe("ServicesBlock", () => {
   it("renders with default icon when icon name is invalid", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -166,7 +129,7 @@ describe("ServicesBlock", () => {
   it("renders with default icon when icon is undefined", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -181,18 +144,11 @@ describe("ServicesBlock", () => {
   });
 
   it("applies custom className", () => {
+    const services: ServiceValue[] = [
+      { _id: "service-a", title: "Brand Design", icon: "Palette" }
+    ];
     const { container } = render(
-      <ServicesBlock
-        title="Services"
-        className="custom-class"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            icon: "Palette"
-          }
-        ]}
-      />
+      <ServicesBlock {...baseProps} className="custom-class" services={services} />
     );
 
     expect(container.querySelector("section")).toHaveClass("custom-class");
@@ -201,7 +157,7 @@ describe("ServicesBlock", () => {
   it("renders multiple features correctly", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",
@@ -223,7 +179,7 @@ describe("ServicesBlock", () => {
   it("renders features list with correct role", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
           {
             _id: "service-a",

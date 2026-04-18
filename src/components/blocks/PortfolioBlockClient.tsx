@@ -96,18 +96,21 @@ export function PortfolioBlockClient({
           {filteredItems.length ? (
             // Figma 4-column grid with 40px gaps
             <div className="grid grid-cols-2 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {filteredItems.map((item) => (
-                <ImageCard
-                  key={item.id}
-                  src={item.imageUrl ?? "/preview-1.svg"}
-                  alt={item.title}
-                  title={item.title}
-                  description={item.category ?? undefined}
-                  href={`/portfolio/${item.slug}`}
-                  aspectClassName="aspect-[4/3]"
-                  className="bg-gray-900/40 border-gray-800 hover:border-gray-600"
-                />
-              ))}
+              {filteredItems.map((item) => {
+                if (!item.imageUrl) return null;
+                return (
+                  <ImageCard
+                    key={item.id}
+                    src={item.imageUrl}
+                    alt={item.title}
+                    title={item.title}
+                    description={item.category ?? undefined}
+                    href={`/portfolio/${item.slug}`}
+                    aspectClassName="aspect-[4/3]"
+                    className="bg-gray-900/40 border-gray-800 hover:border-gray-600"
+                  />
+                );
+              })}
             </div>
           ) : (
             <p className="text-sm text-muted-foreground">No items in this category yet.</p>
