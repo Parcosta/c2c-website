@@ -25,6 +25,14 @@ export async function sanityFetch<TParams extends Record<string, unknown>, TResu
   def: QueryDefinition<TParams, TResult>,
   next: NextFetchOptions = {}
 ): Promise<TResult> {
+  // E2E / local smoke tests can opt into fixture-backed fetches via this
+  // flag. Dynamic import keeps the fixture module out of production bundles
+  // when the flag isn't set.
+  if (process.env.SANITY_USE_FIXTURES === "1") {
+    const { resolveFixture } = await import("@/sanity/fixtures");
+    return resolveFixture(def);
+  }
+
   const tags = [SANITY_CACHE_TAG, ...(next.tags ?? [])];
   return getClient().fetch<TResult>(def.query, def.params, {
     next: { ...next, tags }

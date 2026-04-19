@@ -10,6 +10,7 @@ vi.mock("@/sanity/client", () => ({
 
 function makeDef<T>(): QueryDefinition<{ locale: string; id: string }, T> {
   return {
+    name: "homepage",
     query: "*[_id == $id][0]",
     params: { locale: "en", id: "some-doc" }
   };

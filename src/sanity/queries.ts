@@ -2,7 +2,27 @@ import { groq } from "next-sanity";
 
 import type { Locale } from "@/lib/locale";
 
+/**
+ * Stable identifier for each query builder. Used by the E2E fixture resolver
+ * (see `src/sanity/fixtures`) to route fetches to typed fixture data without
+ * brittle GROQ-string fingerprinting.
+ */
+export type QueryName =
+  | "homepage"
+  | "siteLabels"
+  | "siteSettings"
+  | "portfolioItems"
+  | "portfolioItem"
+  | "events"
+  | "upcomingEvents"
+  | "services"
+  | "pressItems"
+  | "pressEpk"
+  | "aboutPage"
+  | "legalPage";
+
 export type QueryDefinition<TParams extends Record<string, unknown>, TResult> = {
+  name: QueryName;
   query: string;
   params: TParams;
 } & {
@@ -401,6 +421,7 @@ export function buildHomepageQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale; id: string }, PageValue> {
   return {
+    name: "homepage",
     query: groq`*[_id == $id][0]{
       _id,
       "title": title[$locale],
@@ -470,6 +491,7 @@ export function buildPortfolioItemsQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, PortfolioItemValue[]> {
   return {
+    name: "portfolioItems",
     query: groq`*[_type == "portfolioItem"]|order(date desc){
       _id,
       "title": title[$locale],
@@ -489,6 +511,7 @@ export function buildEventsQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, EventValue[]> {
   return {
+    name: "events",
     query: groq`*[_type == "event"]|order(date desc){
       _id,
       "title": title[$locale],
@@ -507,6 +530,7 @@ export function buildUpcomingEventsQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, EventValue[]> {
   return {
+    name: "upcomingEvents",
     query: groq`*[_type == "event" && date >= now()]|order(date asc){
       _id,
       "title": title[$locale],
@@ -525,6 +549,7 @@ export function buildServicesQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, ServiceValue[]> {
   return {
+    name: "services",
     query: groq`*[_type == "service"]|order(title.en asc){
       _id,
       "title": title[$locale],
@@ -542,6 +567,7 @@ export function buildPortfolioItemBySlugQuery(
   slug: string
 ): QueryDefinition<{ locale: Locale; slug: string }, PortfolioItemValue | null> {
   return {
+    name: "portfolioItem",
     query: groq`*[_type == "portfolioItem" && slug[$locale].current == $slug][0]{
       _id,
       "title": title[$locale],
@@ -560,6 +586,7 @@ export function buildPressQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, PressItemValue[]> {
   return {
+    name: "pressItems",
     query: groq`*[_type == "pressItem"]|order(date desc){
       _id,
       "title": title[$locale],
@@ -577,6 +604,7 @@ export function buildSiteSettingsQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, SiteSettingsValue | null> {
   return {
+    name: "siteSettings",
     query: groq`*[_type == "siteSettings"][0]{
       _id,
       "siteName": siteName[$locale],
@@ -592,6 +620,7 @@ export function buildSiteLabelsQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, SiteLabelsValue | null> {
   return {
+    name: "siteLabels",
     query: groq`*[_type == "siteLabels"][0]{
       _id,
       "brand": brand[$locale],
@@ -757,6 +786,7 @@ export function buildPressEpkQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, PressEpkValue> {
   return {
+    name: "pressEpk",
     query: groq`{
       "pressPage": *[_type == "pressPage"][0]{
         _id,
@@ -815,6 +845,7 @@ export function buildAboutPageQuery(
   locale: Locale
 ): QueryDefinition<{ locale: Locale }, AboutPageValue | null> {
   return {
+    name: "aboutPage",
     query: groq`*[_type == "aboutPage"][0]{
       _id,
       "title": title[$locale],
@@ -850,6 +881,7 @@ export function buildLegalPageQuery(
   slug: string
 ): QueryDefinition<{ locale: Locale; slug: string }, LegalPageValue | null> {
   return {
+    name: "legalPage",
     query: groq`*[_type == "legalPage" && slug[$locale].current == $slug][0]{
       _id,
       "title": title[$locale],

@@ -15,7 +15,12 @@ export default defineConfig({
     command: "npm run dev -- --hostname 127.0.0.1 --port 3000",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000
+    timeout: 120_000,
+    env: {
+      // Route `sanityFetch` to `src/sanity/fixtures` so E2E runs without a
+      // real Sanity project. See `src/sanity/fetch.ts`.
+      SANITY_USE_FIXTURES: "1"
+    }
   },
   projects: [
     {
