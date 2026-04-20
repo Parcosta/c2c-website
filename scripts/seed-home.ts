@@ -32,6 +32,7 @@ import {
 import { upsertAboutPage } from "./sanity/seed/about-page";
 import { replaceEvents } from "./sanity/seed/events";
 import { uploadGalleryImages, upsertHomePage } from "./sanity/seed/home-page";
+import { replacePortfolioItems } from "./sanity/seed/portfolio-items";
 import { replaceServices } from "./sanity/seed/services";
 import { patchSiteLabels } from "./sanity/seed/site-labels";
 import { patchSiteSettings } from "./sanity/seed/site-settings";
@@ -57,6 +58,9 @@ async function main() {
 
     console.log("\n── Home page ────────────────────────────────────────────────");
     await upsertHomePage(heroId, galleryIds);
+
+    console.log("\n── Portfolio items ──────────────────────────────────────────");
+    await replacePortfolioItems();
 
     console.log("\n── About page ───────────────────────────────────────────────");
     await upsertAboutPage();

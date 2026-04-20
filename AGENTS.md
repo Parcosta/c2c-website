@@ -58,6 +58,12 @@ When running commands, follow the repo’s package manager:
 - Sanity is the source of truth for all CMS content.
 - No database: forms send email via Resend (keep email sending server-side; never expose keys).
 
+## Sanity seed
+
+- `tsx scripts/seed-home.ts` (dry run) populates a fresh dataset: site labels, site settings, hero, home page, portfolio items, about page, services, events. Pass `SEED_CONFIRM=1` to commit.
+- Binary source assets live under `public/images/` (hero + 8 project images). The seed uploads them to Sanity as image assets and references them from documents — it does not serve them from `public/` at runtime.
+- Seeds are idempotent: re-running reuses existing Sanity assets by `originalFilename` and replaces documents in place.
+
 ## Important Notes
 
 - Not a commercial brand: bold colors are allowed.
