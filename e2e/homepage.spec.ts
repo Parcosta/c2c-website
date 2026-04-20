@@ -38,7 +38,9 @@ test.describe("Home page", () => {
     await page.goto("/en");
 
     // At least two filter tabs should be visible — these are Sanity-authored.
-    const filterTabs = page.getByRole("button", { pressed: /true|false/ });
+    // Playwright's `pressed` option doesn't accept a regex; matching the
+    // `aria-pressed` attribute directly captures any toggle state.
+    const filterTabs = page.locator("button[aria-pressed]");
     expect(await filterTabs.count()).toBeGreaterThanOrEqual(2);
 
     // "Visit store" link points to the locale-less /store route.
