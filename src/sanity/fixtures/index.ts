@@ -66,7 +66,10 @@ const resolvers: ResolverMap = {
       ),
       backgroundImage: {
         _type: "image",
-        asset: { _ref: "image-e2e-hero-1200x800-jpg", _type: "reference" }
+        asset: {
+          _ref: "image-e2efixturehero0000000000000000000000000-1200x800-jpg",
+          _type: "reference"
+        }
       },
       cta: {
         label: t(locale, "Book Live Performance", "Reservar Presentación en Vivo"),
@@ -284,11 +287,7 @@ const resolvers: ResolverMap = {
     },
     pressPage: {
       pageTitleFallback: t(locale, "Press / EPK", "Press / EPK"),
-      intro: t(
-        locale,
-        "Press kit, bio, and downloads.",
-        "Kit de prensa, biografía y descargas."
-      ),
+      intro: t(locale, "Press kit, bio, and downloads.", "Kit de prensa, biografía y descargas."),
       bioTitle: t(locale, "Biography", "Biografía"),
       bioEmpty: t(locale, "Biography coming soon.", "Biografía próximamente."),
       pressPhotosTitle: t(locale, "Press Photos", "Fotos de prensa"),
@@ -323,18 +322,10 @@ const resolvers: ResolverMap = {
         "Usamos cookies para mejorar tu experiencia."
       ),
       acceptAll: t(locale, "Accept all", "Aceptar todas"),
-      rejectNonEssential: t(
-        locale,
-        "Reject non-essential",
-        "Rechazar no esenciales"
-      ),
+      rejectNonEssential: t(locale, "Reject non-essential", "Rechazar no esenciales"),
       customize: t(locale, "Customize", "Personalizar"),
       dialogTitle: t(locale, "Cookie settings", "Configuración de cookies"),
-      dialogDescription: t(
-        locale,
-        "Choose which cookies to allow.",
-        "Elige qué cookies permitir."
-      ),
+      dialogDescription: t(locale, "Choose which cookies to allow.", "Elige qué cookies permitir."),
       necessaryLabel: t(locale, "Necessary", "Necesarias"),
       necessaryDescription: t(
         locale,
@@ -372,7 +363,13 @@ const resolvers: ResolverMap = {
       category: t(locale, "Music", "Música"),
       filterCategory: "musica",
       images: [
-        { _type: "image", asset: { _ref: "image-e2e-project-1-800x800-jpg", _type: "reference" } }
+        {
+          _type: "image",
+          asset: {
+            _ref: "image-e2efixtureproject10000000000000000000000-800x800-jpg",
+            _type: "reference"
+          }
+        }
       ],
       description: [],
       date: "2025-01-15",
@@ -385,7 +382,13 @@ const resolvers: ResolverMap = {
       category: t(locale, "Sound", "Sonoro"),
       filterCategory: "sonoro",
       images: [
-        { _type: "image", asset: { _ref: "image-e2e-project-2-800x800-jpg", _type: "reference" } }
+        {
+          _type: "image",
+          asset: {
+            _ref: "image-e2efixtureproject20000000000000000000000-800x800-jpg",
+            _type: "reference"
+          }
+        }
       ],
       description: [],
       date: "2024-11-02",
@@ -398,7 +401,13 @@ const resolvers: ResolverMap = {
       category: t(locale, "Video", "Video"),
       filterCategory: "video",
       images: [
-        { _type: "image", asset: { _ref: "image-e2e-project-3-800x800-jpg", _type: "reference" } }
+        {
+          _type: "image",
+          asset: {
+            _ref: "image-e2efixtureproject30000000000000000000000-800x800-jpg",
+            _type: "reference"
+          }
+        }
       ],
       description: [],
       date: "2024-08-20",
