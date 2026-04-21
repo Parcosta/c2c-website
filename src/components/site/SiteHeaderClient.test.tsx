@@ -51,7 +51,7 @@ describe("SiteHeaderClient", () => {
   it("switches locale via the single globe toggle", () => {
     render(<SiteHeaderClient locale="en" translations={translations} />);
 
-    fireEvent.click(screen.getByTestId("lang-switch"));
+    fireEvent.click(screen.getByTestId("lang-es"));
     expect(mockPush).toHaveBeenCalledWith("/es");
   });
 

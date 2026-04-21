@@ -102,12 +102,12 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
             <button
               type="button"
               onClick={onSwitchLocale}
-              data-testid="lang-switch"
+              data-testid={`lang-${nextLocale}`}
               aria-label={switchLabel}
               className={cn("flex items-center gap-1", navLinkClass)}
             >
               <Globe className="size-4" aria-hidden="true" />
-              <span>{locale.toUpperCase()}</span>
+              <span>{nextLocale.toUpperCase()}</span>
             </button>
 
             <Button asChild variant="secondary" size="sm" className="uppercase tracking-wide">
@@ -168,12 +168,12 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
                 <button
                   type="button"
                   onClick={onSwitchLocale}
-                  data-testid="mobile-lang-switch"
+                  data-testid={`mobile-lang-${nextLocale}`}
                   aria-label={switchLabel}
                   className={cn("flex items-center gap-1", navLinkClass)}
                 >
                   <Globe className="size-4" aria-hidden="true" />
-                  <span>{locale.toUpperCase()}</span>
+                  <span>{nextLocale.toUpperCase()}</span>
                 </button>
               </div>
             </div>

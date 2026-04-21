@@ -95,7 +95,12 @@ const resolvers: ResolverMap = {
           "Diseño sonoro y producción musical para proyectos multimedia."
         ),
         ctaLabel: t(locale, "Start a Project", "Trabaja conmigo"),
-        ctaHref: "/booking"
+        ctaHref: "/booking",
+        imageAlt: t(
+          locale,
+          "Coast2c working in the studio",
+          "Coast2c trabajando en el estudio"
+        )
       },
       eventsSection: {
         eyebrow: t(

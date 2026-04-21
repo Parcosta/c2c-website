@@ -36,7 +36,7 @@ export function ServicesBlock({
     <BlockFrame
       className={className}
       aria-labelledby="services-title"
-      innerClassName="gap-10 md:flex-row md:items-start md:gap-20"
+      innerClassName="gap-10 lg:flex-row lg:items-start lg:gap-20"
       {...props}
     >
       <div className="flex flex-1 flex-col gap-6">
@@ -74,7 +74,7 @@ export function ServicesBlock({
         </div>
       </div>
 
-      <div className="relative aspect-[536/707] w-full shrink-0 overflow-hidden md:w-[536px]">
+      <div className="relative aspect-[536/707] w-full shrink-0 overflow-hidden lg:w-[536px]">
         <Image
           src={image.src}
           alt={image.alt}
