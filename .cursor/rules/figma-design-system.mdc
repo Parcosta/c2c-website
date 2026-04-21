@@ -24,7 +24,7 @@ Do not skip steps.
 - Next.js 16 App Router, React 19, TypeScript strict.
 - Tailwind CSS v4 — there is **no `tailwind.config.ts`**. Tokens live in `src/app/globals.css` under `@theme inline { ... }`. Extend tokens there, not in a config file.
 - shadcn/ui with `style: "new-york"`, `baseColor: "slate"`, `iconLibrary: "lucide"` (see `components.json`).
-- Dark theme forced at the root (`<html className="dark">`, `bg-slate-950 text-slate-50`). Build every screen dark-first.
+- Dark theme forced at the root (`<html className="dark">`, `bg-black text-gray-50`). The Figma page shell is pure `#000000`; raised blocks use `gray-950`. Build every screen dark-first.
 - Bilingual EN/ES routing via `src/app/[locale]/…`. New pages/components must accept locale from the URL and pull display strings through the existing i18n path (`src/lib/i18n.ts`, `src/sanity/**` site labels).
 - Server Components by default. Add `"use client"` only when interactivity is required.
 
@@ -55,9 +55,10 @@ Do not skip steps.
 
 ### Color palette
 
-- **Figma gray scale** (`bg-gray-100`, `text-gray-950`, `border-gray-600`, etc.) — maps to `--color-gray-*` in `globals.css` and corresponds 1:1 with the Figma library. **Use this everywhere** — page shell, chrome, and per-section components. The body in `layout.tsx` is `bg-gray-950 text-gray-50`.
-- **Do not use Tailwind's built-in `slate` palette.** It reads as blue-tinted against the Figma gray palette and is not part of the design system.
-- **Brand accent**: `--color-brand-accent` (`#3b82f6`). Use `text-brand-accent` / `bg-brand-accent` only when the Figma spec calls for the accent color. Do not introduce new brand hexes.
+- **Page shell is `bg-black`** (pure `#000000`, tokenised as `--color-black`). Raised surfaces and blocks use `bg-gray-950`. The body in `layout.tsx` is `bg-black text-gray-50`.
+- **Figma gray scale** (`bg-gray-100`, `text-gray-950`, `border-gray-600`, etc.) — maps to `--color-gray-*` in `globals.css` and corresponds 1:1 with the Figma library. **Use this for everything else** — chrome, blocks, borders (`border-gray-900`), type.
+- **Do not use Tailwind's built-in `slate` or `blue` palettes.** They read as blue-tinted against the Figma grays and are not part of the design system.
+- **Brand accent**: `--color-brand-accent` is mapped to the Figma near-white (`#f7f7f8`) for focus rings / hover highlights. It is not a blue. Do not introduce new brand hexes.
 - **IMPORTANT:** Never hardcode hex or rgb values. If a Figma node references a color not in the token set, add it to `@theme inline` first, then use it.
 
 ### Typography

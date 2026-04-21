@@ -138,7 +138,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   const gallerySection = sections?.gallerySection;
 
   return (
-    <main>
+    <main className="flex flex-col">
       <JsonLdScript data={event ? [org, group, event] : [org, group]} />
 
       <HeroBlockWrapper locale={locale} />

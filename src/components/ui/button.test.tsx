@@ -45,9 +45,7 @@ describe("Button", () => {
     it("renders secondary variant with Figma specs", () => {
       const { container } = render(<Button variant="secondary">Secondary</Button>);
       const button = container.querySelector("button");
-      expect(button).toHaveClass("border");
-      expect(button).toHaveClass("border-gray-600");
-      expect(button).toHaveClass("bg-transparent");
+      expect(button).toHaveClass("bg-gray-900");
       expect(button).toHaveClass("text-gray-100");
       expect(button).toHaveClass("hover:bg-gray-800");
     });
@@ -56,7 +54,8 @@ describe("Button", () => {
       const { container } = render(<Button variant="outline">Outline</Button>);
       const button = container.querySelector("button");
       expect(button).toHaveClass("border");
-      expect(button).toHaveClass("border-gray-600");
+      expect(button).toHaveClass("border-gray-900");
+      expect(button).toHaveClass("bg-transparent");
     });
 
     it("renders ghost variant", () => {
@@ -188,7 +187,7 @@ describe("Button", () => {
 
     it("generates correct classes for secondary variant", () => {
       const classes = buttonVariants({ variant: "secondary" });
-      expect(classes).toContain("border-gray-600");
+      expect(classes).toContain("bg-gray-900");
       expect(classes).toContain("text-gray-100");
     });
   });

@@ -14,8 +14,6 @@ vi.mock("@/sanity/image", () => ({
   getSanityImageUrl: () => "https://cdn.example.com/hero.jpg"
 }));
 
-// Import AFTER the mocks so the wrapper binds to the stubbed modules.
-// eslint-disable-next-line import/first
 import { HeroBlockWrapper } from "@/components/blocks/HeroBlockWrapper";
 
 const ORIGINAL_NODE_ENV = process.env.NODE_ENV;
@@ -80,24 +78,11 @@ describe("HeroBlockWrapper (data boundary)", () => {
     await expect(renderWrapper("en")).rejects.toThrowError(/heroEyebrows\[1\]/);
   });
 
-  it("does not require audioTrackLabel when no audio source is provided", async () => {
+  it("requires audioTrackLabel because the player is always rendered", async () => {
     const page = completePage();
     page.homeSections!.heroAudioTrackLabel = undefined;
     getHomePageMock.mockResolvedValue(page);
 
-    // Should still render successfully — the audio requirement is gated
-    // on `audioSrc` being provided.
-    const { getByRole } = await renderWrapper();
-    expect(getByRole("heading", { level: 1 })).toBeInTheDocument();
-  });
-
-  it("requires audioTrackLabel when an audio source IS provided", async () => {
-    const page = completePage();
-    page.homeSections!.heroAudioTrackLabel = undefined;
-    getHomePageMock.mockResolvedValue(page);
-
-    await expect(
-      HeroBlockWrapper({ locale: "en", audioSrc: "/audio/sample.mp3" })
-    ).rejects.toThrowError(/heroAudioTrackLabel/);
+    await expect(renderWrapper("en")).rejects.toThrowError(/heroAudioTrackLabel/);
   });
 });

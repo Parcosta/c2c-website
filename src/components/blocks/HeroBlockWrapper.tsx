@@ -8,8 +8,8 @@ interface HeroBlockWrapperProps {
   locale: Locale;
   className?: string;
   /**
-   * Optional audio track. When provided, the inline audio player UI is
-   * rendered and `homeSections.heroAudioTrackLabel` becomes required.
+   * Optional audio track URL. The player UI always renders (per Figma);
+   * when a src is provided, play and download become functional.
    */
   audioSrc?: string;
 }
@@ -28,14 +28,7 @@ export async function HeroBlockWrapper({ locale, className, audioSrc }: HeroBloc
     alt: cms.text(page?.hero?.heading, "page.hero.heading", { locale })
   };
 
-  const audio: HeroAudio | undefined = audioSrc
-    ? {
-        src: audioSrc,
-        label: cms.text(sections?.heroAudioTrackLabel, "page.homeSections.heroAudioTrackLabel", {
-          locale
-        })
-      }
-    : undefined;
+  const audio: HeroAudio | undefined = audioSrc ? { src: audioSrc } : undefined;
 
   const translations = {
     tag1: cms.text(eyebrows[0], "page.homeSections.heroEyebrows[0]", { locale }),
@@ -52,6 +45,11 @@ export async function HeroBlockWrapper({ locale, className, audioSrc }: HeroBloc
     ctaSecondaryHref: cms.text(
       sections?.heroSecondaryCta?.href,
       "page.homeSections.heroSecondaryCta.href",
+      { locale }
+    ),
+    audioTrackLabel: cms.text(
+      sections?.heroAudioTrackLabel,
+      "page.homeSections.heroAudioTrackLabel",
       { locale }
     )
   };

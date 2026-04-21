@@ -31,10 +31,11 @@ describe("SiteHeaderClient", () => {
     mockPush.mockClear();
   });
 
-  it("renders the brand and desktop navigation labels", () => {
+  it("renders the brand logo and desktop navigation labels", () => {
     render(<SiteHeaderClient locale="en" translations={translations} />);
 
-    expect(screen.getByTestId("brand")).toHaveTextContent("Coast2c");
+    expect(screen.getByTestId("brand")).toHaveAttribute("aria-label", "Coast2c");
+    expect(screen.getByRole("img", { name: "Coast2c" })).toBeInTheDocument();
     expect(screen.getByTestId("nav-home")).toHaveTextContent("Home");
     expect(screen.getByTestId("nav-portfolio")).toHaveTextContent("Portfolio");
     expect(screen.getByTestId("nav-about")).toHaveTextContent("About");

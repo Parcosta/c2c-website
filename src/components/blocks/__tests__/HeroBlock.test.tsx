@@ -11,7 +11,8 @@ const translations = {
   ctaPrimary: "Contact Me",
   ctaPrimaryHref: "/contact",
   ctaSecondary: "Official Store",
-  ctaSecondaryHref: "/store"
+  ctaSecondaryHref: "/store",
+  audioTrackLabel: "TRACK NAME"
 };
 
 const heroImage = { src: "https://cdn.example.com/hero.jpg", alt: "Hero image" };
@@ -40,23 +41,31 @@ describe("HeroBlockClient", () => {
     expect(screen.getByAltText("Hero image")).toBeInTheDocument();
   });
 
-  it("omits the audio player UI when audio is not provided", () => {
+  it("always renders the audio player UI with the Sanity track label", () => {
     render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
-    expect(document.querySelector("audio")).toBeNull();
+    expect(screen.getByTestId("hero-audio-player")).toBeInTheDocument();
+    expect(screen.getByText("TRACK NAME")).toBeInTheDocument();
   });
 
-  it("renders audio player UI when audio prop is provided", () => {
+  it("disables play and download when no audio src is provided", () => {
+    render(<HeroBlockClient locale="en" translations={translations} heroImage={heroImage} />);
+    expect(document.querySelector("audio")).toBeNull();
+    expect(screen.getByTestId("hero-audio-play")).toBeDisabled();
+    expect(screen.getByTestId("hero-audio-download")).toBeDisabled();
+  });
+
+  it("enables the audio controls when an audio src is provided", () => {
     render(
       <HeroBlockClient
         locale="en"
         translations={translations}
         heroImage={heroImage}
-        audio={{ src: "/audio/sample.mp3", label: "Track Name" }}
+        audio={{ src: "/audio/sample.mp3" }}
       />
     );
 
-    const audioElement = document.querySelector('audio[src="/audio/sample.mp3"]');
-    expect(audioElement).toBeInTheDocument();
-    expect(screen.getByText("Track Name")).toBeInTheDocument();
+    expect(document.querySelector('audio[src="/audio/sample.mp3"]')).toBeInTheDocument();
+    expect(screen.getByTestId("hero-audio-play")).toBeEnabled();
+    expect(screen.getByTestId("hero-audio-download")).toBeEnabled();
   });
 });

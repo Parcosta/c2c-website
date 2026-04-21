@@ -27,6 +27,7 @@ export function BlockFrame({
     <Tag className={cn("w-full", className)} {...props}>
       <Container>
         <div
+          data-block="content"
           className={cn(
             "border border-gray-900 px-4 py-8 md:px-6 md:py-10",
             "flex flex-col gap-8",

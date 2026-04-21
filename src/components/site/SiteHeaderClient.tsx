@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { Container } from "@/components/layout/Container";
+import { Logo } from "@/components/site/Logo";
 import { Button } from "@/components/ui/button";
 import type { Locale } from "@/lib/locale";
 import { switchLocaleInPathname } from "@/lib/locale";
@@ -72,16 +73,17 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
   return (
     <header
       data-testid="site-header"
-      className="sticky top-0 z-40 bg-gray-950/85 backdrop-blur"
+      className="sticky top-0 z-40 bg-black/85 backdrop-blur"
     >
       <Container>
         <div className="flex items-center justify-between gap-4 border border-gray-900 px-6 py-4">
           <Link
             href={`/${locale}`}
-            className="font-display text-base font-semibold uppercase tracking-wide text-gray-100"
+            className="inline-flex items-center text-gray-100"
             data-testid="brand"
+            aria-label={translations.brand}
           >
-            {translations.brand}
+            <Logo title={translations.brand} />
           </Link>
 
           <nav
@@ -111,7 +113,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
               <span>{locale.toUpperCase()}</span>
             </button>
 
-            <Button asChild variant="dark" size="sm" className="uppercase tracking-wide">
+            <Button asChild variant="secondary" size="sm" className="uppercase tracking-wide">
               <Link href={`/${locale}/contact`} data-testid="nav-contact">
                 {translations.navContact}
               </Link>
@@ -135,7 +137,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
       {mobileOpen ? (
         <div id="mobile-menu" data-testid="mobile-menu" className="md:hidden">
           <Container>
-            <div className="flex min-h-[calc(100vh-72px)] flex-col justify-between border-x border-b border-gray-900 bg-gray-950 px-6 py-10">
+            <div className="flex min-h-[calc(100vh-72px)] flex-col justify-between border-x border-b border-gray-900 bg-black px-6 py-10">
               <nav
                 aria-label={translations.mobileAriaLabel}
                 className="flex flex-col gap-6"
@@ -154,7 +156,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
 
                 <Button
                   asChild
-                  variant="dark"
+                  variant="secondary"
                   size="sm"
                   className="mt-2 w-full max-w-[158px] uppercase tracking-wide"
                 >

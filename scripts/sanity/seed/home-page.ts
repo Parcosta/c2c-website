@@ -2,12 +2,12 @@ import { CONFIRMED, client, dryLog, imageRef, shortKey, uploadLocalImage } from 
 
 export async function uploadGalleryImages(): Promise<string[]> {
   const filenames = [
-    "project-1.jpg",
-    "project-2.jpg",
-    "project-3.jpg",
-    "project-4.jpg",
-    "project-5.jpg",
-    "project-6.jpg"
+    "gallery-1.jpg",
+    "gallery-2.jpg",
+    "gallery-3.jpg",
+    "gallery-4.jpg",
+    "gallery-5.jpg",
+    "gallery-6.jpg"
   ];
   const ids: string[] = [];
   for (const filename of filenames) {

@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} className="dark">
       <body
-        className={`${inter.variable} ${dmSans.variable} antialiased bg-gray-950 text-gray-50`}
+        className={`${inter.variable} ${dmSans.variable} antialiased bg-black text-gray-50`}
       >
         {children}
       </body>
