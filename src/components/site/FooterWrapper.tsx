@@ -11,15 +11,19 @@ interface FooterWrapperProps {
   locale: Locale;
 }
 
-const socialLinks: Array<{ network: SocialNetwork; label: string; href: string }> = [
-  { network: "x", label: "X (Twitter)", href: "#" },
-  { network: "facebook", label: "Facebook", href: "#" },
-  { network: "spotify", label: "Spotify", href: "#" },
-  { network: "instagram", label: "Instagram", href: "#" },
-  { network: "youtube", label: "YouTube", href: "#" },
-  { network: "bandcamp", label: "Bandcamp", href: "#" },
-  { network: "soundcloud", label: "SoundCloud", href: "#" }
-];
+const SUPPORTED_NETWORKS: ReadonlySet<string> = new Set<SocialNetwork>([
+  "x", "facebook", "spotify", "instagram", "youtube", "bandcamp", "soundcloud"
+]);
+
+const PLATFORM_LABELS: Record<SocialNetwork, string> = {
+  x: "X (Twitter)",
+  facebook: "Facebook",
+  spotify: "Spotify",
+  instagram: "Instagram",
+  youtube: "YouTube",
+  bandcamp: "Bandcamp",
+  soundcloud: "SoundCloud"
+};
 
 export async function FooterWrapper({ locale }: FooterWrapperProps) {
   const [labels, settings] = isSanityConfigured()
@@ -28,6 +32,20 @@ export async function FooterWrapper({ locale }: FooterWrapperProps) {
         sanityFetch(buildSiteSettingsQuery(locale))
       ])
     : [null, null];
+
+  const socialLinks = (settings?.socialLinks ?? [])
+    .filter(
+      (link): link is { platform: string; url: string } =>
+        typeof link.platform === "string" &&
+        SUPPORTED_NETWORKS.has(link.platform) &&
+        typeof link.url === "string" &&
+        link.url.length > 0
+    )
+    .map((link) => ({
+      network: link.platform as SocialNetwork,
+      label: PLATFORM_LABELS[link.platform as SocialNetwork] ?? link.platform,
+      href: link.url
+    }));
 
   const currentYear = new Date().getFullYear();
   const legalLinkClass =
@@ -52,6 +70,7 @@ export async function FooterWrapper({ locale }: FooterWrapperProps) {
               >
                 {labels?.footer?.contact ?? labels?.navigation?.contact}
               </Link>
+              {socialLinks.length > 0 && (
               <ul
                 className="flex items-center gap-4"
                 aria-label={labels?.footer?.follow ?? "Social media"}
@@ -62,6 +81,7 @@ export async function FooterWrapper({ locale }: FooterWrapperProps) {
                   </li>
                 ))}
               </ul>
+              )}
             </div>
           </div>
 

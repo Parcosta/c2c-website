@@ -25,10 +25,7 @@ type FormattedEvent = {
   timestamp: number;
 };
 
-function formatEventDate(value: string, locale: Locale): FormattedEvent["dateLabel"] | null {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-
+function formatEventDate(date: Date, locale: Locale): string {
   const parts = new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
@@ -67,11 +64,9 @@ export function EventsBlockView({
       if (!event.date) return null;
       const date = new Date(event.date);
       if (Number.isNaN(date.getTime())) return null;
-      const dateLabel = formatEventDate(event.date, locale);
-      if (!dateLabel) return null;
       return {
         event,
-        dateLabel,
+        dateLabel: formatEventDate(date, locale),
         dateTime: date.toISOString().slice(0, 10),
         timestamp: date.getTime()
       };

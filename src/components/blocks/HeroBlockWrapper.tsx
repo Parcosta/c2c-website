@@ -1,4 +1,4 @@
-import { cms } from "@/lib/cms";
+import { cms, reportMissingContent } from "@/lib/cms";
 import type { Locale } from "@/lib/locale";
 import { getHomePage } from "@/sanity/cache";
 import { getSanityImageUrl } from "@/sanity/image";
@@ -21,10 +21,11 @@ export async function HeroBlockWrapper({ locale, className, audioSrc }: HeroBloc
 
   const heroImageUrl = getSanityImageUrl(page?.hero?.backgroundImage, { width: 1200 });
   if (!heroImageUrl) {
-    cms.text(undefined, "page.hero.backgroundImage", { locale });
+    reportMissingContent("page.hero.backgroundImage", locale);
+    return null;
   }
   const heroImage: HeroImage = {
-    src: heroImageUrl ?? "",
+    src: heroImageUrl,
     alt: cms.text(page?.hero?.heading, "page.hero.heading", { locale })
   };
 
