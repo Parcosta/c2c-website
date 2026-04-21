@@ -198,11 +198,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
             src:
               getSanityImageUrl(servicesSection?.image, { width: 1072 }) ??
               "/images/services-image.jpg",
-            alt: cms.text(
-              servicesSection?.imageAlt,
-              "homeSections.servicesSection.imageAlt",
-              { locale }
-            )
+            alt: cms.text(servicesSection?.imageAlt, "homeSections.servicesSection.imageAlt", {
+              locale
+            })
           }}
         />
       )}

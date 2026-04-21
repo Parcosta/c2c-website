@@ -71,10 +71,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
   }
 
   return (
-    <header
-      data-testid="site-header"
-      className="sticky top-0 z-40 bg-black/85 backdrop-blur"
-    >
+    <header data-testid="site-header" className="sticky top-0 z-40 bg-black/85 backdrop-blur">
       <Container>
         <div className="flex items-center justify-between gap-4 border border-gray-900 px-6 py-4">
           <Link
@@ -138,10 +135,7 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
         <div id="mobile-menu" data-testid="mobile-menu" className="md:hidden">
           <Container>
             <div className="flex min-h-[calc(100vh-72px)] flex-col justify-between border-x border-b border-gray-900 bg-black px-6 py-10">
-              <nav
-                aria-label={translations.mobileAriaLabel}
-                className="flex flex-col gap-6"
-              >
+              <nav aria-label={translations.mobileAriaLabel} className="flex flex-col gap-6">
                 {nav.map((item) => (
                   <Link
                     key={item.href}

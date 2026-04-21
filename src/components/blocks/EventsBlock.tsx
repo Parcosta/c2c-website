@@ -152,8 +152,7 @@ function EventRow({ href, dateTime, dateLabel, name, location, ticketsLabel }: E
     </>
   );
 
-  const base =
-    "flex flex-col gap-1 md:flex-row md:items-baseline md:gap-4 text-body leading-6";
+  const base = "flex flex-col gap-1 md:flex-row md:items-baseline md:gap-4 text-body leading-6";
 
   if (!href) {
     return <div className={base}>{content}</div>;

@@ -71,10 +71,7 @@ export function BlockHeader({
         </p>
       ) : null}
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <h2
-          id={titleId}
-          className="font-display text-header font-semibold uppercase text-gray-50"
-        >
+        <h2 id={titleId} className="font-display text-header font-semibold uppercase text-gray-50">
           {title}
         </h2>
         {rightLinkLabel && rightLinkHref ? (

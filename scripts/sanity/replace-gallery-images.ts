@@ -34,10 +34,7 @@ async function main() {
   dryLog("patch home-page.homeSections.gallerySection.images", { count: images.length });
   if (!CONFIRMED) return;
 
-  await client
-    .patch("home-page")
-    .set({ "homeSections.gallerySection.images": images })
-    .commit();
+  await client.patch("home-page").set({ "homeSections.gallerySection.images": images }).commit();
 
   console.log("✅ Gallery images replaced.");
 }
