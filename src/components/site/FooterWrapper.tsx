@@ -12,7 +12,13 @@ interface FooterWrapperProps {
 }
 
 const SUPPORTED_NETWORKS: ReadonlySet<string> = new Set<SocialNetwork>([
-  "x", "facebook", "spotify", "instagram", "youtube", "bandcamp", "soundcloud"
+  "x",
+  "facebook",
+  "spotify",
+  "instagram",
+  "youtube",
+  "bandcamp",
+  "soundcloud"
 ]);
 
 const PLATFORM_LABELS: Record<SocialNetwork, string> = {
@@ -71,16 +77,16 @@ export async function FooterWrapper({ locale }: FooterWrapperProps) {
                 {labels?.footer?.contact ?? labels?.navigation?.contact}
               </Link>
               {socialLinks.length > 0 && (
-              <ul
-                className="flex items-center gap-4"
-                aria-label={labels?.footer?.follow ?? "Social media"}
-              >
-                {socialLinks.map(({ network, label, href }) => (
-                  <li key={network}>
-                    <SocialIconLink network={network} href={href} label={label} />
-                  </li>
-                ))}
-              </ul>
+                <ul
+                  className="flex items-center gap-4"
+                  aria-label={labels?.footer?.follow ?? "Social media"}
+                >
+                  {socialLinks.map(({ network, label, href }) => (
+                    <li key={network}>
+                      <SocialIconLink network={network} href={href} label={label} />
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </div>
