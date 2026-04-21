@@ -5,20 +5,17 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PortfolioDetail } from "@/components/portfolio/PortfolioDetail";
 import type { PortfolioDetailItem } from "@/components/portfolio/types";
-import { isLocale } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n";
+import { isLocale } from "@/lib/locale";
+import type { Locale } from "@/lib/locale";
 import { buildMetadata } from "@/lib/seo";
 import { assertSanityConfig } from "@/sanity/config";
-import { getClient } from "@/sanity/client";
+import { sanityFetch } from "@/sanity/fetch";
 import { getSanityImageUrl } from "@/sanity/image";
-import { buildPortfolioItemBySlugQuery, type PortfolioItemValue } from "@/sanity/queries";
+import { buildPortfolioItemBySlugQuery } from "@/sanity/queries";
 
 async function getPortfolioItem(locale: Locale, slug: string) {
   assertSanityConfig();
-  const def = buildPortfolioItemBySlugQuery(locale, slug);
-  return getClient().fetch<PortfolioItemValue | null>(def.query, def.params, {
-    next: { revalidate: 60 }
-  });
+  return sanityFetch(buildPortfolioItemBySlugQuery(locale, slug), { revalidate: 60 });
 }
 
 export async function generateMetadata({
@@ -36,7 +33,7 @@ export async function generateMetadata({
 
   return buildMetadata({
     title,
-    description: `${title} — Coast2Coast portfolio`,
+    description: `${title} — Coast2c portfolio`,
     pathname: `/${locale}/portfolio/${slug}`
   });
 }

@@ -10,8 +10,8 @@ import {
 import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
-import type { Locale } from "@/lib/i18n";
-import { addLocaleToPathname } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
+import { addLocaleToPathname } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 import type { PortfolioDetailItem } from "./types";

@@ -5,6 +5,10 @@ export const apiVersion = "2026-02-17";
 export const studioUrl = "/studio";
 
 export function isSanityConfigured() {
+  // E2E/tests can opt into fixture-backed fetches without needing a real
+  // Sanity project. `src/sanity/fetch` intercepts `sanityFetch` calls when
+  // this flag is set and returns typed fixture data from `src/sanity/fixtures`.
+  if (process.env.SANITY_USE_FIXTURES === "1") return true;
   return Boolean(projectId && projectId !== "your-project-id" && dataset);
 }
 

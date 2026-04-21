@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { AboutPageView } from "@/features/about/AboutPageView";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { isLocale, type Locale } from "@/lib/locale";
 import { isSanityConfigured } from "@/sanity/config";
 import { client } from "@/sanity/client";
 import { getSanityImageUrl } from "@/sanity/image";

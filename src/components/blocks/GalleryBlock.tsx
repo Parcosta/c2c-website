@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
+import { BlockFrame, BlockHeader } from "@/components/blocks/BlockFrame";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { getSanityImageUrl } from "@/sanity/image";
@@ -18,60 +19,49 @@ export interface GalleryImage {
 
 export interface GalleryBlockProps {
   images: GalleryImage[];
-  title?: string;
-  subtitle?: string;
+  title: string;
+  eyebrow: string;
   columns?: 2 | 3 | 4;
+  /** Optional right-aligned link beside the title (e.g. "Acerca de mí"). */
+  rightLinkLabel?: string;
+  rightLinkHref?: string;
   className?: string;
 }
-
-// Figma specs: 258px cards, 40px gaps
-const FIGMA_CARD_WIDTH = 258;
-const FIGMA_GAP = 40;
 
 function GalleryImageCard({ image, onClick }: { image: GalleryImage; onClick: () => void }) {
   const imageUrl = getSanityImageUrl(image.src, { width: 600 });
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        // Figma specs: 258px cards with rounded corners
-        "group relative w-full overflow-hidden rounded-lg bg-gray-900",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
-      )}
-      style={{ aspectRatio: "1/1" }}
-      data-testid={`gallery-image-${image._id}`}
-    >
-      {imageUrl ? (
-        <Image
-          src={imageUrl}
-          alt={image.alt || ""}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className={cn("object-cover transition-transform duration-500", "group-hover:scale-105")}
-          loading="lazy"
-        />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center text-gray-400">No image</div>
-      )}
-      <div
+    <figure className="flex flex-col gap-2">
+      <button
+        type="button"
+        onClick={onClick}
         className={cn(
-          "absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent",
-          "opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          "group relative aspect-square w-full overflow-hidden rounded-lg bg-gray-900",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
         )}
-      />
-      {image.caption && (
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 right-0 p-3 text-sm text-white",
-            "translate-y-full transition-transform duration-300 group-hover:translate-y-0"
-          )}
-        >
-          {image.caption}
-        </div>
-      )}
-    </button>
+        aria-label={image.alt || image.caption || "Open image"}
+        data-testid={`gallery-image-${image._id}`}
+      >
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={image.alt || ""}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-400">
+            No image
+          </div>
+        )}
+      </button>
+      {image.caption ? (
+        <figcaption className="text-sm leading-relaxed text-gray-400">{image.caption}</figcaption>
+      ) : null}
+    </figure>
   );
 }
 
@@ -214,8 +204,10 @@ function Lightbox({
 export function GalleryBlock({
   images,
   title,
-  subtitle,
-  columns = 4,
+  eyebrow,
+  columns = 3,
+  rightLinkLabel,
+  rightLinkHref,
   className
 }: GalleryBlockProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -240,34 +232,29 @@ export function GalleryBlock({
 
   if (!images.length) return null;
 
-  // Figma 4-column grid with 40px gaps
+  // Figma 3×2 grid at desktop; 1 column mobile, 2 columns tablet.
   const gridCols = {
     2: "grid-cols-1 sm:grid-cols-2",
-    3: "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3",
-    4: "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+    4: "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
   };
 
   return (
-    <section
-      className={cn("py-16 sm:py-20", className)}
-      aria-label={title || "Image gallery"}
-      data-testid="gallery-block"
-    >
-      <div className="space-y-8">
-        {(title || subtitle) && (
-          <div className="space-y-2 text-center">
-            {title && <h2 className="font-display text-header text-gray-100">{title}</h2>}
-            {subtitle && <p className="text-body text-gray-400 max-w-2xl mx-auto">{subtitle}</p>}
-          </div>
-        )}
+    <>
+      <BlockFrame className={className} aria-label={title} data-testid="gallery-block">
+        <BlockHeader
+          eyebrow={eyebrow}
+          title={title}
+          rightLinkLabel={rightLinkLabel}
+          rightLinkHref={rightLinkHref}
+        />
 
-        {/* Figma specs: 40px gaps between cards */}
         <div className={cn("grid gap-10", gridCols[columns])}>
           {images.map((image, index) => (
             <GalleryImageCard key={image._id} image={image} onClick={() => openLightbox(index)} />
           ))}
         </div>
-      </div>
+      </BlockFrame>
 
       <Lightbox
         images={images}
@@ -277,6 +264,6 @@ export function GalleryBlock({
         onNext={goToNext}
         onPrevious={goToPrevious}
       />
-    </section>
+    </>
   );
 }

@@ -1,9 +1,9 @@
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 import { dataset, projectId } from "@/sanity/config";
 import type { ImageValue } from "@/sanity/queries";
 
-const builder = imageUrlBuilder({ projectId, dataset });
+const builder = createImageUrlBuilder({ projectId, dataset });
 
 export function getSanityImageUrl(
   source: ImageValue | null | undefined,

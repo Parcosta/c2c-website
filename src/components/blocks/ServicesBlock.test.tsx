@@ -2,239 +2,80 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { ServicesBlock } from "./ServicesBlock";
+import type { ServiceValue } from "@/sanity/queries";
+
+const baseProps = {
+  locale: "en" as const,
+  title: "Services",
+  description: "What we do for you.",
+  ctaLabel: "Start a project",
+  ctaHref: "/booking",
+  image: { src: "/images/services-image.jpg", alt: "Coast2c studio" }
+};
+
+const services: ServiceValue[] = [
+  {
+    _id: "service-a",
+    title: "Music Production",
+    description: "Full production of electronic tracks."
+  },
+  {
+    _id: "service-b",
+    title: "Sound Design",
+    description: "Soundscapes for installations and film."
+  }
+];
 
 describe("ServicesBlock", () => {
-  it("renders a heading and service cards", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        subtitle="What we do"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems and guidelines.",
-            icon: "Palette",
-            features: ["Logo + visual system", "Guidelines", "Templates"]
-          },
-          {
-            _id: "service-b",
-            title: "Web Development",
-            description: "Modern Next.js builds.",
-            icon: "Code",
-            features: ["App Router", "Performance", "SEO"]
-          }
-        ]}
-      />
-    );
+  it("renders the section heading, description, and service items", () => {
+    render(<ServicesBlock {...baseProps} services={services} />);
 
-    expect(screen.getByRole("heading", { name: "Services" })).toBeInTheDocument();
-    expect(screen.getByText("What we do")).toBeInTheDocument();
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText("Identity systems and guidelines.")).toBeInTheDocument();
-    expect(screen.getByText("Logo + visual system")).toBeInTheDocument();
-
-    expect(screen.getByText("Web Development")).toBeInTheDocument();
-    expect(screen.getByText("Modern Next.js builds.")).toBeInTheDocument();
-    expect(screen.getByText("SEO")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Services" })).toBeInTheDocument();
+    expect(screen.getByText("What we do for you.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: "Music Production" })).toBeInTheDocument();
+    expect(screen.getByText("Full production of electronic tracks.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: "Sound Design" })).toBeInTheDocument();
   });
 
-  it("renders nothing when services are missing", () => {
-    const { container } = render(<ServicesBlock title="Services" services={[]} />);
+  it("renders the CTA with a locale-prefixed href", () => {
+    render(<ServicesBlock {...baseProps} services={services} />);
+
+    const cta = screen.getByRole("link", { name: "Start a project" });
+    expect(cta).toHaveAttribute("href", "/en/booking");
+  });
+
+  it("renders the services image with provided alt text", () => {
+    render(<ServicesBlock {...baseProps} services={services} />);
+
+    expect(screen.getByAltText("Coast2c studio")).toBeInTheDocument();
+  });
+
+  it("returns nothing when services array is empty", () => {
+    const { container } = render(<ServicesBlock {...baseProps} services={[]} />);
+
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("renders nothing when services is undefined", () => {
-    const { container } = render(<ServicesBlock title="Services" />);
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("renders without subtitle when not provided", () => {
+  it("omits service items without a title", () => {
     render(
       <ServicesBlock
-        title="Services"
+        {...baseProps}
         services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems and guidelines.",
-            icon: "Palette"
-          }
+          { _id: "service-a", title: "Music Production", description: "With title." },
+          { _id: "service-b", description: "No title — should be skipped." }
         ]}
       />
     );
 
-    expect(screen.getByRole("heading", { name: "Services" })).toBeInTheDocument();
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
+    expect(screen.getByText("Music Production")).toBeInTheDocument();
+    expect(screen.queryByText("No title — should be skipped.")).not.toBeInTheDocument();
   });
 
-  it("renders without title when not provided", () => {
-    render(
-      <ServicesBlock
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems and guidelines.",
-            icon: "Palette"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText("Identity systems and guidelines.")).toBeInTheDocument();
-  });
-
-  it("renders service without description", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            icon: "Palette",
-            features: ["Logo design"]
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText("Logo design")).toBeInTheDocument();
-  });
-
-  it("renders service without features", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems.",
-            icon: "Palette"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText("Identity systems.")).toBeInTheDocument();
-  });
-
-  it("renders service with pricing", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems.",
-            icon: "Palette",
-            pricing: "$1,000"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-    expect(screen.getByText(/Starting at \$1,000/)).toBeInTheDocument();
-  });
-
-  it("renders with default icon when icon name is invalid", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems.",
-            icon: "NonExistentIcon"
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-  });
-
-  it("renders with default icon when icon is undefined", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems."
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Brand Design")).toBeInTheDocument();
-  });
-
-  it("applies custom className", () => {
+  it("applies custom className to the section element", () => {
     const { container } = render(
-      <ServicesBlock
-        title="Services"
-        className="custom-class"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            icon: "Palette"
-          }
-        ]}
-      />
+      <ServicesBlock {...baseProps} services={services} className="custom-class" />
     );
 
     expect(container.querySelector("section")).toHaveClass("custom-class");
-  });
-
-  it("renders multiple features correctly", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            description: "Identity systems.",
-            icon: "Palette",
-            features: ["Feature 1", "Feature 2", "Feature 3", "Feature 4"]
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByText("Feature 1")).toBeInTheDocument();
-    expect(screen.getByText("Feature 2")).toBeInTheDocument();
-    expect(screen.getByText("Feature 3")).toBeInTheDocument();
-    expect(screen.getByText("Feature 4")).toBeInTheDocument();
-  });
-
-  it("renders features list with correct role", () => {
-    render(
-      <ServicesBlock
-        title="Services"
-        services={[
-          {
-            _id: "service-a",
-            title: "Brand Design",
-            icon: "Palette",
-            features: ["Feature 1"]
-          }
-        ]}
-      />
-    );
-
-    expect(screen.getByRole("list")).toBeInTheDocument();
   });
 });

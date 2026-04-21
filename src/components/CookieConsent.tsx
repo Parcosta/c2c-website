@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-import type { Locale } from "@/lib/i18n";
-import { isLocale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
+import { isLocale } from "@/lib/locale";
 import { Button } from "@/components/ui/button";
 import type { SiteLabelsValue } from "@/sanity/queries";
 import {
@@ -109,7 +109,7 @@ export function CookieConsent({
   return (
     <div
       role="dialog"
-      aria-label={content?.dialogAriaLabel ?? "Cookie consent"}
+      aria-label={content?.dialogAriaLabel}
       className="fixed inset-x-0 bottom-0 z-50 border-t border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80"
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">

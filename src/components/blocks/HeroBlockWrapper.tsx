@@ -1,61 +1,67 @@
-import type { Locale } from "@/lib/i18n";
-import { getClient } from "@/sanity/client";
-import { isSanityConfigured } from "@/sanity/config";
-import { buildHomepageQuery, buildSiteLabelsQuery } from "@/sanity/queries";
-import { HeroBlockClient } from "./HeroBlockClient";
+import { cms, reportMissingContent } from "@/lib/cms";
+import type { Locale } from "@/lib/locale";
+import { getHomePage } from "@/sanity/cache";
+import { getSanityImageUrl } from "@/sanity/image";
+import { HeroBlockClient, type HeroAudio, type HeroImage } from "./HeroBlockClient";
 
 interface HeroBlockWrapperProps {
   locale: Locale;
   className?: string;
+  /**
+   * Optional audio track URL. The player UI always renders (per Figma);
+   * when a src is provided, play and download become functional.
+   */
   audioSrc?: string;
-  audioTitle?: string;
 }
 
-// Fallback content when Sanity is not configured
-// These are static defaults - all content should come from Sanity CMS
-const fallbackContent = {
-  tag1: "Multimedia Artist from Mexico",
-  tag2: "Modular Synthesis",
-  title: "Live modular techno",
-  description: "Coast2Coast (C2C) — bold sound, dark visuals, clean interface.",
-  ctaPrimary: "Get in touch",
-  ctaSecondary: "Portfolio",
-  audioPlaceholder: "Track Name"
-};
+export async function HeroBlockWrapper({ locale, className, audioSrc }: HeroBlockWrapperProps) {
+  const page = await getHomePage(locale);
+  const sections = page?.homeSections;
+  const eyebrows = sections?.heroEyebrows ?? [];
 
-export async function HeroBlockWrapper({
-  locale,
-  className,
-  audioSrc,
-  audioTitle
-}: HeroBlockWrapperProps) {
-  const pageDef = buildHomepageQuery(locale);
-  const labelsDef = buildSiteLabelsQuery(locale);
-  const [page, labels] = isSanityConfigured()
-    ? await Promise.all([
-        getClient().fetch(pageDef.query, pageDef.params),
-        getClient().fetch(labelsDef.query, labelsDef.params)
-      ])
-    : [null, null];
+  const heroImageUrl = getSanityImageUrl(page?.hero?.backgroundImage, { width: 1200 });
+  if (!heroImageUrl) {
+    reportMissingContent("page.hero.backgroundImage", locale);
+    return null;
+  }
+  const heroImage: HeroImage = {
+    src: heroImageUrl,
+    alt: cms.text(page?.hero?.heading, "page.hero.heading", { locale })
+  };
 
-  // Map Sanity data to the content structure expected by HeroBlockClient
-  // Uses Sanity data when available, falls back to static defaults
-  const content = {
-    tag1: fallbackContent.tag1,
-    tag2: fallbackContent.tag2,
-    title: page?.hero?.heading ?? fallbackContent.title,
-    description: page?.hero?.subheading ?? fallbackContent.description,
-    ctaPrimary: page?.hero?.cta?.label ?? fallbackContent.ctaPrimary,
-    ctaSecondary: labels?.navigation?.portfolio ?? fallbackContent.ctaSecondary,
-    audioPlaceholder: audioTitle ?? fallbackContent.audioPlaceholder
+  const audio: HeroAudio | undefined = audioSrc ? { src: audioSrc } : undefined;
+
+  const translations = {
+    tag1: cms.text(eyebrows[0], "page.homeSections.heroEyebrows[0]", { locale }),
+    tag2: cms.text(eyebrows[1], "page.homeSections.heroEyebrows[1]", { locale }),
+    title: cms.text(page?.hero?.heading, "page.hero.heading", { locale }),
+    description: cms.text(page?.hero?.subheading, "page.hero.subheading", { locale }),
+    ctaPrimary: cms.text(page?.hero?.cta?.label, "page.hero.cta.label", { locale }),
+    ctaPrimaryHref: cms.text(page?.hero?.cta?.href, "page.hero.cta.href", { locale }),
+    ctaSecondary: cms.text(
+      sections?.heroSecondaryCta?.label,
+      "page.homeSections.heroSecondaryCta.label",
+      { locale }
+    ),
+    ctaSecondaryHref: cms.text(
+      sections?.heroSecondaryCta?.href,
+      "page.homeSections.heroSecondaryCta.href",
+      { locale }
+    ),
+    audioTrackLabel: cms.text(
+      sections?.heroAudioTrackLabel,
+      "page.homeSections.heroAudioTrackLabel",
+      { locale }
+    )
   };
 
   return (
     <HeroBlockClient
       locale={locale}
-      translations={content}
+      translations={translations}
+      heroImage={heroImage}
+      audio={audio}
       className={className}
-      audioSrc={audioSrc}
     />
   );
 }

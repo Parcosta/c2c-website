@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 
 type Category = "live" | "dj" | "studio";
 type Filter = "all" | Category;

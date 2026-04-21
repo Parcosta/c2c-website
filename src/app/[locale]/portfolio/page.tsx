@@ -1,15 +1,14 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PortfolioGallery } from "@/components/site/PortfolioGallery";
-import { getClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/config";
+import { sanityFetch } from "@/sanity/fetch";
 import { buildSiteLabelsQuery } from "@/sanity/queries";
 
 export default async function PortfolioPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const def = buildSiteLabelsQuery(locale);
-  const labels = isSanityConfigured() ? await getClient().fetch(def.query, def.params) : null;
+  const labels = isSanityConfigured() ? await sanityFetch(buildSiteLabelsQuery(locale)) : null;
 
   const translations = {
     filters: {

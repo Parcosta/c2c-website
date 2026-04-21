@@ -37,4 +37,36 @@ describe("PressBlock", () => {
     const { container } = render(<PressBlock locale="en" items={[]} />);
     expect(container).toBeEmptyDOMElement();
   });
+
+  it("renders a compact row list when variant is 'list'", () => {
+    render(
+      <PressBlock
+        locale="en"
+        variant="list"
+        ctaLabel="READ"
+        items={[
+          {
+            _id: "p1",
+            publication: "Mixmag",
+            date: "2026-10-25T00:00:00.000Z",
+            url: "https://example.com/mixmag"
+          },
+          {
+            _id: "p2",
+            title: "DJ Workshop",
+            publication: "DJ Workshop",
+            date: "2026-10-26T00:00:00.000Z"
+          }
+        ]}
+      />
+    );
+
+    const list = screen.getByTestId("press-list");
+    expect(list.tagName.toLowerCase()).toBe("ul");
+    expect(screen.getByText("Mixmag")).toBeInTheDocument();
+    expect(screen.getByText("DJ Workshop")).toBeInTheDocument();
+
+    const link = screen.getByRole("link", { name: /Mixmag/i });
+    expect(link).toHaveAttribute("href", "https://example.com/mixmag");
+  });
 });

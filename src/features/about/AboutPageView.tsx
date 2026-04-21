@@ -6,7 +6,7 @@ import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import type { SiteLabelsValue } from "@/sanity/queries";
 
 export type AboutRelease = {

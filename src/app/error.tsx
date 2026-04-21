@@ -9,7 +9,7 @@ import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Badge } from "@/components/ui/badge";
-import { defaultLocale } from "@/lib/i18n";
+import { defaultLocale } from "@/lib/locale";
 
 export default function ErrorBoundary({
   error,

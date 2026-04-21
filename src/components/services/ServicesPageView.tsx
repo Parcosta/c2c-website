@@ -6,7 +6,7 @@ import { GlassCard } from "@/components/custom/GlassCard";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import type { ServiceValue, SiteLabelsValue } from "@/sanity/queries";
 
 import { ServiceIcon } from "./ServiceIcon";

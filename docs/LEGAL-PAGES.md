@@ -58,7 +58,7 @@ sections:
   - heading: "Who we are"
     body:
       - type: "p"
-        text: "This website is operated by Coast2Coast (C2C)..."
+        text: "This website is operated by Coast2c (C2C)..."
   - heading: "Personal data we collect"
     body:
       - type: "ul"

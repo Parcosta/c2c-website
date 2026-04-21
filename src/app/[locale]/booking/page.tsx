@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/locale";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { BookingForm } from "@/components/site/BookingForm";
