@@ -19,7 +19,8 @@ export async function uploadGalleryImages(): Promise<string[]> {
 
 export async function upsertHomePage(
   heroImageId: string,
-  galleryImageIds: string[]
+  galleryImageIds: string[],
+  servicesImageId: string
 ): Promise<string> {
   const galleryImages = galleryImageIds.map((id, index) => ({
     _key: `home-gallery-${index + 1}`,
@@ -105,10 +106,16 @@ export async function upsertHomePage(
         },
         ctaLabel: {
           _type: "localeString",
-          en: "Start a Project",
+          en: "Work with me",
           es: "Trabaja conmigo"
         },
-        ctaHref: "/booking"
+        ctaHref: "/booking",
+        image: imageRef(servicesImageId),
+        imageAlt: {
+          _type: "localeString",
+          en: "Coast2c in the studio working on modular synthesizers",
+          es: "Coast2c en el estudio trabajando con sintetizadores modulares"
+        }
       },
       eventsSection: {
         eyebrow: {

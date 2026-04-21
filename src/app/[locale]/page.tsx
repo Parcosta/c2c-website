@@ -178,15 +178,32 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
 
       {services.length > 0 && (
         <ServicesBlock
+          locale={locale}
           title={cms.text(servicesSection?.title, "homeSections.servicesSection.title", {
             locale
           })}
-          subtitle={cms.text(
+          description={cms.text(
             servicesSection?.description,
             "homeSections.servicesSection.description",
             { locale }
           )}
           services={services}
+          ctaLabel={cms.text(servicesSection?.ctaLabel, "homeSections.servicesSection.ctaLabel", {
+            locale
+          })}
+          ctaHref={cms.text(servicesSection?.ctaHref, "homeSections.servicesSection.ctaHref", {
+            locale
+          })}
+          image={{
+            src:
+              getSanityImageUrl(servicesSection?.image, { width: 1072 }) ??
+              "/images/services-image.jpg",
+            alt: cms.text(
+              servicesSection?.imageAlt,
+              "homeSections.servicesSection.imageAlt",
+              { locale }
+            )
+          }}
         />
       )}
 
@@ -230,6 +247,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
           eyebrow={cms.text(gallerySection?.eyebrow, "homeSections.gallerySection.eyebrow", {
             locale
           })}
+          rightLinkLabel={labels?.navigation?.about}
+          rightLinkHref={prefixLocaleHref("/about", locale)}
           images={galleryImages}
         />
       )}

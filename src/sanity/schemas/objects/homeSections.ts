@@ -40,6 +40,18 @@ export const homeSections = defineType({
           title: "CTA link (path)",
           type: "string",
           description: "Relative path the CTA links to, e.g. /booking"
+        }),
+        defineField({
+          name: "image",
+          title: "Image",
+          type: "image",
+          description: "Portrait image shown alongside the services list (536×707 on desktop).",
+          options: { hotspot: true }
+        }),
+        defineField({
+          name: "imageAlt",
+          title: "Image alt text",
+          type: "localeString"
         })
       ]
     }),

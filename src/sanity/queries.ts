@@ -69,6 +69,8 @@ export type HomeSectionsValue = {
     description?: string;
     ctaLabel?: string;
     ctaHref?: string;
+    image?: ImageValue;
+    imageAlt?: string;
   };
   eventsSection?: {
     eyebrow?: string;
@@ -446,7 +448,9 @@ export function buildHomepageQuery(
           "title": title[$locale],
           "description": description[$locale],
           "ctaLabel": ctaLabel[$locale],
-          ctaHref
+          ctaHref,
+          image,
+          "imageAlt": imageAlt[$locale]
         },
         eventsSection{
           "eyebrow": eyebrow[$locale],

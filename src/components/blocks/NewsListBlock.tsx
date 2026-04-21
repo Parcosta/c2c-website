@@ -1,8 +1,7 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
-import { Container } from "@/components/layout/Container";
-import { Section } from "@/components/layout/Section";
+import { BlockFrame, BlockHeader } from "@/components/blocks/BlockFrame";
 import { cn } from "@/lib/utils";
 
 export interface NewsListItem {
@@ -37,38 +36,27 @@ export function NewsListBlock({
   if (!items.length) return null;
 
   return (
-    <Section
+    <BlockFrame
       className={className}
       aria-labelledby="news-list-title"
       data-testid="news-list-block"
       {...props}
     >
-      <Container>
-        <div className="flex flex-col gap-8">
-          <header className="flex flex-col gap-3">
-            <p className="font-display text-xs font-medium uppercase tracking-wide text-gray-500">
-              {eyebrow}
-            </p>
-            <h2 id="news-list-title" className="font-display text-header text-gray-50">
-              {title}
-            </h2>
-          </header>
+      <BlockHeader eyebrow={eyebrow} title={title} titleId="news-list-title" />
 
-          <ul className="flex flex-col gap-6 md:gap-10" role="list">
-            {items.map((item) => (
-              <li key={item._key}>
-                <NewsListRow
-                  item={item}
-                  ctaLabel={ctaLabel}
-                  dateLocale={dateLocale}
-                  dateColumnWidthClass={dateColumnWidthClass}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Container>
-    </Section>
+      <ul className="flex flex-col gap-6 md:gap-10" role="list">
+        {items.map((item) => (
+          <li key={item._key}>
+            <NewsListRow
+              item={item}
+              ctaLabel={ctaLabel}
+              dateLocale={dateLocale}
+              dateColumnWidthClass={dateColumnWidthClass}
+            />
+          </li>
+        ))}
+      </ul>
+    </BlockFrame>
   );
 }
 

@@ -53,13 +53,11 @@ Do not skip steps.
 - `src/styles/tokens.ts` exists for legacy reference but is **not** the source of truth. Do not wire new code to it.
 - shadcn semantic tokens (`--background`, `--foreground`, `--card`, `--primary`, `--border`, `--ring`, etc.) are defined under `@layer base :root` / `.dark`. Reference them via utilities like `bg-background`, `text-foreground`, `border-border`.
 
-### Color palette precedence
+### Color palette
 
-Two scales coexist. Pick the right one:
-
-- **Figma gray scale** (`bg-gray-100`, `text-gray-950`, `border-gray-600`, etc.) — maps to `--color-gray-*` in `globals.css` and corresponds 1:1 with the Figma library. **Use this for anything derived directly from a Figma node.**
-- **Slate scale** (`bg-slate-950`, `text-slate-50`, …) — Tailwind's built-in slate. Used at the app shell (`layout.tsx`) and for general chrome that isn't tied to a Figma component.
-- **Brand accent**: `--color-brand-accent` (`#3b82f6`). Use `text-brand-accent` / `bg-brand-accent` when the Figma spec calls for the accent color. Do not introduce new brand hexes.
+- **Figma gray scale** (`bg-gray-100`, `text-gray-950`, `border-gray-600`, etc.) — maps to `--color-gray-*` in `globals.css` and corresponds 1:1 with the Figma library. **Use this everywhere** — page shell, chrome, and per-section components. The body in `layout.tsx` is `bg-gray-950 text-gray-50`.
+- **Do not use Tailwind's built-in `slate` palette.** It reads as blue-tinted against the Figma gray palette and is not part of the design system.
+- **Brand accent**: `--color-brand-accent` (`#3b82f6`). Use `text-brand-accent` / `bg-brand-accent` only when the Figma spec calls for the accent color. Do not introduce new brand hexes.
 - **IMPORTANT:** Never hardcode hex or rgb values. If a Figma node references a color not in the token set, add it to `@theme inline` first, then use it.
 
 ### Typography

@@ -55,9 +55,13 @@ async function main() {
     const heroId = await uploadLocalImage("public/images/hero-image.jpg", "hero.jpg");
     const logoId = await uploadLocalImage("public/images/logo-coast2c.svg", "logo-coast2c.svg");
     const galleryIds = await uploadGalleryImages();
+    const servicesImageId = await uploadLocalImage(
+      "public/images/services-image.jpg",
+      "services-image.jpg"
+    );
 
     console.log("\n── Home page ────────────────────────────────────────────────");
-    await upsertHomePage(heroId, galleryIds);
+    await upsertHomePage(heroId, galleryIds, servicesImageId);
 
     console.log("\n── Portfolio items ──────────────────────────────────────────");
     await replacePortfolioItems();

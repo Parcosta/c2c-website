@@ -1,11 +1,15 @@
 "use client";
 
+import { Globe, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
+import { Container } from "@/components/layout/Container";
+import { Button } from "@/components/ui/button";
 import type { Locale } from "@/lib/locale";
 import { switchLocaleInPathname } from "@/lib/locale";
+import { cn } from "@/lib/utils";
 
 interface NavItem {
   href: string;
@@ -40,10 +44,12 @@ function buildNav(translations: SiteHeaderTranslations, locale: Locale): NavItem
     { href: `/${locale}/portfolio`, label: translations.navPortfolio, testId: "nav-portfolio" },
     { href: `/${locale}/services`, label: translations.navServices, testId: "nav-services" },
     { href: `/${locale}/press`, label: translations.navPress, testId: "nav-press" },
-    { href: `/${locale}/about`, label: translations.navAbout, testId: "nav-about" },
-    { href: `/${locale}/contact`, label: translations.navContact, testId: "nav-contact" }
+    { href: `/${locale}/about`, label: translations.navAbout, testId: "nav-about" }
   ];
 }
+
+const navLinkClass =
+  "font-display text-small font-medium uppercase tracking-wide text-gray-100 transition-colors hover:text-white";
 
 export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps) {
   const router = useRouter();
@@ -51,9 +57,13 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
 
   const nav = useMemo(() => buildNav(translations, locale), [translations, locale]);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const nextLocale: Locale = locale === "en" ? "es" : "en";
+  const switchLabel =
+    nextLocale === "en"
+      ? translations.languageSwitchToEnglish
+      : translations.languageSwitchToSpanish;
 
-  function onSwitchLocale(nextLocale: Locale) {
-    // Navigate to the new locale path
+  function onSwitchLocale() {
     const nextPath = switchLocaleInPathname(pathname, nextLocale);
     setMobileOpen(false);
     router.push(nextPath);
@@ -62,124 +72,116 @@ export function SiteHeaderClient({ locale, translations }: SiteHeaderClientProps
   return (
     <header
       data-testid="site-header"
-      className="sticky top-0 z-40 border-b border-gray-800 bg-gray-950/70 backdrop-blur"
+      className="sticky top-0 z-40 bg-gray-950/85 backdrop-blur"
     >
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link
-          href={`/${locale}`}
-          className="font-display text-base font-semibold text-gray-100"
-          data-testid="brand"
-        >
-          {translations.brand}
-        </Link>
+      <Container>
+        <div className="flex items-center justify-between gap-4 border border-gray-900 px-6 py-4">
+          <Link
+            href={`/${locale}`}
+            className="font-display text-base font-semibold uppercase tracking-wide text-gray-100"
+            data-testid="brand"
+          >
+            {translations.brand}
+          </Link>
 
-        <nav
-          className="hidden items-center gap-6 md:flex"
-          aria-label={translations.primaryAriaLabel}
-          data-testid="desktop-nav"
-        >
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              data-testid={item.testId}
-              className="text-small text-gray-200 transition-colors hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <div className="flex items-center gap-2" data-testid="language-switcher">
+          <nav
+            className="hidden items-center gap-6 md:flex"
+            aria-label={translations.primaryAriaLabel}
+            data-testid="desktop-nav"
+          >
+            {nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                data-testid={item.testId}
+                className={navLinkClass}
+              >
+                {item.label}
+              </Link>
+            ))}
+
             <button
               type="button"
-              onClick={() => onSwitchLocale("en")}
-              data-testid="lang-en"
-              className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
-              }`}
-              aria-label={translations.languageSwitchToEnglish}
+              onClick={onSwitchLocale}
+              data-testid="lang-switch"
+              aria-label={switchLabel}
+              className={cn("flex items-center gap-1", navLinkClass)}
             >
-              EN
+              <Globe className="size-4" aria-hidden="true" />
+              <span>{locale.toUpperCase()}</span>
             </button>
-            <button
-              type="button"
-              onClick={() => onSwitchLocale("es")}
-              data-testid="lang-es"
-              className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
-              }`}
-              aria-label={translations.languageSwitchToSpanish}
-            >
-              ES
-            </button>
-          </div>
-        </nav>
 
-        <button
-          type="button"
-          className="inline-flex items-center rounded-md border border-gray-800 px-3 py-2 text-small text-gray-200 hover:text-white md:hidden"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-menu"
-          data-testid="mobile-menu-button"
-        >
-          {translations.navMobileMenu}
-        </button>
-      </div>
+            <Button asChild variant="dark" size="sm" className="uppercase tracking-wide">
+              <Link href={`/${locale}/contact`} data-testid="nav-contact">
+                {translations.navContact}
+              </Link>
+            </Button>
+          </nav>
+
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-md p-2 text-gray-100 md:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
+            aria-label={mobileOpen ? translations.navClose : translations.navMobileMenu}
+            data-testid="mobile-menu-button"
+          >
+            {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+          </button>
+        </div>
+      </Container>
 
       {mobileOpen ? (
-        <div
-          id="mobile-menu"
-          data-testid="mobile-menu"
-          className="border-t border-gray-800 bg-gray-950 md:hidden"
-        >
-          <div className="mx-auto w-full max-w-7xl space-y-3 px-4 py-4 sm:px-6 lg:px-8">
-            <nav aria-label={translations.mobileAriaLabel} className="flex flex-col gap-2">
-              {nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  data-testid={`mobile-${item.testId}`}
-                  className="rounded-md px-3 py-2 text-small text-gray-200 hover:bg-gray-900 hover:text-white"
-                  onClick={() => setMobileOpen(false)}
+        <div id="mobile-menu" data-testid="mobile-menu" className="md:hidden">
+          <Container>
+            <div className="flex min-h-[calc(100vh-72px)] flex-col justify-between border-x border-b border-gray-900 bg-gray-950 px-6 py-10">
+              <nav
+                aria-label={translations.mobileAriaLabel}
+                className="flex flex-col gap-6"
+              >
+                {nav.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    data-testid={`mobile-${item.testId}`}
+                    className="font-display text-subheader font-semibold uppercase tracking-wide text-gray-100"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+
+                <Button
+                  asChild
+                  variant="dark"
+                  size="sm"
+                  className="mt-2 w-full max-w-[158px] uppercase tracking-wide"
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2" data-testid="mobile-language-switcher">
+                  <Link
+                    href={`/${locale}/contact`}
+                    data-testid="mobile-nav-contact"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {translations.navContact}
+                  </Link>
+                </Button>
+              </nav>
+
+              <div className="flex items-center justify-between gap-3">
                 <button
                   type="button"
-                  onClick={() => onSwitchLocale("en")}
-                  data-testid="mobile-lang-en"
-                  className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                    locale === "en" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
-                  }`}
+                  onClick={onSwitchLocale}
+                  data-testid="mobile-lang-switch"
+                  aria-label={switchLabel}
+                  className={cn("flex items-center gap-1", navLinkClass)}
                 >
-                  EN
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onSwitchLocale("es")}
-                  data-testid="mobile-lang-es"
-                  className={`rounded-md px-2 py-1 text-xs font-medium transition-colors ${
-                    locale === "es" ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  ES
+                  <Globe className="size-4" aria-hidden="true" />
+                  <span>{locale.toUpperCase()}</span>
                 </button>
               </div>
-
-              <button
-                type="button"
-                className="rounded-md px-3 py-2 text-small text-gray-400 hover:text-white"
-                onClick={() => setMobileOpen(false)}
-                data-testid="mobile-menu-close"
-              >
-                {translations.navClose}
-              </button>
             </div>
-          </div>
+          </Container>
         </div>
       ) : null}
     </header>

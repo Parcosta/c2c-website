@@ -4,7 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-brand-accent: #3b82f6;
+  /* Brand accent token mapped to the Figma near-white — used for focus rings,
+     hover highlights, audio progress, etc. NOT a blue. */
+  --color-brand-accent: #f7f7f8;
 
   /* Figma Gray Palette — synced with the C2C design system */
   --color-gray-50: #f7f7f8;
@@ -175,25 +177,25 @@ body {
 
 @layer base {
   :root {
-    --background: 240 5% 22%; /* gray-950 #212124 */
+    --background: 240 4% 14%; /* gray-950 #212124 */
     --foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --card: 240 5% 25%; /* gray-900 #3a3a40 */
+    --card: 240 4% 24%; /* gray-900 #3a3a40 */
     --card-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --popover: 240 5% 22%; /* gray-950 #212124 */
+    --popover: 240 4% 14%; /* gray-950 #212124 */
     --popover-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 5% 28%; /* gray-800 #434349 */
+    --primary: 240 6% 94%; /* gray-100 #eeeef0 */
+    --primary-foreground: 240 4% 14%; /* gray-950 #212124 */
+    --secondary: 240 4% 27%; /* gray-800 #434349 */
     --secondary-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --muted: 240 5% 28%; /* gray-800 #434349 */
-    --muted-foreground: 240 4% 55%; /* gray-400 #88888f */
-    --accent: 217.2 91.2% 59.8%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 240 4% 27%; /* gray-800 #434349 */
+    --muted-foreground: 240 4% 55%; /* gray-400 #93949d */
+    --accent: 240 4% 27%; /* gray-800 #434349 */
+    --accent-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 240 4% 40%; /* gray-600 #62626a */
     --input: 240 4% 40%; /* gray-600 #62626a */
-    --ring: 217.2 91.2% 59.8%;
+    --ring: 240 4% 55%; /* gray-400 #93949d */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -203,25 +205,25 @@ body {
   }
 
   .dark {
-    --background: 240 5% 22%; /* gray-950 #212124 */
+    --background: 240 4% 14%; /* gray-950 #212124 */
     --foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --card: 240 5% 25%; /* gray-900 #3a3a40 */
+    --card: 240 4% 24%; /* gray-900 #3a3a40 */
     --card-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --popover: 240 5% 22%; /* gray-950 #212124 */
+    --popover: 240 4% 14%; /* gray-950 #212124 */
     --popover-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 5% 28%; /* gray-800 #434349 */
+    --primary: 240 6% 94%; /* gray-100 #eeeef0 */
+    --primary-foreground: 240 4% 14%; /* gray-950 #212124 */
+    --secondary: 240 4% 27%; /* gray-800 #434349 */
     --secondary-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
-    --muted: 240 5% 28%; /* gray-800 #434349 */
-    --muted-foreground: 240 4% 55%; /* gray-400 #88888f */
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 240 4% 27%; /* gray-800 #434349 */
+    --muted-foreground: 240 4% 55%; /* gray-400 #93949d */
+    --accent: 240 4% 27%; /* gray-800 #434349 */
+    --accent-foreground: 240 6% 94%; /* gray-100 #eeeef0 */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 240 4% 40%; /* gray-600 #62626a */
     --input: 240 4% 40%; /* gray-600 #62626a */
-    --ring: 217.2 91.2% 59.8%;
+    --ring: 240 4% 55%; /* gray-400 #93949d */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -236,15 +238,5 @@ body {
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-  }
-}
-
-@keyframes heroGradient {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
   }
 }
