@@ -826,3 +826,49 @@ export function buildLegalPageQuery(
     params: { locale, slug }
   };
 }
+
+// Multimedia queries
+export type MultimediaItemValue = {
+  _id: string;
+  title?: string;
+  embedUrl?: string;
+  thumbnail?: ImageValue;
+};
+
+export function buildMultimediaQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, MultimediaItemValue[]> {
+  return {
+    query: groq`*[_type == "multimedia"]|order(date desc){
+      _id,
+      "title": title[$locale],
+      embedUrl,
+      thumbnail
+    }`,
+    params: { locale }
+  };
+}
+
+// News queries  
+export type NewsItemValue = {
+  _id: string;
+  date?: string;
+  title?: string;
+  excerpt?: string;
+  link?: string;
+};
+
+export function buildNewsQuery(
+  locale: Locale
+): QueryDefinition<{ locale: Locale }, NewsItemValue[]> {
+  return {
+    query: groq`*[_type == "news"]|order(date desc){
+      _id,
+      date,
+      "title": title[$locale],
+      "excerpt": excerpt[$locale],
+      link
+    }`,
+    params: { locale }
+  };
+}

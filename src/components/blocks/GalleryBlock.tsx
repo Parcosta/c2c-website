@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { getSanityImageUrl } from "@/sanity/image";
 import type { ImageValue } from "@/sanity/queries";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import type { Locale } from "@/lib/i18n";
 
 export interface GalleryImage {
   _id: string;
@@ -17,7 +18,8 @@ export interface GalleryImage {
 }
 
 export interface GalleryBlockProps {
-  images: GalleryImage[];
+  locale: Locale;
+  images?: GalleryImage[];
   title?: string;
   subtitle?: string;
   columns?: 2 | 3 | 4;
@@ -212,7 +214,8 @@ function Lightbox({
 }
 
 export function GalleryBlock({
-  images,
+  locale,
+  images = [],
   title,
   subtitle,
   columns = 4,

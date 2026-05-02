@@ -207,6 +207,33 @@ export const siteLabels = defineType({
         })
       ]
     }),
+        defineField({
+      name: "galleryPage",
+      title: "Gallery page labels",
+      type: "object",
+      fields: [
+        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "subtitle", title: "Subtitle", type: "localeText" })
+      ]
+    }),
+    defineField({
+      name: "multimediaPage",
+      title: "Multimedia page labels",
+      type: "object",
+      fields: [
+        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "subtitle", title: "Subtitle", type: "localeText" })
+      ]
+    }),
+    defineField({
+      name: "newsPage",
+      title: "News page labels",
+      type: "object",
+      fields: [
+        defineField({ name: "title", title: "Title", type: "localeString" }),
+        defineField({ name: "subtitle", title: "Subtitle", type: "localeText" })
+      ]
+    }),
     defineField({
       name: "pressPage",
       title: "Press page labels",
